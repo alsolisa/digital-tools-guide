@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-12T21:28:39.655Z",
+  "checkedAt": "2026-07-12T22:05:07.018Z",
   "exchange": {
     "state": "ok",
     "date": "2026-07-10",
@@ -17,7 +17,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-12T21:28:38.980Z",
+      "checkedAt": "2026-07-12T22:05:05.938Z",
       "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error"
     },
@@ -27,7 +27,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-12T21:28:38.981Z",
+      "checkedAt": "2026-07-12T22:05:05.951Z",
       "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error"
     },
@@ -41,7 +41,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-12T21:28:39.369Z",
+      "checkedAt": "2026-07-12T22:05:06.495Z",
       "officialObserved": {
         "currency": "USD",
         "value": 20
@@ -53,24 +53,21 @@
     {
       "slug": "grok",
       "url": "https://www.gamsgo.com/details/grok",
-      "state": "price-change-pending",
+      "state": "price-changed",
       "published": {
-        "currency": "USD",
-        "value": 6.17
-      },
-      "candidate": {
         "currency": "USD",
         "value": 17.99
       },
-      "candidateSeenCount": 1,
-      "checkedAt": "2026-07-12T21:28:39.514Z",
+      "candidate": null,
+      "candidateSeenCount": 0,
+      "checkedAt": "2026-07-12T22:05:06.668Z",
       "officialObserved": {
         "currency": "USD",
         "value": 30
       },
       "period": "month",
-      "cny": 41.8,
-      "note": "价格变化超过50%，等待下一次读取一致后发布"
+      "cny": 121.87,
+      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
     },
     {
       "slug": "perplexity",
@@ -78,7 +75,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-12T21:28:39.448Z",
+      "checkedAt": "2026-07-12T22:05:06.736Z",
       "note": "公开页未稳定展示可校验的月付价格"
     },
     {
@@ -91,7 +88,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-12T21:28:39.454Z",
+      "checkedAt": "2026-07-12T22:05:07.018Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
@@ -106,13 +103,13 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-07-12T21:28:39.655Z"
+      "checkedAt": "2026-07-12T22:05:07.018Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/",
       "state": "ok",
-      "checkedAt": "2026-07-12T21:28:39.655Z"
+      "checkedAt": "2026-07-12T22:05:07.018Z"
     }
   ],
   "history": [
@@ -148,6 +145,20 @@
         "value": 24.99
       },
       "sourceUrl": "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK"
+    },
+    {
+      "changedAt": "2026-07-12T22:05:07.018Z",
+      "type": "gamsgo-price",
+      "slug": "grok",
+      "before": {
+        "currency": "USD",
+        "value": 6.17
+      },
+      "after": {
+        "currency": "USD",
+        "value": 17.99
+      },
+      "sourceUrl": "https://www.gamsgo.com/details/grok"
     }
   ]
 }
