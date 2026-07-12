@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-12T23:32:02.934Z",
+  "checkedAt": "2026-07-12T23:33:48.520Z",
   "exchange": {
     "state": "ok",
     "date": "2026-07-10",
@@ -17,8 +17,8 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-12T23:32:02.394Z",
-      "note": "公开页未稳定展示可校验的月付价格",
+      "checkedAt": "2026-07-12T23:33:47.165Z",
+      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error"
     },
     {
@@ -27,8 +27,8 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-12T23:32:02.426Z",
-      "note": "公开页未稳定展示可校验的月付价格",
+      "checkedAt": "2026-07-12T23:33:47.097Z",
+      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error"
     },
     {
@@ -41,7 +41,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-12T23:32:02.397Z",
+      "checkedAt": "2026-07-12T23:33:47.308Z",
       "officialObserved": {
         "currency": "USD",
         "value": 20
@@ -53,24 +53,21 @@
     {
       "slug": "grok",
       "url": "https://www.gamsgo.com/details/grok",
-      "state": "price-change-pending",
+      "state": "ok",
       "published": {
         "currency": "USD",
         "value": 17.99
       },
-      "candidate": {
-        "currency": "USD",
-        "value": 6.17
-      },
-      "candidateSeenCount": 1,
-      "checkedAt": "2026-07-12T23:32:02.355Z",
+      "candidate": null,
+      "candidateSeenCount": 0,
+      "checkedAt": "2026-07-12T23:33:47.554Z",
       "officialObserved": {
         "currency": "USD",
         "value": 30
       },
       "period": "month",
       "cny": 121.87,
-      "note": "价格变化超过50%，等待下一次读取一致后发布"
+      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
     },
     {
       "slug": "perplexity",
@@ -78,7 +75,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-12T23:32:02.934Z",
+      "checkedAt": "2026-07-12T23:33:47.618Z",
       "note": "公开页未稳定展示可校验的月付价格"
     },
     {
@@ -91,7 +88,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-12T23:32:02.567Z",
+      "checkedAt": "2026-07-12T23:33:47.474Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
@@ -106,13 +103,13 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-07-12T23:32:02.934Z"
+      "checkedAt": "2026-07-12T23:33:48.520Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/",
       "state": "ok",
-      "checkedAt": "2026-07-12T23:32:02.934Z"
+      "checkedAt": "2026-07-12T23:33:48.520Z"
     }
   ],
   "history": [

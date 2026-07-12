@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-12T23:32:02.934Z",
+  "checkedAt": "2026-07-12T23:33:48.520Z",
   "policy": {
     "publicLinks": "automatic-6h",
     "clientReleases": "automatic-6h",
@@ -12,9 +12,9 @@
       "id": "westdata",
       "url": "https://wd-gold.net/aff.php?aff=15433",
       "kind": "affiliate",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://wd-cloud.net/"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://wd-gold.net/aff.php?aff=15433"
     },
     {
       "id": "youtu-client",
@@ -100,8 +100,8 @@
       "id": "catalog-official-2",
       "url": "https://chatgpt.com/download/",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://chatgpt.com/download/"
     },
     {
@@ -124,8 +124,8 @@
       "id": "catalog-official-22",
       "url": "https://grok.com/",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://grok.com/"
     },
     {
@@ -140,8 +140,8 @@
       "id": "catalog-official-1",
       "url": "https://chatgpt.com/",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://chatgpt.com/"
     },
     {
@@ -164,41 +164,41 @@
       "id": "catalog-official-5",
       "url": "https://chatgpt.com/pricing/",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://chatgpt.com/pricing/"
     },
     {
       "id": "catalog-official-6",
       "url": "https://help.openai.com/en/articles/6950777-what-is-chatgpt",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.openai.com/en/articles/6950777-what-is-chatgpt"
     },
     {
       "id": "catalog-official-7",
       "url": "https://help.openai.com/en/articles/20001354-gpt-56-in-chatgpt",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.openai.com/en/articles/20001354-gpt-56-in-chatgpt"
     },
     {
       "id": "catalog-official-8",
       "url": "https://help.openai.com/en/articles/7730893-datacontrols-faq",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.openai.com/en/articles/7730893-datacontrols-faq"
     },
     {
       "id": "catalog-official-9",
       "url": "https://claude.ai/",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://claude.ai/login"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://claude.ai/"
     },
     {
       "id": "catalog-official-11",
@@ -300,16 +300,16 @@
       "id": "catalog-official-25",
       "url": "https://x.ai/grok",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://x.ai/grok"
     },
     {
       "id": "catalog-official-26",
       "url": "https://x.ai/pricing",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://x.ai/pricing"
     },
     {
@@ -324,8 +324,8 @@
       "id": "catalog-official-28",
       "url": "https://www.perplexity.ai/",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://www.perplexity.ai/"
     },
     {
@@ -348,16 +348,16 @@
       "id": "catalog-official-32",
       "url": "https://www.perplexity.ai/help-center/en/articles/9385876-what-is-perplexity-pro",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://www.perplexity.ai/help-center/en/articles/9385876-what-is-perplexity-pro"
     },
     {
       "id": "catalog-official-33",
       "url": "https://www.perplexity.ai/pro",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://www.perplexity.ai/pro"
     },
     {
@@ -420,8 +420,8 @@
       "id": "catalog-official-41",
       "url": "https://help.x.com/en/using-x/download-the-x-app",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.x.com/en/using-x/download-the-x-app"
     },
     {
