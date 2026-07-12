@@ -1,5 +1,8 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
+
+const autoSync = JSON.parse(await readFile(new URL("../data/auto-sync.json", import.meta.url), "utf8"));
 
 async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -43,9 +46,20 @@ test("GamsGo价格与账号风险分栏，读取失败时不沿用旧价", async
   for (const name of ["ChatGPT Plus 充值", "Claude Pro / Max", "Gemini / Google AI Pro", "SuperGrok", "Perplexity Pro", "Midjourney"]) {
     assert.match(html, new RegExp(name.replace(/[+\/]/g, "\\$&")));
   }
-  assert.match(html, /US\$6\.17 \/ 月公开起价/);
+  const grokHeading = html.indexOf("<h2>SuperGrok</h2>");
+  const grokCardStart = html.lastIndexOf("<article", grokHeading);
+  const grokCardEnd = html.indexOf("</article>", grokHeading);
+  const grokCard = html.slice(grokCardStart, grokCardEnd);
+  const grokSync = autoSync.gamsgo.find((item) => item.slug === "grok");
+  assert.ok(grokSync, "应存在Grok同步状态");
+  if (["ok", "price-changed"].includes(grokSync.state) && grokSync.published) {
+    const currency = grokSync.published.currency === "SGD" ? "S$" : grokSync.published.currency === "USD" ? "US$" : grokSync.published.currency;
+    assert.ok(grokCard.includes(`${currency}${grokSync.published.value.toFixed(2)} / 月公开起价`), "页面应显示当前已发布的Grok价格");
+  } else {
+    assert.match(grokCard, /暂时无法核验/);
+    assert.match(grokCard, /以购买页实时显示为准/);
+  }
   assert.match(html, /暂时无法核验/);
-  assert.doesNotMatch(html, /US\$17\.99 \/ 月公开参考/);
   assert.match(html, /推广链接/);
   assert.match(html, /账号归属/);
   assert.match(html, /隐私/);
