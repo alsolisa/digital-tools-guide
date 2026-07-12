@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
   assetPrefix: isGitHubPages ? "/digital-tools-guide/" : undefined,
   trailingSlash: isGitHubPages,
   images: { unoptimized: true },
+  turbopack: { root: process.cwd() },
 };
 
 export default nextConfig;

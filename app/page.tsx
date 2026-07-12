@@ -1,7 +1,7 @@
 import syncStatus from "../data/sync-status.json";
 import Link from "next/link";
 import { aiProducts, commonApps, subscriptionOffers } from "../data/catalog";
-import { PageShell, SectionHeading, SiteFooter, SiteHeader } from "./components/SiteChrome";
+import { BrandIcon, BrandNotice, PageShell, SectionHeading, SiteFooter, SiteHeader } from "./components/SiteChrome";
 
 const releaseVersions = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, client.version]));
 const syncTime = syncStatus.checkedAt
@@ -138,8 +138,8 @@ const sortedServices = services.filter((service) => service.active !== false).so
 
 const clients = [
   {
+    slug: "clash-verge",
     platform: "Windows / macOS / Linux",
-    icon: "C",
     app: "Clash Verge Rev",
     version: releaseVersions["clash-verge-rev/clash-verge-rev"] || "v2.5.1",
     note: "新手首选。Windows 普通电脑通常选 x64；Mac 要区分 Apple 芯片与 Intel。",
@@ -148,8 +148,8 @@ const clients = [
     project: "https://github.com/clash-verge-rev/clash-verge-rev",
   },
   {
+    slug: "v2rayn",
     platform: "Windows",
-    icon: "V",
     app: "v2rayN",
     version: releaseVersions["2dust/v2rayN"] || "v7.23.3",
     note: "功能较多，适合需要更多协议的人。旧版存在安全风险，请只用当前正式版。",
@@ -158,8 +158,8 @@ const clients = [
     project: "https://github.com/2dust/v2rayN",
   },
   {
+    slug: "flclash",
     platform: "Android",
-    icon: "F",
     app: "FlClash",
     version: releaseVersions["chen08209/FlClash"] || "v0.8.94",
     note: "多数新安卓手机选择 arm64-v8a 安装包；不确定时先看手机处理器类型。",
@@ -168,8 +168,8 @@ const clients = [
     project: "https://github.com/chen08209/FlClash",
   },
   {
+    slug: "hiddify",
     platform: "Android / iOS / macOS",
-    icon: "H",
     app: "Hiddify",
     version: releaseVersions["hiddify/hiddify-app"] || "v4.1.1",
     note: "界面相对直观，覆盖多平台；下载时按照自己的设备系统选择文件。",
@@ -178,8 +178,8 @@ const clients = [
     project: "https://github.com/hiddify/hiddify-app",
   },
   {
+    slug: "shadowrocket",
     platform: "iPhone / iPad / Apple TV",
-    icon: "S",
     app: "Shadowrocket",
     version: "App Store",
     note: "付费软件。只前往苹果商店，不提供第三方 IPA 或共享账号。",
@@ -187,8 +187,8 @@ const clients = [
     download: "https://apps.apple.com/us/app/shadowrocket/id932747118",
   },
   {
+    slug: "quantumult-x",
     platform: "iPhone / iPad / Mac",
-    icon: "Q",
     app: "Quantumult X",
     version: "App Store",
     note: "功能强但设置较多，适合愿意学习规则配置的进阶用户。",
@@ -196,8 +196,8 @@ const clients = [
     download: "https://apps.apple.com/us/app/quantumult-x/id1443988620",
   },
   {
+    slug: "stash",
     platform: "iPhone / iPad / Mac",
-    icon: "St",
     app: "Stash",
     version: "App Store",
     note: "规则型客户端，界面清晰；购买前先确认服务商是否提供兼容订阅。",
@@ -205,8 +205,8 @@ const clients = [
     download: "https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349",
   },
   {
+    slug: "surge",
     platform: "macOS / iOS",
-    icon: "Su",
     app: "Surge",
     version: "官方网站",
     note: "专业网络工具，价格较高、学习成本也更高，不建议纯新手盲目购买。",
@@ -306,10 +306,11 @@ export function NodeGuidePage() {
           <div><span className="section-index">03 / 客户端下载</span><h2>按设备选，按钮可以直接用</h2></div>
           <p>开源软件进入 GitHub 的 Latest Release；苹果付费软件进入 App Store；不提供来历不明的安装包或 IPA。</p>
         </div>
+        <BrandNotice />
         <div className="client-grid">
           {clients.map((client) => (
             <article className="client-card" key={`${client.platform}-${client.app}`}>
-              <span className={`client-icon ${client.tone}`}>{client.icon}</span><div className="client-platform">{client.platform}</div><h3>{client.app}</h3>
+              <BrandIcon slug={client.slug} name={client.app} size="large" /><div className="client-platform">{client.platform}</div><h3>{client.app}</h3>
               <div className="version-row"><span>{client.version}</span><small>2026-07-12 核验</small></div><p>{client.note}</p>
               <div className="client-actions"><a href={client.download} target="_blank" rel="noopener noreferrer">官方下载 <span>↗</span></a>{client.project && <a className="muted-action" href={client.project} target="_blank" rel="noopener noreferrer">项目主页</a>}</div>
             </article>
@@ -372,8 +373,9 @@ export default function Home() {
 
       <section className="portal-section soft-section">
         <SectionHeading index="02" title="主流 AI，先看适合做什么" lead="不做一个虚假的总排名；根据任务、平台和风险选择。" />
+        <BrandNotice />
         <div className="mini-product-grid">
-          {aiProducts.map((product) => <Link href={`/ai/${product.slug}`} key={product.slug}><span className={`catalog-mark ${product.tone}`}>{product.mark}</span><div><strong>{product.name}</strong><small>{product.company}</small><p>{product.tagline}</p></div><b>教程 →</b></Link>)}
+          {aiProducts.map((product) => <Link href={`/ai/${product.slug}`} key={product.slug}><BrandIcon slug={product.slug} name={product.name} /><div><strong>{product.name}</strong><small>{product.company}</small><p>{product.tagline}</p></div><b>教程 →</b></Link>)}
         </div>
       </section>
 

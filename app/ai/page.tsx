@@ -1,6 +1,6 @@
 import { aiProducts } from "../../data/catalog";
 import Link from "next/link";
-import { PageIntro, PageShell, SectionHeading, VerificationChip } from "../components/SiteChrome";
+import { BrandIcon, BrandNotice, PageIntro, PageShell, SectionHeading, VerificationChip } from "../components/SiteChrome";
 
 export const metadata = {
   title: "主流AI小白教程",
@@ -19,10 +19,11 @@ export default function AiIndexPage() {
 
       <section className="content-section">
         <SectionHeading index="01" title="五项主流 AI" lead="点击进入完整安装、注册、提示词和隐私教程。" />
+        <BrandNotice />
         <div className="ai-card-grid">
           {aiProducts.map((product) => (
             <article className="ai-card" key={product.slug}>
-              <div className="ai-card-top"><span className={`catalog-mark large ${product.tone}`}>{product.mark}</span><VerificationChip status="verified" /></div>
+              <div className="ai-card-top"><BrandIcon slug={product.slug} name={product.name} size="large" /><VerificationChip status="verified" /></div>
               <span className="card-kicker">{product.company}</span><h2>{product.name}</h2><p className="card-tagline">{product.tagline}</p>
               <div className="tag-row">{product.bestFor.slice(0, 3).map((item) => <span key={item}>{item}</span>)}</div>
               <ul>{product.strengths.map((item) => <li key={item}>{item}</li>)}</ul>

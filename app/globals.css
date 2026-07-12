@@ -398,3 +398,95 @@ footer > div { display: flex; gap: 18px; font-size: 11px; font-weight: 700; }
   .node-local-nav { margin: 10px 14px 0; gap: 14px; }
   .tutorial-path-body { grid-template-columns: 1fr; }.tutorial-side { padding: 22px; }.tutorial-side strong { margin-bottom: 8px; }.tutorial-path ol { padding: 16px; grid-template-columns: 1fr; }.tutorial-path li { padding: 16px; }
 }
+
+/* 2026-07 可读性与官方品牌识别升级 */
+:where(a, button, summary, [tabindex]):focus-visible {
+  outline: 3px solid #c4932f;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.brand-icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid #d8d4ca;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 7px 18px rgba(19,47,66,.09);
+}
+.brand-icon img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.brand-icon-small { width: 42px; height: 42px; border-radius: 12px; }
+.brand-icon-large { width: 62px; height: 62px; border-radius: 17px; }
+.brand-icon-hero { width: 82px; height: 82px; border-radius: 22px; }
+.brand-icon-fallback { color: var(--white); background: var(--navy); font-family: Georgia, serif; font-size: 22px; font-weight: 800; }
+.brand-notice {
+  margin: -4px 0 24px;
+  padding: 12px 14px;
+  color: #596a72;
+  background: rgba(255,255,255,.72);
+  border-left: 3px solid var(--green);
+  font-size: 12px;
+  line-height: 1.7;
+}
+.download-brand-note { width: min(1280px,calc(100% - 48px)); margin: 22px auto -4px; }
+.footer-trademark { grid-column: 1 / -1; color: #879399; font-size: 11px; line-height: 1.6; }
+
+.verify-chip, .risk-badge { font-size: 11px; }
+.eyebrow, .page-intro aside strong, .card-kicker, .directory-category { font-size: 11px; }
+.metric-wide span, .service-tag, .status-pill, .service-stats small, .service-stats span,
+.steps small, .version-row small, .alert-date, .status-row.table-head, .gamsgo-banner span,
+.global-brand small, .portal-hero-copy > small, .portal-proof > span, .portal-proof > div small,
+.channel-card > span, .mini-product-grid small, .region-notice span, .screenshot-placeholder > span { font-size: 11px; }
+.accuracy-note, .screenshot-placeholder p { font-size: 12px; }
+.page-intro aside small, .price-comparison span, .price-comparison small, .fact-list dt,
+.card-source-row, .inline-disclosure, .ai-card-foot small, .detail-meta > span:not(.verify-chip),
+.model-head, .model-row small, .download-buttons span, .download-buttons small,
+.benchmark-item a, .platform-nav a, .method-levels span, .tutorial-window-bar,
+.tutorial-side span, .tutorial-path > small { font-size: 11px; }
+.subscription-card-head p, .fact-list dd, .ai-card ul, .benchmark-item p,
+.source-list li, .app-card-grid article > small, .download-directory p,
+.method-levels p, .sync-flow p, .label-guide p { font-size: 13px; }
+.price-note, .subscription-actions a, .ai-card-foot a, .two-column-cards a,
+.app-card-grid article > a, .download-directory > article > a { font-size: 12px; }
+.tag-row span, .platform-pills span, .capability-strip span { font-size: 11px; }
+.pros-cons-grid li, .privacy-benchmark-grid li, .setup-steps p, .prompt-grid p,
+.two-guide-columns li, .security-alert-wide p, .tutorial-path li p { font-size: 14px; }
+.download-buttons strong { font-size: 15px; }
+
+.ai-card, .app-card-grid article, .subscription-card, .client-card, .download-directory article {
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.ai-card:hover, .app-card-grid article:hover, .subscription-card:hover, .client-card:hover, .download-directory article:hover {
+  transform: translateY(-3px);
+  border-color: #bfc8c4;
+  box-shadow: 0 18px 42px rgba(19,47,66,.09);
+}
+
+.download-directory article {
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+}
+.download-directory article > a { grid-column: 2 / 4; text-align: center; min-height: 38px; display: grid; place-items: center; }
+.download-directory article > .guide-link { grid-column: 2 / 4; }
+.download-buttons a { border-radius: 12px; }
+.download-buttons a:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(19,47,66,.08); }
+
+.tutorial-brand { margin-bottom: 18px; display: flex; align-items: center; gap: 14px; }
+.tutorial-side .tutorial-brand strong { margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+}
+
+@media (max-width: 700px) {
+  .download-brand-note { width: min(100% - 28px,1280px); }
+  .brand-icon-hero { width: 64px; height: 64px; border-radius: 18px; }
+  .download-directory article { grid-template-columns: auto 1fr; }
+  .download-directory article .verify-chip { grid-column: 2; }
+  .download-directory article > a, .download-directory article > .guide-link { grid-column: 1 / -1; }
+  .brand-notice { margin-bottom: 18px; }
+}

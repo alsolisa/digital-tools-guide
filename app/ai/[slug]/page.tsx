@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { aiProducts, getAiProduct } from "../../../data/catalog";
-import { DownloadButtons, PageShell, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
+import { BrandIcon, DownloadButtons, PageShell, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
 
 export function generateStaticParams() {
   return aiProducts.map((product) => ({ slug: product.slug }));
@@ -20,7 +20,7 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
   return (
     <PageShell>
       <section className="detail-hero">
-        <div className="detail-title-row"><span className={`catalog-mark hero-mark ${product.tone}`}>{product.mark}</span><div><span className="eyebrow">{product.company} · 小白完整教程</span><h1>{product.name}</h1></div></div>
+        <div className="detail-title-row"><BrandIcon slug={product.slug} name={product.name} size="hero" /><div><span className="eyebrow">{product.company} · 小白完整教程</span><h1>{product.name}</h1></div></div>
         <p>{product.summary}</p>
         <div className="detail-meta"><VerificationChip status="verified" /><span>官方资料优先</span><span>核验 {product.verifiedAt}</span><span>模型参数量：官方未公开</span></div>
       </section>
@@ -52,7 +52,7 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
       <section className="content-section soft-section">
         <SectionHeading index="04" title="第一次使用，按这五步" />
         <ol className="setup-steps">{product.setupSteps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}</ol>
-        <TutorialPath name={product.name} steps={product.setupSteps} />
+        <TutorialPath name={product.name} slug={product.slug} steps={product.setupSteps} />
       </section>
 
       <section className="content-section">

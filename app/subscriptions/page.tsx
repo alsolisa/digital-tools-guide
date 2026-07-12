@@ -1,6 +1,7 @@
 import { aiProducts, subscriptionOffers } from "../../data/catalog";
+import autoSync from "../../data/auto-sync.json";
 import Link from "next/link";
-import { Disclosure, PageIntro, PageShell, RiskBadge, SectionHeading } from "../components/SiteChrome";
+import { BrandIcon, BrandNotice, Disclosure, PageIntro, PageShell, RiskBadge, SectionHeading } from "../components/SiteChrome";
 
 export const metadata = {
   title: "GamsGo AI订阅",
@@ -8,25 +9,28 @@ export const metadata = {
 };
 
 export default function SubscriptionsPage() {
+  const exchangeDate = autoSync.exchange.date;
+  const usdToCny = autoSync.exchange.rates.CNY.toFixed(4);
   return (
     <PageShell>
       <PageIntro
         eyebrow="AI订阅 · 官方事实与商家宣传分开"
         title="先看账号归谁，再比较价格"
         lead="第三方订阅最容易被忽略的不是价格，而是账号所有权、恢复权限和聊天隐私。每项产品都把官方价、商家公开价与交付风险分开标注。"
-        aside={<><strong>价格口径</strong><p>原币价格 + 人民币参考价</p><small>汇率参考：2026-07-10，1 USD≈6.7745 CNY；不含税费和支付手续费。</small></>}
+        aside={<><strong>价格口径</strong><p>原币价格 + 人民币参考价</p><small>汇率参考：{exchangeDate}，1 USD≈{usdToCny} CNY；每日自动更新，不含税费和支付手续费。</small></>}
       />
 
       <section className="content-section">
         <Disclosure />
         <SectionHeading index="01" title="六项AI订阅对比" lead="公开页没有稳定显示精确价格时，直接写“购买页实时显示”。" />
+        <BrandNotice />
         <div className="subscription-grid">
           {subscriptionOffers.map((offer) => {
             const product = aiProducts.find((item) => item.slug === offer.productSlug);
             return (
               <article className="subscription-card" key={offer.slug}>
                 <div className="subscription-card-head">
-                  <span className={`catalog-mark ${product?.tone ?? "ink"}`}>{offer.mark}</span>
+                  <BrandIcon slug={offer.productSlug} name={offer.name} />
                   <div><h2>{offer.name}</h2><p>{offer.useCase}</p></div>
                   <RiskBadge level={offer.risk}>{offer.riskLabel}</RiskBadge>
                 </div>

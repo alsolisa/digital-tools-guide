@@ -1,6 +1,31 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import type { DownloadLink, RiskLevel, VerificationStatus } from "../../data/catalog";
+
+const officialIcons: Record<string, string> = {
+  chatgpt: "/brands/chatgpt.jpg",
+  claude: "/brands/claude.jpg",
+  gemini: "/brands/gemini.jpg",
+  grok: "/brands/grok.jpg",
+  perplexity: "/brands/perplexity.jpg",
+  midjourney: "/brands/midjourney.jpg",
+  youtube: "/brands/youtube.jpg",
+  x: "/brands/x.jpg",
+  tiktok: "/brands/tiktok.jpg",
+  "clash-verge": "/clients/clash-verge.png",
+  v2rayn: "/clients/v2rayn.png",
+  flclash: "/clients/flclash.png",
+  hiddify: "/clients/hiddify.svg",
+  shadowrocket: "/clients/shadowrocket.jpg",
+  "quantumult-x": "/clients/quantumult-x.jpg",
+  stash: "/clients/stash.jpg",
+  surge: "/clients/surge.jpg",
+};
+
+function publicAsset(path: string) {
+  return `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}${path}`;
+}
 
 const navItems = [
   ["首页", "/"],
@@ -39,7 +64,8 @@ export function SiteFooter() {
       </div>
       <p>公开资料与新手教程整理站。不销售软件，不保存账号、密码、订阅链接、访问密钥或付款信息。</p>
       <div><Link href="/methodology">核验方法</Link><Link href="/downloads">官方下载</Link><Link href="/nodes">机场指南</Link></div>
-      <small className="footer-disclosure">© 2026 数字工具指南 · 部分链接包含推广关系，最终价格与服务以商家结算页为准。</small>
+      <small className="footer-disclosure">© 2026 数字工具指南 · 部分链接包含推广关系，最终价格与服务以商家结算页为准。产品标志归各自权利人所有，仅用于识别；不代表品牌方认可或合作。</small>
+      <small className="footer-trademark">Midjourney™ is a trademark of Midjourney, Inc. We are not endorsed by or affiliated with Midjourney, Inc.</small>
     </footer>
   );
 }
@@ -73,6 +99,20 @@ export function VerificationChip({ status }: { status: VerificationStatus }) {
   return <span className={`verify-chip ${status}`}><i />{verificationLabels[status]}</span>;
 }
 
+export function BrandIcon({ slug, name, size = "default" }: { slug: string; name: string; size?: "small" | "default" | "large" | "hero" }) {
+  const src = officialIcons[slug];
+  if (!src) return <span className={`brand-icon brand-icon-${size} brand-icon-fallback`} aria-hidden="true">{name.slice(0, 1)}</span>;
+  return (
+    <span className={`brand-icon brand-icon-${size}`} title={`${name} 官方应用图标`}>
+      <Image src={publicAsset(src)} alt="" width={96} height={96} unoptimized />
+    </span>
+  );
+}
+
+export function BrandNotice() {
+  return <p className="brand-notice">品牌图标来自品牌官方资料、官方应用商店或官方项目仓库，仅用于帮助识别产品；本站不是这些品牌的官方网站，也不代表获得其推荐。</p>;
+}
+
 export function RiskBadge({ level, children }: { level: RiskLevel; children: ReactNode }) {
   return <span className={`risk-badge risk-${level}`}>{children}</span>;
 }
@@ -81,8 +121,8 @@ export function DownloadButtons({ downloads }: { downloads: DownloadLink[] }) {
   return (
     <div className="download-buttons">
       {downloads.map((download) => (
-        <a href={download.url} key={`${download.platform}-${download.url}`} target="_blank" rel="noopener noreferrer">
-          <span>{download.platform}</span><strong>{download.label}</strong><small>官方来源 ↗</small>
+        <a href={download.url} key={`${download.platform}-${download.url}`} target="_blank" rel="noopener noreferrer" aria-label={`${download.label}，在新窗口打开官方来源`}>
+          <span>{download.platform}</span><strong>{download.label}</strong><small>{download.source === "app-store" ? "Apple App Store" : download.source === "google-play" ? "Google Play" : download.source === "microsoft-store" ? "Microsoft Store" : "产品官网"} ↗</small>
         </a>
       ))}
     </div>
@@ -101,12 +141,12 @@ export function RegionNotice({ children }: { children: ReactNode }) {
   return <div className="region-notice"><span>地区提示</span><p>{children}</p></div>;
 }
 
-export function TutorialPath({ name, steps }: { name: string; steps: string[] }) {
+export function TutorialPath({ name, slug, steps }: { name: string; slug: string; steps: string[] }) {
   return (
     <div className="tutorial-path" aria-label={`${name}关键步骤示意`}>
       <div className="tutorial-window-bar"><i /><i /><i /><span>{name} · 关键界面路径</span></div>
       <div className="tutorial-path-body">
-        <div className="tutorial-side"><strong>{name}</strong><span>官方入口</span><span>账号与设置</span><span>隐私检查</span></div>
+        <div className="tutorial-side"><div className="tutorial-brand"><BrandIcon slug={slug} name={name} size="large" /><strong>{name}</strong></div><span>官方入口</span><span>账号与设置</span><span>隐私检查</span></div>
         <ol>{steps.slice(0, 4).map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}</ol>
       </div>
       <small>界面路径示意 · 产品更新后，按钮名称和位置可能变化，请以官方页面为准。</small>

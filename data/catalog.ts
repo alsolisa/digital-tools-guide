@@ -111,9 +111,9 @@ export const aiProducts: ProductProfile[] = [
     limitations: ["功能和用量会随套餐变化", "重要事实仍需核对来源", "部分地区的注册、付款和下载可能受限制"],
     capabilities: ["联网搜索", "文件上传", "图片理解与生成", "语音对话", "数据分析", "自定义 GPT", "深度研究", "编程"],
     models: [
-      { name: "GPT-5.5 Instant", availability: "Free / Go / Plus / Pro", context: "Plus 参考 54K，Pro 参考 128K", inputs: ["文本", "图片", "音频"], note: "适合快速日常任务；具体限额以产品内显示为准。" },
-      { name: "GPT-5.6 Sol", availability: "Plus / Pro", context: "推理上下文 Plus 参考 256K", inputs: ["文本", "图片", "文件"], note: "面向更复杂的推理、研究和多步骤任务。" },
-      { name: "GPT-5.6 Terra / Luna", availability: "Plus / Pro，部分入口有限制", context: "官方产品页未给出统一单一值", inputs: ["文本", "图片", "文件"], note: "可用性会随产品入口和套餐调整。" },
+      { name: "GPT-5.5 Instant", availability: "ChatGPT 默认快速模式；具体限额随套餐变化", context: "官方未给个人套餐统一固定值", inputs: ["文本", "图片", "音频"], note: "适合日常问答；复杂任务可能自动切换到更高推理档位。" },
+      { name: "GPT-5.6 Sol", availability: "Plus：Medium / High；Pro 等套餐可用更多档位", context: "官方未给个人套餐统一固定值", inputs: ["文本", "图片", "文件"], note: "面向复杂推理、研究、编程和多步骤工作；仍在分批开放时应以账号内模型选择器为准。" },
+      { name: "GPT-5.6 Sol Pro", availability: "Pro、Business、Enterprise 等符合条件的套餐", context: "官方未给个人套餐统一固定值", inputs: ["文本", "图片", "文件"], note: "面向困难任务和更长时间的复杂工作；Plus 标准对话不包含 Pro 档位。" },
     ],
     downloads: [
       { platform: "Web", label: "打开 ChatGPT 网页版", url: "https://chatgpt.com/", source: "official", status: "verified", verifiedAt: checkedAt },
@@ -126,6 +126,7 @@ export const aiProducts: ProductProfile[] = [
       { label: "ChatGPT 官方下载", url: "https://chatgpt.com/download/" },
       { label: "ChatGPT 套餐与模型", url: "https://chatgpt.com/pricing/" },
       { label: "ChatGPT Plus 官方说明", url: "https://help.openai.com/en/articles/6950777-what-is-chatgpt" },
+      { label: "GPT-5.6 在 ChatGPT 中的使用说明", url: "https://help.openai.com/en/articles/20001354-gpt-56-in-chatgpt" },
     ],
     benchmarks: [
       { source: "Arena", url: "https://arena.ai/leaderboard/text", scope: "真人盲测偏好", summary: "查看当前 GPT 系列在 Text 榜的相对偏好；不同日期分数不可直接横向拼接。", verifiedAt: checkedAt },
@@ -157,9 +158,9 @@ export const aiProducts: ProductProfile[] = [
     limitations: ["免费和付费用量均有限制", "不同型号和功能随套餐变化", "部分国家与地区不可用"],
     capabilities: ["网页搜索", "文件与图片分析", "长文档", "语音输入", "代码", "Google 服务连接", "桌面扩展"],
     models: [
-      { name: "Claude Opus", availability: "高阶套餐与部分功能", context: "常见官方产品上下文为 200K；个别型号可能不同", inputs: ["文本", "图片", "文件"], note: "适合高难度推理和复杂工作。" },
-      { name: "Claude Sonnet", availability: "多数个人套餐", context: "随具体型号和入口变化", inputs: ["文本", "图片", "文件"], note: "质量、速度和用量较平衡。" },
-      { name: "Claude Haiku", availability: "部分产品入口", context: "随具体型号变化", inputs: ["文本", "图片"], note: "偏向快速和轻量任务。" },
+      { name: "Claude Sonnet 5", availability: "Claude 各套餐按用量和开放范围提供", context: "以产品内显示为准", inputs: ["文本", "图片", "文件"], note: "当前 Sonnet 主力型号，适合推理、工具使用、编程和知识工作。" },
+      { name: "Claude Opus 4.8", availability: "高阶套餐与部分功能", context: "以产品内显示为准", inputs: ["文本", "图片", "文件"], note: "适合高难度推理与复杂任务；用量和开放范围随套餐变化。" },
+      { name: "Claude Haiku 4.5", availability: "部分产品入口", context: "以产品内显示为准", inputs: ["文本", "图片"], note: "偏向快速和轻量任务。" },
     ],
     downloads: [
       { platform: "Web", label: "打开 Claude 网页版", url: "https://claude.ai/", source: "official", status: "verified", verifiedAt: checkedAt },
@@ -171,6 +172,7 @@ export const aiProducts: ProductProfile[] = [
     officialSources: [
       { label: "Claude 支持的使用平台", url: "https://support.anthropic.com/en/articles/8114487-what-interfaces-can-i-use-to-access-claude" },
       { label: "Claude 套餐选择", url: "https://support.claude.com/en/articles/11049762-choose-a-claude-plan" },
+      { label: "Claude 官方更新记录", url: "https://support.claude.com/en/articles/12138966-release-notes" },
     ],
     benchmarks: [
       { source: "Arena", url: "https://arena.ai/leaderboard/text", scope: "真人盲测偏好", summary: "用于观察 Claude 各型号的用户偏好变化。", verifiedAt: checkedAt },
@@ -202,9 +204,9 @@ export const aiProducts: ProductProfile[] = [
     limitations: ["地区、语言和账号类型影响功能", "部分高级功能只在付费计划或特定国家开放", "Android 上会替代部分 Google Assistant 功能"],
     capabilities: ["Google 搜索", "文件上传", "图片和视频", "Gemini Live", "Deep Research", "Gmail / Drive / Docs", "NotebookLM", "代码"],
     models: [
-      { name: "Gemini 3.5 Flash", availability: "Gemini App 常用快速模型", context: "产品端未统一公布固定单一值", inputs: ["文本", "图片", "文件", "音频", "视频"], note: "适合日常快速任务。" },
-      { name: "Gemini 3.1 Pro", availability: "Google AI Pro / Ultra 等", context: "具体上下文和限额以产品内为准", inputs: ["文本", "图片", "文件", "音频", "视频"], note: "偏复杂推理、研究和长内容。" },
-      { name: "Gemini Omni", availability: "部分套餐和逐步开放功能", context: "官方产品页未给统一单一值", inputs: ["文本", "图片", "音频", "视频"], note: "侧重实时和多模态体验。" },
+      { name: "Flash-Lite", availability: "Gemini App 的高效率模式", context: "产品端未统一公布固定单一值", inputs: ["文本", "图片", "文件", "音频", "视频"], note: "适合总结、头脑风暴等日常快速任务。" },
+      { name: "Flash", availability: "Gemini App 的平衡模式", context: "具体上下文和限额以产品内为准", inputs: ["文本", "图片", "文件", "音频", "视频"], note: "兼顾速度与推理，覆盖从简单到复杂的多类任务。" },
+      { name: "Pro", availability: "高级能力和使用额度随 Google AI 套餐变化", context: "具体上下文和限额以产品内为准", inputs: ["文本", "图片", "文件", "音频", "视频"], note: "面向复杂数学、编程、学习与长内容；界面可能同时显示具体版本号。" },
     ],
     downloads: [
       { platform: "Web", label: "打开 Gemini 网页版", url: "https://gemini.google.com/", source: "official", status: "verified", verifiedAt: checkedAt },
@@ -213,6 +215,7 @@ export const aiProducts: ProductProfile[] = [
     ],
     officialSources: [
       { label: "Gemini 帮助中心", url: "https://support.google.com/gemini/" },
+      { label: "Gemini App 模型选择说明", url: "https://support.google.com/gemini/answer/13275745" },
       { label: "Google AI 套餐", url: "https://one.google.com/about/google-ai-plans/" },
     ],
     benchmarks: [
@@ -362,11 +365,16 @@ const baseSubscriptionOffers: SubscriptionOffer[] = [
 
 function syncedSubscriptionOffer(offer: SubscriptionOffer): SubscriptionOffer {
   const synced = autoSync.gamsgo.find((item) => item.slug === offer.slug);
-  if (!synced) return offer;
+  const usdMatch = offer.officialPrice.match(/US\$(\d+(?:\.\d+)?)/);
+  const officialCny = usdMatch && autoSync.exchange.state === "ok"
+    ? `约 ¥${(Number(usdMatch[1]) * autoSync.exchange.rates.CNY).toFixed(2)}`
+    : offer.officialCny;
+  const offerWithCurrentExchange = { ...offer, officialCny };
+  if (!synced) return offerWithCurrentExchange;
 
   if (!["ok", "price-changed"].includes(synced.state) || !synced.published) {
     return {
-      ...offer,
+      ...offerWithCurrentExchange,
       gamsgoPrice: "暂时无法核验",
       gamsgoCny: "以购买页实时显示为准",
       priceNote: synced.state === "price-change-pending"
@@ -378,7 +386,7 @@ function syncedSubscriptionOffer(offer: SubscriptionOffer): SubscriptionOffer {
 
   const currencyLabel = synced.published.currency === "SGD" ? "S$" : synced.published.currency === "USD" ? "US$" : synced.published.currency;
   return {
-    ...offer,
+    ...offerWithCurrentExchange,
     gamsgoPrice: `${currencyLabel}${synced.published.value.toFixed(2)} / 月公开起价`,
     gamsgoCny: synced.cny ? `约 ¥${synced.cny.toFixed(2)}` : "人民币参考价待核验",
     priceNote: `${synced.note}${synced.state === "price-changed" ? "；价格明显变动，已连续两次读取一致" : ""}。`,
