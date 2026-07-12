@@ -1,0 +1,88 @@
+{
+  "verifiedAt": "2026-07-13T03:35:00+08:00",
+  "timezone": "Asia/Shanghai",
+  "providers": {
+    "WestData": {
+      "status": "verified-authenticated-purchase-page",
+      "sourceUrl": "https://wd-gold.net/cart.php",
+      "sourceType": "已登录的当前购买页",
+      "available": true,
+      "monthlyPlans": [
+        { "name": "Pass Silver", "priceCny": 20, "trafficGiB": 200, "maxMbps": 500 },
+        { "name": "Pass Platinum", "priceCny": 40, "trafficGiB": 400, "maxMbps": 500 },
+        { "name": "Pass Diamond", "priceCny": 60, "trafficGiB": 600, "maxMbps": 1000 },
+        { "name": "Pass Ultimate", "priceCny": 80, "trafficGiB": 800, "maxMbps": 2000 }
+      ],
+      "halfYearPricesCny": [110, 220, 330, 440],
+      "annualPricesCny": [200, 400, 600, 800],
+      "paymentMethods": ["易支付", "USDT-TRC20"],
+      "notes": ["仅限个人使用", "暂不支持退款", "中国大陆 BGP 多线接入", "国际 IPLC 传输线路"]
+    },
+    "悠兔 Youtu": { "status": "pending-authenticated-purchase-page" },
+    "BoostNet": {
+      "status": "verified-authenticated-current-plan-page",
+      "sourceUrl": "https://999.boostnet4.com/console/plan",
+      "sourceType": "已登录的当前计划页",
+      "directMonthlyPlanVisible": false,
+      "visiblePlans": [
+        { "trafficPerMonthGiB": 200, "priceCny": 260, "billingCycle": "半年付" },
+        { "trafficPerMonthGiB": 20, "priceCny": 200, "billingCycle": "年付" },
+        { "trafficPerMonthGiB": 400, "priceCny": 220, "billingCycle": "季付" },
+        { "trafficPerMonthGiB": 1000, "priceCny": 350, "billingCycle": "季付" },
+        { "name": "企业团队至尊VIP", "trafficPerMonthGiB": 1500, "priceCny": 388, "billingCycle": "当前卡片未标明" }
+      ],
+      "ownClients": ["Windows", "macOS", "Android"],
+      "clientUrl": "https://d.yoututz.top/ph/bst",
+      "supportedSubscriptions": ["Clash", "Shadowrocket", "Surge", "Stash", "Quantumult X"],
+      "unsupportedSubscriptions": ["sing-box"],
+      "devices": 5,
+      "notes": ["福建不可用", "不保证游戏体验", "禁止BT/P2P/PT", "禁止共享", "无退款服务"],
+      "paymentMethods": ["待付款页核验"]
+    },
+    "WgetCloud": { "status": "paused-by-user", "note": "保留官方入口与历史资料，暂不进入当前推荐和价格排序" },
+    "Nexitally": {
+      "status": "verified-authenticated-purchase-page",
+      "sourceUrl": "https://nxonearth.com/shop.aspx",
+      "sourceType": "已登录的当前购买页",
+      "available": true,
+      "monthlyPlans": [
+        { "name": "Smart Access Air 31 天", "priceCny": 74.55, "trafficGiB": 200, "devices": 2, "maxMbps": 2000 },
+        { "name": "Smart Access 31 天", "priceCny": 123.33, "trafficGiB": 500, "devices": 2, "maxMbps": 2000 }
+      ],
+      "longTermPlans": [
+        { "name": "Smart Access Air 186 天", "totalCny": 378, "equivalentPer31DaysCny": 63 },
+        { "name": "Smart Access Air 372 天", "totalCny": 655.2, "equivalentPer31DaysCny": 54.6 },
+        { "name": "Smart Access 186 天", "totalCny": 623.7, "equivalentPer31DaysCny": 103.95 },
+        { "name": "Smart Access 372 天", "totalCny": 1157.52, "equivalentPer31DaysCny": 96.46 }
+      ],
+      "addOns": [
+        { "name": "Premium Access X 12", "pricePer31DaysCny": 170.1, "trafficGiB": 500, "requiresBaseService": true },
+        { "name": "Group Access", "pricePer31DaysCny": 47.41, "devices": 5, "requiresBaseService": true }
+      ],
+      "paymentMethods": ["支付宝", "账户余额"],
+      "paymentNotes": ["支付宝单笔限额 1500 元", "超过限额可先充值后使用账户余额付款"],
+      "refundNotes": ["余额充值订单超过48小时无法退款", "服务激活超过48小时或流量使用超过1GB不接受退款", "余额支付订单只退回账户余额"]
+    },
+    "TAG": {
+      "status": "verified-authenticated-current-shop",
+      "currentEntry": "https://tagss.pro/",
+      "sourceUrl": "https://tagss.pro/#/shop",
+      "sourceType": "已登录的当前官方商店页",
+      "unsafeOldEntry": "https://tagss04.pro/",
+      "warning": "2026-07-13 实测旧入口跳转到无关成人内容页面，禁止继续使用",
+      "monthlyPlans": [
+        { "name": "Silver计划", "priceCny": 114, "trafficGiB": 500, "devices": 10 },
+        { "name": "Gold计划", "priceCny": 219, "trafficGiB": 999, "devices": 10 },
+        { "name": "Team计划", "priceCny": 658, "trafficGiB": 3000, "devices": 30 }
+      ],
+      "nonMonthlyPlans": [
+        { "name": "Bronze计划", "priceCny": 185, "billingCycle": "季付", "trafficPerMonthGiB": 250, "devices": 10 },
+        { "name": "Special计划", "priceCny": 162, "billingCycle": "年付", "totalTrafficGiB": 200, "devices": 5 }
+      ],
+      "customPlan": { "displayPrice": "1500+/月", "conflictingNote": "住宅IP说明写999/月起", "status": "需咨询客服" },
+      "paymentMethods": ["待付款页核验"],
+      "clientStatus": "待有效订阅后核验；当前商店页和无有效订阅的用户中心未明确展示自有客户端",
+      "restrictions": ["仅限中国大陆", "海外及新疆不可用（含港澳台）", "不保证TikTok", "分享订阅可能冻结或永久封号"]
+    }
+  }
+}

@@ -1,0 +1,32 @@
+name: 同步公开入口与客户端版本
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run sync
+      - run: npm run build
+      - name: 保存发生变化的核验结果
+        run: |
+          if git diff --quiet -- data/sync-status.json data/auto-sync.json; then
+            exit 0
+          fi
+          git config user.name "node-guide-sync"
+          git config user.email "node-guide-sync@users.noreply.github.com"
+          git add data/sync-status.json data/auto-sync.json
+          git commit -m "chore: 更新入口、价格与客户端状态"
+          git push
