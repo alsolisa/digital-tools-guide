@@ -20,8 +20,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
@@ -44,8 +44,8 @@ jobs:
           git add data/sync-status.json data/auto-sync.json
           git commit -m "chore: 更新公开核验数据"
           git push
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: out
 
@@ -58,4 +58,4 @@ jobs:
     steps:
       - name: 发布公开网站
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
