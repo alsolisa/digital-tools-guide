@@ -12,7 +12,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const isGitHubPages = process.env.GITHUB_PAGES === "true";
+const publicBasePath = isGitHubPages ? "/digital-tools-guide" : "";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(isGitHubPages ? "https://alsolisa.github.io" : "http://localhost:3000"),
   title: {
     default: "数字工具指南｜机场、AI订阅与主流应用小白教程",
     template: "%s｜数字工具指南",
@@ -24,17 +28,17 @@ export const metadata: Metadata = {
     siteName: "数字工具指南",
     title: "数字工具指南｜机场、AI订阅与主流应用小白教程",
     description: "官方入口、真实价格、账号风险和小白教程集中整理。",
-    images: [{ url: "/og-digital-tools.png", width: 1536, height: 1024, alt: "数字工具指南" }],
+    images: [{ url: `${publicBasePath}/og-digital-tools.png`, width: 1536, height: 1024, alt: "数字工具指南" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "数字工具指南",
     description: "机场、AI订阅、官方下载与小白教程。",
-    images: ["/og-digital-tools.png"],
+    images: [`${publicBasePath}/og-digital-tools.png`],
   },
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: `${publicBasePath}/favicon.svg`,
+    shortcut: `${publicBasePath}/favicon.svg`,
   },
 };
 

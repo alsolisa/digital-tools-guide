@@ -1,4 +1,5 @@
 import { commonApps } from "../../data/catalog";
+import Link from "next/link";
 import { PageIntro, PageShell, RegionNotice, SectionHeading, VerificationChip } from "../components/SiteChrome";
 
 export const metadata = {
@@ -13,7 +14,7 @@ export default function AppsIndexPage() {
       <section className="content-section">
         <SectionHeading index="01" title="三项常用应用" />
         <div className="app-card-grid">
-          {commonApps.map((app) => <article key={app.slug}><div className="app-card-head"><span className="catalog-mark large ink">{app.mark}</span><VerificationChip status="verified" /></div><span className="card-kicker">{app.company}</span><h2>{app.name}</h2><p>{app.tagline}</p><small>{app.summary}</small><div className="platform-pills">{app.downloads.map((download) => <span key={download.platform}>{download.platform}</span>)}</div><a href={`/apps/${app.slug}`}>查看安装与使用教程 →</a></article>)}
+          {commonApps.map((app) => <article key={app.slug}><div className="app-card-head"><span className="catalog-mark large ink">{app.mark}</span><VerificationChip status="verified" /></div><span className="card-kicker">{app.company}</span><h2>{app.name}</h2><p>{app.tagline}</p><small>{app.summary}</small><div className="platform-pills">{app.downloads.map((download) => <span key={download.platform}>{download.platform}</span>)}</div><Link href={`/apps/${app.slug}`}>查看安装与使用教程 →</Link></article>)}
         </div>
       </section>
       <section className="content-section soft-section"><SectionHeading index="02" title="先理解地区差异" /><RegionNotice>应用能否在商店中看到、账号能否注册、某项功能能否使用，是三个不同问题。本站分别标注，不把“当前网络能打开”写成“中国大陆裸网可用”。</RegionNotice></section>

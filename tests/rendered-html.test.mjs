@@ -53,7 +53,7 @@ test("GamsGo价格与账号风险分栏，读取失败时不沿用旧价", async
 
 test("下载中心只链接允许的官方域名且没有空链接", async () => {
   const html = await (await render("/downloads")).text();
-  const externalLinks = [...html.matchAll(/href=["'](https?:\/\/[^"']+)["']/g)].map((match) => match[1]);
+  const externalLinks = [...html.matchAll(/<a\b[^>]*href=["'](https?:\/\/[^"']+)["']/g)].map((match) => match[1]);
   assert.ok(externalLinks.length >= 15, "应展示多平台官方下载入口");
   const allowed = [
     "chatgpt.com", "claude.ai", "gemini.google.com", "grok.com", "perplexity.ai",

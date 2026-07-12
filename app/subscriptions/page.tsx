@@ -1,4 +1,5 @@
 import { aiProducts, subscriptionOffers } from "../../data/catalog";
+import Link from "next/link";
 import { Disclosure, PageIntro, PageShell, RiskBadge, SectionHeading } from "../components/SiteChrome";
 
 export const metadata = {
@@ -45,7 +46,7 @@ export default function SubscriptionsPage() {
                 </dl>
                 <div className="card-source-row"><span>核验：{offer.verifiedAt}</span><a href={offer.sourceUrl} target="_blank" rel="noopener noreferrer">查看资料来源 ↗</a></div>
                 <div className="subscription-actions">
-                  {product && <a className="text-action" href={`/ai/${product.slug}`}>先看产品教程</a>}
+                  {product && <Link className="text-action" href={`/ai/${product.slug}`}>先看产品教程</Link>}
                   <a className="primary-action" href={offer.affiliateUrl} target="_blank" rel="sponsored noopener">打开推广购买入口 ↗</a>
                 </div>
                 <small className="inline-disclosure">推广链接 · 下单前请再次核对产品名称、周期与交付方式</small>

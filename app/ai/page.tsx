@@ -1,4 +1,5 @@
 import { aiProducts } from "../../data/catalog";
+import Link from "next/link";
 import { PageIntro, PageShell, SectionHeading, VerificationChip } from "../components/SiteChrome";
 
 export const metadata = {
@@ -25,7 +26,7 @@ export default function AiIndexPage() {
               <span className="card-kicker">{product.company}</span><h2>{product.name}</h2><p className="card-tagline">{product.tagline}</p>
               <div className="tag-row">{product.bestFor.slice(0, 3).map((item) => <span key={item}>{item}</span>)}</div>
               <ul>{product.strengths.map((item) => <li key={item}>{item}</li>)}</ul>
-              <div className="ai-card-foot"><small>核验 {product.verifiedAt}</small><a href={`/ai/${product.slug}`}>查看完整教程 →</a></div>
+              <div className="ai-card-foot"><small>核验 {product.verifiedAt}</small><Link href={`/ai/${product.slug}`}>查看完整教程 →</Link></div>
             </article>
           ))}
         </div>

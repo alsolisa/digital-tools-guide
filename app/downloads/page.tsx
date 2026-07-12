@@ -1,4 +1,5 @@
 import { allDownloads, type Platform } from "../../data/catalog";
+import Link from "next/link";
 import { PageIntro, PageShell, SectionHeading, VerificationChip } from "../components/SiteChrome";
 
 const platforms: Platform[] = ["Windows", "macOS", "Android", "iOS", "Web"];
@@ -19,7 +20,7 @@ export default function DownloadsPage() {
           <section className={`content-section download-platform ${index % 2 ? "soft-section" : ""}`} id={platform.toLowerCase()} key={platform}>
             <SectionHeading index={String(index + 1).padStart(2, "0")} title={platform === "Web" ? "网页版入口" : `${platform} 官方下载`} lead={`${downloads.length} 个已经整理的官方入口`} />
             <div className="download-directory">
-              {downloads.map((download) => <article key={`${download.product}-${download.url}`}><div><span className="directory-category">{download.category}</span><h2>{download.product}</h2><p>{download.label}</p></div><VerificationChip status={download.status} /><a href={download.url} target="_blank" rel="noopener noreferrer">打开官方来源 ↗</a><a className="guide-link" href={download.category === "AI" ? `/ai/${download.slug}` : `/apps/${download.slug}`}>查看教程</a></article>)}
+              {downloads.map((download) => <article key={`${download.product}-${download.url}`}><div><span className="directory-category">{download.category}</span><h2>{download.product}</h2><p>{download.label}</p></div><VerificationChip status={download.status} /><a href={download.url} target="_blank" rel="noopener noreferrer">打开官方来源 ↗</a><Link className="guide-link" href={download.category === "AI" ? `/ai/${download.slug}` : `/apps/${download.slug}`}>查看教程</Link></article>)}
             </div>
           </section>
         );
