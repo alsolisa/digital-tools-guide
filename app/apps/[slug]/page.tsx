@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { commonApps, getCommonApp } from "../../../data/catalog";
-import { BrandIcon, DownloadButtons, PageShell, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
+import { BrandIcon, DownloadButtons, FeedbackLink, OfficialScreenshotGallery, PageShell, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
 
 export function generateStaticParams() {
   return commonApps.map((app) => ({ slug: app.slug }));
@@ -23,10 +23,11 @@ export default async function AppDetailPage({ params }: { params: Promise<{ slug
         <p>{app.summary}</p><div className="detail-meta"><VerificationChip status="verified" /><span>官方商店入口</span><span>核验 {app.verifiedAt}</span></div>
       </section>
       <section className="content-section"><SectionHeading index="01" title="官方下载" lead="请选择自己的设备，不要下载所谓破解版或修改版。" /><DownloadButtons downloads={app.downloads} /><RegionNotice>{app.regionNote}</RegionNotice></section>
-      <section className="content-section soft-section"><SectionHeading index="02" title="安装、注册与基础设置" /><ol className="setup-steps">{app.setupSteps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}</ol></section>
-      <section className="content-section two-guide-columns"><article><SectionHeading index="03" title="设置中文" /><ol>{app.languageSteps.map((step) => <li key={step}>{step}</li>)}</ol></article><article className="warning-card"><SectionHeading index="04" title="账号安全" /><ul>{app.safety.map((item) => <li key={item}>{item}</li>)}</ul></article></section>
+      <section className="content-section soft-section"><SectionHeading index="02" title="官方应用界面示意" lead="用于确认下载到的是正确产品，不代表所有地区都显示相同功能。" /><OfficialScreenshotGallery name={app.name} screenshots={app.screenshots} /></section>
+      <section className="content-section"><SectionHeading index="03" title="安装、注册与基础设置" /><ol className="setup-steps">{app.setupSteps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}</ol></section>
+      <section className="content-section soft-section two-guide-columns"><article><SectionHeading index="04" title="设置中文" /><ol>{app.languageSteps.map((step) => <li key={step}>{step}</li>)}</ol></article><article className="warning-card"><SectionHeading index="05" title="账号安全" /><ul>{app.safety.map((item) => <li key={item}>{item}</li>)}</ul></article></section>
       <section className="content-section soft-section"><TutorialPath name={app.name} slug={app.slug} steps={app.setupSteps} /></section>
-      <section className="content-section sources-section"><SectionHeading index="05" title="官方资料来源" /><SourceList sources={app.officialSources} /></section>
+      <section className="content-section sources-section"><SectionHeading index="06" title="官方资料来源" /><SourceList sources={app.officialSources} /><FeedbackLink /></section>
     </PageShell>
   );
 }

@@ -27,8 +27,18 @@ function exportedTarget(urlPath) {
 }
 
 test("GitHub Pages导出包含全部主要页面", async () => {
-  const routes = ["/", "/nodes/", "/subscriptions/", "/ai/", "/ai/chatgpt/", "/ai/claude/", "/ai/gemini/", "/ai/grok/", "/ai/perplexity/", "/apps/", "/apps/youtube/", "/apps/x/", "/apps/tiktok/", "/downloads/", "/methodology/"];
+  const routes = ["/", "/nodes/", "/subscriptions/", "/ai/", "/ai/chatgpt/", "/ai/claude/", "/ai/gemini/", "/ai/grok/", "/ai/perplexity/", "/apps/", "/apps/youtube/", "/apps/x/", "/apps/tiktok/", "/downloads/", "/methodology/", "/search/", "/faq/", "/privacy/", "/disclosure/", "/changelog/"];
   for (const route of routes) assert.equal(await exists(path.join(root, route, "index.html")), true, `缺少导出页面 ${route}`);
+});
+
+test("静态导出包含搜索引擎、PWA与教程图片资源", async () => {
+  for (const file of ["sitemap.xml", "robots.txt", "manifest.webmanifest"]) {
+    assert.equal(await exists(path.join(root, file)), true, `缺少 ${file}`);
+  }
+  for (const slug of ["chatgpt", "claude", "gemini", "grok", "perplexity", "youtube", "x", "tiktok"]) {
+    const directory = path.join(root, "guides", slug);
+    assert.equal(await exists(directory), true, `缺少${slug}教程图片目录`);
+  }
 });
 
 test("全部站内链接保留GitHub Pages子目录并指向真实文件", async () => {

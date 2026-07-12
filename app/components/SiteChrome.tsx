@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import type { DownloadLink, RiskLevel, VerificationStatus } from "../../data/catalog";
+import type { DownloadLink, OfficialScreenshot, RiskLevel, VerificationStatus } from "../../data/catalog";
 
 const officialIcons: Record<string, string> = {
   chatgpt: "/brands/chatgpt.jpg",
@@ -34,6 +34,7 @@ const navItems = [
   ["AI工具", "/ai"],
   ["常用应用", "/apps"],
   ["下载中心", "/downloads"],
+  ["搜索", "/search"],
   ["核验方法", "/methodology"],
 ];
 
@@ -63,7 +64,7 @@ export function SiteFooter() {
         <span><strong>数字工具指南</strong><small>把来源放在推荐前面</small></span>
       </div>
       <p>公开资料与新手教程整理站。不销售软件，不保存账号、密码、订阅链接、访问密钥或付款信息。</p>
-      <div><Link href="/methodology">核验方法</Link><Link href="/downloads">官方下载</Link><Link href="/nodes">机场指南</Link></div>
+      <div><Link href="/search">站内搜索</Link><Link href="/faq">常见问题</Link><Link href="/privacy">隐私说明</Link><Link href="/disclosure">推广说明</Link><Link href="/changelog">更新记录</Link><Link href="/methodology">核验方法</Link><Link href="/downloads">官方下载</Link><Link href="/nodes">机场指南</Link></div>
       <small className="footer-disclosure">© 2026 数字工具指南 · 部分链接包含推广关系，最终价格与服务以商家结算页为准。产品标志归各自权利人所有，仅用于识别；不代表品牌方认可或合作。</small>
       <small className="footer-trademark">Midjourney™ is a trademark of Midjourney, Inc. We are not endorsed by or affiliated with Midjourney, Inc.</small>
     </footer>
@@ -111,6 +112,28 @@ export function BrandIcon({ slug, name, size = "default" }: { slug: string; name
 
 export function BrandNotice() {
   return <p className="brand-notice">品牌图标来自品牌官方资料、官方应用商店或官方项目仓库，仅用于帮助识别产品；本站不是这些品牌的官方网站，也不代表获得其推荐。</p>;
+}
+
+export function OfficialScreenshotGallery({ name, screenshots }: { name: string; screenshots: OfficialScreenshot[] }) {
+  return (
+    <div className="official-screenshot-grid">
+      {screenshots.map((shot, index) => (
+        <figure key={shot.src}>
+          <div className="official-screenshot-media">
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <Image src={publicAsset(shot.src)} alt={shot.alt} width={720} height={1080} unoptimized />
+          </div>
+          <figcaption><strong>{shot.title}</strong><p>{shot.caption}</p><a href={shot.sourceUrl} target="_blank" rel="noopener noreferrer">{shot.sourceLabel}官方条目 ↗</a></figcaption>
+        </figure>
+      ))}
+      <p className="screenshot-source-note">{name}官方应用商店截图 · 仅用于识别界面与功能，实际布局、语言、功能和套餐可能随版本及地区变化。</p>
+    </div>
+  );
+}
+
+export function FeedbackLink({ label = "报告错误或失效入口" }: { label?: string }) {
+  const href = "https://github.com/alsolisa/digital-tools-guide/issues/new?title=%E8%B5%84%E6%96%99%E6%88%96%E5%85%A5%E5%8F%A3%E9%9C%80%E8%A6%81%E6%9B%B4%E6%96%B0&body=%E9%A1%B5%E9%9D%A2%EF%BC%9A%0A%E9%97%AE%E9%A2%98%EF%BC%9A%0A%E6%88%91%E7%9C%8B%E5%88%B0%E7%9A%84%E6%97%B6%E9%97%B4%EF%BC%9A";
+  return <a className="feedback-link" href={href} target="_blank" rel="noopener noreferrer">{label} ↗</a>;
 }
 
 export function RiskBadge({ level, children }: { level: RiskLevel; children: ReactNode }) {

@@ -13,6 +13,15 @@ export interface DownloadLink {
   verifiedAt: string;
 }
 
+export interface OfficialScreenshot {
+  src: string;
+  title: string;
+  caption: string;
+  alt: string;
+  sourceLabel: "Apple App Store" | "Google Play";
+  sourceUrl: string;
+}
+
 export interface ModelProfile {
   name: string;
   availability: string;
@@ -44,6 +53,7 @@ export interface ProductProfile {
   capabilities: string[];
   models: ModelProfile[];
   downloads: DownloadLink[];
+  screenshots: OfficialScreenshot[];
   officialSources: { label: string; url: string }[];
   benchmarks: BenchmarkSnapshot[];
   setupSteps: string[];
@@ -86,6 +96,7 @@ export interface AppProfile {
   tagline: string;
   summary: string;
   downloads: DownloadLink[];
+  screenshots: OfficialScreenshot[];
   setupSteps: string[];
   languageSteps: string[];
   safety: string[];
@@ -122,11 +133,16 @@ export const aiProducts: ProductProfile[] = [
       { platform: "Android", label: "Google Play", url: "https://play.google.com/store/apps/details?id=com.openai.chatgpt", source: "google-play", status: "verified", verifiedAt: checkedAt },
       { platform: "iOS", label: "Apple App Store", url: "https://apps.apple.com/us/app/chatgpt/id6448311069", source: "app-store", status: "verified", verifiedAt: checkedAt },
     ],
+    screenshots: [
+      { src: "/guides/chatgpt/store-1.png", title: "多模态对话", caption: "官方商店展示了文字、图片与创作能力；实际按钮会随版本和套餐变化。", alt: "ChatGPT官方商店多模态对话界面示意", sourceLabel: "Google Play", sourceUrl: "https://play.google.com/store/apps/details?id=com.openai.chatgpt" },
+      { src: "/guides/chatgpt/store-2.png", title: "移动端创作", caption: "安装后先用普通问答熟悉界面，再尝试图片、文件和语音功能。", alt: "ChatGPT官方商店移动端创作界面示意", sourceLabel: "Google Play", sourceUrl: "https://play.google.com/store/apps/details?id=com.openai.chatgpt" },
+    ],
     officialSources: [
       { label: "ChatGPT 官方下载", url: "https://chatgpt.com/download/" },
       { label: "ChatGPT 套餐与模型", url: "https://chatgpt.com/pricing/" },
       { label: "ChatGPT Plus 官方说明", url: "https://help.openai.com/en/articles/6950777-what-is-chatgpt" },
       { label: "GPT-5.6 在 ChatGPT 中的使用说明", url: "https://help.openai.com/en/articles/20001354-gpt-56-in-chatgpt" },
+      { label: "ChatGPT 数据控制官方说明", url: "https://help.openai.com/en/articles/7730893-datacontrols-faq" },
     ],
     benchmarks: [
       { source: "Arena", url: "https://arena.ai/leaderboard/text", scope: "真人盲测偏好", summary: "查看当前 GPT 系列在 Text 榜的相对偏好；不同日期分数不可直接横向拼接。", verifiedAt: checkedAt },
@@ -140,7 +156,7 @@ export const aiProducts: ProductProfile[] = [
       { title: "方案比较", text: "请比较【方案A】和【方案B】，列出成本、风险、适合人群，并给出推荐。" },
       { title: "核查答案", text: "请标出回答中可能过时或需要外部核实的部分，并给我核查清单。" },
     ],
-    privacy: ["不要上传密码、验证码、银行卡或完整身份证件。", "订阅链接和访问密钥相当于账号钥匙，不要截图公开。", "健康、法律和财务问题应把 AI 当作辅助说明，不替代专业人士。"],
+    privacy: ["不要上传密码、验证码、银行卡或完整身份证件。", "在头像 → 设置 → 数据控制中检查“为所有人改进模型”是否符合你的选择。", "临时聊天不会进入历史记录，也不会用于改进模型；官方说明会在30天后删除，但仍不要提交机密。", "健康、法律和财务问题应把 AI 当作辅助说明，不替代专业人士。"],
     regionNote: "中国大陆的网页访问、账号注册、付款和应用商店展示可能受网络与账号地区影响；页面只标注实际核验结果，不保证所有地区可用。",
     verifiedAt: checkedAt,
   },
@@ -168,6 +184,10 @@ export const aiProducts: ProductProfile[] = [
       { platform: "macOS", label: "Claude Desktop", url: "https://claude.ai/download", source: "official", status: "verified", verifiedAt: checkedAt },
       { platform: "Android", label: "Google Play", url: "https://play.google.com/store/apps/details?id=com.anthropic.claude", source: "google-play", status: "verified", verifiedAt: checkedAt },
       { platform: "iOS", label: "Apple App Store", url: "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684", source: "app-store", status: "verified", verifiedAt: checkedAt },
+    ],
+    screenshots: [
+      { src: "/guides/claude/store-1.png", title: "联网查找与整理", caption: "官方商店示意Claude可结合位置和资料回答；重要结论仍需打开来源核对。", alt: "Claude官方商店联网回答界面示意", sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684" },
+      { src: "/guides/claude/store-2.png", title: "语音对话", caption: "语音功能和可用额度可能随账号、地区与套餐不同。", alt: "Claude官方商店语音模式界面示意", sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684" },
     ],
     officialSources: [
       { label: "Claude 支持的使用平台", url: "https://support.anthropic.com/en/articles/8114487-what-interfaces-can-i-use-to-access-claude" },
@@ -213,6 +233,10 @@ export const aiProducts: ProductProfile[] = [
       { platform: "Android", label: "Google Play", url: "https://play.google.com/store/apps/details?id=com.google.android.apps.bard", source: "google-play", status: "verified", verifiedAt: checkedAt },
       { platform: "iOS", label: "Apple App Store", url: "https://apps.apple.com/us/app/google-gemini/id6477489729", source: "app-store", status: "verified", verifiedAt: checkedAt },
     ],
+    screenshots: [
+      { src: "/guides/gemini/store-1.png", title: "图片生成与编辑", caption: "官方商店展示Gemini的图像创作能力；生成能力和限额以产品内显示为准。", alt: "Gemini官方商店图片生成界面示意", sourceLabel: "Google Play", sourceUrl: "https://play.google.com/store/apps/details?id=com.google.android.apps.bard" },
+      { src: "/guides/gemini/store-2.png", title: "Google生态协作", caption: "连接Gmail、Drive等服务前，应逐项检查授权范围和数据设置。", alt: "Gemini官方商店Google生态功能界面示意", sourceLabel: "Google Play", sourceUrl: "https://play.google.com/store/apps/details?id=com.google.android.apps.bard" },
+    ],
     officialSources: [
       { label: "Gemini 帮助中心", url: "https://support.google.com/gemini/" },
       { label: "Gemini App 模型选择说明", url: "https://support.google.com/gemini/answer/13275745" },
@@ -255,6 +279,10 @@ export const aiProducts: ProductProfile[] = [
       { platform: "Web", label: "打开 Grok 网页版", url: "https://grok.com/", source: "official", status: "verified", verifiedAt: checkedAt },
       { platform: "Android", label: "Google Play", url: "https://play.google.com/store/apps/details?id=ai.x.grok", source: "google-play", status: "verified", verifiedAt: checkedAt },
       { platform: "iOS", label: "Apple App Store", url: "https://apps.apple.com/us/app/grok-ai/id6670324846", source: "app-store", status: "verified", verifiedAt: checkedAt },
+    ],
+    screenshots: [
+      { src: "/guides/grok/store-1.png", title: "Imagine创作", caption: "官方商店展示图片和视频创作入口；生成速度与额度取决于当前套餐。", alt: "Grok官方商店Imagine视频创作界面示意", sourceLabel: "Google Play", sourceUrl: "https://play.google.com/store/apps/details?id=ai.x.grok" },
+      { src: "/guides/grok/store-2.png", title: "实时信息与搜索", caption: "即时信息不等于已核实事实，涉及新闻时应查看时间和原始来源。", alt: "Grok官方商店实时信息界面示意", sourceLabel: "Google Play", sourceUrl: "https://play.google.com/store/apps/details?id=ai.x.grok" },
     ],
     officialSources: [
       { label: "Grok 官方介绍", url: "https://x.ai/grok" },
@@ -300,6 +328,10 @@ export const aiProducts: ProductProfile[] = [
       { platform: "macOS", label: "macOS 官方下载", url: "https://www.perplexity.ai/platforms", source: "official", status: "verified", verifiedAt: checkedAt },
       { platform: "Android", label: "Google Play", url: "https://play.google.com/store/apps/details?id=ai.perplexity.app.android", source: "google-play", status: "verified", verifiedAt: checkedAt },
       { platform: "iOS", label: "Apple App Store", url: "https://apps.apple.com/us/app/perplexity-ai-search-chat/id1668000334", source: "app-store", status: "verified", verifiedAt: checkedAt },
+    ],
+    screenshots: [
+      { src: "/guides/perplexity/store-1.png", title: "从问题开始搜索", caption: "Perplexity把搜索与回答结合，但引用是否支持结论仍需人工检查。", alt: "Perplexity官方商店搜索首页界面示意", sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/perplexity-ai-search-chat/id1668000334" },
+      { src: "/guides/perplexity/store-2.png", title: "带来源的研究", caption: "适合快速建立资料脉络，不应只看摘要而跳过原文。", alt: "Perplexity官方商店研究功能界面示意", sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/perplexity-ai-search-chat/id1668000334" },
     ],
     officialSources: [
       { label: "Perplexity 平台下载", url: "https://www.perplexity.ai/platforms" },
@@ -404,6 +436,10 @@ export const commonApps: AppProfile[] = [
       { platform: "Android", label: "Google Play", url: "https://play.google.com/store/apps/details?id=com.google.android.youtube", source: "google-play", status: "verified", verifiedAt: checkedAt },
       { platform: "iOS", label: "Apple App Store", url: "https://apps.apple.com/us/app/youtube/id544007664", source: "app-store", status: "verified", verifiedAt: checkedAt },
     ],
+    screenshots: [
+      { src: "/guides/youtube/store-1.jpg", title: "创作与发布入口", caption: "官方商店示意短视频、上传、直播等入口；普通观看用户不需要开启创作权限。", alt: "YouTube官方商店创作菜单界面示意", sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/youtube/id544007664" },
+      { src: "/guides/youtube/store-2.jpg", title: "订阅与观看", caption: "登录本人Google账号后再管理订阅、历史记录与通知。", alt: "YouTube官方商店观看和订阅界面示意", sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/youtube/id544007664" },
+    ],
     setupSteps: ["只从Google Play或Apple App Store安装。", "使用本人Google账号登录。", "在设置中检查历史记录、自动播放和通知。", "需要离线观看时确认所在地区与Premium权益。"],
     languageSteps: ["点击头像进入Settings。", "在Language或App language中选择简体中文。", "内容地区与界面语言是两项不同设置。"],
     safety: ["不要安装所谓去广告破解版。", "订阅家庭组前确认成员地区和家庭组规则。", "儿童使用应配置家长监督。"],
@@ -417,6 +453,10 @@ export const commonApps: AppProfile[] = [
       { platform: "Android", label: "Google Play", url: "https://play.google.com/store/apps/details?id=com.twitter.android", source: "google-play", status: "verified", verifiedAt: checkedAt },
       { platform: "iOS", label: "Apple App Store", url: "https://apps.apple.com/us/app/x/id333903271", source: "app-store", status: "verified", verifiedAt: checkedAt },
     ],
+    screenshots: [
+      { src: "/guides/x/store-1.png", title: "账号与订阅设置", caption: "官方商店展示账号设置入口；订阅前先区分X Premium与SuperGrok。", alt: "X官方商店账号和Premium设置界面示意", sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/x/id333903271" },
+      { src: "/guides/x/store-2.png", title: "实时信息流", caption: "热门帖子和高互动不等于事实已经核实，应打开原始来源并检查发布时间。", alt: "X官方商店信息流界面示意", sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/x/id333903271" },
+    ],
     setupSteps: ["从x.com或官方商店进入。", "使用本人邮箱或手机号注册并保存恢复方式。", "开启二次验证并保存备份码。", "调整隐私、私信和敏感内容设置。"],
     languageSteps: ["进入Settings and privacy。", "选择Accessibility, display, and languages。", "在Languages中设置界面和内容语言。"],
     safety: ["不要把热帖当作已核实新闻。", "警惕假客服、假认证和私信钓鱼链接。", "卸载前保存尚未发布的草稿和二次验证备份码。"],
@@ -429,6 +469,10 @@ export const commonApps: AppProfile[] = [
       { platform: "Web", label: "TikTok 网页版", url: "https://www.tiktok.com/", source: "official", status: "verified", verifiedAt: checkedAt },
       { platform: "Android", label: "Google Play", url: "https://play.google.com/store/apps/details?id=com.zhiliaoapp.musically", source: "google-play", status: "verified", verifiedAt: checkedAt },
       { platform: "iOS", label: "Apple App Store", url: "https://apps.apple.com/us/app/tiktok/id835599320", source: "app-store", status: "verified", verifiedAt: checkedAt },
+    ],
+    screenshots: [
+      { src: "/guides/tiktok/store-1.png", title: "TikTok国际版", caption: "TikTok与中国大陆的抖音是不同产品，账号、商店和内容地区也不同。", alt: "TikTok官方商店品牌界面示意", sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/tiktok/id835599320" },
+      { src: "/guides/tiktok/store-2.png", title: "短视频与互动", caption: "首次使用前应检查评论、私信、下载和未成年人保护设置。", alt: "TikTok官方商店短视频界面示意", sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/tiktok/id835599320" },
     ],
     setupSteps: ["从TikTok官网或官方商店进入。", "使用本人邮箱、手机号或官方支持的第三方账号注册。", "设置用户名、生日与隐私选项。", "检查评论、私信、下载和推荐权限。"],
     languageSteps: ["进入Profile后打开Settings and privacy。", "选择Language。", "分别设置App language和Preferred languages。"],
@@ -449,4 +493,12 @@ export function getAiProduct(slug: string) {
 
 export function getCommonApp(slug: string) {
   return commonApps.find((app) => app.slug === slug);
+}
+
+export function getOfferPriceStatus(slug: string): VerificationStatus {
+  const synced = autoSync.gamsgo.find((item) => item.slug === slug);
+  if (!synced) return "pending";
+  if (synced.state === "ok" || synced.state === "price-changed") return "automatic";
+  if (synced.state === "price-change-pending") return "pending";
+  return "error";
 }

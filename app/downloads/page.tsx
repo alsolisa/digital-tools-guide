@@ -1,6 +1,7 @@
 import { allDownloads, type Platform } from "../../data/catalog";
 import Link from "next/link";
 import { BrandIcon, BrandNotice, PageIntro, PageShell, SectionHeading, VerificationChip } from "../components/SiteChrome";
+import DeviceChooser from "../components/DeviceChooser";
 
 const platforms: Platform[] = ["Windows", "macOS", "Android", "iOS", "Web"];
 
@@ -14,6 +15,7 @@ export default function DownloadsPage() {
     <PageShell>
       <PageIntro eyebrow="下载中心 · 官方来源白名单" title="选设备，再去官方页面下载" lead="本站不保存闭源安装包。按钮只连接产品官网、Microsoft Store、Google Play或Apple App Store，避免旧版本和捆绑软件。" />
       <div className="download-brand-note"><BrandNotice /></div>
+      <section className="content-section device-section"><DeviceChooser /></section>
       <nav className="platform-nav" aria-label="按系统查看下载">{platforms.map((platform) => <a href={`#${platform.toLowerCase()}`} key={platform}>{platform}</a>)}</nav>
       {platforms.map((platform, index) => {
         const downloads = allDownloads.filter((download) => download.platform === platform);

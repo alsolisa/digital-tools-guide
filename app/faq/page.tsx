@@ -1,0 +1,31 @@
+import { FeedbackLink, PageIntro, PageShell, RegionNotice, SectionHeading } from "../components/SiteChrome";
+
+export const metadata = { title: "常见问题", description: "机场、AI订阅、账号交付、付款、下载、地区与隐私的新手常见问题。" };
+
+const groups = [
+  { title: "网络服务与客户端", items: [
+    ["为什么购买后还要安装客户端？", "服务商通常提供订阅信息，客户端负责把订阅转换成设备可以使用的连接。可以理解为：套餐是车票，客户端负责检票并建立连接。"],
+    ["什么叫大陆裸网可访问？", "指没有开启代理或其他中转时，使用中国大陆普通家庭或移动网络访问。本站的“当前环境可访问”不等于“大多数大陆网络可访问”，两种状态会分开标注。"],
+    ["订阅链接能发给别人吗？", "不建议。订阅链接相当于个人钥匙，泄露后可能导致流量被使用、节点被滥用或账号被封。不要公开截图，也不要提交给本站。"],
+    ["GitHub里应该下载哪个文件？", "先确认系统和芯片。普通Windows通常选x64；苹果芯片Mac选arm64；多数新Android设备选arm64-v8a。看不懂时不要安装，先使用设备助手。"],
+  ]},
+  { title: "AI订阅与账号", items: [
+    ["本人账号充值和交付账号有什么区别？", "本人账号充值是在你原有账号上开通；交付账号是商家提供一个新账号。后者必须确认密码、恢复邮箱、二次验证和到期后的控制权。"],
+    ["共享网页为什么便宜？", "共享方式通常由多人共用环境或通过平台中转，账号控制、隐私、稳定性和功能完整度通常更弱。不要在共享环境保存私人文件或重要聊天。"],
+    ["AI会员和API额度是一回事吗？", "不是。ChatGPT Plus、Claude Pro等属于产品会员；API按开发调用计费。第三方评测中的API成本也不能当成会员价格。"],
+    ["第三方充值需要提供密码吗？", "优先选择不需要邮箱密码的正规流程。访问密钥、验证码和扫码授权也属于敏感信息，应先确认用途、有效期和撤销方式。"],
+  ]},
+  { title: "下载、地区与付款", items: [
+    ["为什么App Store或Google Play搜不到？", "常见原因包括账号地区、设备系统版本、年龄、商店政策或产品尚未在该地区提供。不要因为搜不到就改用网盘安装包。"],
+    ["人民币价格为什么只是参考？", "官方可能以美元、新加坡元等结算，最终金额还受实时汇率、税费、支付通道和银行卡费用影响。本站参考价不等于最终扣款。"],
+    ["为什么价格会显示暂时无法核验？", "部分购买页必须登录或使用脚本加载。读取失败、字段冲突或价格大幅变化时，网站会隐藏具体数字，避免继续展示可疑旧价格。"],
+    ["能否保证所有入口长期有效？", "不能。服务商和应用入口会调整，本站每6小时检查公开链接，但登录后页面和大陆网络状态仍需要人工复核。"],
+  ]},
+];
+
+export default function FaqPage() {
+  return <PageShell><PageIntro eyebrow="常见问题 · 小白先看" title="把最容易踩坑的地方提前说清楚" lead="这里不使用复杂术语。涉及账号、付款、隐私和地区差异时，先说明风险，再给可执行的下一步。" />
+    {groups.map((group, index) => <section className={`content-section ${index % 2 ? "soft-section" : ""}`} key={group.title}><SectionHeading index={String(index + 1).padStart(2, "0")} title={group.title} /><div className="faq-list">{group.items.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div></section>)}
+    <section className="content-section"><RegionNotice>网络、账号与付款规则会变化。重要决定请打开对应官方来源，并在付款前再次核对产品名称、周期、交付方式和退款规则。</RegionNotice><FeedbackLink label="没有找到答案？提交问题" /></section>
+  </PageShell>;
+}

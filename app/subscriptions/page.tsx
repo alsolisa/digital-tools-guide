@@ -1,7 +1,7 @@
-import { aiProducts, subscriptionOffers } from "../../data/catalog";
+import { aiProducts, getOfferPriceStatus, subscriptionOffers } from "../../data/catalog";
 import autoSync from "../../data/auto-sync.json";
 import Link from "next/link";
-import { BrandIcon, BrandNotice, Disclosure, PageIntro, PageShell, RiskBadge, SectionHeading } from "../components/SiteChrome";
+import { BrandIcon, BrandNotice, Disclosure, FeedbackLink, PageIntro, PageShell, RiskBadge, SectionHeading, VerificationChip } from "../components/SiteChrome";
 
 export const metadata = {
   title: "GamsGo AI订阅",
@@ -36,9 +36,10 @@ export default function SubscriptionsPage() {
                 </div>
                 <div className="price-comparison">
                   <div><span>官方参考价</span><strong>{offer.officialPrice}</strong><small>{offer.officialCny}</small></div>
-                  <div><span>GamsGo公开价</span><strong>{offer.gamsgoPrice}</strong><small>{offer.gamsgoCny}</small></div>
+                  <div><span>GamsGo公开价</span><strong>{offer.gamsgoPrice}</strong><small>{offer.gamsgoCny}</small><VerificationChip status={getOfferPriceStatus(offer.slug)} /></div>
                 </div>
                 <p className="price-note">{offer.priceNote}</p>
+                <div className="purchase-proof"><span>下单前必须确认</span><p>{offer.deliveryType} · {offer.ownership}</p></div>
                 <dl className="fact-list">
                   <div><dt>交付方式</dt><dd>{offer.deliveryType}</dd></div>
                   <div><dt>账号归属</dt><dd>{offer.ownership}</dd></div>
@@ -48,7 +49,7 @@ export default function SubscriptionsPage() {
                   <div><dt>地区</dt><dd>{offer.region}</dd></div>
                   <div><dt>售后</dt><dd>{offer.support}</dd></div>
                 </dl>
-                <div className="card-source-row"><span>核验：{offer.verifiedAt}</span><a href={offer.sourceUrl} target="_blank" rel="noopener noreferrer">查看资料来源 ↗</a></div>
+                <div className="card-source-row"><span>核验：{offer.verifiedAt}</span><a href={offer.sourceUrl} target="_blank" rel="noopener noreferrer">打开对应商品资料页 ↗</a></div>
                 <div className="subscription-actions">
                   {product && <Link className="text-action" href={`/ai/${product.slug}`}>先看产品教程</Link>}
                   <a className="primary-action" href={offer.affiliateUrl} target="_blank" rel="sponsored noopener">打开推广购买入口 ↗</a>
@@ -72,6 +73,12 @@ export default function SubscriptionsPage() {
       <section className="content-section purchase-checklist">
         <SectionHeading index="03" title="付款前一分钟检查" />
         <ol><li>产品是在本人账号充值，还是交付一个新账号？</li><li>能否修改密码、恢复邮箱和二次验证？</li><li>页面显示的是月付、年付折算，还是限时公开起价？</li><li>订阅结束后，聊天记录、云盘或生成内容能否导出？</li><li>售后由GamsGo处理，还是AI官方处理？</li></ol>
+      </section>
+
+      <section className="content-section soft-section">
+        <SectionHeading index="04" title="安全购买流程" lead="不要从价格最低的一步直接跳到付款。" />
+        <ol className="purchase-flow"><li><span>01</span><div><strong>先打开商品资料页</strong><p>确认产品名称、交付方式、周期、地区与当前公开价格。</p></div></li><li><span>02</span><div><strong>确认账号归属</strong><p>本人账号充值优先；账号交付必须检查恢复邮箱、密码和二次验证。</p></div></li><li><span>03</span><div><strong>进入结算页核对</strong><p>核对币种、税费、支付手续费、自动续费和退款条款。</p></div></li><li><span>04</span><div><strong>交付后立即检查</strong><p>确认会员状态和到期时间；交付账号应修改可修改的安全设置。</p></div></li></ol>
+        <FeedbackLink label="价格、付款或交付信息与页面不一致？反馈更新" />
       </section>
     </PageShell>
   );

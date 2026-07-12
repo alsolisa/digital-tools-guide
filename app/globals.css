@@ -490,3 +490,122 @@ footer > div { display: flex; gap: 18px; font-size: 11px; font-weight: 700; }
   .download-directory article > a, .download-directory article > .guide-link { grid-column: 1 / -1; }
   .brand-notice { margin-bottom: 18px; }
 }
+
+/* 正式运营功能：官方截图、搜索、设备助手、FAQ与更新记录 */
+.official-screenshot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.official-screenshot-grid figure { margin: 0; overflow: hidden; display: grid; grid-template-columns: minmax(220px,.8fr) 1fr; min-height: 460px; background: var(--white); border: 1px solid var(--line); box-shadow: 0 18px 45px rgba(19,47,66,.07); }
+.official-screenshot-media { position: relative; min-height: 430px; padding: 24px; display: grid; place-items: center; background: #ece8df; }
+.official-screenshot-media > span { position: absolute; z-index: 2; top: 14px; left: 14px; width: 38px; height: 38px; display: grid; place-items: center; color: var(--white); background: var(--green); border-radius: 50%; font-family: Georgia,serif; font-weight: 800; }
+.official-screenshot-media img { width: 100%; height: 100%; max-height: 520px; object-fit: contain; }
+.official-screenshot-grid figcaption { padding: 30px; display: flex; flex-direction: column; justify-content: center; }
+.official-screenshot-grid figcaption strong { font-family: Georgia,"Songti SC",serif; font-size: 25px; }
+.official-screenshot-grid figcaption p { color: #5e6e76; font-size: 14px; line-height: 1.8; }
+.official-screenshot-grid figcaption a { margin-top: auto; color: var(--green); font-size: 12px; font-weight: 900; }
+.screenshot-source-note { grid-column: 1 / -1; margin: 0; padding: 14px 16px; color: #65747b; background: #edf4f1; border-left: 3px solid var(--green); font-size: 12px; line-height: 1.7; }
+.feedback-link { width: fit-content; margin-top: 20px; padding: 11px 14px; display: inline-flex; color: var(--white); background: var(--green); font-size: 12px; font-weight: 900; }
+
+.device-section { padding-top: 24px; padding-bottom: 24px; }
+.device-chooser { margin-bottom: 28px; padding: 28px; color: var(--white); background: var(--navy); border: 1px solid #27465d; box-shadow: 0 22px 50px rgba(19,47,66,.12); }
+.device-chooser-copy { display: grid; grid-template-columns: 100px 1fr; gap: 4px 22px; align-items: end; }
+.device-chooser-copy > span { grid-row: 1 / 3; align-self: start; color: #a9d8ca; font-size: 11px; font-weight: 900; letter-spacing: .12em; }
+.device-chooser h2 { margin: 0; font-family: Georgia,"Songti SC",serif; font-size: 30px; }
+.device-chooser-copy p { margin: 8px 0 0; color: #c8d4da; font-size: 13px; line-height: 1.7; }
+.device-options { margin: 24px 0 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+.device-options button { min-height: 42px; padding: 9px 13px; color: #dce6ea; background: transparent; border: 1px solid rgba(255,255,255,.25); cursor: pointer; font: inherit; font-size: 12px; font-weight: 800; }
+.device-options button[aria-pressed="true"] { color: var(--navy); background: #bde1d5; border-color: #bde1d5; }
+.device-result { display: grid; grid-template-columns: .65fr 1.2fr 1fr; gap: 1px; background: rgba(255,255,255,.18); }
+.device-result > div { min-height: 120px; padding: 18px; background: #193950; }
+.device-result small { color: #9ec9bc; font-size: 11px; font-weight: 900; }
+.device-result strong { margin-top: 15px; display: block; font-family: Georgia,serif; font-size: 22px; }
+.device-result p { margin: 14px 0 0; color: #e3eaed; font-size: 13px; line-height: 1.7; }
+.device-result .device-warning { background: #493a2e; }
+.device-result .device-warning small { color: #f3c67e; }
+
+.site-search > label { display: block; margin-bottom: 10px; color: var(--green); font-size: 12px; font-weight: 900; }
+.site-search-bar { display: grid; grid-template-columns: 1fr auto; }
+.site-search-bar input { min-height: 62px; padding: 0 20px; color: var(--ink); background: var(--white); border: 2px solid var(--navy); border-right: 0; font: inherit; font-size: 16px; }
+.site-search-bar button { min-width: 90px; color: var(--white); background: var(--navy); border: 0; font: inherit; font-weight: 900; cursor: pointer; }
+.site-search-bar button:disabled { color: #8d9aa0; background: #dfe4e3; cursor: default; }
+.search-categories { margin: 16px 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.search-categories button { padding: 8px 12px; color: #52636b; background: var(--white); border: 1px solid var(--line); border-radius: 999px; cursor: pointer; font: inherit; font-size: 12px; font-weight: 800; }
+.search-categories button[aria-pressed="true"] { color: var(--white); background: var(--green); border-color: var(--green); }
+.search-count { color: #68767c; font-size: 13px; }
+.search-results { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.search-results a { min-height: 230px; padding: 23px; display: flex; flex-direction: column; background: var(--white); border: 1px solid var(--line); }
+.search-results a:hover { transform: translateY(-2px); border-color: var(--green); box-shadow: 0 15px 36px rgba(19,47,66,.08); }
+.search-results span { color: var(--green); font-size: 11px; font-weight: 900; letter-spacing: .08em; }
+.search-results strong { margin: 36px 0 10px; font-family: Georgia,"Songti SC",serif; font-size: 21px; }
+.search-results p { margin: 0; color: #63727a; font-size: 13px; line-height: 1.7; }
+.search-results b { margin-top: auto; padding-top: 18px; font-size: 12px; }
+.search-empty { padding: 35px; text-align: center; background: var(--white); border: 1px solid var(--line); }
+
+.faq-list { display: grid; gap: 10px; }
+.faq-list details { background: var(--white); border: 1px solid var(--line); }
+.faq-list summary { padding: 20px 55px 20px 20px; position: relative; cursor: pointer; color: var(--ink); font-size: 15px; font-weight: 900; list-style: none; }
+.faq-list summary::after { content: "+"; position: absolute; right: 20px; top: 15px; color: var(--green); font-family: Georgia,serif; font-size: 26px; }
+.faq-list details[open] summary::after { content: "−"; }
+.faq-list details p { margin: 0; padding: 0 20px 22px; color: #5b6b73; font-size: 14px; line-height: 1.8; }
+
+.changelog-list { border-top: 1px solid var(--line); }
+.changelog-list article { padding: 28px 0; display: grid; grid-template-columns: 160px 1fr; gap: 35px; border-bottom: 1px solid var(--line); }
+.changelog-list time { color: var(--green); font-family: Georgia,serif; font-size: 22px; font-weight: 800; }
+.changelog-list h2 { margin: 0 0 12px; font-family: Georgia,"Songti SC",serif; font-size: 26px; }
+.changelog-list li { margin-bottom: 9px; color: #5d6d75; font-size: 14px; line-height: 1.7; }
+
+.purchase-proof { margin: 0 0 18px; padding: 13px 15px; background: #fff5df; border-left: 3px solid var(--gold); }
+.purchase-proof span { color: #8c5c1b; font-size: 11px; font-weight: 900; }
+.purchase-proof p { margin: 5px 0 0; color: #60594d; font-size: 13px; line-height: 1.6; }
+.price-comparison .verify-chip { margin-top: 10px; }
+.purchase-flow { margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; list-style: none; background: var(--line); border: 1px solid var(--line); }
+.purchase-flow li { padding: 22px; display: grid; grid-template-columns: 45px 1fr; gap: 14px; background: var(--white); }
+.purchase-flow li > span { color: var(--gold); font-family: Georgia,serif; font-size: 18px; }
+.purchase-flow strong { font-size: 15px; }
+.purchase-flow p { margin: 8px 0 0; color: #607078; font-size: 13px; line-height: 1.7; }
+
+.verification-queue { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.verification-queue article { min-height: 190px; padding: 24px; background: var(--white); border: 1px solid var(--line); }
+.verification-queue span { color: #9b671f; font-size: 11px; font-weight: 900; }
+.verification-queue strong { margin: 35px 0 10px; display: block; font-family: Georgia,"Songti SC",serif; font-size: 20px; }
+.verification-queue p { color: #5e6d75; font-size: 13px; line-height: 1.75; }
+.manual-test-note { margin-top: 15px; padding: 22px; display: grid; grid-template-columns: 180px 1fr auto; gap: 18px; align-items: center; color: var(--white); background: var(--navy); }
+.manual-test-note p { margin: 0; color: #c8d4da; font-size: 13px; line-height: 1.7; }
+.manual-test-note .feedback-link { margin: 0; background: #b88a34; }
+
+.global-footer > div:nth-of-type(2) { display: flex; flex-wrap: wrap; gap: 10px 18px; }
+
+.plan-guide-grid, .utility-link-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.plan-guide-grid article, .utility-link-grid a { min-height: 250px; padding: 25px; display: flex; flex-direction: column; background: var(--white); border: 1px solid var(--line); }
+.plan-guide-grid article.recommended { border-top: 4px solid var(--green); box-shadow: 0 18px 42px rgba(19,47,66,.08); }
+.plan-guide-grid span, .utility-link-grid span { color: var(--green); font-size: 11px; font-weight: 900; letter-spacing: .08em; }
+.plan-guide-grid h2, .utility-link-grid h2 { margin: 34px 0 10px; font-family: Georgia,"Songti SC",serif; font-size: 27px; }
+.plan-guide-grid p, .utility-link-grid p { margin: 0; color: #607078; font-size: 13px; line-height: 1.75; }
+.plan-guide-grid strong, .utility-link-grid strong { margin-top: auto; padding-top: 22px; color: var(--navy); font-size: 12px; }
+.plan-guide-note { margin: 14px 0 0; padding: 15px 18px; color: #5e6d75; background: #edf4f1; border-left: 3px solid var(--green); font-size: 13px; line-height: 1.75; }
+.plan-guide-note a { margin-left: 8px; color: var(--green); font-weight: 900; }
+.utility-section { padding-top: 18px; }
+.utility-link-grid a:hover { transform: translateY(-3px); border-color: var(--green); box-shadow: 0 18px 42px rgba(19,47,66,.08); }
+.not-found-intro { min-height: 470px; }
+.not-found-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+@media (max-width: 1050px) {
+  .official-screenshot-grid, .search-results { grid-template-columns: 1fr 1fr; }
+  .official-screenshot-grid figure { grid-template-columns: 1fr; }
+  .official-screenshot-media { min-height: 380px; }
+  .device-result { grid-template-columns: 1fr; }
+  .manual-test-note { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 700px) {
+  .official-screenshot-grid, .search-results, .verification-queue, .purchase-flow, .plan-guide-grid, .utility-link-grid { grid-template-columns: 1fr; }
+  .official-screenshot-grid figure { min-height: 0; }
+  .official-screenshot-media { min-height: 360px; padding: 18px; }
+  .official-screenshot-grid figcaption { padding: 22px; }
+  .device-chooser { padding: 20px; }
+  .device-chooser-copy { grid-template-columns: 1fr; }
+  .device-chooser-copy > span { grid-row: auto; }
+  .device-options { display: grid; grid-template-columns: 1fr 1fr; }
+  .site-search-bar { grid-template-columns: 1fr; }
+  .site-search-bar input { border-right: 2px solid var(--navy); }
+  .site-search-bar button { min-height: 48px; }
+  .changelog-list article { grid-template-columns: 1fr; gap: 10px; }
+}

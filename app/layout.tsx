@@ -22,6 +22,7 @@ export const metadata: Metadata = {
     template: "%s｜数字工具指南",
   },
   description: "面向中国大陆新手，独立核验机场、AI订阅、主流AI、常用应用与官方下载入口。",
+  manifest: `${publicBasePath}/manifest.webmanifest`,
   openGraph: {
     type: "website",
     locale: "zh_CN",

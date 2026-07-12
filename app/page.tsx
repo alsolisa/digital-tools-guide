@@ -1,7 +1,8 @@
 import syncStatus from "../data/sync-status.json";
 import Link from "next/link";
 import { aiProducts, commonApps, subscriptionOffers } from "../data/catalog";
-import { BrandIcon, BrandNotice, PageShell, SectionHeading, SiteFooter, SiteHeader } from "./components/SiteChrome";
+import { BrandIcon, BrandNotice, FeedbackLink, PageShell, SectionHeading, SiteFooter, SiteHeader } from "./components/SiteChrome";
+import DeviceChooser from "./components/DeviceChooser";
 
 const releaseVersions = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, client.version]));
 const syncTime = syncStatus.checkedAt
@@ -216,13 +217,13 @@ const clients = [
 ];
 
 const addresses = [
-  { service: "Nexitally", result: "官方文档可打开", access: "当前网络已访问", tone: "review" },
-  { service: "WgetCloud", result: "永久入口会跳转", access: "官方入口已确认", tone: "review" },
+  { service: "Nexitally", result: "官方文档可打开", access: "当前环境可访问", tone: "review" },
+  { service: "WgetCloud", result: "永久入口会跳转", access: "已确认入口，暂停使用", tone: "review" },
   { service: "TAG", result: "tagss04.pro 已劫持；已换 tagss.pro", access: "当前官网与商店已核验", tone: "review" },
-  { service: "BoostNet", result: "邀请码可自动写入", access: "当前网络已访问", tone: "review" },
-  { service: "悠兔 Youtu", result: "注册入口进入登录页", access: "当前网络已访问", tone: "review" },
-  { service: "WestData", result: "旧域名跳转到新域名", access: "当前网络已访问", tone: "review" },
-  { service: "GamsGo", result: "推广参数已保留", access: "当前网络已访问", tone: "review" },
+  { service: "BoostNet", result: "邀请码可自动写入", access: "当前环境可访问", tone: "review" },
+  { service: "悠兔 Youtu", result: "注册入口进入登录页", access: "当前环境可访问", tone: "review" },
+  { service: "WestData", result: "旧域名跳转到新域名", access: "当前环境可访问", tone: "review" },
+  { service: "GamsGo", result: "推广参数已保留", access: "当前环境可访问", tone: "review" },
 ];
 
 export function NodeGuidePage() {
@@ -231,7 +232,7 @@ export function NodeGuidePage() {
       <SiteHeader />
       <main>
       <nav className="node-local-nav" aria-label="机场指南本页目录">
-        <strong>本页目录</strong><a href="#guide">新手入门</a><a href="#services">服务对比</a><a href="#downloads">客户端下载</a><a href="#status">地址状态</a>
+        <strong>本页目录</strong><a href="#guide">新手入门</a><a href="#services">服务对比</a><a href="#downloads">客户端下载</a><a href="#status">地址状态</a><a href="#pending">待复核清单</a>
       </nav>
 
       <section className="hero" id="top">
@@ -307,6 +308,7 @@ export function NodeGuidePage() {
           <p>开源软件进入 GitHub 的 Latest Release；苹果付费软件进入 App Store；不提供来历不明的安装包或 IPA。</p>
         </div>
         <BrandNotice />
+        <DeviceChooser context="network" />
         <div className="client-grid">
           {clients.map((client) => (
             <article className="client-card" key={`${client.platform}-${client.app}`}>
@@ -325,6 +327,12 @@ export function NodeGuidePage() {
           <div className="status-row table-head" role="row"><span>服务</span><span>跳转结果</span><span>访问状态</span><span>结论</span></div>
           {addresses.map((item) => <div className="status-row" role="row" key={item.service}><strong>{item.service}</strong><span>{item.result}</span><span className={`status-pill ${item.tone}`}><i />{item.access}</span><span className="table-note">暂不标记大陆裸网可用</span></div>)}
         </div>
+      </section>
+
+      <section className="section pending-section" id="pending">
+        <div className="section-heading compact"><div><span className="section-index">05 / 待复核清单</span><h2>证据不足的字段，公开列出来</h2></div><p>这些内容不会靠旧宣传资料补齐。完成实际购买页或大陆普通网络测试后才更新。</p></div>
+        <div className="verification-queue"><article><span>悠兔 Youtu</span><strong>月付价格、流量与付款方式</strong><p>需要在当前计划页和结算页逐项确认；旧资料约¥40已撤下。</p></article><article><span>TAG</span><strong>付款方式与自有客户端</strong><p>月付套餐已核验，自有客户端仍需有效订阅后确认。</p></article><article><span>BoostNet</span><strong>直接月付是否恢复</strong><p>当前计划页以季付、半年付和年付为主，不按月付价格排序。</p></article><article><span>中国大陆普通网络</span><strong>入口实际可访问性</strong><p>需要关闭代理后分别用家庭宽带和移动网络测试，当前统一标为未核验。</p></article></div>
+        <div className="manual-test-note"><strong>安全测试方式</strong><p>只记录“能否打开、是否跳转、时间和网络类型”，不记录账号、密码、Cookie、订阅地址或付款信息。</p><FeedbackLink label="提交实测结果或失效入口" /></div>
       </section>
 
       <section className="method-section" id="method">
@@ -382,6 +390,15 @@ export default function Home() {
       <section className="portal-section split-callouts">
         <div><span className="eyebrow">官方下载</span><h2>只连接官网和应用商店</h2><p>Windows、macOS、Android、iOS和网页版分开显示，不提供来历不明的安装包。</p><Link href="/downloads">打开下载中心 →</Link></div>
         <div><span className="eyebrow">常用海外应用</span><h2>YouTube · X · TikTok</h2><p>包含安装、注册、语言、基础使用、账号安全和地区提示。</p><Link href="/apps">查看应用教程 →</Link></div>
+      </section>
+
+      <section className="portal-section utility-section">
+        <SectionHeading index="03" title="查资料，也要看它什么时候更新" lead="搜索、常见问题、隐私说明和更新记录都公开放在站内。" />
+        <div className="utility-link-grid">
+          <Link href="/search"><span>快速查找</span><h2>全站搜索</h2><p>按产品、教程、下载、风险或付款关键词查找。</p><strong>开始搜索 →</strong></Link>
+          <Link href="/faq"><span>小白问题</span><h2>常见问题</h2><p>先解释最容易混淆的网络、账号、套餐和下载问题。</p><strong>查看回答 →</strong></Link>
+          <Link href="/changelog"><span>公开记录</span><h2>更新日志</h2><p>查看价格、入口、模型和页面功能的修改记录。</p><strong>查看变化 →</strong></Link>
+        </div>
       </section>
     </PageShell>
   );

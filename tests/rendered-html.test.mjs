@@ -17,7 +17,7 @@ test("全部公开页面与详情页都能正常打开", async () => {
   const routes = [
     "/", "/nodes", "/subscriptions", "/ai", "/ai/chatgpt", "/ai/claude", "/ai/gemini",
     "/ai/grok", "/ai/perplexity", "/apps", "/apps/youtube", "/apps/x", "/apps/tiktok",
-    "/downloads", "/methodology",
+    "/downloads", "/methodology", "/search", "/faq", "/privacy", "/disclosure", "/changelog",
   ];
   for (const route of routes) {
     const response = await render(route);
@@ -80,12 +80,13 @@ test("下载中心只链接允许的官方域名且没有空链接", async () =>
   assert.doesNotMatch(html, /href=["']#["']/);
 });
 
-test("AI详情页包含模型、下载、提示词、隐私和评测来源", async () => {
+test("AI详情页包含模型、下载、官方截图、提示词、隐私和评测来源", async () => {
   for (const slug of ["chatgpt", "claude", "gemini", "grok", "perplexity"]) {
     const html = await (await render(`/ai/${slug}`)).text();
-    for (const text of ["普通用户能看到的主流模型", "官方下载与网页版", "五组可以直接复制的提示词", "隐私", "Arena", "Artificial Analysis"]) {
+    for (const text of ["普通用户能看到的主流模型", "官方下载与网页版", "官方应用界面示意", "五组可以直接复制的提示词", "隐私", "Arena", "Artificial Analysis"]) {
       assert.match(html, new RegExp(text), `${slug} 缺少 ${text}`);
     }
+    assert.match(html, new RegExp(`/guides/${slug}/store-1\\.(?:png|jpg)`), `${slug} 缺少官方商店截图`);
   }
 });
 
@@ -96,5 +97,29 @@ test("应用教程分开显示Google Play与Apple App Store", async () => {
     assert.match(html, /Apple App Store/);
     assert.match(html, /设置中文/);
     assert.match(html, /账号安全/);
+    assert.match(html, /官方应用界面示意/);
+    assert.match(html, new RegExp(`/guides/${slug}/store-1\\.(?:png|jpg)`), `${slug} 缺少官方商店截图`);
   }
+});
+
+test("设备选择助手、搜索、FAQ和运营说明均可用", async () => {
+  const downloads = await (await render("/downloads")).text();
+  assert.match(downloads, /先选你的设备/);
+  assert.match(downloads, /Windows ARM/);
+  const search = await (await render("/search")).text();
+  assert.match(search, /从一个关键词找到正确入口/);
+  const faq = await (await render("/faq")).text();
+  assert.match(faq, /为什么购买后还要安装客户端/);
+  const disclosure = await (await render("/disclosure")).text();
+  assert.match(disclosure, /推广关系/);
+  const privacy = await (await render("/privacy")).text();
+  assert.match(privacy, /不收集/);
+  const changelog = await (await render("/changelog")).text();
+  assert.match(changelog, /主要版本记录/);
+});
+
+test("不存在的页面返回友好的404说明", async () => {
+  const response = await render("/this-page-does-not-exist");
+  assert.equal(response.status, 404);
+  assert.match(await response.text(), /这个入口可能已经变化/);
 });

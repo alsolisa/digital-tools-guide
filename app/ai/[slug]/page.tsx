@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { aiProducts, getAiProduct } from "../../../data/catalog";
-import { BrandIcon, DownloadButtons, PageShell, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
+import { BrandIcon, DownloadButtons, FeedbackLink, OfficialScreenshotGallery, PageShell, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
 
 export function generateStaticParams() {
   return aiProducts.map((product) => ({ slug: product.slug }));
@@ -35,6 +35,16 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
         <div className="capability-strip">{product.capabilities.map((capability) => <span key={capability}>{capability}</span>)}</div>
       </section>
 
+      {product.slug === "chatgpt" && <section className="content-section soft-section plan-guide-section">
+        <SectionHeading index="选择" title="免费版、Plus 还是 Pro？" lead="先按实际使用量选择，不建议新手一开始就购买最高套餐。Plus 与 API 是两套独立计费，互不通用。" />
+        <div className="plan-guide-grid">
+          <article><span>先体验</span><h2>免费版</h2><p>适合确认网页、文件、图片和语音是否符合你的需求。偶尔使用时先不必付费。</p><strong>推荐：第一次使用的人</strong></article>
+          <article className="recommended"><span>大多数个人用户</span><h2>Plus</h2><p>官方公开价为 US$20/月；用量和具体模型入口会变化，付款前仍应查看官方结算页。</p><strong>推荐：稳定日常使用</strong></article>
+          <article><span>高强度专业使用</span><h2>Pro</h2><p>适合确实需要更高用量和高级模型的人。先记录一周使用量，再判断是否值得升级。</p><strong>不建议仅为尝鲜购买</strong></article>
+        </div>
+        <p className="plan-guide-note">付款前检查：登录的是本人账号、结算币种和税费、是否自动续费、取消入口在哪里。<a href="https://chatgpt.com/pricing/" target="_blank" rel="noopener noreferrer">查看官方套餐页 ↗</a></p>
+      </section>}
+
       <section className="content-section soft-section">
         <SectionHeading index="02" title="普通用户能看到的主流模型" lead="只整理网页或App中的常用型号；API专用型号不混入主要推荐。" />
         <div className="model-table" role="table" aria-label={`${product.name}模型说明`}>
@@ -56,16 +66,21 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
       </section>
 
       <section className="content-section">
-        <SectionHeading index="05" title="五组可以直接复制的提示词" />
-        <div className="prompt-grid">{product.prompts.map((prompt, index) => <article key={prompt.title}><span>{String(index + 1).padStart(2, "0")}</span><h3>{prompt.title}</h3><p>{prompt.text}</p></article>)}</div>
+        <SectionHeading index="05" title="官方应用界面示意" lead="图片来自官方应用商店条目，并配有中文解释；不是第三方软件截图。" />
+        <OfficialScreenshotGallery name={product.name} screenshots={product.screenshots} />
       </section>
 
       <section className="content-section soft-section">
-        <SectionHeading index="06" title="隐私与第三方评测" />
+        <SectionHeading index="06" title="五组可以直接复制的提示词" />
+        <div className="prompt-grid">{product.prompts.map((prompt, index) => <article key={prompt.title}><span>{String(index + 1).padStart(2, "0")}</span><h3>{prompt.title}</h3><p>{prompt.text}</p></article>)}</div>
+      </section>
+
+      <section className="content-section">
+        <SectionHeading index="07" title="隐私与第三方评测" />
         <div className="privacy-benchmark-grid"><article><h2>隐私检查</h2><ul>{product.privacy.map((item) => <li key={item}>{item}</li>)}</ul></article><article><h2>第三方评测</h2>{product.benchmarks.map((benchmark) => <div className="benchmark-item" key={benchmark.source}><strong>{benchmark.source}</strong><span>{benchmark.scope}</span><p>{benchmark.summary}</p><a href={benchmark.url} target="_blank" rel="noopener noreferrer">查看来源 ↗</a></div>)}</article></div>
       </section>
 
-      <section className="content-section sources-section"><SectionHeading index="07" title="官方资料来源" /><SourceList sources={product.officialSources} /></section>
+      <section className="content-section soft-section sources-section"><SectionHeading index="08" title="官方资料来源" /><SourceList sources={product.officialSources} /><FeedbackLink /></section>
     </PageShell>
   );
 }
