@@ -50,6 +50,8 @@ test("全站按零基础用户顺序先解释再比较", async () => {
 test("机场指南按已核验实际月付优先排序并保留待核验标记", async () => {
   const html = await (await render("/nodes")).text();
   const names = ["WestData", "Nexitally", "TAG", "悠兔 Youtu", "BoostNet"];
+  assert.match(html, /https:\/\/nxonearth\.com\/Main\.aspx/);
+  assert.match(html, /打开官方入口/);
   let previous = -1;
   for (const name of names) {
     const position = html.indexOf(name);

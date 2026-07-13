@@ -110,8 +110,8 @@ const services = [
     ownClient: "以第三方客户端为主，官方文档提供教程",
     description: "Air ¥74.55/200G；Smart Access ¥123.33/500G，均为31天、2台设备、最高2000Mbps。",
     bestFor: "重视稳定与长期使用",
-    href: "https://nexitally-1.gitbook.io/nexitally-wen-dang-zhong-xin",
-    linkLabel: "打开官方使用文档",
+    href: "https://nxonearth.com/Main.aspx",
+    linkLabel: "打开官方入口",
   },
   {
     name: "TAG",
@@ -217,7 +217,7 @@ const clients = [
 ];
 
 const addresses = [
-  { service: "Nexitally", result: "官方文档可打开", access: "当前环境可访问", tone: "review" },
+  { service: "Nexitally", result: "官方入口可打开", access: "当前环境可访问", tone: "review" },
   { service: "WgetCloud", result: "永久入口会跳转", access: "已确认入口，暂停使用", tone: "review" },
   { service: "TAG", result: "tagss04.pro 已劫持；已换 tagss.pro", access: "当前官网与商店已核验", tone: "review" },
   { service: "BoostNet", result: "邀请码可自动写入", access: "当前环境可访问", tone: "review" },

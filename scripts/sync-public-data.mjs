@@ -15,7 +15,7 @@ const links = [
   { id: "youtu", url: "https://777.youtu6.shop/register?code=2tr1tmSh", kind: "affiliate" },
   { id: "boostnet", url: "https://999.boostnet1.com/register?code=3QtbFZIf", kind: "affiliate" },
   { id: "wgetcloud", url: "https://wgetcloud.ltd/", kind: "official" },
-  { id: "nexitally-docs", url: "https://nexitally-1.gitbook.io/nexitally-wen-dang-zhong-xin", kind: "official" },
+  { id: "nexitally", url: "https://nxonearth.com/Main.aspx", kind: "official" },
   { id: "tag", url: "https://tagss.pro/", kind: "official" },
   { id: "surge", url: "https://nssurge.com/", kind: "client" },
   { id: "gamsgo", url: "https://www.gamsgo.com/partner/BTzCM", kind: "affiliate" },
