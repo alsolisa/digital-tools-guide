@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { aiProducts, getAiProduct } from "../../../data/catalog";
-import { BrandIcon, DownloadButtons, FeedbackLink, OfficialScreenshotGallery, PageShell, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
+import { BrandIcon, DownloadButtons, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
 
 export function generateStaticParams() {
   return aiProducts.map((product) => ({ slug: product.slug }));
@@ -9,7 +9,8 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const product = getAiProduct(slug);
-  return product ? { title: `${product.name}小白教程`, description: product.summary } : { title: "AI教程" };
+  const basePath = process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : "";
+  return product ? { title: `${product.name}小白教程`, description: product.summary, openGraph: { images: [`${basePath}/editorial/${product.slug}.png`] } } : { title: "AI教程" };
 }
 
 export default async function AiDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -19,10 +20,11 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
 
   return (
     <PageShell>
-      <section className="detail-hero">
-        <div className="detail-title-row"><BrandIcon slug={product.slug} name={product.name} size="hero" /><div><span className="eyebrow">{product.company} · 小白完整教程</span><h1>{product.name}</h1></div></div>
+      <section className="detail-hero detail-hero-with-cover">
+        <div className="detail-hero-copy"><div className="detail-title-row"><BrandIcon slug={product.slug} name={product.name} size="hero" /><div><span className="eyebrow">{product.company} · 小白完整教程</span><h1>{product.name}</h1></div></div>
         <p>{product.summary}</p>
-        <div className="detail-meta"><VerificationChip status="verified" /><span>官方资料优先</span><span>核验 {product.verifiedAt}</span><span>模型参数量：官方未公开</span></div>
+        <div className="detail-meta"><VerificationChip status="verified" /><span>官方资料优先</span><span>核验 {product.verifiedAt}</span><span>模型参数量：官方未公开</span></div></div>
+        <EditorialCover slug={product.slug} name={product.name} />
       </section>
 
       <section className="content-section detail-overview">

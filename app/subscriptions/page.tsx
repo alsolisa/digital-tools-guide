@@ -1,11 +1,12 @@
 import { aiProducts, getOfferPriceStatus, subscriptionOffers } from "../../data/catalog";
 import autoSync from "../../data/auto-sync.json";
 import Link from "next/link";
-import { BrandIcon, BrandNotice, Disclosure, FeedbackLink, PageIntro, PageShell, RiskBadge, SectionHeading, VerificationChip } from "../components/SiteChrome";
+import { BrandIcon, BrandNotice, Disclosure, EditorialCoverFeature, FeedbackLink, PageIntro, PageShell, RiskBadge, SectionHeading, VerificationChip } from "../components/SiteChrome";
 
 export const metadata = {
   title: "GamsGo AI订阅",
   description: "比较ChatGPT、Claude、Gemini、Grok、Perplexity与Midjourney的官方价、GamsGo公开价、交付方式和账号风险。",
+  openGraph: { images: [`${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/editorial/subscriptions.png`] },
 };
 
 export default function SubscriptionsPage() {
@@ -19,6 +20,8 @@ export default function SubscriptionsPage() {
         lead="第三方订阅最容易被忽略的不是价格，而是账号所有权、恢复权限和聊天隐私。每项产品都把官方价、商家公开价与交付风险分开标注。"
         aside={<><strong>价格口径</strong><p>原币价格 + 人民币参考价</p><small>汇率参考：{exchangeDate}，1 USD≈{usdToCny} CNY；每日自动更新，不含税费和支付手续费。</small></>}
       />
+
+      <EditorialCoverFeature slug="subscriptions" title="AI订阅：购买前先看账号归属" lead="视觉版先讲清官方价、本人账号充值、交付账号和共享网页的差别，再进入具体产品对比。" />
 
       <section className="content-section">
         <Disclosure />

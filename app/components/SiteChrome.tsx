@@ -114,6 +114,21 @@ export function BrandNotice() {
   return <p className="brand-notice">品牌图标来自品牌官方资料、官方应用商店或官方项目仓库，仅用于帮助识别产品；本站不是这些品牌的官方网站，也不代表获得其推荐。</p>;
 }
 
+export function EditorialCover({ slug, name }: { slug: string; name: string }) {
+  const src = publicAsset(`/editorial/${slug}.png`);
+  return <figure className="editorial-cover-figure"><a href={src} target="_blank" rel="noopener noreferrer" aria-label={`打开${name}高清视觉指南`}><Image src={src} alt={`${name}编辑版视觉指南封面`} width={1080} height={1350} unoptimized priority /></a></figure>;
+}
+
+export function EditorialCoverFeature({ slug, title, lead }: { slug: string; title: string; lead: string }) {
+  const src = publicAsset(`/editorial/${slug}.png`);
+  return (
+    <section className="editorial-cover-feature">
+      <div><span>VISUAL GUIDE · 可保存视觉版</span><h2>{title}</h2><p>{lead}</p><a href={src} target="_blank" rel="noopener noreferrer">打开高清封面 ↗</a></div>
+      <EditorialCover slug={slug} name={title} />
+    </section>
+  );
+}
+
 export function OfficialScreenshotGallery({ name, screenshots }: { name: string; screenshots: OfficialScreenshot[] }) {
   return (
     <div className="official-screenshot-grid">

@@ -1,7 +1,7 @@
 import syncStatus from "../data/sync-status.json";
 import Link from "next/link";
 import { aiProducts, commonApps, subscriptionOffers } from "../data/catalog";
-import { BrandIcon, BrandNotice, FeedbackLink, PageShell, SectionHeading, SiteFooter, SiteHeader } from "./components/SiteChrome";
+import { BrandIcon, BrandNotice, EditorialCoverFeature, FeedbackLink, PageShell, SectionHeading, SiteFooter, SiteHeader } from "./components/SiteChrome";
 import DeviceChooser from "./components/DeviceChooser";
 
 const releaseVersions = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, client.version]));
@@ -257,6 +257,8 @@ export function NodeGuidePage() {
           <div className="verified-line"><span>公开数据同步</span><b>{syncTime}</b></div>
         </aside>
       </section>
+
+      <EditorialCoverFeature slug="nodes" title="机场与客户端：第一次使用指南" lead="把机场、月付价格、客户端搭载、订阅链接安全和大陆网络状态拆成五个新手章节。" />
 
       <section className="metrics" aria-label="网站数据状态">
         <div><span className="metric-dot green" /><strong>{sortedServices.length}</strong><p>当前启用服务</p></div>

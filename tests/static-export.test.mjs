@@ -39,6 +39,9 @@ test("静态导出包含搜索引擎、PWA与教程图片资源", async () => {
     const directory = path.join(root, "guides", slug);
     assert.equal(await exists(directory), true, `缺少${slug}教程图片目录`);
   }
+  for (const slug of ["chatgpt", "claude", "gemini", "grok", "perplexity", "youtube", "x", "tiktok", "nodes", "subscriptions"]) {
+    assert.equal(await exists(path.join(root, "editorial", `${slug}.png`)), true, `缺少${slug}编辑封面`);
+  }
 });
 
 test("全部站内链接保留GitHub Pages子目录并指向真实文件", async () => {

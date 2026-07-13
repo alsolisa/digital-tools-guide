@@ -87,6 +87,7 @@ test("AI详情页包含模型、下载、官方截图、提示词、隐私和评
       assert.match(html, new RegExp(text), `${slug} 缺少 ${text}`);
     }
     assert.match(html, new RegExp(`/guides/${slug}/store-1\\.(?:png|jpg)`), `${slug} 缺少官方商店截图`);
+    assert.match(html, new RegExp(`/editorial/${slug}\\.png`), `${slug} 缺少V3编辑封面`);
   }
 });
 
@@ -99,7 +100,17 @@ test("应用教程分开显示Google Play与Apple App Store", async () => {
     assert.match(html, /账号安全/);
     assert.match(html, /官方应用界面示意/);
     assert.match(html, new RegExp(`/guides/${slug}/store-1\\.(?:png|jpg)`), `${slug} 缺少官方商店截图`);
+    assert.match(html, new RegExp(`/editorial/${slug}\\.png`), `${slug} 缺少V3编辑封面`);
   }
+});
+
+test("机场与AI订阅页面接入对应V3视觉指南", async () => {
+  const nodes = await (await render("/nodes")).text();
+  assert.match(nodes, /机场与客户端：第一次使用指南/);
+  assert.match(nodes, /\/editorial\/nodes\.png/);
+  const subscriptions = await (await render("/subscriptions")).text();
+  assert.match(subscriptions, /AI订阅：购买前先看账号归属/);
+  assert.match(subscriptions, /\/editorial\/subscriptions\.png/);
 });
 
 test("设备选择助手、搜索、FAQ和运营说明均可用", async () => {

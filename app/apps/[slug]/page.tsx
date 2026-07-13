@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { commonApps, getCommonApp } from "../../../data/catalog";
-import { BrandIcon, DownloadButtons, FeedbackLink, OfficialScreenshotGallery, PageShell, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
+import { BrandIcon, DownloadButtons, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
 
 export function generateStaticParams() {
   return commonApps.map((app) => ({ slug: app.slug }));
@@ -9,7 +9,8 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const app = getCommonApp(slug);
-  return app ? { title: `${app.name}安装与使用教程`, description: app.summary } : { title: "应用教程" };
+  const basePath = process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : "";
+  return app ? { title: `${app.name}安装与使用教程`, description: app.summary, openGraph: { images: [`${basePath}/editorial/${app.slug}.png`] } } : { title: "应用教程" };
 }
 
 export default async function AppDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -18,9 +19,10 @@ export default async function AppDetailPage({ params }: { params: Promise<{ slug
   if (!app) notFound();
   return (
     <PageShell>
-      <section className="detail-hero app-detail-hero">
-        <div className="detail-title-row"><BrandIcon slug={app.slug} name={app.name} size="hero" /><div><span className="eyebrow">{app.company} · 基础小白教程</span><h1>{app.name}</h1></div></div>
-        <p>{app.summary}</p><div className="detail-meta"><VerificationChip status="verified" /><span>官方商店入口</span><span>核验 {app.verifiedAt}</span></div>
+      <section className="detail-hero detail-hero-with-cover app-detail-hero">
+        <div className="detail-hero-copy"><div className="detail-title-row"><BrandIcon slug={app.slug} name={app.name} size="hero" /><div><span className="eyebrow">{app.company} · 基础小白教程</span><h1>{app.name}</h1></div></div>
+        <p>{app.summary}</p><div className="detail-meta"><VerificationChip status="verified" /><span>官方商店入口</span><span>核验 {app.verifiedAt}</span></div></div>
+        <EditorialCover slug={app.slug} name={app.name} />
       </section>
       <section className="content-section"><SectionHeading index="01" title="官方下载" lead="请选择自己的设备，不要下载所谓破解版或修改版。" /><DownloadButtons downloads={app.downloads} /><RegionNotice>{app.regionNote}</RegionNotice></section>
       <section className="content-section soft-section"><SectionHeading index="02" title="官方应用界面示意" lead="用于确认下载到的是正确产品，不代表所有地区都显示相同功能。" /><OfficialScreenshotGallery name={app.name} screenshots={app.screenshots} /></section>

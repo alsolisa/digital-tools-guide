@@ -587,12 +587,27 @@ footer > div { display: flex; gap: 18px; font-size: 11px; font-weight: 700; }
 .not-found-intro { min-height: 470px; }
 .not-found-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 
+/* V3编辑视觉系统：详情页封面与业务指南视觉入口 */
+.detail-hero-with-cover { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 72px; align-items: center; }
+.detail-hero-copy > p { max-width: 850px; margin: 28px 0; color: #556670; font-size: 18px; line-height: 1.8; }
+.editorial-cover-figure { width: 100%; margin: 0; overflow: hidden; background: #f4f0e7; border: 1px solid #d5cec0; box-shadow: 0 24px 55px rgba(19,47,66,.12); }
+.editorial-cover-figure a { display: block; }
+.editorial-cover-figure img { width: 100%; height: auto; display: block; }
+.editorial-cover-feature { width: min(1280px,calc(100% - 48px)); margin: 38px auto 28px; padding: 42px; display: grid; grid-template-columns: minmax(0,1fr) 280px; gap: 70px; align-items: center; color: var(--white); background: var(--navy); }
+.editorial-cover-feature > div > span { color: #9dd8c7; font-size: 11px; font-weight: 900; letter-spacing: .13em; }
+.editorial-cover-feature h2 { max-width: 720px; margin: 20px 0 14px; font-family: Georgia,"Songti SC",serif; font-size: clamp(30px,4vw,50px); font-weight: 500; line-height: 1.2; }
+.editorial-cover-feature p { max-width: 720px; color: #c7d3d9; font-size: 14px; line-height: 1.85; }
+.editorial-cover-feature > div > a { margin-top: 20px; padding-bottom: 4px; display: inline-block; color: #a9dfcf; border-bottom: 1px solid #a9dfcf; font-size: 12px; font-weight: 900; }
+.editorial-cover-feature .editorial-cover-figure { max-width: 280px; justify-self: end; }
+
 @media (max-width: 1050px) {
   .official-screenshot-grid, .search-results { grid-template-columns: 1fr 1fr; }
   .official-screenshot-grid figure { grid-template-columns: 1fr; }
   .official-screenshot-media { min-height: 380px; }
   .device-result { grid-template-columns: 1fr; }
   .manual-test-note { grid-template-columns: 1fr; }
+  .detail-hero-with-cover { grid-template-columns: minmax(0,1fr) 250px; gap: 35px; }
+  .editorial-cover-feature { grid-template-columns: minmax(0,1fr) 240px; gap: 35px; }
 }
 
 @media (max-width: 700px) {
@@ -608,4 +623,9 @@ footer > div { display: flex; gap: 18px; font-size: 11px; font-weight: 700; }
   .site-search-bar input { border-right: 2px solid var(--navy); }
   .site-search-bar button { min-height: 48px; }
   .changelog-list article { grid-template-columns: 1fr; gap: 10px; }
+  .detail-hero-with-cover, .editorial-cover-feature { grid-template-columns: 1fr; }
+  .detail-hero-copy > p { font-size: 15px; }
+  .detail-hero-with-cover .editorial-cover-figure { width: min(76vw,280px); justify-self: center; }
+  .editorial-cover-feature { width: min(100% - 28px,1280px); padding: 26px; gap: 28px; }
+  .editorial-cover-feature .editorial-cover-figure { width: min(72vw,250px); justify-self: center; }
 }
