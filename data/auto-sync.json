@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-07-13T09:48:02.183Z",
+  "checkedAt": "2026-07-13T15:12:03.144Z",
   "exchange": {
     "state": "ok",
-    "date": "2026-07-10",
+    "date": "2026-07-13",
     "base": "USD",
     "rates": {
-      "CNY": 6.7745,
-      "SGD": 1.2911
+      "CNY": 6.7776,
+      "SGD": 1.2925
     },
     "sourceUrl": "https://api.frankfurter.app/latest?from=USD&to=CNY,SGD"
   },
@@ -17,7 +17,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-13T09:48:01.426Z",
+      "checkedAt": "2026-07-13T15:12:01.655Z",
       "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error"
     },
@@ -27,27 +27,27 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-13T09:48:01.405Z",
+      "checkedAt": "2026-07-13T15:12:01.663Z",
       "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error"
     },
     {
       "slug": "gemini",
       "url": "https://www.gamsgo.com/details/gemini",
-      "state": "price-changed",
+      "state": "ok",
       "published": {
         "currency": "USD",
         "value": 3.5
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-13T09:48:01.777Z",
+      "checkedAt": "2026-07-13T15:12:02.348Z",
       "officialObserved": {
         "currency": "USD",
         "value": 20
       },
       "period": "month",
-      "cny": 23.71,
+      "cny": 23.72,
       "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
     },
     {
@@ -60,13 +60,13 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-13T09:48:01.813Z",
+      "checkedAt": "2026-07-13T15:12:02.479Z",
       "officialObserved": {
         "currency": "USD",
         "value": 30
       },
       "period": "month",
-      "cny": 121.87,
+      "cny": 121.93,
       "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
     },
     {
@@ -75,7 +75,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-13T09:48:01.803Z",
+      "checkedAt": "2026-07-13T15:12:02.461Z",
       "note": "公开页未稳定展示可校验的月付价格"
     },
     {
@@ -88,13 +88,13 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-13T09:48:01.753Z",
+      "checkedAt": "2026-07-13T15:12:02.429Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
       },
       "period": "month",
-      "cny": 169.29,
+      "cny": 169.37,
       "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
     }
   ],
@@ -103,13 +103,13 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-07-13T09:48:02.183Z"
+      "checkedAt": "2026-07-13T15:12:03.144Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/",
       "state": "ok",
-      "checkedAt": "2026-07-13T09:48:02.183Z"
+      "checkedAt": "2026-07-13T15:12:03.144Z"
     }
   ],
   "history": [
