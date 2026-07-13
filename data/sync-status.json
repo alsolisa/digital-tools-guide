@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-13T04:00:28.409Z",
+  "checkedAt": "2026-07-13T04:17:49.721Z",
   "policy": {
     "publicLinks": "automatic-6h",
     "clientReleases": "automatic-6h",
@@ -65,9 +65,9 @@
       "finalUrl": "https://tagss.pro/"
     },
     {
-      "id": "surge",
+      "id": "catalog-official-54",
       "url": "https://nssurge.com/",
-      "kind": "client",
+      "kind": "download-source",
       "state": "ok",
       "status": 200,
       "finalUrl": "https://nssurge.com/"
@@ -362,6 +362,22 @@
     },
     {
       "id": "catalog-official-34",
+      "url": "https://www.anthropic.com/pricing",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://claude.com/pricing"
+    },
+    {
+      "id": "catalog-official-35",
+      "url": "https://www.midjourney.com/plans/",
+      "kind": "download-source",
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://www.midjourney.com/plans/"
+    },
+    {
+      "id": "catalog-official-36",
       "url": "https://www.youtube.com/",
       "kind": "download-source",
       "state": "ok",
@@ -369,7 +385,7 @@
       "finalUrl": "https://www.youtube.com/"
     },
     {
-      "id": "catalog-official-35",
+      "id": "catalog-official-37",
       "url": "https://play.google.com/store/apps/details?id=com.google.android.youtube",
       "kind": "download-source",
       "state": "ok",
@@ -377,7 +393,7 @@
       "finalUrl": "https://play.google.com/store/apps/details?id=com.google.android.youtube"
     },
     {
-      "id": "catalog-official-36",
+      "id": "catalog-official-38",
       "url": "https://apps.apple.com/us/app/youtube/id544007664",
       "kind": "download-source",
       "state": "ok",
@@ -385,7 +401,7 @@
       "finalUrl": "https://apps.apple.com/us/app/youtube/id544007664"
     },
     {
-      "id": "catalog-official-37",
+      "id": "catalog-official-39",
       "url": "https://support.google.com/youtube/answer/3227660",
       "kind": "download-source",
       "state": "ok",
@@ -393,7 +409,7 @@
       "finalUrl": "https://support.google.com/youtube/answer/3227660"
     },
     {
-      "id": "catalog-official-38",
+      "id": "catalog-official-40",
       "url": "https://x.com/",
       "kind": "download-source",
       "state": "ok",
@@ -401,7 +417,7 @@
       "finalUrl": "https://x.com/"
     },
     {
-      "id": "catalog-official-39",
+      "id": "catalog-official-41",
       "url": "https://play.google.com/store/apps/details?id=com.twitter.android",
       "kind": "download-source",
       "state": "ok",
@@ -409,7 +425,7 @@
       "finalUrl": "https://play.google.com/store/apps/details?id=com.twitter.android"
     },
     {
-      "id": "catalog-official-40",
+      "id": "catalog-official-42",
       "url": "https://apps.apple.com/us/app/x/id333903271",
       "kind": "download-source",
       "state": "ok",
@@ -417,7 +433,7 @@
       "finalUrl": "https://apps.apple.com/us/app/x/id333903271"
     },
     {
-      "id": "catalog-official-41",
+      "id": "catalog-official-43",
       "url": "https://help.x.com/en/using-x/download-the-x-app",
       "kind": "download-source",
       "state": "protected",
@@ -425,7 +441,7 @@
       "finalUrl": "https://help.x.com/en/using-x/download-the-x-app"
     },
     {
-      "id": "catalog-official-42",
+      "id": "catalog-official-44",
       "url": "https://www.tiktok.com/",
       "kind": "download-source",
       "state": "ok",
@@ -433,7 +449,7 @@
       "finalUrl": "https://www.tiktok.com/"
     },
     {
-      "id": "catalog-official-43",
+      "id": "catalog-official-45",
       "url": "https://play.google.com/store/apps/details?id=com.zhiliaoapp.musically",
       "kind": "download-source",
       "state": "ok",
@@ -441,12 +457,68 @@
       "finalUrl": "https://play.google.com/store/apps/details?id=com.zhiliaoapp.musically"
     },
     {
-      "id": "catalog-official-44",
+      "id": "catalog-official-46",
       "url": "https://apps.apple.com/us/app/tiktok/id835599320",
       "kind": "download-source",
       "state": "ok",
       "status": 200,
       "finalUrl": "https://apps.apple.com/us/app/tiktok-videos-shop-live/id835599320"
+    },
+    {
+      "id": "catalog-official-47",
+      "url": "https://github.com/clash-verge-rev/clash-verge-rev/releases/latest",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.1"
+    },
+    {
+      "id": "catalog-official-48",
+      "url": "https://github.com/2dust/v2rayN/releases/latest",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://github.com/2dust/v2rayN/releases/tag/7.23.4"
+    },
+    {
+      "id": "catalog-official-49",
+      "url": "https://github.com/chen08209/FlClash/releases/latest",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://github.com/chen08209/FlClash/releases/tag/v0.8.94"
+    },
+    {
+      "id": "catalog-official-50",
+      "url": "https://github.com/hiddify/hiddify-app/releases/latest",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1"
+    },
+    {
+      "id": "catalog-official-51",
+      "url": "https://apps.apple.com/us/app/shadowrocket/id932747118",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://apps.apple.com/us/app/shadowrocket/id932747118"
+    },
+    {
+      "id": "catalog-official-52",
+      "url": "https://apps.apple.com/us/app/quantumult-x/id1443988620",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://apps.apple.com/us/app/quantumult-x/id1443988620"
+    },
+    {
+      "id": "catalog-official-53",
+      "url": "https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349"
     }
   ],
   "clients": [
