@@ -69,8 +69,11 @@ export interface SubscriptionOffer {
   productSlug: string;
   mark: string;
   useCase: string;
+  whySelected: string;
+  freeAdvice: string;
   officialPrice: string;
   officialCny: string;
+  officialUrl: string;
   gamsgoPrice: string;
   gamsgoCny: string;
   priceNote: string;
@@ -359,37 +362,49 @@ export const aiProducts: ProductProfile[] = [
 const baseSubscriptionOffers: SubscriptionOffer[] = [
   {
     slug: "chatgpt-recharge", name: "ChatGPT Plus 充值", productSlug: "chatgpt", mark: "C", useCase: "在本人 ChatGPT 账号上开通 Plus，保留原有对话与设置。",
+    whySelected: "通用能力覆盖最广，适合作为多数人的第一款AI，也最容易遇到官方支付与账号地区问题。", freeAdvice: "第一次使用先体验免费版；只有经常上传文件、生成图片或遇到用量限制时再考虑Plus。",
     officialPrice: "US$20 / 月", officialCny: "约 ¥135.49", gamsgoPrice: "购买页实时显示", gamsgoCny: "待公开页读取", priceNote: "官方 Plus 美国参考价；GamsGo公开详情页未稳定展示单一结算价。",
+    officialUrl: "https://chatgpt.com/pricing/",
     deliveryType: "本人账号充值", risk: "medium", riskLabel: "中风险 · 涉及访问密钥", ownership: "账号仍归购买者本人", privacy: "不应提供邮箱密码；访问密钥同样属于敏感信息", renewal: "确认是一次性代充还是自动续费", support: "GamsGo订单与在线客服", payment: "Visa、Mastercard、Apple Pay、Google Pay等；以结算页为准", region: "账号与付款地区可能影响开通",
     sourceUrl: "https://www.gamsgo.com/details/chatgpt-recharge", affiliateUrl: "https://www.gamsgo.com/partner/BTzCM", verifiedAt: checkedAt,
   },
   {
     slug: "claude", name: "Claude Pro / Max", productSlug: "claude", mark: "A", useCase: "获得更高的 Claude 使用额度、模型和付费功能。",
+    whySelected: "长文档、自然写作和持续对话是它的代表性场景，适合需要阅读与整理大量材料的人。", freeAdvice: "先用免费版测试长文、写作和文件阅读；用量经常不足时再选择Pro，Max不适合只为尝鲜的新手。",
     officialPrice: "Pro US$20 / 月", officialCny: "约 ¥135.49", gamsgoPrice: "购买页实时显示", gamsgoCny: "待公开页读取", priceNote: "Claude官方美国月付参考价；地区税费和应用商店价格可能不同。",
+    officialUrl: "https://www.anthropic.com/pricing",
     deliveryType: "多种方式", risk: "high", riskLabel: "高风险 · 先确认账号归属", ownership: "可能是独立账号交付，不一定是本人原账号", privacy: "交付账号应立即检查恢复邮箱、二次验证和密码修改权限", renewal: "确认到期后账号能否继续使用", support: "依赖GamsGo订单售后", payment: "以GamsGo结算页为准", region: "Claude本身有支持地区限制",
     sourceUrl: "https://www.gamsgo.com/details/claude", affiliateUrl: "https://www.gamsgo.com/partner/BTzCM", verifiedAt: checkedAt,
   },
   {
     slug: "gemini", name: "Gemini / Google AI Pro", productSlug: "gemini", mark: "G", useCase: "获得Gemini高级功能、更多用量及Google生态权益。",
+    whySelected: "与Google账号、云盘和办公生态联系紧密，适合已经长期使用Google服务的人。", freeAdvice: "普通问答和简单总结先用免费版；确认确实需要高级模型、研究能力或Google存储权益后再付费。",
     officialPrice: "US$19.99 / 月参考", officialCny: "约 ¥135.42", gamsgoPrice: "S$4.52 / 月公开参考", gamsgoCny: "约 ¥23.72", priceNote: "GamsGo页面展示的是地区公开参考价，具体账号类型和结算价可能不同。",
+    officialUrl: "https://one.google.com/about/google-ai-plans/",
     deliveryType: "独立账号交付", risk: "high", riskLabel: "高风险 · Google账号归属", ownership: "通常交付新的Google账号资料", privacy: "不建议把私人Gmail、照片或云盘资料迁入来源不明的交付账号", renewal: "确认云存储和订阅到期后的数据处理", support: "GamsGo售后，Google官方不一定处理第三方交付问题", payment: "以GamsGo结算页为准", region: "权益和存储容量随地区与产品变化",
     sourceUrl: "https://www.gamsgo.com/details/gemini", affiliateUrl: "https://www.gamsgo.com/partner/BTzCM", verifiedAt: checkedAt,
   },
   {
     slug: "grok", name: "SuperGrok", productSlug: "grok", mark: "X", useCase: "提升Grok模型、搜索、图片视频与高级功能的使用额度。",
+    whySelected: "它与X平台和即时公开内容联系紧密，适合关注实时话题、社交内容和多媒体功能的人。", freeAdvice: "先确认免费入口和X中的Grok是否已满足需求；还要分清SuperGrok与X Premium不是同一订阅。",
     officialPrice: "US$30 / 月", officialCny: "约 ¥203.24", gamsgoPrice: "US$17.99 / 月公开参考", gamsgoCny: "约 ¥121.87", priceNote: "GamsGo同时存在账号交付和本人账号充值页面，下单前必须确认类型。",
+    officialUrl: "https://grok.com/",
     deliveryType: "多种方式", risk: "medium", riskLabel: "中风险 · 优先本人账号充值", ownership: "充值型归本人；账号交付型需核查恢复权限", privacy: "不要把X账号密码交给不明页面", renewal: "确认SuperGrok与X Premium不是同一订阅", support: "GamsGo订单售后", payment: "以GamsGo结算页为准", region: "Grok与商店可用性随地区变化",
     sourceUrl: "https://www.gamsgo.com/details/grok", affiliateUrl: "https://www.gamsgo.com/partner/BTzCM", verifiedAt: checkedAt,
   },
   {
     slug: "perplexity", name: "Perplexity Pro", productSlug: "perplexity", mark: "P", useCase: "获得更多研究、文件分析、模型选择和高级搜索能力。",
+    whySelected: "回答旁边直接显示资料来源，适合查资料、做比较和快速建立研究脉络。", freeAdvice: "先用免费版完成几次带来源的搜索，并打开原文检查引用；需要更深研究和更多模型时再付费。",
     officialPrice: "US$17 / 月（年付折算）", officialCny: "约 ¥115.17", gamsgoPrice: "US$1.92 / 月公开参考", gamsgoCny: "约 ¥13.01", priceNote: "官方参考为年付折算；GamsGo低价产品可能是交付账号，不能当作本人账号充值。",
+    officialUrl: "https://www.perplexity.ai/pro",
     deliveryType: "独立账号交付", risk: "high", riskLabel: "高风险 · 账号交付", ownership: "账号通常由平台提供，不等同于本人原账号", privacy: "不要在交付账号中保存敏感研究、公司文件或个人资料", renewal: "确认到期后历史记录能否导出", support: "GamsGo订单售后", payment: "以GamsGo结算页为准", region: "模型和用量随地区、套餐变化",
     sourceUrl: "https://www.gamsgo.com/details/Perplexity_AI", affiliateUrl: "https://www.gamsgo.com/partner/BTzCM", verifiedAt: checkedAt,
   },
   {
     slug: "midjourney", name: "Midjourney", productSlug: "midjourney", mark: "M", useCase: "生成高质量图片，适合创意、设计、营销和视觉探索。",
+    whySelected: "它代表专业图片生成场景，与前五项文字和研究型AI形成互补。", freeAdvice: "先确认自己是否真的需要持续生成图片；偶尔做图的人不一定需要长期月付。",
     officialPrice: "以Midjourney计划页为准", officialCny: "未稳定读取", gamsgoPrice: "US$24.99 / 月公开参考", gamsgoCny: "约 ¥169.30", priceNote: "GamsGo公开页同时提供独立账号与共享网页方式，两者体验和风险不同。",
+    officialUrl: "https://www.midjourney.com/plans/",
     deliveryType: "多种方式", risk: "high", riskLabel: "高风险 · 共享与独立需分清", ownership: "独立账号与共享网页的账号控制权不同", privacy: "共享环境不要上传私人图片或商业机密素材", renewal: "确认Fast/Relax额度和到期处理", support: "GamsGo订单售后", payment: "以GamsGo结算页为准", region: "官方平台和Discord功能可能受地区影响",
     sourceUrl: "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK", affiliateUrl: "https://www.gamsgo.com/partner/BTzCM", verifiedAt: checkedAt,
   },
@@ -482,9 +497,23 @@ export const commonApps: AppProfile[] = [
   },
 ];
 
+export const networkClientDownloads = [
+  { platform: "Windows" as Platform, label: "GitHub正式版发布页", url: "https://github.com/clash-verge-rev/clash-verge-rev/releases/latest", source: "official" as const, status: "automatic" as VerificationStatus, verifiedAt: checkedAt, product: "Clash Verge Rev", slug: "clash-verge", category: "网络客户端" as const },
+  { platform: "macOS" as Platform, label: "GitHub正式版发布页", url: "https://github.com/clash-verge-rev/clash-verge-rev/releases/latest", source: "official" as const, status: "automatic" as VerificationStatus, verifiedAt: checkedAt, product: "Clash Verge Rev", slug: "clash-verge", category: "网络客户端" as const },
+  { platform: "Windows" as Platform, label: "GitHub正式版发布页", url: "https://github.com/2dust/v2rayN/releases/latest", source: "official" as const, status: "automatic" as VerificationStatus, verifiedAt: checkedAt, product: "v2rayN", slug: "v2rayn", category: "网络客户端" as const },
+  { platform: "Android" as Platform, label: "GitHub正式版发布页", url: "https://github.com/chen08209/FlClash/releases/latest", source: "official" as const, status: "automatic" as VerificationStatus, verifiedAt: checkedAt, product: "FlClash", slug: "flclash", category: "网络客户端" as const },
+  { platform: "Android" as Platform, label: "官方项目发布页", url: "https://github.com/hiddify/hiddify-app/releases/latest", source: "official" as const, status: "automatic" as VerificationStatus, verifiedAt: checkedAt, product: "Hiddify", slug: "hiddify", category: "网络客户端" as const },
+  { platform: "macOS" as Platform, label: "官方项目发布页", url: "https://github.com/hiddify/hiddify-app/releases/latest", source: "official" as const, status: "automatic" as VerificationStatus, verifiedAt: checkedAt, product: "Hiddify", slug: "hiddify", category: "网络客户端" as const },
+  { platform: "iOS" as Platform, label: "Apple App Store", url: "https://apps.apple.com/us/app/shadowrocket/id932747118", source: "app-store" as const, status: "verified" as VerificationStatus, verifiedAt: checkedAt, product: "Shadowrocket", slug: "shadowrocket", category: "网络客户端" as const },
+  { platform: "iOS" as Platform, label: "Apple App Store", url: "https://apps.apple.com/us/app/quantumult-x/id1443988620", source: "app-store" as const, status: "verified" as VerificationStatus, verifiedAt: checkedAt, product: "Quantumult X", slug: "quantumult-x", category: "网络客户端" as const },
+  { platform: "iOS" as Platform, label: "Apple App Store", url: "https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349", source: "app-store" as const, status: "verified" as VerificationStatus, verifiedAt: checkedAt, product: "Stash", slug: "stash", category: "网络客户端" as const },
+  { platform: "macOS" as Platform, label: "官方网站", url: "https://nssurge.com/", source: "official" as const, status: "verified" as VerificationStatus, verifiedAt: checkedAt, product: "Surge", slug: "surge", category: "网络客户端" as const },
+];
+
 export const allDownloads = [
   ...aiProducts.flatMap((product) => product.downloads.map((download) => ({ ...download, product: product.name, slug: product.slug, category: "AI" as const }))),
   ...commonApps.flatMap((app) => app.downloads.map((download) => ({ ...download, product: app.name, slug: app.slug, category: "常用应用" as const }))),
+  ...networkClientDownloads,
 ];
 
 export function getAiProduct(slug: string) {

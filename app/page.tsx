@@ -226,28 +226,36 @@ const addresses = [
   { service: "GamsGo", result: "推广参数已保留", access: "当前环境可访问", tone: "review" },
 ];
 
+const serviceSelectionReasons = [
+  { name: "WestData", reason: "提供当前已核验的低价月付档位，可作为低预算或备用线路样本。", evidence: "已登录购买页核验" },
+  { name: "Nexitally", reason: "提供31天套餐、明确设备数和速度说明，可代表价格较高、重视长期使用的一类服务。", evidence: "购买页与官方文档" },
+  { name: "TAG", reason: "当前月付流量较大，并以多国家和地区覆盖为主要特点，适合展示广覆盖需求。", evidence: "已登录当前商店" },
+  { name: "悠兔 Youtu", reason: "提供多平台自有客户端，适合观察“希望少配置”的新手路线；价格仍待复核。", evidence: "客户端入口已确认" },
+  { name: "BoostNet", reason: "提供自有客户端和多种周期，可作为非月付、偏性价比方案的对照。", evidence: "当前计划页已核验" },
+];
+
 export function NodeGuidePage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="main-content">
       <nav className="node-local-nav" aria-label="机场指南本页目录">
-        <strong>本页目录</strong><a href="#guide">新手入门</a><a href="#services">服务对比</a><a href="#downloads">客户端下载</a><a href="#status">地址状态</a><a href="#pending">待复核清单</a>
+        <strong>本页目录</strong><a href="#basics">先认识概念</a><a href="#guide">实际怎么用</a><a href="#choose">怎么选择</a><a href="#services">服务对比</a><a href="#downloads">客户端下载</a><a href="#status">地址状态</a>
       </nav>
 
       <section className="hero" id="top">
         <div className="hero-copy">
           <div className="eyebrow"><span /> 持续核验，不照搬宣传</div>
-          <h1>第一次也能看懂的<br /><em>网络服务指南</em></h1>
-          <p className="hero-lead">官网、套餐、付款方式、客户端和访问状态集中整理。每一条信息都标注来源与核验程度，帮助你少走弯路。</p>
+          <h1>先弄懂VPN和“机场”，<br /><em>再决定要不要购买</em></h1>
+          <p className="hero-lead">从“它是什么、能做什么、为什么还要安装软件”讲起，再比较套餐、付款方式、客户端和入口状态。</p>
           <div className="hero-actions">
-            <a className="button primary" href="#guide">新手三分钟入门 <span>→</span></a>
-            <a className="button secondary" href="#services">查看服务对比</a>
+            <a className="button primary" href="#basics">从第一个概念开始 <span>→</span></a>
+            <a className="button secondary" href="#services">我已经懂了，直接比较</a>
           </div>
           <p className="hero-footnote">部分按钮包含推广关系，但不会影响排序与核验结论。</p>
         </div>
         <aside className="editorial-card" aria-label="今日核验概览">
-          <div className="editorial-heading"><div><span className="card-kicker">TODAY&apos;S CHECK</span><h2>今日核验概览</h2></div><span className="live-badge"><i /> 整理中</span></div>
+          <div className="editorial-heading"><div><span className="card-kicker">今天检查了什么</span><h2>今日资料概览</h2></div><span className="live-badge"><i /> 整理中</span></div>
           <div className="overview-list">
             <div><span>网络服务</span><strong>{sortedServices.length} 家</strong><small>当前启用服务，已核验月付优先</small></div>
             <div><span>客户端</span><strong>8 款</strong><small>均连接官方发布页或应用商店</small></div>
@@ -258,7 +266,41 @@ export function NodeGuidePage() {
         </aside>
       </section>
 
-      <EditorialCoverFeature slug="nodes" title="机场与客户端：第一次使用指南" lead="把机场、月付价格、客户端搭载、订阅链接安全和大陆网络状态拆成五个新手章节。" />
+      <EditorialCoverFeature slug="nodes" title="网络连接服务：第一次使用指南" lead="先解释VPN、机场、节点、客户端和订阅链接，再进入服务与价格对比。" />
+
+      <section className="section node-basics-section" id="basics">
+        <div className="section-heading"><div><span className="section-index">01 / 先认识概念</span><h2>五个词，第一次看到也能懂</h2></div><p>这些词不是一回事。先分清它们，后面的购买和安装才不会混乱。</p></div>
+        <div className="plain-term-grid">
+          <article><span>VPN</span><h3>一种建立网络连接的技术或服务</h3><p>通常通过加密通道把设备的网络流量发送到另一台服务器。商业VPN一般提供自己的App，具体隐私和可用范围取决于服务商。</p></article>
+          <article><span>机场</span><h3>中文互联网中的非正式叫法</h3><p>通常指提供多个代理服务器“节点”和订阅链接的服务商。它不等同于所有VPN，也不是航空机场。</p></article>
+          <article><span>节点</span><h3>连接出去时经过的服务器</h3><p>节点常按国家或地区区分。不同节点的出口、速度和可访问服务可能不同，但不能保证解锁所有平台。</p></article>
+          <article><span>客户端</span><h3>安装在手机或电脑上的连接软件</h3><p>Clash Verge、v2rayN、Shadowrocket等属于客户端。它们负责读取订阅并建立连接，本身通常不包含可用套餐。</p></article>
+          <article><span>订阅链接</span><h3>把套餐和节点导入客户端的个人钥匙</h3><p>购买后由服务商提供。不要发给别人、公开截图或提交给陌生网站，否则可能造成流量被盗用。</p></article>
+        </div>
+        <div className="connection-diagram" aria-label="机场服务使用流程"><div><small>第1步</small><strong>购买服务</strong><p>获得自己的订阅链接</p></div><i>→</i><div><small>第2步</small><strong>安装客户端</strong><p>只从官方来源下载</p></div><i>→</i><div><small>第3步</small><strong>导入订阅</strong><p>客户端读取节点列表</p></div><i>→</i><div><small>第4步</small><strong>选择节点</strong><p>建立网络连接</p></div></div>
+        <div className="can-cannot-grid"><article><h3>它可能帮助你</h3><ul><li>连接服务商提供的境外网络节点</li><li>按需要选择不同地区的出口</li><li>在跨境网络质量合适时改善连接体验</li></ul></article><article className="warning-card"><h3>它不能向你保证</h3><ul><li>完全匿名、绝对安全或永不记录</li><li>所有网站、账号地区和付款方式都能使用</li><li>任何时间、任何网络都保持同样速度</li></ul></article></div>
+      </section>
+
+      <section className="section guide-section" id="guide">
+        <div className="guide-intro">
+          <span className="section-index light">02 / 实际怎么用</span><h2>为什么买完以后<br />还要安装客户端？</h2>
+          <p>服务商卖给你的是“套餐和订阅链接”，客户端才是手机或电脑上的连接工具。可以理解为：套餐是车票，客户端负责检票并带你上车。</p>
+          <a href="#downloads" className="button light-button">按设备选择客户端 →</a>
+        </div>
+        <div className="steps">
+          <article><span>01</span><div><small>第一步</small><h3>先确认自己是否需要</h3><p>写下要使用的设备、网站、地区、每月预算和大概流量，不要只看“节点多”或“便宜”。</p></div></article>
+          <article><span>02</span><div><small>第二步</small><h3>在正确入口购买</h3><p>核对域名、套餐周期、流量、设备数和退款规则；证据不足的字段先不要猜。</p></div></article>
+          <article><span>03</span><div><small>第三步</small><h3>安装官方客户端</h3><p>Windows、安卓和苹果设备使用的软件不同，只从官方项目或应用商店下载。</p></div></article>
+          <article><span>04</span><div><small>第四步</small><h3>导入订阅并连接</h3><p>把个人订阅链接导入客户端，更新节点后再选择连接；不要公开订阅链接。</p></div></article>
+        </div>
+      </section>
+
+      <section className="section node-choice-section" id="choose">
+        <div className="section-heading"><div><span className="section-index">03 / 怎么选择</span><h2>先看需求，不要先看广告词</h2></div><p>“IEPL、家宽、专线、稳定”可能来自商家描述。没有持续的多网络实测时，本站不会把它们当成独立性能结论。</p></div>
+        <div className="selection-check-grid"><article><span>设备</span><h3>要在哪些设备上用？</h3><p>确认Windows、Mac、Android或iPhone，以及允许同时连接多少台设备。</p></article><article><span>用途</span><h3>主要打开哪些服务？</h3><p>不同服务对地区、IP质量和账号地区的要求不同，不能只看节点数量。</p></article><article><span>流量</span><h3>每月大约使用多少？</h3><p>视频和大文件更耗流量；还要确认流量何时重置、是否存在倍率。</p></article><article><span>售后</span><h3>出问题找谁处理？</h3><p>付款前查看工单、客服、退款、试用和失联后的处理方式。</p></article></div>
+        <div className="selection-disclosure"><strong>为什么目前只展示这几家？</strong><p>它们来自当前已经获得入口、后台资料或可持续核验来源的候选服务，并覆盖低预算、长期使用、多地区、自有客户端和非月付等不同情况。它们不是“全市场前五名”，收录也不等于无条件推荐。</p></div>
+        <div className="service-reason-grid">{serviceSelectionReasons.map((item) => <article key={item.name}><span>{item.evidence}</span><h3>{item.name}</h3><p>{item.reason}</p></article>)}</div>
+      </section>
 
       <section className="metrics" aria-label="网站数据状态">
         <div><span className="metric-dot green" /><strong>{sortedServices.length}</strong><p>当前启用服务</p></div>
@@ -269,14 +311,14 @@ export function NodeGuidePage() {
 
       <section className="section services-section" id="services">
         <div className="section-heading">
-          <div><span className="section-index">01 / 服务对比</span><h2>已核验月付优先，再按起价排序</h2></div>
-          <p>当前展示 {sortedServices.length} 家。只有购买页确认可单独月付的套餐才进入价格排序；暂停使用、待核验和暂无直接月付的服务不进入正式排名。</p>
+          <div><span className="section-index">04 / 服务对比</span><h2>已核验月付优先，再按起价排序</h2></div>
+          <p>当前展示 {sortedServices.length} 家。这里只按明确的月付规则排列，不是速度、稳定性或综合质量排行榜。</p>
         </div>
         <div className="sort-note"><strong>排序口径</strong><span>当前可单独购买的月付或约31天套餐</span><i />已核验 <i className="review-dot" />待复核</div>
         <div className="service-grid">
           {sortedServices.map((service, index) => (
             <article className="service-card" key={service.name}>
-              <div className="service-topline"><span className="service-tag">#{index + 1} · {service.tag}</span><span className={`status-pill ${service.statusTone}`}><i />{service.status}</span></div>
+              <div className="service-topline"><span className="service-tag">展示 {index + 1} · {service.tag}</span><span className={`status-pill ${service.statusTone}`}><i />{service.status}</span></div>
               <div className="service-title"><h3>{service.name}</h3><span>{service.alias}</span></div>
               <p className="service-description">{service.description}</p>
               <div className="service-stats"><div><small>可比参考价格</small><strong>{service.price}</strong><span>{service.cycle}</span></div><div><small>参考流量</small><strong>{service.traffic}</strong></div></div>
@@ -291,22 +333,9 @@ export function NodeGuidePage() {
         </div>
       </section>
 
-      <section className="section guide-section" id="guide">
-        <div className="guide-intro">
-          <span className="section-index light">02 / 新手入门</span><h2>为什么购买后<br />还需要客户端？</h2>
-          <p>服务商给你的是一串“订阅信息”，客户端把它变成手机或电脑能使用的连接。可以理解为：套餐是车票，客户端是检票并带你上车的工具。</p>
-          <a href="#downloads" className="button light-button">按设备选择客户端 →</a>
-        </div>
-        <div className="steps">
-          <article><span>01</span><div><small>第一步</small><h3>在正确入口购买</h3><p>先核对域名和推广码，再选择套餐。付款前确认周期、流量和退款规则。</p></div></article>
-          <article><span>02</span><div><small>第二步</small><h3>安装官方客户端</h3><p>Windows、安卓和苹果设备使用的软件不同，只从项目主页或应用商店下载。</p></div></article>
-          <article><span>03</span><div><small>第三步</small><h3>复制订阅并导入</h3><p>订阅链接等同个人钥匙，不要发给别人，也不要截图公开。导入后更新节点即可。</p></div></article>
-        </div>
-      </section>
-
       <section className="section downloads-section" id="downloads">
         <div className="section-heading compact">
-          <div><span className="section-index">03 / 客户端下载</span><h2>按设备选，按钮可以直接用</h2></div>
+          <div><span className="section-index">05 / 客户端下载</span><h2>按设备选，按钮可以直接用</h2></div>
           <p>开源软件进入 GitHub 的 Latest Release；苹果付费软件进入 App Store；不提供来历不明的安装包或 IPA。</p>
         </div>
         <BrandNotice />
@@ -324,7 +353,7 @@ export function NodeGuidePage() {
       </section>
 
       <section className="section status-section" id="status">
-        <div className="section-heading compact"><div><span className="section-index">04 / 地址状态</span><h2>能打开，不等于大陆裸网可用</h2></div><p>当前环境是否经过代理未知，所以不会标绿色“大陆可用”。只有真实普通网络测试后才升级状态。</p></div>
+        <div className="section-heading compact"><div><span className="section-index">06 / 地址状态</span><h2>能打开，不等于大陆裸网可用</h2></div><p>当前环境是否经过代理未知，所以不会标绿色“大陆可用”。只有真实普通网络测试后才升级状态。</p></div>
         <div className="status-table" role="table" aria-label="地址核验状态">
           <div className="status-row table-head" role="row"><span>服务</span><span>跳转结果</span><span>访问状态</span><span>结论</span></div>
           {addresses.map((item) => <div className="status-row" role="row" key={item.service}><strong>{item.service}</strong><span>{item.result}</span><span className={`status-pill ${item.tone}`}><i />{item.access}</span><span className="table-note">暂不标记大陆裸网可用</span></div>)}
@@ -332,7 +361,7 @@ export function NodeGuidePage() {
       </section>
 
       <section className="section pending-section" id="pending">
-        <div className="section-heading compact"><div><span className="section-index">05 / 待复核清单</span><h2>证据不足的字段，公开列出来</h2></div><p>这些内容不会靠旧宣传资料补齐。完成实际购买页或大陆普通网络测试后才更新。</p></div>
+        <div className="section-heading compact"><div><span className="section-index">07 / 待复核清单</span><h2>证据不足的字段，公开列出来</h2></div><p>这些内容不会靠旧宣传资料补齐。完成实际购买页或大陆普通网络测试后才更新。</p></div>
         <div className="verification-queue"><article><span>悠兔 Youtu</span><strong>月付价格、流量与付款方式</strong><p>需要在当前计划页和结算页逐项确认；旧资料约¥40已撤下。</p></article><article><span>TAG</span><strong>付款方式与自有客户端</strong><p>月付套餐已核验，自有客户端仍需有效订阅后确认。</p></article><article><span>BoostNet</span><strong>直接月付是否恢复</strong><p>当前计划页以季付、半年付和年付为主，不按月付价格排序。</p></article><article><span>中国大陆普通网络</span><strong>入口实际可访问性</strong><p>需要关闭代理后分别用家庭宽带和移动网络测试，当前统一标为未核验。</p></article></div>
         <div className="manual-test-note"><strong>安全测试方式</strong><p>只记录“能否打开、是否跳转、时间和网络类型”，不记录账号、密码、Cookie、订阅地址或付款信息。</p><FeedbackLink label="提交实测结果或失效入口" /></div>
       </section>
@@ -356,14 +385,14 @@ export default function Home() {
     <PageShell>
       <section className="portal-hero">
         <div className="portal-hero-copy">
-          <span className="eyebrow">三个频道 · 一套核验标准</span>
-          <h1>第一次也能看懂的<br /><em>数字工具指南</em></h1>
-          <p>机场、AI订阅、主流AI与常用应用集中整理。我们把官方入口、真实价格、账号风险和小白教程放在同一个可信框架里。</p>
-          <div className="hero-actions"><Link className="button primary" href="/ai">从 AI 工具开始 <span>→</span></Link><Link className="button secondary" href="/methodology">查看核验方法</Link></div>
+          <span className="eyebrow">先解释是什么，再告诉你怎么选</span>
+          <h1>不知道从哪里开始，<br /><em>也能一步一步看懂</em></h1>
+          <p>这里不默认你懂VPN、机场、节点、AI模型或第三方订阅。先用普通话解释它们能做什么、是否适合你，再提供价格、官方下载和购买风险。</p>
+          <div className="hero-actions"><Link className="button primary" href="#start">我是第一次来 <span>→</span></Link><Link className="button secondary" href="/faq">先看常见问题</Link></div>
           <small>面向中国大陆新手 · 不保存账号、密码、访问密钥或付款信息</small>
         </div>
         <aside className="portal-proof">
-          <span>LIVE EDITORIAL</span><h2>资料有来源，变化有记录</h2>
+          <span>当前资料状态</span><h2>资料有来源，变化有记录</h2>
           <div><strong>{verifiedNodeCount}</strong><small>家机场已核验</small></div>
           <div><strong>{aiProducts.length}</strong><small>项主流 AI</small></div>
           <div><strong>{subscriptionOffers.length}</strong><small>项订阅风险分级</small></div>
@@ -372,8 +401,19 @@ export default function Home() {
         </aside>
       </section>
 
+      <section className="portal-section beginner-start" id="start">
+        <SectionHeading index="从这里开始" title="先选你现在想解决的问题" lead="不需要先认识专业名词。找到最接近你的情况，再进入对应教程。" />
+        <div className="beginner-choice-grid">
+          <Link href="/nodes#basics"><span>01</span><h2>我想了解VPN和“机场”</h2><p>先看它们是什么、有什么区别、为什么还要安装客户端，以及购买前要确认什么。</p><strong>从基本概念开始 →</strong></Link>
+          <Link href="/ai#choose"><span>02</span><h2>我想找一款适合自己的AI</h2><p>按写作、查资料、长文档、Google生态、实时内容和图片创作来选择，第一次先用免费版。</p><strong>按用途选择AI →</strong></Link>
+          <Link href="/subscriptions#before-buy"><span>03</span><h2>我在考虑购买AI会员</h2><p>先分清官方订阅、本人账号充值、交付账号和共享网页，再判断第三方价格是否值得。</p><strong>先判断要不要买 →</strong></Link>
+          <Link href="/downloads"><span>04</span><h2>我只想安全下载软件</h2><p>先选Windows、Mac、Android或iPhone，再前往官网、应用商店或官方项目发布页。</p><strong>按设备找官方下载 →</strong></Link>
+        </div>
+        <div className="plain-language-rule"><strong>本站的讲解顺序</strong><span>它是什么</span><i>→</i><span>能做什么</span><i>→</i><span>你是否需要</span><i>→</i><span>风险是什么</span><i>→</i><span>怎么选择和操作</span></div>
+      </section>
+
       <section className="portal-section">
-        <SectionHeading index="01" title="三个核心频道" lead="先解决“去哪里”，再解决“怎么买、怎么下载、怎么用”。" />
+        <SectionHeading index="01" title="三条主要学习路线" lead="先理解，再比较；能用免费版时先不急着付费。" />
         <div className="portal-channel-grid">
           <Link href="/nodes" className="channel-card channel-nodes"><span>网络服务</span><h2>机场指南</h2><p>价格、流量、付款、客户端和入口状态分开核验。</p><strong>查看 {sortedServices.length} 家当前服务 →</strong></Link>
           <Link href="/subscriptions" className="channel-card channel-subscriptions"><span>推广与风险</span><h2>AI订阅</h2><p>把官方价、GamsGo公开价和账号交付风险讲清楚。</p><strong>比较 {subscriptionOffers.length} 项订阅 →</strong></Link>

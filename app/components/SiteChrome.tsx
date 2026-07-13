@@ -29,21 +29,20 @@ function publicAsset(path: string) {
 
 const navItems = [
   ["首页", "/"],
-  ["机场指南", "/nodes"],
+  ["新手入门", "/#start"],
+  ["网络连接", "/nodes"],
+  ["AI怎么选", "/ai"],
   ["AI订阅", "/subscriptions"],
-  ["AI工具", "/ai"],
   ["常用应用", "/apps"],
   ["下载中心", "/downloads"],
-  ["搜索", "/search"],
-  ["核验方法", "/methodology"],
 ];
 
 export function SiteHeader() {
   return (
-    <header className="global-header">
+    <><a className="skip-link" href="#main-content">跳到主要内容</a><header className="global-header">
       <Link className="global-brand" href="/" aria-label="数字工具指南首页">
         <span className="global-mark">数</span>
-        <span><strong>数字工具指南</strong><small>独立核验 · 小白友好</small></span>
+        <span><strong>数字工具指南</strong><small>逐项核对 · 第一次也能懂</small></span>
       </Link>
       <nav className="global-nav" aria-label="全站导航">
         {navItems.map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}
@@ -52,7 +51,7 @@ export function SiteHeader() {
         <summary aria-label="打开网站菜单">菜单</summary>
         <div>{navItems.map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}</div>
       </details>
-    </header>
+    </header></>
   );
 }
 
@@ -72,7 +71,11 @@ export function SiteFooter() {
 }
 
 export function PageShell({ children }: { children: ReactNode }) {
-  return <><SiteHeader /><main className="page-main">{children}</main><SiteFooter /></>;
+  return <><SiteHeader /><main className="page-main" id="main-content">{children}</main><SiteFooter /></>;
+}
+
+export function Breadcrumbs({ items }: { items: { label: string; href?: string }[] }) {
+  return <nav className="breadcrumbs" aria-label="当前位置">{items.map((item, index) => <span key={`${item.label}-${index}`}>{index > 0 && <i aria-hidden="true">/</i>}{item.href ? <Link href={item.href}>{item.label}</Link> : <strong aria-current="page">{item.label}</strong>}</span>)}</nav>;
 }
 
 export function PageIntro({ eyebrow, title, lead, aside }: { eyebrow: string; title: string; lead: string; aside?: ReactNode }) {
@@ -89,8 +92,8 @@ export function SectionHeading({ index, title, lead }: { index?: string; title: 
 }
 
 const verificationLabels: Record<VerificationStatus, string> = {
-  verified: "官方已核验",
-  automatic: "自动核验",
+  verified: "已核对资料",
+  automatic: "自动检查",
   pending: "待复核",
   error: "读取异常",
   paused: "已暂停",
@@ -123,7 +126,7 @@ export function EditorialCoverFeature({ slug, title, lead }: { slug: string; tit
   const src = publicAsset(`/editorial/${slug}.png`);
   return (
     <section className="editorial-cover-feature">
-      <div><span>VISUAL GUIDE · 可保存视觉版</span><h2>{title}</h2><p>{lead}</p><a href={src} target="_blank" rel="noopener noreferrer">打开高清封面 ↗</a></div>
+      <div><span>可保存的视觉版</span><h2>{title}</h2><p>{lead}</p><a href={src} target="_blank" rel="noopener noreferrer">打开高清封面 ↗</a></div>
       <EditorialCover slug={slug} name={title} />
     </section>
   );

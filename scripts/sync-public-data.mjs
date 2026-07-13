@@ -41,7 +41,7 @@ const repositories = ["clash-verge-rev/clash-verge-rev", "2dust/v2rayN", "chen08
 
 async function loadCatalogOfficialLinks() {
   const source = await readFile(new URL("../data/catalog.ts", import.meta.url), "utf8");
-  const urls = [...source.matchAll(/url:\s*"(https?:\/\/[^"\s]+)"/g)].map((match) => match[1]);
+  const urls = [...source.matchAll(/(?:url|officialUrl):\s*"(https?:\/\/[^"\s]+)"/g)].map((match) => match[1]);
   return [...new Set(urls)]
     .filter((url) => isAllowedOfficialDownload(url))
     .map((url, index) => ({ id: `catalog-official-${index + 1}`, url, kind: "download-source" }));

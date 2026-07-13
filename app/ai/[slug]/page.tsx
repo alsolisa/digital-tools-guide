@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
-import { aiProducts, getAiProduct } from "../../../data/catalog";
-import { BrandIcon, DownloadButtons, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
+import Link from "next/link";
+import { aiProducts, getAiProduct, subscriptionOffers } from "../../../data/catalog";
+import { BrandIcon, Breadcrumbs, DownloadButtons, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
 
 export function generateStaticParams() {
   return aiProducts.map((product) => ({ slug: product.slug }));
@@ -17,9 +18,13 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
   const { slug } = await params;
   const product = getAiProduct(slug);
   if (!product) notFound();
+  const offer = subscriptionOffers.find((item) => item.productSlug === product.slug);
+  const howToJsonLd = { "@context": "https://schema.org", "@type": "HowTo", name: `${product.name}第一次使用教程`, description: product.summary, step: product.setupSteps.map((step, index) => ({ "@type": "HowToStep", position: index + 1, name: `第${index + 1}步`, text: step })) };
 
   return (
     <PageShell>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd).replace(/</g, "\\u003c") }} />
+      <Breadcrumbs items={[{ label: "首页", href: "/" }, { label: "AI怎么选", href: "/ai" }, { label: product.name }]} />
       <section className="detail-hero detail-hero-with-cover">
         <div className="detail-hero-copy"><div className="detail-title-row"><BrandIcon slug={product.slug} name={product.name} size="hero" /><div><span className="eyebrow">{product.company} · 小白完整教程</span><h1>{product.name}</h1></div></div>
         <p>{product.summary}</p>
@@ -47,8 +52,17 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
         <p className="plan-guide-note">付款前检查：登录的是本人账号、结算币种和税费、是否自动续费、取消入口在哪里。<a href="https://chatgpt.com/pricing/" target="_blank" rel="noopener noreferrer">查看官方套餐页 ↗</a></p>
       </section>}
 
+      {product.slug !== "chatgpt" && offer && <section className="content-section soft-section plan-guide-section">
+        <SectionHeading index="选择" title="免费版、官方订阅还是第三方购买？" lead="先用免费版完成真实任务；需要更多用量或功能时，再比较官方与第三方。" />
+        <div className="plan-guide-grid">
+          <article><span>先体验</span><h2>免费版</h2><p>{offer.freeAdvice}</p><strong>推荐：第一次使用的人</strong></article>
+          <article className="recommended"><span>长期和重要资料</span><h2>官方订阅</h2><p>{offer.officialPrice}。账号、续费和售后关系更直接，适合保存长期资料。</p><a href={offer.officialUrl} target="_blank" rel="noopener noreferrer">查看官方方案 ↗</a></article>
+          <article><span>替代购买渠道</span><h2>第三方方案</h2><p>{offer.deliveryType}。价格可能不同，但要额外检查账号归属、隐私和到期后的控制权。</p><Link href="/subscriptions">先看第三方购买风险 →</Link></article>
+        </div>
+      </section>}
+
       <section className="content-section soft-section">
-        <SectionHeading index="02" title="普通用户能看到的主流模型" lead="只整理网页或App中的常用型号；API专用型号不混入主要推荐。" />
+        <SectionHeading index="02" title="普通用户能看到的主流模型" lead="“模型”可以理解成AI产品内部使用的不同引擎。这里只整理网页或App中的常用型号，不要求新手记住名称。" />
         <div className="model-table" role="table" aria-label={`${product.name}模型说明`}>
           <div className="model-row model-head" role="row"><span>模型</span><span>可用范围</span><span>上下文</span><span>说明</span></div>
           {product.models.map((model) => <div className="model-row" role="row" key={model.name}><strong>{model.name}</strong><span>{model.availability}</span><span>{model.context}</span><div><p>{model.note}</p><small>{model.inputs.join(" · ")}</small></div></div>)}

@@ -1,0 +1,47 @@
+import { writeFile } from "node:fs/promises";
+import path from "node:path";
+import sharp from "sharp";
+
+const width = 1536;
+const height = 1024;
+const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fbf8ef"/><stop offset="1" stop-color="#f0eadb"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#0f2f42" flood-opacity=".15"/></filter>
+  </defs>
+  <rect width="1536" height="1024" fill="url(#paper)"/>
+  <path d="M1080 0H1536V1024H840C972 808 992 632 954 454 925 315 1000 157 1080 0Z" fill="#102f42"/>
+  <circle cx="1430" cy="110" r="120" fill="none" stroke="#d0a957" stroke-width="2" opacity=".55"/>
+  <circle cx="1430" cy="110" r="82" fill="none" stroke="#d0a957" stroke-width="2" opacity=".4"/>
+  <path d="M72 90H720" stroke="#b88931" stroke-width="3"/><circle cx="72" cy="90" r="8" fill="#b88931"/><circle cx="720" cy="90" r="8" fill="#b88931"/>
+  <text x="74" y="160" fill="#0b7b61" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="25" font-weight="700" letter-spacing="5">面向第一次使用的人</text>
+  <text x="68" y="350" fill="#102f42" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="126" font-weight="800">数字工具指南</text>
+  <text x="72" y="458" fill="#0b7b61" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="54" font-weight="750">第一次来，也能一步一步看懂</text>
+  <text x="74" y="545" fill="#53666f" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="31">先解释是什么，再告诉你是否需要、有什么风险、下一步怎么做。</text>
+  <g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="700">
+    <g transform="translate(72 640)"><rect width="230" height="64" rx="32" fill="#102f42"/><text x="115" y="41" text-anchor="middle" fill="#fff">VPN和“机场”</text></g>
+    <g transform="translate(322 640)"><rect width="190" height="64" rx="32" fill="#e3f1eb" stroke="#9bc8b8"/><text x="95" y="41" text-anchor="middle" fill="#0b694f">AI怎么选</text></g>
+    <g transform="translate(532 640)"><rect width="190" height="64" rx="32" fill="#fff1d7" stroke="#d7b36e"/><text x="95" y="41" text-anchor="middle" fill="#7d581c">会员风险</text></g>
+    <g transform="translate(742 640)"><rect width="190" height="64" rx="32" fill="#fff" stroke="#b9c3c6"/><text x="95" y="41" text-anchor="middle" fill="#102f42">官方下载</text></g>
+  </g>
+  <g transform="translate(1015 252)" filter="url(#shadow)">
+    <rect x="0" y="0" width="410" height="520" rx="28" fill="#fffdf7"/>
+    <rect x="0" y="0" width="410" height="82" rx="28" fill="#0b7b61"/><rect x="0" y="55" width="410" height="27" fill="#0b7b61"/>
+    <circle cx="38" cy="40" r="9" fill="#f1d28b"/><circle cx="68" cy="40" r="9" fill="#f1d28b"/><circle cx="98" cy="40" r="9" fill="#f1d28b"/>
+    <text x="36" y="130" fill="#102f42" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="800">新手阅读顺序</text>
+    <g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif">
+      <g transform="translate(36 162)"><circle cx="27" cy="27" r="27" fill="#0b7b61"/><text x="27" y="36" text-anchor="middle" fill="#fff" font-size="24" font-weight="800">1</text><text x="76" y="23" fill="#102f42" font-size="21" font-weight="800">它是什么</text><text x="76" y="49" fill="#6c7a80" font-size="16">先用普通话解释概念</text></g>
+      <g transform="translate(36 246)"><circle cx="27" cy="27" r="27" fill="#0b7b61"/><text x="27" y="36" text-anchor="middle" fill="#fff" font-size="24" font-weight="800">2</text><text x="76" y="23" fill="#102f42" font-size="21" font-weight="800">你是否需要</text><text x="76" y="49" fill="#6c7a80" font-size="16">按真实用途判断</text></g>
+      <g transform="translate(36 330)"><circle cx="27" cy="27" r="27" fill="#c09342"/><text x="27" y="36" text-anchor="middle" fill="#fff" font-size="24" font-weight="800">3</text><text x="76" y="23" fill="#102f42" font-size="21" font-weight="800">风险是什么</text><text x="76" y="49" fill="#6c7a80" font-size="16">账号、隐私、付款和地区</text></g>
+      <g transform="translate(36 414)"><circle cx="27" cy="27" r="27" fill="#102f42"/><text x="27" y="36" text-anchor="middle" fill="#fff" font-size="24" font-weight="800">4</text><text x="76" y="23" fill="#102f42" font-size="21" font-weight="800">下一步怎么做</text><text x="76" y="49" fill="#6c7a80" font-size="16">选择、下载、购买和操作</text></g>
+    </g>
+  </g>
+  <text x="74" y="902" fill="#102f42" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="24" font-weight="700">资料逐项核对 · 推广关系公开 · 不收集账号与付款信息</text>
+  <path d="M72 940H820" stroke="#c8b486" stroke-width="2"/>
+</svg>`;
+
+const output = path.join(process.cwd(), "public", "og-v4.png");
+await sharp(Buffer.from(svg)).png({ quality: 95, compressionLevel: 9 }).toFile(output);
+await writeFile(path.join(process.cwd(), "design-assets", "og-v4-source.svg"), svg, "utf8");
+console.log(output);

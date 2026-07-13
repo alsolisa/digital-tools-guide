@@ -77,6 +77,7 @@ export function isAllowedOfficialDownload(url) {
     "chatgpt.com", "openai.com", "claude.ai", "anthropic.com", "support.claude.com",
     "gemini.google.com", "google.com", "support.google.com", "grok.com", "x.ai", "x.com",
     "perplexity.ai", "youtube.com", "www.youtube.com", "tiktok.com", "www.tiktok.com",
-    "play.google.com", "apps.apple.com", "apps.microsoft.com", "github.com",
+    "play.google.com", "apps.apple.com", "apps.microsoft.com", "github.com", "one.google.com",
+    "midjourney.com", "nssurge.com",
   ].some((domain) => hostname === domain || hostname.endsWith(`.${domain}`));
 }

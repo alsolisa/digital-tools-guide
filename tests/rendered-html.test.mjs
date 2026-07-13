@@ -27,6 +27,26 @@ test("全部公开页面与详情页都能正常打开", async () => {
   }
 });
 
+test("全站按零基础用户顺序先解释再比较", async () => {
+  const home = await (await render("/")).text();
+  assert.match(home, /先选你现在想解决的问题/);
+  assert.match(home, /它是什么/);
+  const nodes = await (await render("/nodes")).text();
+  for (const term of ["VPN", "机场", "节点", "客户端", "订阅链接"]) assert.match(nodes, new RegExp(term));
+  assert.match(nodes, /它们不是“全市场前五名”/);
+  const subscriptions = await (await render("/subscriptions")).text();
+  assert.match(subscriptions, /GamsGo是什么/);
+  assert.match(subscriptions, /能官方购买时，优先官方/);
+  assert.match(subscriptions, /为什么首批选择这六项/);
+  const ai = await (await render("/ai")).text();
+  assert.match(ai, /第一次使用AI，不需要先懂模型/);
+  assert.match(ai, /先免费体验，再决定付费/);
+  const downloads = await (await render("/downloads")).text();
+  assert.match(downloads, /网络客户端不是网络套餐/);
+  const methodology = await (await render("/methodology")).text();
+  assert.match(methodology, /目前不称为实时同步/);
+});
+
 test("机场指南按已核验实际月付优先排序并保留待核验标记", async () => {
   const html = await (await render("/nodes")).text();
   const names = ["WestData", "Nexitally", "TAG", "悠兔 Youtu", "BoostNet"];
@@ -72,6 +92,7 @@ test("下载中心只链接允许的官方域名且没有空链接", async () =>
   const allowed = [
     "chatgpt.com", "claude.ai", "gemini.google.com", "grok.com", "perplexity.ai",
     "youtube.com", "x.com", "tiktok.com", "play.google.com", "apps.apple.com",
+    "github.com", "nssurge.com",
   ];
   for (const link of externalLinks) {
     const host = new URL(link).hostname;
@@ -106,7 +127,7 @@ test("应用教程分开显示Google Play与Apple App Store", async () => {
 
 test("机场与AI订阅页面接入对应V3视觉指南", async () => {
   const nodes = await (await render("/nodes")).text();
-  assert.match(nodes, /机场与客户端：第一次使用指南/);
+  assert.match(nodes, /网络连接服务：第一次使用指南/);
   assert.match(nodes, /\/editorial\/nodes\.png/);
   const subscriptions = await (await render("/subscriptions")).text();
   assert.match(subscriptions, /AI订阅：购买前先看账号归属/);

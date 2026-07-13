@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { commonApps, getCommonApp } from "../../../data/catalog";
-import { BrandIcon, DownloadButtons, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
+import { BrandIcon, Breadcrumbs, DownloadButtons, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
 
 export function generateStaticParams() {
   return commonApps.map((app) => ({ slug: app.slug }));
@@ -17,8 +17,11 @@ export default async function AppDetailPage({ params }: { params: Promise<{ slug
   const { slug } = await params;
   const app = getCommonApp(slug);
   if (!app) notFound();
+  const howToJsonLd = { "@context": "https://schema.org", "@type": "HowTo", name: `${app.name}安装与第一次使用教程`, description: app.summary, step: app.setupSteps.map((step, index) => ({ "@type": "HowToStep", position: index + 1, name: `第${index + 1}步`, text: step })) };
   return (
     <PageShell>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd).replace(/</g, "\\u003c") }} />
+      <Breadcrumbs items={[{ label: "首页", href: "/" }, { label: "常用应用", href: "/apps" }, { label: app.name }]} />
       <section className="detail-hero detail-hero-with-cover app-detail-hero">
         <div className="detail-hero-copy"><div className="detail-title-row"><BrandIcon slug={app.slug} name={app.name} size="hero" /><div><span className="eyebrow">{app.company} · 基础小白教程</span><h1>{app.name}</h1></div></div>
         <p>{app.summary}</p><div className="detail-meta"><VerificationChip status="verified" /><span>官方商店入口</span><span>核验 {app.verifiedAt}</span></div></div>
