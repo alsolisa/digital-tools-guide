@@ -103,13 +103,14 @@ test("下载中心只链接允许的官方域名且没有空链接", async () =>
   assert.doesNotMatch(html, /href=["']#["']/);
 });
 
-test("AI详情页包含模型、下载、官方截图、提示词、隐私和评测来源", async () => {
+test("AI详情页包含真实场景、高清截图、下载、模型、提示词、隐私和评测来源", async () => {
   for (const slug of ["chatgpt", "claude", "gemini", "grok", "perplexity"]) {
     const html = await (await render(`/ai/${slug}`)).text();
-    for (const text of ["普通用户能看到的主流模型", "官方下载与网页版", "官方应用界面示意", "五组可以直接复制的提示词", "隐私", "Arena", "Artificial Analysis"]) {
+    for (const text of ["三个真实使用场景", "选择你的设备，只走官方入口", "先看官方界面", "模型与评测：需要时再看", "五组可以直接复制的提示词", "隐私", "Arena", "Artificial Analysis"]) {
       assert.match(html, new RegExp(text), `${slug} 缺少 ${text}`);
     }
-    assert.match(html, new RegExp(`/guides/${slug}/store-1\\.(?:png|jpg)`), `${slug} 缺少官方商店截图`);
+    assert.match(html, new RegExp(`/guides/${slug}/official-1\\.(?:webp|png|jpg)`), `${slug} 缺少高清官方商店截图`);
+    assert.match(html, /这一屏重点看/);
     assert.match(html, new RegExp(`/editorial/${slug}\\.png`), `${slug} 缺少V3编辑封面`);
   }
 });
@@ -121,10 +122,20 @@ test("应用教程分开显示Google Play与Apple App Store", async () => {
     assert.match(html, /Apple App Store/);
     assert.match(html, /设置中文/);
     assert.match(html, /账号安全/);
-    assert.match(html, /官方应用界面示意/);
-    assert.match(html, new RegExp(`/guides/${slug}/store-1\\.(?:png|jpg)`), `${slug} 缺少官方商店截图`);
+    assert.match(html, /官方高清界面图/);
+    assert.match(html, /三个真实用法/);
+    assert.match(html, new RegExp(`/guides/${slug}/official-1\\.(?:webp|png|jpg)`), `${slug} 缺少高清官方商店截图`);
     assert.match(html, new RegExp(`/editorial/${slug}\\.png`), `${slug} 缺少V3编辑封面`);
   }
+});
+
+test("下载中心提供带版本和SHA-256的开源备用文件", async () => {
+  const html = await (await render("/downloads")).text();
+  assert.match(html, /本站提供两项开源客户端备用文件/);
+  assert.match(html, /Clash\.Verge_2\.5\.1_x64-setup\.exe/);
+  assert.match(html, /FlClash-0\.8\.94-android-arm64-v8a\.apk/);
+  assert.match(html, /SHA-256/);
+  assert.match(html, /GPL许可证/);
 });
 
 test("机场与AI订阅页面接入对应V3视觉指南", async () => {

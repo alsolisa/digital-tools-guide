@@ -136,6 +136,8 @@ const services = [
 ];
 
 const sortedServices = services.filter((service) => service.active !== false).sort((a, b) => a.sortGroup - b.sortGroup || a.sortPrice - b.sortPrice);
+const rankedMonthlyServices = sortedServices.filter((service) => service.sortGroup === 0);
+const monthlyCandidates = sortedServices.filter((service) => service.sortGroup !== 0);
 
 const clients = [
   {
@@ -234,6 +236,21 @@ const serviceSelectionReasons = [
   { name: "BoostNet", reason: "提供自有客户端和多种周期，可作为非月付、偏性价比方案的对照。", evidence: "当前计划页已核验" },
 ];
 
+function ServiceCard({ service, index, prefix = "月付" }: { service: (typeof services)[number]; index: number; prefix?: string }) {
+  return <article className="service-card">
+    <div className="service-topline"><span className="service-tag">{prefix} {index + 1} · {service.tag}</span><span className={`status-pill ${service.statusTone}`}><i />{service.status}</span></div>
+    <div className="service-title"><h3>{service.name}</h3><span>{service.alias}</span></div>
+    <p className="service-description">{service.description}</p>
+    <div className="service-stats"><div><small>可比参考价格</small><strong>{service.price}</strong><span>{service.cycle}</span></div><div><small>参考流量</small><strong>{service.traffic}</strong></div></div>
+    <p className="accuracy-note">{service.accuracy}</p>
+    <div className="fact-line"><span>月付</span>{service.monthly}</div>
+    <div className="fact-line"><span>客户端</span>{service.ownClient}{"clientHref" in service && service.clientHref && <a href={service.clientHref} target="_blank" rel="noopener noreferrer">自有客户端下载 ↗</a>}</div>
+    <div className="payment-line"><span>付款</span>{service.payment}</div>
+    <div className="best-for"><span>适合</span>{service.bestFor}</div>
+    <a href={service.href} target="_blank" rel="sponsored noopener" className="card-action">{service.linkLabel} <span>↗</span></a>
+  </article>;
+}
+
 export function NodeGuidePage() {
   return (
     <>
@@ -312,25 +329,14 @@ export function NodeGuidePage() {
       <section className="section services-section" id="services">
         <div className="section-heading">
           <div><span className="section-index">04 / 服务对比</span><h2>已核验月付优先，再按起价排序</h2></div>
-          <p>当前展示 {sortedServices.length} 家。这里只按明确的月付规则排列，不是速度、稳定性或综合质量排行榜。</p>
+          <p>主榜只展示当前已经在购买页确认可以单独月付的 {rankedMonthlyServices.length} 家；没有明确月付的服务单独放在下方，不参与价格排序。</p>
         </div>
         <div className="sort-note"><strong>排序口径</strong><span>当前可单独购买的月付或约31天套餐</span><i />已核验 <i className="review-dot" />待复核</div>
         <div className="service-grid">
-          {sortedServices.map((service, index) => (
-            <article className="service-card" key={service.name}>
-              <div className="service-topline"><span className="service-tag">展示 {index + 1} · {service.tag}</span><span className={`status-pill ${service.statusTone}`}><i />{service.status}</span></div>
-              <div className="service-title"><h3>{service.name}</h3><span>{service.alias}</span></div>
-              <p className="service-description">{service.description}</p>
-              <div className="service-stats"><div><small>可比参考价格</small><strong>{service.price}</strong><span>{service.cycle}</span></div><div><small>参考流量</small><strong>{service.traffic}</strong></div></div>
-              <p className="accuracy-note">{service.accuracy}</p>
-              <div className="fact-line"><span>月付</span>{service.monthly}</div>
-              <div className="fact-line"><span>客户端</span>{service.ownClient}{service.clientHref && <a href={service.clientHref} target="_blank" rel="noopener noreferrer">自有客户端下载 ↗</a>}</div>
-              <div className="payment-line"><span>付款</span>{service.payment}</div>
-              <div className="best-for"><span>适合</span>{service.bestFor}</div>
-              <a href={service.href} target="_blank" rel="sponsored noopener" className="card-action">{service.linkLabel} <span>↗</span></a>
-            </article>
-          ))}
+          {rankedMonthlyServices.map((service, index) => <ServiceCard service={service} index={index} key={service.name} />)}
         </div>
+        <div className="candidate-divider"><span>不进入月付价格榜</span><h3>有特点，但当前没有足够月付证据</h3><p>这两项仍保留入口、客户端和已核验信息；等月付套餐重新出现或完成实际购买页核验后，再进入上方主榜。</p></div>
+        <div className="service-grid candidate-service-grid">{monthlyCandidates.map((service, index) => <ServiceCard service={service} index={index} prefix="候选" key={service.name} />)}</div>
       </section>
 
       <section className="section downloads-section" id="downloads">
@@ -380,7 +386,7 @@ export function NodeGuidePage() {
 }
 
 export default function Home() {
-  const verifiedNodeCount = sortedServices.filter((service) => service.statusTone === "verified").length;
+  const verifiedNodeCount = rankedMonthlyServices.length;
   return (
     <PageShell>
       <section className="portal-hero">
@@ -393,7 +399,7 @@ export default function Home() {
         </div>
         <aside className="portal-proof">
           <span>当前资料状态</span><h2>资料有来源，变化有记录</h2>
-          <div><strong>{verifiedNodeCount}</strong><small>家机场已核验</small></div>
+          <div><strong>{verifiedNodeCount}</strong><small>家月付已核验</small></div>
           <div><strong>{aiProducts.length}</strong><small>项主流 AI</small></div>
           <div><strong>{subscriptionOffers.length}</strong><small>项订阅风险分级</small></div>
           <div><strong>{commonApps.length}</strong><small>项常用应用教程</small></div>
@@ -415,7 +421,7 @@ export default function Home() {
       <section className="portal-section">
         <SectionHeading index="01" title="三条主要学习路线" lead="先理解，再比较；能用免费版时先不急着付费。" />
         <div className="portal-channel-grid">
-          <Link href="/nodes" className="channel-card channel-nodes"><span>网络服务</span><h2>机场指南</h2><p>价格、流量、付款、客户端和入口状态分开核验。</p><strong>查看 {sortedServices.length} 家当前服务 →</strong></Link>
+          <Link href="/nodes" className="channel-card channel-nodes"><span>网络服务</span><h2>机场指南</h2><p>价格、流量、付款、客户端和入口状态分开核验。</p><strong>{rankedMonthlyServices.length} 家月付已核验 · {monthlyCandidates.length} 家候选 →</strong></Link>
           <Link href="/subscriptions" className="channel-card channel-subscriptions"><span>推广与风险</span><h2>AI订阅</h2><p>把官方价、GamsGo公开价和账号交付风险讲清楚。</p><strong>比较 {subscriptionOffers.length} 项订阅 →</strong></Link>
           <Link href="/ai" className="channel-card channel-ai"><span>安装与使用</span><h2>主流 AI 教程</h2><p>按平台提供官方下载、首次使用、提示词和隐私提醒。</p><strong>学习 {aiProducts.length} 项 AI →</strong></Link>
         </div>

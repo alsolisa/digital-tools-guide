@@ -42,6 +42,9 @@ test("静态导出包含搜索引擎、PWA与教程图片资源", async () => {
   for (const slug of ["chatgpt", "claude", "gemini", "grok", "perplexity", "youtube", "x", "tiktok", "nodes", "subscriptions"]) {
     assert.equal(await exists(path.join(root, "editorial", `${slug}.png`)), true, `缺少${slug}编辑封面`);
   }
+  for (const file of ["Clash.Verge_2.5.1_x64-setup.exe", "FlClash-0.8.94-android-arm64-v8a.apk"]) {
+    assert.equal(await exists(path.join(root, "mirror", file)), true, `缺少本站备用安装包 ${file}`);
+  }
 });
 
 test("全部站内链接保留GitHub Pages子目录并指向真实文件", async () => {

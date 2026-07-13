@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-13T05:20:59.814Z",
+  "checkedAt": "2026-07-13T06:22:02.207Z",
   "policy": {
     "publicLinks": "automatic-6h",
     "clientReleases": "automatic-6h",
@@ -12,9 +12,9 @@
       "id": "westdata",
       "url": "https://wd-gold.net/aff.php?aff=15433",
       "kind": "affiliate",
-      "state": "protected",
-      "status": 403,
-      "finalUrl": "https://wd-gold.net/aff.php?aff=15433"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://wd-cloud.net/"
     },
     {
       "id": "youtu-client",
@@ -52,9 +52,9 @@
       "id": "nexitally",
       "url": "https://nxonearth.com/Main.aspx",
       "kind": "official",
-      "state": "protected",
-      "status": 403,
-      "finalUrl": "https://nxonearth.com/Main.aspx"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://nxonearth.com/signinbyemail.aspx?gourl=%2FMain.aspx"
     },
     {
       "id": "tag",
@@ -65,7 +65,7 @@
       "finalUrl": "https://tagss.pro/"
     },
     {
-      "id": "catalog-official-54",
+      "id": "catalog-official-71",
       "url": "https://nssurge.com/",
       "kind": "download-source",
       "state": "ok",
@@ -100,12 +100,12 @@
       "id": "catalog-official-2",
       "url": "https://chatgpt.com/download/",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://chatgpt.com/download/"
     },
     {
-      "id": "catalog-official-10",
+      "id": "catalog-official-12",
       "url": "https://claude.ai/download",
       "kind": "download-source",
       "state": "ok",
@@ -113,7 +113,7 @@
       "finalUrl": "https://claude.com/download"
     },
     {
-      "id": "catalog-official-16",
+      "id": "catalog-official-19",
       "url": "https://gemini.google.com/",
       "kind": "download-source",
       "state": "ok",
@@ -121,27 +121,27 @@
       "finalUrl": "https://gemini.google.com/"
     },
     {
-      "id": "catalog-official-22",
+      "id": "catalog-official-28",
       "url": "https://grok.com/",
-      "kind": "download-source",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://grok.com/"
-    },
-    {
-      "id": "catalog-official-29",
-      "url": "https://www.perplexity.ai/platforms",
       "kind": "download-source",
       "state": "protected",
       "status": 403,
+      "finalUrl": "https://grok.com/"
+    },
+    {
+      "id": "catalog-official-36",
+      "url": "https://www.perplexity.ai/platforms",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://www.perplexity.ai/platforms"
     },
     {
       "id": "catalog-official-1",
       "url": "https://chatgpt.com/",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://chatgpt.com/"
     },
     {
@@ -162,46 +162,62 @@
     },
     {
       "id": "catalog-official-5",
-      "url": "https://chatgpt.com/pricing/",
+      "url": "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
-      "finalUrl": "https://chatgpt.com/pricing/"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq"
     },
     {
       "id": "catalog-official-6",
-      "url": "https://help.openai.com/en/articles/6950777-what-is-chatgpt",
+      "url": "https://chatgpt.com/pricing/",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
-      "finalUrl": "https://help.openai.com/en/articles/6950777-what-is-chatgpt"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://chatgpt.com/pricing/"
     },
     {
       "id": "catalog-official-7",
-      "url": "https://help.openai.com/en/articles/20001354-gpt-56-in-chatgpt",
+      "url": "https://help.openai.com/en/articles/9930697-what-is-the-canvas-feature-in-chatgpt-and-how-do-i-use-i",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
-      "finalUrl": "https://help.openai.com/en/articles/20001354-gpt-56-in-chatgpt"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://help.openai.com/en/articles/9930697-what-is-the-canvas-feature-in-chatgpt-and-how-do-i-use-i"
     },
     {
       "id": "catalog-official-8",
-      "url": "https://help.openai.com/en/articles/7730893-datacontrols-faq",
+      "url": "https://help.openai.com/en/articles/6950777-what-is-chatgpt",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
-      "finalUrl": "https://help.openai.com/en/articles/7730893-datacontrols-faq"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://help.openai.com/en/articles/6950777-what-is-chatgpt"
     },
     {
       "id": "catalog-official-9",
+      "url": "https://help.openai.com/en/articles/20001354-gpt-56-in-chatgpt",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://help.openai.com/en/articles/20001354-gpt-56-in-chatgpt"
+    },
+    {
+      "id": "catalog-official-10",
+      "url": "https://help.openai.com/en/articles/7730893-datacontrols-faq",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://help.openai.com/en/articles/7730893-datacontrols-faq"
+    },
+    {
+      "id": "catalog-official-11",
       "url": "https://claude.ai/",
       "kind": "download-source",
       "state": "protected",
       "status": 403,
-      "finalUrl": "https://claude.ai/"
+      "finalUrl": "https://claude.ai/login"
     },
     {
-      "id": "catalog-official-11",
+      "id": "catalog-official-13",
       "url": "https://play.google.com/store/apps/details?id=com.anthropic.claude",
       "kind": "download-source",
       "state": "ok",
@@ -209,7 +225,7 @@
       "finalUrl": "https://play.google.com/store/apps/details?id=com.anthropic.claude"
     },
     {
-      "id": "catalog-official-12",
+      "id": "catalog-official-14",
       "url": "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684",
       "kind": "download-source",
       "state": "ok",
@@ -217,7 +233,15 @@
       "finalUrl": "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684"
     },
     {
-      "id": "catalog-official-13",
+      "id": "catalog-official-15",
+      "url": "https://www.anthropic.com/claude",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://claude.com/product/overview"
+    },
+    {
+      "id": "catalog-official-16",
       "url": "https://support.anthropic.com/en/articles/8114487-what-interfaces-can-i-use-to-access-claude",
       "kind": "download-source",
       "state": "ok",
@@ -225,7 +249,7 @@
       "finalUrl": "https://support.claude.com/en/articles/8114487-what-interfaces-can-i-use-to-access-claude"
     },
     {
-      "id": "catalog-official-14",
+      "id": "catalog-official-17",
       "url": "https://support.claude.com/en/articles/11049762-choose-a-claude-plan",
       "kind": "download-source",
       "state": "ok",
@@ -233,7 +257,7 @@
       "finalUrl": "https://support.claude.com/en/articles/11049762-choose-a-claude-plan"
     },
     {
-      "id": "catalog-official-15",
+      "id": "catalog-official-18",
       "url": "https://support.claude.com/en/articles/12138966-release-notes",
       "kind": "download-source",
       "state": "ok",
@@ -241,7 +265,7 @@
       "finalUrl": "https://support.claude.com/en/articles/12138966-release-notes"
     },
     {
-      "id": "catalog-official-17",
+      "id": "catalog-official-20",
       "url": "https://play.google.com/store/apps/details?id=com.google.android.apps.bard",
       "kind": "download-source",
       "state": "ok",
@@ -249,7 +273,7 @@
       "finalUrl": "https://play.google.com/store/apps/details?id=com.google.android.apps.bard"
     },
     {
-      "id": "catalog-official-18",
+      "id": "catalog-official-21",
       "url": "https://apps.apple.com/us/app/google-gemini/id6477489729",
       "kind": "download-source",
       "state": "ok",
@@ -257,7 +281,7 @@
       "finalUrl": "https://apps.apple.com/us/app/google-gemini/id6477489729"
     },
     {
-      "id": "catalog-official-19",
+      "id": "catalog-official-22",
       "url": "https://support.google.com/gemini/",
       "kind": "download-source",
       "state": "ok",
@@ -265,7 +289,31 @@
       "finalUrl": "https://support.google.com/gemini/"
     },
     {
-      "id": "catalog-official-20",
+      "id": "catalog-official-23",
+      "url": "https://support.google.com/gemini/answer/15719111",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://support.google.com/gemini/answer/15719111"
+    },
+    {
+      "id": "catalog-official-24",
+      "url": "https://support.google.com/gemini/answer/16047321",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://support.google.com/gemini/answer/16047321"
+    },
+    {
+      "id": "catalog-official-25",
+      "url": "https://support.google.com/gemini/answer/15236321",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://support.google.com/gemini/answer/15236321"
+    },
+    {
+      "id": "catalog-official-26",
       "url": "https://support.google.com/gemini/answer/13275745",
       "kind": "download-source",
       "state": "ok",
@@ -273,7 +321,7 @@
       "finalUrl": "https://support.google.com/gemini/answer/13275745"
     },
     {
-      "id": "catalog-official-21",
+      "id": "catalog-official-27",
       "url": "https://one.google.com/about/google-ai-plans/",
       "kind": "download-source",
       "state": "ok",
@@ -281,7 +329,7 @@
       "finalUrl": "https://one.google.com/about/google-ai-plans/"
     },
     {
-      "id": "catalog-official-23",
+      "id": "catalog-official-29",
       "url": "https://play.google.com/store/apps/details?id=ai.x.grok",
       "kind": "download-source",
       "state": "ok",
@@ -289,7 +337,7 @@
       "finalUrl": "https://play.google.com/store/apps/details?id=ai.x.grok"
     },
     {
-      "id": "catalog-official-24",
+      "id": "catalog-official-30",
       "url": "https://apps.apple.com/us/app/grok-ai/id6670324846",
       "kind": "download-source",
       "state": "ok",
@@ -297,23 +345,31 @@
       "finalUrl": "https://apps.apple.com/us/app/grok-ai/id6670324846"
     },
     {
-      "id": "catalog-official-25",
-      "url": "https://x.ai/grok",
+      "id": "catalog-official-31",
+      "url": "https://help.x.com/en/using-x/about-grok",
       "kind": "download-source",
       "state": "protected",
       "status": 403,
+      "finalUrl": "https://help.x.com/en/using-x/about-grok"
+    },
+    {
+      "id": "catalog-official-32",
+      "url": "https://x.ai/grok",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://x.ai/grok"
     },
     {
-      "id": "catalog-official-26",
+      "id": "catalog-official-33",
       "url": "https://x.ai/pricing",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://x.ai/pricing"
     },
     {
-      "id": "catalog-official-27",
+      "id": "catalog-official-34",
       "url": "https://docs.x.ai/grok/overview",
       "kind": "download-source",
       "state": "ok",
@@ -321,7 +377,7 @@
       "finalUrl": "https://docs.x.ai/grok/overview"
     },
     {
-      "id": "catalog-official-28",
+      "id": "catalog-official-35",
       "url": "https://www.perplexity.ai/",
       "kind": "download-source",
       "state": "protected",
@@ -329,7 +385,7 @@
       "finalUrl": "https://www.perplexity.ai/"
     },
     {
-      "id": "catalog-official-30",
+      "id": "catalog-official-37",
       "url": "https://play.google.com/store/apps/details?id=ai.perplexity.app.android",
       "kind": "download-source",
       "state": "ok",
@@ -337,7 +393,7 @@
       "finalUrl": "https://play.google.com/store/apps/details?id=ai.perplexity.app.android"
     },
     {
-      "id": "catalog-official-31",
+      "id": "catalog-official-38",
       "url": "https://apps.apple.com/us/app/perplexity-ai-search-chat/id1668000334",
       "kind": "download-source",
       "state": "ok",
@@ -345,7 +401,23 @@
       "finalUrl": "https://apps.apple.com/us/app/perplexity-ai-search-chat/id1668000334"
     },
     {
-      "id": "catalog-official-32",
+      "id": "catalog-official-39",
+      "url": "https://www.perplexity.ai/help-center/en/articles/10738684-what-is-research-mode",
+      "kind": "download-source",
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://www.perplexity.ai/help-center/en/articles/10738684-what-is-research-mode"
+    },
+    {
+      "id": "catalog-official-40",
+      "url": "https://www.perplexity.ai/help-center/en/collections/18799298-comet",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://www.perplexity.ai/help-center/en/collections/18799298-comet"
+    },
+    {
+      "id": "catalog-official-41",
       "url": "https://www.perplexity.ai/help-center/en/articles/9385876-what-is-perplexity-pro",
       "kind": "download-source",
       "state": "protected",
@@ -353,15 +425,15 @@
       "finalUrl": "https://www.perplexity.ai/help-center/en/articles/9385876-what-is-perplexity-pro"
     },
     {
-      "id": "catalog-official-33",
+      "id": "catalog-official-42",
       "url": "https://www.perplexity.ai/pro",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://www.perplexity.ai/pro"
     },
     {
-      "id": "catalog-official-34",
+      "id": "catalog-official-43",
       "url": "https://www.anthropic.com/pricing",
       "kind": "download-source",
       "state": "ok",
@@ -369,15 +441,15 @@
       "finalUrl": "https://claude.com/pricing"
     },
     {
-      "id": "catalog-official-35",
+      "id": "catalog-official-44",
       "url": "https://www.midjourney.com/plans/",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://www.midjourney.com/plans/"
     },
     {
-      "id": "catalog-official-36",
+      "id": "catalog-official-45",
       "url": "https://www.youtube.com/",
       "kind": "download-source",
       "state": "ok",
@@ -385,7 +457,7 @@
       "finalUrl": "https://www.youtube.com/"
     },
     {
-      "id": "catalog-official-37",
+      "id": "catalog-official-46",
       "url": "https://play.google.com/store/apps/details?id=com.google.android.youtube",
       "kind": "download-source",
       "state": "ok",
@@ -393,7 +465,7 @@
       "finalUrl": "https://play.google.com/store/apps/details?id=com.google.android.youtube"
     },
     {
-      "id": "catalog-official-38",
+      "id": "catalog-official-47",
       "url": "https://apps.apple.com/us/app/youtube/id544007664",
       "kind": "download-source",
       "state": "ok",
@@ -401,7 +473,7 @@
       "finalUrl": "https://apps.apple.com/us/app/youtube/id544007664"
     },
     {
-      "id": "catalog-official-39",
+      "id": "catalog-official-48",
       "url": "https://support.google.com/youtube/answer/3227660",
       "kind": "download-source",
       "state": "ok",
@@ -409,7 +481,23 @@
       "finalUrl": "https://support.google.com/youtube/answer/3227660"
     },
     {
-      "id": "catalog-official-40",
+      "id": "catalog-official-49",
+      "url": "https://support.google.com/youtube/answer/16475192",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://support.google.com/youtube/answer/16475192"
+    },
+    {
+      "id": "catalog-official-50",
+      "url": "https://support.google.com/youtube/answer/2474026",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://support.google.com/youtube/answer/2474026"
+    },
+    {
+      "id": "catalog-official-51",
       "url": "https://x.com/",
       "kind": "download-source",
       "state": "ok",
@@ -417,7 +505,7 @@
       "finalUrl": "https://x.com/"
     },
     {
-      "id": "catalog-official-41",
+      "id": "catalog-official-52",
       "url": "https://play.google.com/store/apps/details?id=com.twitter.android",
       "kind": "download-source",
       "state": "ok",
@@ -425,7 +513,7 @@
       "finalUrl": "https://play.google.com/store/apps/details?id=com.twitter.android"
     },
     {
-      "id": "catalog-official-42",
+      "id": "catalog-official-53",
       "url": "https://apps.apple.com/us/app/x/id333903271",
       "kind": "download-source",
       "state": "ok",
@@ -433,15 +521,47 @@
       "finalUrl": "https://apps.apple.com/us/app/x/id333903271"
     },
     {
-      "id": "catalog-official-43",
+      "id": "catalog-official-54",
       "url": "https://help.x.com/en/using-x/download-the-x-app",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://help.x.com/en/using-x/download-the-x-app"
     },
     {
-      "id": "catalog-official-44",
+      "id": "catalog-official-55",
+      "url": "https://help.x.com/en/using-x/x-premium",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://help.x.com/en/using-x/x-premium"
+    },
+    {
+      "id": "catalog-official-56",
+      "url": "https://help.x.com/en/using-x/x-lists",
+      "kind": "download-source",
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://help.x.com/en/using-x/x-lists"
+    },
+    {
+      "id": "catalog-official-57",
+      "url": "https://help.x.com/en/using-x/spaces",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://help.x.com/en/using-x/spaces"
+    },
+    {
+      "id": "catalog-official-58",
+      "url": "https://help.x.com/en/using-x/communities",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://help.x.com/en/using-x/communities"
+    },
+    {
+      "id": "catalog-official-59",
       "url": "https://www.tiktok.com/",
       "kind": "download-source",
       "state": "ok",
@@ -449,7 +569,7 @@
       "finalUrl": "https://www.tiktok.com/"
     },
     {
-      "id": "catalog-official-45",
+      "id": "catalog-official-60",
       "url": "https://play.google.com/store/apps/details?id=com.zhiliaoapp.musically",
       "kind": "download-source",
       "state": "ok",
@@ -457,7 +577,7 @@
       "finalUrl": "https://play.google.com/store/apps/details?id=com.zhiliaoapp.musically"
     },
     {
-      "id": "catalog-official-46",
+      "id": "catalog-official-61",
       "url": "https://apps.apple.com/us/app/tiktok/id835599320",
       "kind": "download-source",
       "state": "ok",
@@ -465,7 +585,23 @@
       "finalUrl": "https://apps.apple.com/us/app/tiktok-videos-shop-live/id835599320"
     },
     {
-      "id": "catalog-official-47",
+      "id": "catalog-official-62",
+      "url": "https://support.tiktok.com/en/getting-started/for-you/test-for-you",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://support.tiktok.com/en/getting-started/for-you/test-for-you"
+    },
+    {
+      "id": "catalog-official-63",
+      "url": "https://support.tiktok.com/en/account-and-privacy/account-privacy-settings/privacy-and-safety-settings-for-users-under-age-18/",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://www.tiktok.com/support/faq_detail?id=7611839632052853259"
+    },
+    {
+      "id": "catalog-official-64",
       "url": "https://github.com/clash-verge-rev/clash-verge-rev/releases/latest",
       "kind": "download-source",
       "state": "ok",
@@ -473,7 +609,7 @@
       "finalUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.1"
     },
     {
-      "id": "catalog-official-48",
+      "id": "catalog-official-65",
       "url": "https://github.com/2dust/v2rayN/releases/latest",
       "kind": "download-source",
       "state": "ok",
@@ -481,7 +617,7 @@
       "finalUrl": "https://github.com/2dust/v2rayN/releases/tag/7.23.4"
     },
     {
-      "id": "catalog-official-49",
+      "id": "catalog-official-66",
       "url": "https://github.com/chen08209/FlClash/releases/latest",
       "kind": "download-source",
       "state": "ok",
@@ -489,7 +625,7 @@
       "finalUrl": "https://github.com/chen08209/FlClash/releases/tag/v0.8.94"
     },
     {
-      "id": "catalog-official-50",
+      "id": "catalog-official-67",
       "url": "https://github.com/hiddify/hiddify-app/releases/latest",
       "kind": "download-source",
       "state": "ok",
@@ -497,7 +633,7 @@
       "finalUrl": "https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1"
     },
     {
-      "id": "catalog-official-51",
+      "id": "catalog-official-68",
       "url": "https://apps.apple.com/us/app/shadowrocket/id932747118",
       "kind": "download-source",
       "state": "ok",
@@ -505,7 +641,7 @@
       "finalUrl": "https://apps.apple.com/us/app/shadowrocket/id932747118"
     },
     {
-      "id": "catalog-official-52",
+      "id": "catalog-official-69",
       "url": "https://apps.apple.com/us/app/quantumult-x/id1443988620",
       "kind": "download-source",
       "state": "ok",
@@ -513,7 +649,7 @@
       "finalUrl": "https://apps.apple.com/us/app/quantumult-x/id1443988620"
     },
     {
-      "id": "catalog-official-53",
+      "id": "catalog-official-70",
       "url": "https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349",
       "kind": "download-source",
       "state": "ok",

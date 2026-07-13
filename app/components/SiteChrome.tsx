@@ -139,12 +139,20 @@ export function OfficialScreenshotGallery({ name, screenshots }: { name: string;
         <figure key={shot.src}>
           <div className="official-screenshot-media">
             <span>{String(index + 1).padStart(2, "0")}</span>
-            <Image src={publicAsset(shot.src)} alt={shot.alt} width={720} height={1080} unoptimized />
+            <a href={publicAsset(shot.src)} target="_blank" rel="noopener noreferrer" aria-label={`打开${name}第${index + 1}张高清官方截图`}>
+              <Image src={publicAsset(shot.src)} alt={shot.alt} width={1179} height={2096} unoptimized />
+            </a>
           </div>
-          <figcaption><strong>{shot.title}</strong><p>{shot.caption}</p><a href={shot.sourceUrl} target="_blank" rel="noopener noreferrer">{shot.sourceLabel}官方条目 ↗</a></figcaption>
+          <figcaption>
+            <span className="screenshot-label">官方界面 · 第{index + 1}屏</span>
+            <strong>{shot.title}</strong>
+            <p>{shot.caption}</p>
+            <div className="screenshot-focus"><small>这一屏重点看</small><ul>{shot.focus.map((item) => <li key={item}>{item}</li>)}</ul></div>
+            <div className="screenshot-source-row"><a href={shot.sourceUrl} target="_blank" rel="noopener noreferrer">{shot.sourceLabel}官方条目 ↗</a><small>截图核验 {shot.verifiedAt}</small></div>
+          </figcaption>
         </figure>
       ))}
-      <p className="screenshot-source-note">{name}官方应用商店截图 · 仅用于识别界面与功能，实际布局、语言、功能和套餐可能随版本及地区变化。</p>
+      <p className="screenshot-source-note">以上为{name}官方应用商店高清截图。点击图片可单独放大；中文说明由本站整理。实际按钮、语言、功能和套餐会随版本、账号及地区变化。</p>
     </div>
   );
 }
@@ -163,7 +171,8 @@ export function DownloadButtons({ downloads }: { downloads: DownloadLink[] }) {
     <div className="download-buttons">
       {downloads.map((download) => (
         <a href={download.url} key={`${download.platform}-${download.url}`} target="_blank" rel="noopener noreferrer" aria-label={`${download.label}，在新窗口打开官方来源`}>
-          <span>{download.platform}</span><strong>{download.label}</strong><small>{download.source === "app-store" ? "Apple App Store" : download.source === "google-play" ? "Google Play" : download.source === "microsoft-store" ? "Microsoft Store" : "产品官网"} ↗</small>
+          <span>{download.platform}</span><strong>{download.label}</strong><small>{download.source === "app-store" ? "Apple App Store" : download.source === "google-play" ? "Google Play" : download.source === "microsoft-store" ? "Microsoft Store" : "产品官网"} · 官方入口 ↗</small>
+          <em>{download.platform === "Web" ? "无需安装，适合先试用" : download.source === "app-store" ? "需要对应地区的Apple ID" : download.source === "google-play" ? "商店能否显示取决于网络与账号地区" : "进入官网后按系统选择"}</em>
         </a>
       ))}
     </div>

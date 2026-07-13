@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-13T05:20:59.814Z",
+  "checkedAt": "2026-07-13T06:22:02.207Z",
   "exchange": {
     "state": "ok",
     "date": "2026-07-10",
@@ -17,8 +17,8 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-13T05:20:57.528Z",
-      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
+      "checkedAt": "2026-07-13T06:21:59.360Z",
+      "note": "公开页未稳定展示可校验的月付价格",
       "error": "Error"
     },
     {
@@ -27,50 +27,50 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-13T05:20:57.519Z",
-      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
+      "checkedAt": "2026-07-13T06:21:59.666Z",
+      "note": "公开页未稳定展示可校验的月付价格",
       "error": "Error"
     },
     {
       "slug": "gemini",
       "url": "https://www.gamsgo.com/details/gemini",
-      "state": "price-change-pending",
+      "state": "ok",
       "published": {
         "currency": "USD",
         "value": 2.25
       },
-      "candidate": {
-        "currency": "USD",
-        "value": 3.5
-      },
-      "candidateSeenCount": 1,
-      "checkedAt": "2026-07-13T05:20:57.849Z",
+      "candidate": null,
+      "candidateSeenCount": 0,
+      "checkedAt": "2026-07-13T06:21:59.075Z",
       "officialObserved": {
         "currency": "USD",
-        "value": 20
+        "value": 6.66
       },
       "period": "month",
       "cny": 15.24,
-      "note": "价格变化超过50%，等待下一次读取一致后发布"
+      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
     },
     {
       "slug": "grok",
       "url": "https://www.gamsgo.com/details/grok",
-      "state": "ok",
+      "state": "price-change-pending",
       "published": {
         "currency": "USD",
         "value": 17.99
       },
-      "candidate": null,
-      "candidateSeenCount": 0,
-      "checkedAt": "2026-07-13T05:20:57.736Z",
+      "candidate": {
+        "currency": "USD",
+        "value": 6.17
+      },
+      "candidateSeenCount": 1,
+      "checkedAt": "2026-07-13T06:21:59.130Z",
       "officialObserved": {
         "currency": "USD",
         "value": 30
       },
       "period": "month",
       "cny": 121.87,
-      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
+      "note": "价格变化超过50%，等待下一次读取一致后发布"
     },
     {
       "slug": "perplexity",
@@ -78,7 +78,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-13T05:20:57.801Z",
+      "checkedAt": "2026-07-13T06:21:59.404Z",
       "note": "公开页未稳定展示可校验的月付价格"
     },
     {
@@ -91,7 +91,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-13T05:20:57.761Z",
+      "checkedAt": "2026-07-13T06:21:59.261Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
@@ -106,13 +106,13 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-07-13T05:20:59.814Z"
+      "checkedAt": "2026-07-13T06:22:02.207Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/",
       "state": "ok",
-      "checkedAt": "2026-07-13T05:20:59.814Z"
+      "checkedAt": "2026-07-13T06:22:02.207Z"
     }
   ],
   "history": [
