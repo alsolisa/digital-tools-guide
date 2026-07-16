@@ -154,7 +154,7 @@ test("新手决策、商店地区、状态与反馈功能都能解释边界", as
   assert.match(stores, /至少要等待90天/);
   assert.match(stores, /不要购买陌生共享Apple ID/);
   const status = await (await render("/status")).text();
-  assert.match(status, /同页价格冲突/);
+  assert.match(status, /同页冲突会直接隐藏/);
   assert.match(status, /不等于中国大陆家庭宽带或手机流量实测/);
   const feedback = await (await render("/feedback")).text();
   assert.match(feedback, /不会自动上传/);

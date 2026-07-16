@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-16T06:00:16.229Z",
+  "checkedAt": "2026-07-16T06:52:13.195Z",
   "exchange": {
     "state": "ok",
     "date": "2026-07-15",
@@ -21,7 +21,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-16T06:00:15.478Z",
+      "checkedAt": "2026-07-16T06:52:11.502Z",
       "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error",
       "officialObserved": {
@@ -37,37 +37,38 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-16T06:00:16.058Z",
-      "note": "公开页未稳定展示可校验的月付价格",
+      "checkedAt": "2026-07-16T06:52:11.567Z",
+      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error"
     },
     {
       "slug": "gemini",
       "url": "https://www.gamsgo.com/details/gemini",
-      "state": "price-changed",
+      "state": "unreadable",
       "published": {
         "currency": "USD",
         "value": 3.5
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-16T06:00:16.077Z",
+      "checkedAt": "2026-07-16T06:52:11.540Z",
       "officialObserved": {
         "currency": "USD",
         "value": 20
       },
       "period": "month",
       "cny": 23.71,
-      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
+      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
+      "error": "Error"
     },
     {
       "slug": "grok",
       "url": "https://www.gamsgo.com/details/grok",
-      "state": "conflict",
+      "state": "unreadable",
       "published": null,
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-16T06:00:16.201Z",
+      "checkedAt": "2026-07-16T06:52:11.557Z",
       "observedValues": [
         10,
         30,
@@ -75,45 +76,48 @@
         18.99,
         17.99
       ],
-      "note": "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核"
+      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
+      "error": "Error"
     },
     {
       "slug": "perplexity",
       "url": "https://www.gamsgo.com/details/Perplexity_AI",
-      "state": "ok",
+      "state": "unreadable",
       "published": {
         "currency": "USD",
         "value": 4.09
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-16T06:00:16.229Z",
-      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准",
+      "checkedAt": "2026-07-16T06:52:11.542Z",
+      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "officialObserved": {
         "currency": "USD",
         "value": 16.66
       },
       "period": "month",
-      "cny": 27.71
+      "cny": 27.71,
+      "error": "Error"
     },
     {
       "slug": "midjourney",
       "url": "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK",
-      "state": "ok",
+      "state": "unreadable",
       "published": {
         "currency": "USD",
         "value": 24.99
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-16T06:00:16.121Z",
+      "checkedAt": "2026-07-16T06:52:11.576Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
       },
       "period": "month",
       "cny": 169.29,
-      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
+      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
+      "error": "Error"
     }
   ],
   "benchmarks": [
@@ -121,13 +125,13 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-07-16T06:00:16.229Z"
+      "checkedAt": "2026-07-16T06:52:13.195Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/",
       "state": "ok",
-      "checkedAt": "2026-07-16T06:00:16.229Z"
+      "checkedAt": "2026-07-16T06:52:13.195Z"
     }
   ],
   "history": [
