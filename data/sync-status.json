@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-16T06:53:34.406Z",
+  "checkedAt": "2026-07-16T07:31:23.770Z",
   "policy": {
     "publicLinks": "automatic-6h",
     "clientReleases": "automatic-6h",
@@ -76,9 +76,9 @@
       "id": "gamsgo",
       "url": "https://www.gamsgo.com/partner/BTzCM",
       "kind": "affiliate",
-      "state": "protected",
-      "status": 403,
-      "finalUrl": "https://www.gamsgo.com/partner/BTzCM"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://www.gamsgo.com/?promote=BTzCM"
     },
     {
       "id": "arena",
@@ -636,8 +636,8 @@
       "id": "catalog-official-68",
       "url": "https://support.tiktok.com/en/getting-started/for-you/test-for-you",
       "kind": "download-source",
-      "state": "error",
-      "status": 404,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://support.tiktok.com/en/getting-started/for-you/test-for-you"
     },
     {
