@@ -139,14 +139,16 @@ test("AI详情页包含真实场景、高清截图、下载、模型、提示词
     assert.match(html, /不会上传/);
     assert.match(html, /遇到问题时，按症状排查/);
     assert.match(html, /停止条件/);
-    assert.match(html, new RegExp(`/editorial/${slug}\\.png`), `${slug} 缺少V3编辑封面`);
+    assert.match(html, new RegExp(`/editorial/${slug}\\.webp`), `${slug} 缺少轻量编辑封面`);
+    assert.match(html, /这页由谁整理，证据能说明到哪里/);
+    assert.match(html, /TechArticle/);
   }
   const midjourney = await (await render("/ai/midjourney")).text();
   for (const text of ["三个真实使用场景", "选择你的设备，只走官方入口", "先看官方界面", "模型与评测：需要时再看", "五组可以直接复制的提示词", "隐私", "Midjourney Docs"]) {
     assert.match(midjourney, new RegExp(text), `midjourney 缺少 ${text}`);
   }
   assert.match(midjourney, /\/guides\/midjourney\/official-1\.png/);
-  assert.match(midjourney, /\/editorial\/midjourney\.png/);
+  assert.match(midjourney, /\/editorial\/midjourney\.webp/);
 });
 
 test("新手决策、商店地区、状态与反馈功能都能解释边界", async () => {
@@ -185,7 +187,8 @@ test("应用教程分开显示Google Play与Apple App Store", async () => {
     assert.match(html, /遇到打不开、登录或设置问题怎么办/);
     assert.match(html, /停止条件/);
     assert.match(html, new RegExp(`/guides/${slug}/official-1\\.(?:webp|png|jpg)`), `${slug} 缺少高清官方商店截图`);
-    assert.match(html, new RegExp(`/editorial/${slug}\\.png`), `${slug} 缺少V3编辑封面`);
+    assert.match(html, new RegExp(`/editorial/${slug}\\.webp`), `${slug} 缺少轻量编辑封面`);
+    assert.match(html, /这页由谁整理，证据能说明到哪里/);
   }
 });
 
@@ -201,12 +204,14 @@ test("下载中心提供带版本和SHA-256的开源备用文件", async () => {
 test("机场与AI订阅页面接入对应V3视觉指南", async () => {
   const nodes = await (await render("/nodes")).text();
   assert.match(nodes, /网络连接服务：第一次使用指南/);
-  assert.match(nodes, /\/editorial\/nodes\.png/);
+  assert.match(nodes, /\/editorial\/nodes\.webp/);
+  assert.match(nodes, /本页编辑责任与复核范围/);
   assert.match(nodes, /先看症状，再决定要不要重装/);
   assert.match(nodes, /第一次购买与连接清单/);
   const subscriptions = await (await render("/subscriptions")).text();
   assert.match(subscriptions, /AI订阅：购买前先看账号归属/);
-  assert.match(subscriptions, /\/editorial\/subscriptions\.png/);
+  assert.match(subscriptions, /\/editorial\/subscriptions\.webp/);
+  assert.match(subscriptions, /本页编辑责任与复核范围/);
   assert.match(subscriptions, /AI会员付款前清单/);
 });
 

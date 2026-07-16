@@ -43,7 +43,7 @@ const navItems = [
 export function SiteHeader() {
   return (
     <><a className="skip-link" href="#main-content">跳到主要内容</a><header className="global-header">
-      <Link className="global-brand" href="/" aria-label="数字工具指南首页">
+      <Link className="global-brand" href="/">
         <span className="global-mark">数</span>
         <span><strong>数字工具指南</strong><small>逐项核对 · 第一次也能懂</small></span>
       </Link>
@@ -102,6 +102,25 @@ export function QuickSummary({ title, points, action }: { title: string; points:
   );
 }
 
+export function EditorialAccountability({ reviewedAt, evidence, scope }: { reviewedAt: string; evidence: string; scope: string }) {
+  return (
+    <aside className="editorial-accountability" aria-label="本页编辑责任与复核范围">
+      <div className="editorial-accountability-intro">
+        <span>编辑责任公开</span>
+        <h2>这页由谁整理，证据能说明到哪里</h2>
+        <p>本站为个人独立整理项目。公开资料由“数字工具指南”维护者核对，尚未经过品牌方或外部专家背书。</p>
+      </div>
+      <dl>
+        <div><dt>内容责任</dt><dd>数字工具指南维护者</dd></div>
+        <div><dt>复核依据</dt><dd>{evidence}</dd></div>
+        <div><dt>最近复核</dt><dd>{reviewedAt}</dd></div>
+        <div><dt>适用边界</dt><dd>{scope}</dd></div>
+      </dl>
+      <nav aria-label="编辑责任相关页面"><Link href="/standards">查看编辑标准</Link><Link href="/feedback">报告错误</Link></nav>
+    </aside>
+  );
+}
+
 const verificationLabels: Record<VerificationStatus, string> = {
   verified: "已核对资料",
   automatic: "自动检查",
@@ -128,13 +147,13 @@ export function BrandNotice() {
   return <p className="brand-notice">品牌图标来自品牌官方资料、官方应用商店或官方项目仓库，仅用于帮助识别产品；本站不是这些品牌的官方网站，也不代表获得其推荐。</p>;
 }
 
-export function EditorialCover({ slug, name }: { slug: string; name: string }) {
-  const src = publicAsset(`/editorial/${slug}.png`);
-  return <figure className="editorial-cover-figure"><a href={src} target="_blank" rel="noopener noreferrer" aria-label={`打开${name}高清视觉指南`}><Image src={src} alt={`${name}编辑版视觉指南封面`} width={1080} height={1350} unoptimized priority /></a></figure>;
+export function EditorialCover({ slug, name, priority = false }: { slug: string; name: string; priority?: boolean }) {
+  const src = publicAsset(`/editorial/${slug}.webp`);
+  return <figure className="editorial-cover-figure"><a href={src} target="_blank" rel="noopener noreferrer" aria-label={`打开${name}高清视觉指南`}><Image src={src} alt={`${name}编辑版视觉指南封面`} width={600} height={750} sizes="(max-width: 720px) 74vw, 430px" unoptimized priority={priority} fetchPriority={priority ? "high" : "auto"} /></a></figure>;
 }
 
 export function EditorialCoverFeature({ slug, title, lead }: { slug: string; title: string; lead: string }) {
-  const src = publicAsset(`/editorial/${slug}.png`);
+  const src = publicAsset(`/editorial/${slug}.webp`);
   return (
     <section className="editorial-cover-feature">
       <div><span>可保存的视觉版</span><h2>{title}</h2><p>{lead}</p><a href={src} target="_blank" rel="noopener noreferrer">打开高清封面 ↗</a></div>
@@ -180,7 +199,7 @@ export function DownloadButtons({ downloads }: { downloads: DownloadLink[] }) {
   return (
     <div className="download-buttons">
       {downloads.map((download) => (
-        <a href={download.url} key={`${download.platform}-${download.url}`} target="_blank" rel="noopener noreferrer" aria-label={`${download.label}，在新窗口打开官方来源`}>
+        <a href={download.url} key={`${download.platform}-${download.url}`} target="_blank" rel="noopener noreferrer">
           <span>{download.platform}</span><strong>{download.label}</strong><small>{download.source === "app-store" ? "Apple App Store" : download.source === "google-play" ? "Google Play" : download.source === "microsoft-store" ? "Microsoft Store" : "产品官网"} · 官方入口 ↗</small>
           <em>{download.platform === "Web" ? "无需安装，适合先试用" : download.source === "app-store" ? "需要对应地区的Apple ID" : download.source === "google-play" ? "商店能否显示取决于网络与账号地区" : "进入官网后按系统选择"}</em>
         </a>

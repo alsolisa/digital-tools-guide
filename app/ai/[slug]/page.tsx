@@ -3,7 +3,7 @@ import Link from "next/link";
 import { aiProducts, getAiProduct, subscriptionOffers } from "../../../data/catalog";
 import { getAiEditorialGuide } from "../../../data/editorial-guides";
 import { aiPlaybooks } from "../../../data/beginner-playbooks";
-import { BrandIcon, Breadcrumbs, DownloadButtons, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, QuickSummary, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
+import { BrandIcon, Breadcrumbs, DownloadButtons, EditorialAccountability, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, QuickSummary, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
 import ActionChecklist from "../../components/ActionChecklist";
 import BeginnerTroubleshooter from "../../components/BeginnerTroubleshooter";
 import StructuredData from "../../components/StructuredData";
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const product = getAiProduct(slug);
   const basePath = process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : "";
-  return product ? { title: `${product.name}完整小白教程`, description: product.summary, alternates: { canonical: `${basePath}/ai/${product.slug}/` }, openGraph: { images: [`${basePath}/editorial/${product.slug}.png`] } } : { title: "AI教程" };
+  return product ? { title: `${product.name}完整小白教程`, description: product.summary, alternates: { canonical: `${basePath}/ai/${product.slug}/` }, openGraph: { images: [`${basePath}/editorial/${product.slug}.webp`] } } : { title: "AI教程" };
 }
 
 export default async function AiDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -29,10 +29,11 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
   const webEntry = product.downloads.find((item) => item.platform === "Web");
   const howToJsonLd = { "@context": "https://schema.org", "@type": "HowTo", name: `${product.name}第一次使用教程`, description: product.summary, step: product.setupSteps.map((step, index) => ({ "@type": "HowToStep", position: index + 1, name: `第${index + 1}步`, text: step })) };
   const softwareJsonLd = { "@context": "https://schema.org", "@type": "SoftwareApplication", name: product.name, applicationCategory: "BusinessApplication", operatingSystem: [...new Set(product.downloads.map((download) => download.platform))].join(", "), description: product.summary, url: webEntry?.url, publisher: { "@type": "Organization", name: product.company } };
+  const articleJsonLd = { "@context": "https://schema.org", "@type": "TechArticle", headline: `${product.name}完整小白教程`, description: product.summary, dateModified: product.verifiedAt, author: { "@type": "Organization", name: "数字工具指南" }, publisher: { "@type": "Organization", name: "数字工具指南" }, isBasedOn: product.officialSources.map((source) => source.url) };
 
   return (
     <PageShell>
-      <StructuredData data={[howToJsonLd, softwareJsonLd]} />
+      <StructuredData data={[howToJsonLd, softwareJsonLd, articleJsonLd]} />
       <Breadcrumbs items={[{ label: "首页", href: "/" }, { label: "AI怎么选", href: "/ai" }, { label: product.name }]} />
 
       <section className="detail-hero detail-hero-with-cover professional-detail-hero">
@@ -42,10 +43,11 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
           <div className="detail-hero-actions">{webEntry && <a className="button primary" href={webEntry.url} target="_blank" rel="noopener noreferrer">先打开网页版试用 <span>↗</span></a>}<a className="button secondary" href="#screenshots">先看官方界面</a></div>
           <div className="detail-meta"><VerificationChip status="verified" /><span>官方资料优先</span><span>核验 {product.verifiedAt}</span><span>模型参数量：官方未公开</span></div>
         </div>
-        <EditorialCover slug={product.slug} name={product.name} />
+        <EditorialCover slug={product.slug} name={product.name} priority />
       </section>
 
       <QuickSummary title={guide.decision} points={[`最适合：${guide.chooseIf[0]}`, `先别选：${guide.skipIf[0]}`, "第一次先用免费版完成一个真实任务", "重要答案、数字和来源必须自己核对"]} action={webEntry ? { label: "打开官方网页版", href: webEntry.url } : undefined} />
+      <EditorialAccountability reviewedAt={product.verifiedAt} evidence="品牌官网、官方帮助中心、官方应用商店与独立评测分别核对" scope="产品功能、官方入口与新手操作；不替代品牌客服或专业意见" />
 
       <nav className="detail-jump-nav" aria-label={`${product.name}页面目录`}>
         <span>本页顺序</span><a href="#understand">先看懂</a><a href="#workflows">真实场景</a><a href="#screenshots">官方截图</a><a href="#start">第一次使用</a><a href="#plans">是否付费</a><a href="#advanced">进阶资料</a>

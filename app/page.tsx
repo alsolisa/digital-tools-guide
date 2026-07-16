@@ -2,7 +2,7 @@ import syncStatus from "../data/sync-status.json";
 import Image from "next/image";
 import Link from "next/link";
 import { aiProducts, commonApps, subscriptionOffers } from "../data/catalog";
-import { BrandIcon, BrandNotice, EditorialCoverFeature, FeedbackLink, PageShell, QuickSummary, SectionHeading, SiteFooter, SiteHeader } from "./components/SiteChrome";
+import { BrandIcon, BrandNotice, EditorialAccountability, EditorialCoverFeature, FeedbackLink, PageShell, QuickSummary, SectionHeading, SiteFooter, SiteHeader } from "./components/SiteChrome";
 import DeviceChooser from "./components/DeviceChooser";
 import DecisionAssistant from "./components/DecisionAssistant";
 import ActionChecklist from "./components/ActionChecklist";
@@ -320,6 +320,7 @@ export function NodeGuidePage() {
 
       <EditorialCoverFeature slug="nodes" title="网络连接服务：第一次使用指南" lead="先解释VPN、机场、节点、客户端和订阅链接，再进入服务与价格对比。" />
       <QuickSummary title="第一次买网络服务，先做这四步" points={["先确认自己真的需要，不要只看广告词", "优先选择已核验且周期最短的套餐", "客户端与套餐是两样东西，通常都需要", "订阅链接等同个人钥匙，绝不能公开"]} action={{ label: "直接看已核验月付", href: "#services" }} />
+      <EditorialAccountability reviewedAt={syncTime} evidence="公开入口自动检查、登录后购买页人工核对与官方客户端发布页分别记录" scope="入口、公开资料和页面所列套餐；不代表全国网络可用性、长期速度或服务承诺" />
 
       <section className="section node-basics-section" id="basics">
         <div className="section-heading"><div><span className="section-index">01 / 先认识概念</span><h2>五个词，第一次看到也能懂</h2></div><p>这些词不是一回事。先分清它们，后面的购买和安装才不会混乱。</p></div>
@@ -421,8 +422,8 @@ export function NodeGuidePage() {
       <section className="section status-section" id="status">
         <div className="section-heading compact"><div><span className="section-index">08 / 地址状态</span><h2>能打开，不等于大陆裸网可用</h2></div><p>当前环境是否经过代理未知，所以不会标绿色“大陆可用”。只有真实普通网络测试后才升级状态。</p></div>
         <div className="status-table" role="table" aria-label="地址核验状态">
-          <div className="status-row table-head" role="row"><span>服务</span><span>跳转结果</span><span>访问状态</span><span>结论</span></div>
-          {addresses.map((item) => <div className="status-row" role="row" key={item.service}><strong>{item.service}</strong><span>{item.result}</span><span className={`status-pill ${item.tone}`}><i />{item.access}</span><span className="table-note">暂不标记大陆裸网可用</span></div>)}
+          <div className="status-row table-head" role="row"><span role="columnheader">服务</span><span role="columnheader">跳转结果</span><span role="columnheader">访问状态</span><span role="columnheader">结论</span></div>
+          {addresses.map((item) => <div className="status-row" role="row" key={item.service}><strong role="cell">{item.service}</strong><span role="cell">{item.result}</span><span role="cell" className={`status-pill ${item.tone}`}><i />{item.access}</span><span role="cell" className="table-note">暂不标记大陆裸网可用</span></div>)}
         </div>
       </section>
 

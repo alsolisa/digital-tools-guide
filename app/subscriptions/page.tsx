@@ -1,7 +1,7 @@
 import { aiProducts, getOfferPriceStatus, subscriptionOffers } from "../../data/catalog";
 import autoSync from "../../data/auto-sync.json";
 import Link from "next/link";
-import { BrandIcon, BrandNotice, Disclosure, EditorialCoverFeature, FeedbackLink, PageIntro, PageShell, QuickSummary, RiskBadge, SectionHeading, VerificationChip } from "../components/SiteChrome";
+import { BrandIcon, BrandNotice, Disclosure, EditorialAccountability, EditorialCoverFeature, FeedbackLink, PageIntro, PageShell, QuickSummary, RiskBadge, SectionHeading, VerificationChip } from "../components/SiteChrome";
 import SubscriptionValueCalculator from "../components/SubscriptionValueCalculator";
 import ActionChecklist from "../components/ActionChecklist";
 
@@ -9,7 +9,7 @@ export const metadata = {
   title: "GamsGo AI订阅",
   description: "比较ChatGPT、Claude、Gemini、Grok、Perplexity与Midjourney的官方价、GamsGo公开价、交付方式和账号风险。",
   alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/subscriptions/` },
-  openGraph: { images: [`${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/editorial/subscriptions.png`] },
+  openGraph: { images: [`${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/editorial/subscriptions.webp`] },
 };
 
 export default function SubscriptionsPage() {
@@ -24,6 +24,7 @@ export default function SubscriptionsPage() {
         aside={<><strong>价格口径</strong><p>原币价格 + 人民币参考价</p><small>汇率参考：{exchangeDate}，1 USD≈{usdToCny} CNY；每日自动更新，不含税费和支付手续费。</small></>}
       />
       <QuickSummary title="大多数新手不应该先买最便宜的" points={["先用免费版完成真实任务3—7天", "能官方购买时，优先本人账号与官方订阅", "第三方低价必须先确认账号归属和交付方式", "价格冲突或无法读取时，本站会隐藏数字"]} action={{ label: "直接看六项风险分级", href: "#offers" }} />
+      <EditorialAccountability reviewedAt={exchangeDate} evidence="AI官方价格页、GamsGo公开商品页、交付说明与汇率数据分开核对" scope="公开商品与风险说明；最终金额、库存、退款和售后以结算页及商家条款为准" />
 
       <EditorialCoverFeature slug="subscriptions" title="AI订阅：购买前先看账号归属" lead="视觉版先讲清官方价、本人账号充值、交付账号和共享网页的差别，再进入具体产品对比。" />
 

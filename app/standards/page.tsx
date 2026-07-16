@@ -53,12 +53,12 @@ export default function StandardsPage() {
       <section className="content-section freshness-section">
         <SectionHeading index="03" title="资料多久算过期" lead="不同信息变化速度不同，不能统一贴一个“最近更新”。" />
         <div className="freshness-table" role="table" aria-label="资料新鲜度标准">
-          <div className="freshness-row freshness-head" role="row"><span>资料类型</span><span>检查频率</span><span>过期处理</span><span>页面怎么显示</span></div>
-          <div className="freshness-row" role="row"><strong>公开入口与开源版本</strong><span>每 6 小时</span><span>连续异常后转为待复核</span><p>保留最后正常时间，不把 403 直接写成失效</p></div>
-          <div className="freshness-row" role="row"><strong>公开价格与汇率</strong><span>每 6 小时</span><span>大幅变化需连续两次一致</span><p>冲突或缺字段时隐藏具体数字</p></div>
-          <div className="freshness-row" role="row"><strong>登录后套餐与付款</strong><span>人工复核，目标 14 天内</span><span>超过窗口即撤下“当前已核验”</span><p>显示核验日期，并提醒以结算页为准</p></div>
-          <div className="freshness-row" role="row"><strong>AI模型、功能与套餐</strong><span>重大更新后 + 至少每 30 天</span><span>与官方冲突时立即修正</span><p>官方未公开的参数明确写“未公开”</p></div>
-          <div className="freshness-row" role="row"><strong>教程截图</strong><span>至少每 90 天抽查</span><span>界面变化但路线仍有效时加说明</span><p>官方宣传图与本站操作示意明确区分</p></div>
+          <div className="freshness-row freshness-head" role="row"><span role="columnheader">资料类型</span><span role="columnheader">检查频率</span><span role="columnheader">过期处理</span><span role="columnheader">页面怎么显示</span></div>
+          <div className="freshness-row" role="row"><strong role="cell">公开入口与开源版本</strong><span role="cell">每 6 小时</span><span role="cell">连续异常后转为待复核</span><p role="cell">保留最后正常时间，不把 403 直接写成失效</p></div>
+          <div className="freshness-row" role="row"><strong role="cell">公开价格与汇率</strong><span role="cell">每 6 小时</span><span role="cell">大幅变化需连续两次一致</span><p role="cell">冲突或缺字段时隐藏具体数字</p></div>
+          <div className="freshness-row" role="row"><strong role="cell">登录后套餐与付款</strong><span role="cell">人工复核，目标 14 天内</span><span role="cell">超过窗口即撤下“当前已核验”</span><p role="cell">显示核验日期，并提醒以结算页为准</p></div>
+          <div className="freshness-row" role="row"><strong role="cell">AI模型、功能与套餐</strong><span role="cell">重大更新后 + 至少每 30 天</span><span role="cell">与官方冲突时立即修正</span><p role="cell">官方未公开的参数明确写“未公开”</p></div>
+          <div className="freshness-row" role="row"><strong role="cell">教程截图</strong><span role="cell">至少每 90 天抽查</span><span role="cell">界面变化但路线仍有效时加说明</span><p role="cell">官方宣传图与本站操作示意明确区分</p></div>
         </div>
       </section>
 
@@ -105,6 +105,15 @@ export default function StandardsPage() {
         <SectionHeading index="08" title="现在仍不能替你证明的事情" lead="达到高标准也不等于拥有不存在的检测能力。下面这些结论必须继续诚实标注。" />
         <div className="limitation-callout"><strong>本站不能代表全国所有网络环境</strong><p>自动检查不等于中国大陆电信、联通、移动和不同地区的真实访问结果；节点速度、解锁与稳定性也会随时间和本地网络变化。购买前只选最短周期，并在自己的网络实测。</p></div>
         <div className="standards-actions"><a href="https://github.com/alsolisa/digital-tools-guide" target="_blank" rel="noopener noreferrer">查看公开项目与历史 ↗</a><Link href="/methodology">查看详细核验方法 →</Link><FeedbackLink label="发现证据过期或结论不清楚？" /></div>
+      </section>
+
+      <section className="content-section soft-section editorial-responsibility-section">
+        <SectionHeading index="09" title="谁对内容负责，谁没有参与背书" lead="匿名项目也必须公开责任边界；这里不虚构专家、编辑部或品牌合作关系。" />
+        <div className="editorial-responsibility-grid">
+          <article><span>维护者</span><h2>数字工具指南维护者</h2><p>负责资料整理、页面表达、自动检查规则、人工复核记录和错误修正。每个重点页面公开最近复核时间与证据范围。</p></article>
+          <article><span>复核方式</span><h2>来源交叉核对，不用一句“相信我”</h2><p>官方资料、商家页面、第三方评测和本站判断分开呈现；无法确认时撤下数字或标为待复核。</p></article>
+          <article className="warning-card"><span>当前缺口</span><h2>没有品牌方或外部专家背书</h2><p>本站目前是个人独立项目，尚未建立外部专家审稿委员会。医疗、法律、投资和账号安全等重要决定必须另找合格专业人士确认。</p></article>
+        </div>
       </section>
     </PageShell>
   );

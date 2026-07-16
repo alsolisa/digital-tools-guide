@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { commonApps, getCommonApp } from "../../../data/catalog";
 import { getAppEditorialGuide } from "../../../data/editorial-guides";
 import { appPlaybooks } from "../../../data/beginner-playbooks";
-import { BrandIcon, Breadcrumbs, DownloadButtons, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, QuickSummary, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
+import { BrandIcon, Breadcrumbs, DownloadButtons, EditorialAccountability, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, QuickSummary, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
 import ActionChecklist from "../../components/ActionChecklist";
 import BeginnerTroubleshooter from "../../components/BeginnerTroubleshooter";
 import StructuredData from "../../components/StructuredData";
@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const app = getCommonApp(slug);
   const basePath = process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : "";
-  return app ? { title: `${app.name}完整安装与使用教程`, description: app.summary, alternates: { canonical: `${basePath}/apps/${app.slug}/` }, openGraph: { images: [`${basePath}/editorial/${app.slug}.png`] } } : { title: "应用教程" };
+  return app ? { title: `${app.name}完整安装与使用教程`, description: app.summary, alternates: { canonical: `${basePath}/apps/${app.slug}/` }, openGraph: { images: [`${basePath}/editorial/${app.slug}.webp`] } } : { title: "应用教程" };
 }
 
 export default async function AppDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -27,17 +27,19 @@ export default async function AppDetailPage({ params }: { params: Promise<{ slug
   const webEntry = app.downloads.find((item) => item.platform === "Web");
   const howToJsonLd = { "@context": "https://schema.org", "@type": "HowTo", name: `${app.name}安装与第一次使用教程`, description: app.summary, step: app.setupSteps.map((step, index) => ({ "@type": "HowToStep", position: index + 1, name: `第${index + 1}步`, text: step })) };
   const softwareJsonLd = { "@context": "https://schema.org", "@type": "SoftwareApplication", name: app.name, applicationCategory: "SocialNetworkingApplication", operatingSystem: [...new Set(app.downloads.map((download) => download.platform))].join(", "), description: app.summary, url: webEntry?.url, publisher: { "@type": "Organization", name: app.company } };
+  const articleJsonLd = { "@context": "https://schema.org", "@type": "TechArticle", headline: `${app.name}完整安装与使用教程`, description: app.summary, dateModified: app.verifiedAt, author: { "@type": "Organization", name: "数字工具指南" }, publisher: { "@type": "Organization", name: "数字工具指南" }, isBasedOn: app.officialSources.map((source) => source.url) };
 
   return (
     <PageShell>
-      <StructuredData data={[howToJsonLd, softwareJsonLd]} />
+      <StructuredData data={[howToJsonLd, softwareJsonLd, articleJsonLd]} />
       <Breadcrumbs items={[{ label: "首页", href: "/" }, { label: "常用应用", href: "/apps" }, { label: app.name }]} />
       <section className="detail-hero detail-hero-with-cover professional-detail-hero app-detail-hero">
         <div className="detail-hero-copy"><div className="detail-title-row"><BrandIcon slug={app.slug} name={app.name} size="hero" /><div><span className="eyebrow">{app.company} · 从用途到安全设置</span><h1>{app.name}</h1></div></div><p>{guide.verdict}</p><div className="detail-hero-actions">{webEntry && <a className="button primary" href={webEntry.url} target="_blank" rel="noopener noreferrer">先打开网页版 <span>↗</span></a>}<a className="button secondary" href="#screenshots">先看官方界面</a></div><div className="detail-meta"><VerificationChip status="verified" /><span>官方商店入口</span><span>核验 {app.verifiedAt}</span></div></div>
-        <EditorialCover slug={app.slug} name={app.name} />
+        <EditorialCover slug={app.slug} name={app.name} priority />
       </section>
 
       <QuickSummary title={guide.decision} points={[`最适合：${guide.whyUse[0]}`, `常见误区：${guide.notFor[0]}`, "优先使用网页版或官方应用商店", "注册后先检查恢复方式、隐私与通知"]} action={webEntry ? { label: "打开官方网页版", href: webEntry.url } : undefined} />
+      <EditorialAccountability reviewedAt={app.verifiedAt} evidence="品牌官网、官方帮助中心与官方应用商店分别核对" scope="官方入口、安装、基础使用与账号安全；实际界面以当前版本为准" />
 
       <nav className="detail-jump-nav" aria-label={`${app.name}页面目录`}><span>本页顺序</span><a href="#understand">它是什么</a><a href="#features">主要区域</a><a href="#workflows">怎么使用</a><a href="#screenshots">官方截图</a><a href="#start">安装设置</a><a href="#safety">安全检查</a></nav>
 
