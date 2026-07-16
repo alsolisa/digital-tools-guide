@@ -2,8 +2,10 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { aiProducts, getAiProduct, subscriptionOffers } from "../../../data/catalog";
 import { getAiEditorialGuide } from "../../../data/editorial-guides";
+import { aiPlaybooks } from "../../../data/beginner-playbooks";
 import { BrandIcon, Breadcrumbs, DownloadButtons, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, QuickSummary, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
 import ActionChecklist from "../../components/ActionChecklist";
+import BeginnerTroubleshooter from "../../components/BeginnerTroubleshooter";
 import StructuredData from "../../components/StructuredData";
 
 export function generateStaticParams() {
@@ -22,6 +24,7 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
   const product = getAiProduct(slug);
   const guide = getAiEditorialGuide(slug);
   if (!product || !guide) notFound();
+  const playbook = aiPlaybooks[slug];
   const offer = subscriptionOffers.find((item) => item.productSlug === product.slug);
   const webEntry = product.downloads.find((item) => item.platform === "Web");
   const howToJsonLd = { "@context": "https://schema.org", "@type": "HowTo", name: `${product.name}第一次使用教程`, description: product.summary, step: product.setupSteps.map((step, index) => ({ "@type": "HowToStep", position: index + 1, name: `第${index + 1}步`, text: step })) };
@@ -87,14 +90,19 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
         <ActionChecklist id={`ai-${product.slug}`} title={`${product.name}第一次使用清单`} items={[...product.setupSteps.slice(0, 4), "用上面的新手测试题完成一次真实任务", "核对结果中的数字、引用和重要结论"]} />
       </section>
 
-      <section className="content-section soft-section">
-        <SectionHeading index="06" title="核心功能，用普通话解释" lead="功能名称会变，但判断方法不变：它能读什么、能做什么、结果要不要核对。" />
+      <section className="content-section soft-section" id="troubleshoot">
+        <SectionHeading index="06" title="遇到问题时，按症状排查" lead="不要反复点按钮，也不要把验证码交给陌生客服。先找到最像的情况，再按安全顺序处理。" />
+        <BeginnerTroubleshooter name={product.name} playbook={playbook} />
+      </section>
+
+      <section className="content-section">
+        <SectionHeading index="07" title="核心功能，用普通话解释" lead="功能名称会变，但判断方法不变：它能读什么、能做什么、结果要不要核对。" />
         <div className="feature-explainer-grid">{guide.features.map((feature) => <article key={feature.name}><span>{feature.name}</span><p>{feature.plain}</p><div><small>比如这样用</small><strong>{feature.example}</strong></div></article>)}</div>
         <div className="capability-strip" aria-label="能力关键词">{product.capabilities.map((capability) => <span key={capability}>{capability}</span>)}</div>
       </section>
 
       <section className="content-section plan-guide-section" id="plans">
-        <SectionHeading index="07" title={product.slug === "chatgpt" ? "免费版、Plus还是Pro？" : "免费版、官方订阅还是第三方购买？"} lead="先免费完成真实任务；只有经常碰到用量或功能限制时，付费才可能值得。" />
+        <SectionHeading index="08" title={product.slug === "chatgpt" ? "免费版、Plus还是Pro？" : "免费版、官方订阅还是第三方购买？"} lead="先免费完成真实任务；只有经常碰到用量或功能限制时，付费才可能值得。" />
         {product.slug === "chatgpt" ? <>
           <div className="plan-guide-grid"><article><span>先体验</span><h2>免费版</h2><p>适合确认网页、文件、图片和语音是否符合需求。偶尔使用时先不必付费。</p><strong>推荐：第一次使用的人</strong></article><article className="recommended"><span>大多数个人用户</span><h2>Plus</h2><p>官方公开价为US$20/月；用量和模型入口会变化，付款前查看结算页。</p><strong>推荐：稳定日常使用</strong></article><article><span>高强度专业使用</span><h2>Pro</h2><p>面向确实需要更高用量和高级能力的人，不建议仅为尝鲜购买。</p><strong>先记录一周使用量</strong></article></div>
           <p className="plan-guide-note">Plus会员与API是两套独立计费，互不通用。付款前检查本人账号、结算币种、税费、自动续费和取消入口。<a href="https://chatgpt.com/pricing/" target="_blank" rel="noopener noreferrer">查看官方套餐页 ↗</a></p>
@@ -102,22 +110,22 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
       </section>
 
       <section className="content-section soft-section" id="advanced">
-        <SectionHeading index="08 / 进阶" title="模型与评测：需要时再看" lead="模型可以理解成产品内部的不同引擎。新手不必背名称；界面显示和用量随套餐更新，以本人账号为准。" />
+        <SectionHeading index="09 / 进阶" title="模型与评测：需要时再看" lead="模型可以理解成产品内部的不同引擎。新手不必背名称；界面显示和用量随套餐更新，以本人账号为准。" />
         <details className="advanced-panel"><summary>展开查看当前主流模型说明</summary><div className="model-table" role="table" aria-label={`${product.name}模型说明`}><div className="model-row model-head" role="row"><span>模型</span><span>可用范围</span><span>上下文</span><span>适合什么</span></div>{product.models.map((model) => <div className="model-row" role="row" key={model.name}><strong>{model.name}</strong><span>{model.availability}</span><span>{model.context}</span><div><p>{model.note}</p><small>{model.inputs.join(" · ")}</small></div></div>)}</div></details>
         {product.benchmarks.length > 0 ? <div className="benchmark-cards">{product.benchmarks.map((benchmark) => <article key={benchmark.source}><span>{benchmark.source}</span><strong>{benchmark.scope}</strong><p>{benchmark.summary}</p><a href={benchmark.url} target="_blank" rel="noopener noreferrer">查看来源 ↗</a></article>)}</div> : <p className="benchmark-empty">本产品暂不显示 Arena 或 Artificial Analysis 排名：它们当前主要用于语言模型比较，本站不会把文本榜单强行套用到图片生成产品上。选择时请优先看官方功能、实际作品和授权条款。</p>}
       </section>
 
       <section className="content-section">
-        <SectionHeading index="09" title="五组可以直接复制的提示词" lead="先复制，再把方括号里的内容换成你自己的真实情况。" />
+        <SectionHeading index="10" title="五组可以直接复制的提示词" lead="先复制，再把方括号里的内容换成你自己的真实情况。" />
         <div className="prompt-grid">{product.prompts.map((prompt, index) => <article key={prompt.title}><span>{String(index + 1).padStart(2, "0")}</span><h3>{prompt.title}</h3><p>{prompt.text}</p></article>)}</div>
       </section>
 
       <section className="content-section soft-section">
-        <SectionHeading index="10" title="隐私与安全：输入之前先检查" />
+        <SectionHeading index="11" title="隐私与安全：输入之前先检查" />
         <div className="privacy-checklist"><strong>以下内容默认不要上传</strong><ul>{product.privacy.map((item) => <li key={item}>{item}</li>)}</ul></div>
       </section>
 
-      <section className="content-section sources-section"><SectionHeading index="11" title="本页官方资料来源" lead="产品介绍优先参考品牌官网、帮助中心和官方商店；第三方评测与官方资料分开显示。" /><SourceList sources={product.officialSources} /><FeedbackLink /></section>
+      <section className="content-section sources-section"><SectionHeading index="12" title="本页官方资料来源" lead="产品介绍优先参考品牌官网、帮助中心和官方商店；第三方评测与官方资料分开显示。" /><SourceList sources={product.officialSources} /><FeedbackLink /></section>
     </PageShell>
   );
 }

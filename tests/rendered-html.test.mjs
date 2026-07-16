@@ -137,6 +137,8 @@ test("AI详情页包含真实场景、高清截图、下载、模型、提示词
     assert.match(html, /这一屏重点看/);
     assert.match(html, /设备本地清单/);
     assert.match(html, /不会上传/);
+    assert.match(html, /遇到问题时，按症状排查/);
+    assert.match(html, /停止条件/);
     assert.match(html, new RegExp(`/editorial/${slug}\\.png`), `${slug} 缺少V3编辑封面`);
   }
   const midjourney = await (await render("/ai/midjourney")).text();
@@ -156,9 +158,15 @@ test("新手决策、商店地区、状态与反馈功能都能解释边界", as
   const status = await (await render("/status")).text();
   assert.match(status, /同页冲突会直接隐藏/);
   assert.match(status, /不等于中国大陆家庭宽带或手机流量实测/);
+  assert.match(status, /先分清三层证据/);
+  assert.match(status, /服务器正常、真人能打开和线路稳定是三种不同证据/);
+  assert.match(status, /待首批合格样本/);
   const feedback = await (await render("/feedback")).text();
   assert.match(feedback, /不会自动上传/);
   assert.match(feedback, /不要粘贴账号密码/);
+  assert.match(feedback, /大陆裸网实测/);
+  assert.match(feedback, /测试时已经关闭代理/);
+  assert.match(feedback, /两份独立样本才形成趋势/);
   const standards = await (await render("/standards")).text();
   assert.match(standards, /资料多久算过期/);
   assert.match(standards, /必须停止自动发布/);
@@ -174,6 +182,8 @@ test("应用教程分开显示Google Play与Apple App Store", async () => {
     assert.match(html, /账号安全/);
     assert.match(html, /官方高清界面图/);
     assert.match(html, /三个真实用法/);
+    assert.match(html, /遇到打不开、登录或设置问题怎么办/);
+    assert.match(html, /停止条件/);
     assert.match(html, new RegExp(`/guides/${slug}/official-1\\.(?:webp|png|jpg)`), `${slug} 缺少高清官方商店截图`);
     assert.match(html, new RegExp(`/editorial/${slug}\\.png`), `${slug} 缺少V3编辑封面`);
   }
@@ -192,9 +202,12 @@ test("机场与AI订阅页面接入对应V3视觉指南", async () => {
   const nodes = await (await render("/nodes")).text();
   assert.match(nodes, /网络连接服务：第一次使用指南/);
   assert.match(nodes, /\/editorial\/nodes\.png/);
+  assert.match(nodes, /先看症状，再决定要不要重装/);
+  assert.match(nodes, /第一次购买与连接清单/);
   const subscriptions = await (await render("/subscriptions")).text();
   assert.match(subscriptions, /AI订阅：购买前先看账号归属/);
   assert.match(subscriptions, /\/editorial\/subscriptions\.png/);
+  assert.match(subscriptions, /AI会员付款前清单/);
 });
 
 test("设备选择助手、搜索、FAQ和运营说明均可用", async () => {

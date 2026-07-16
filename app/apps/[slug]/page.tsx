@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
 import { commonApps, getCommonApp } from "../../../data/catalog";
 import { getAppEditorialGuide } from "../../../data/editorial-guides";
+import { appPlaybooks } from "../../../data/beginner-playbooks";
 import { BrandIcon, Breadcrumbs, DownloadButtons, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, QuickSummary, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
 import ActionChecklist from "../../components/ActionChecklist";
+import BeginnerTroubleshooter from "../../components/BeginnerTroubleshooter";
 import StructuredData from "../../components/StructuredData";
 
 export function generateStaticParams() {
@@ -21,6 +23,7 @@ export default async function AppDetailPage({ params }: { params: Promise<{ slug
   const app = getCommonApp(slug);
   const guide = getAppEditorialGuide(slug);
   if (!app || !guide) notFound();
+  const playbook = appPlaybooks[slug];
   const webEntry = app.downloads.find((item) => item.platform === "Web");
   const howToJsonLd = { "@context": "https://schema.org", "@type": "HowTo", name: `${app.name}安装与第一次使用教程`, description: app.summary, step: app.setupSteps.map((step, index) => ({ "@type": "HowToStep", position: index + 1, name: `第${index + 1}步`, text: step })) };
   const softwareJsonLd = { "@context": "https://schema.org", "@type": "SoftwareApplication", name: app.name, applicationCategory: "SocialNetworkingApplication", operatingSystem: [...new Set(app.downloads.map((download) => download.platform))].join(", "), description: app.summary, url: webEntry?.url, publisher: { "@type": "Organization", name: app.company } };
@@ -73,14 +76,19 @@ export default async function AppDetailPage({ params }: { params: Promise<{ slug
         <ActionChecklist id={`app-${app.slug}`} title={`${app.name}安装与安全清单`} items={[...app.setupSteps.slice(0, 4), "确认恢复邮箱或手机号由自己控制", "检查隐私、通知和推荐设置"]} />
       </section>
 
-      <section className="content-section" id="safety">
-        <SectionHeading index="07" title="中文、账号与隐私设置" lead="界面语言、内容地区和账号地区是三件不同的事，不要混在一起。" />
+      <section className="content-section">
+        <SectionHeading index="07" title="遇到打不开、登录或设置问题怎么办" lead="按症状排查，比反复重装更安全。每种情况都给出停止条件，避免把小问题变成账号风险。" />
+        <BeginnerTroubleshooter name={app.name} playbook={playbook} />
+      </section>
+
+      <section className="content-section soft-section" id="safety">
+        <SectionHeading index="08" title="中文、账号与隐私设置" lead="界面语言、内容地区和账号地区是三件不同的事，不要混在一起。" />
         <div className="two-guide-columns"><article><span className="guide-card-label">设置中文</span><ol>{app.languageSteps.map((step) => <li key={step}>{step}</li>)}</ol></article><article className="warning-card"><span className="guide-card-label">账号安全</span><ul>{app.safety.map((item) => <li key={item}>{item}</li>)}</ul></article></div>
       </section>
 
-      <section className="content-section soft-section"><SectionHeading index="08" title="免费版够不够？" /><div className="plain-definition paid-explainer"><span>先看使用频率</span><p>{guide.freeVsPaid}</p></div></section>
+      <section className="content-section"><SectionHeading index="09" title="免费版够不够？" /><div className="plain-definition paid-explainer"><span>先看使用频率</span><p>{guide.freeVsPaid}</p></div></section>
 
-      <section className="content-section sources-section"><SectionHeading index="09" title="本页官方资料来源" lead="功能说明来自品牌帮助中心和官方应用商店，页面更新后以官方资料为准。" /><SourceList sources={app.officialSources} /><FeedbackLink /></section>
+      <section className="content-section sources-section"><SectionHeading index="10" title="本页官方资料来源" lead="功能说明来自品牌帮助中心和官方应用商店，页面更新后以官方资料为准。" /><SourceList sources={app.officialSources} /><FeedbackLink /></section>
     </PageShell>
   );
 }

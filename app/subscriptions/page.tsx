@@ -3,6 +3,7 @@ import autoSync from "../../data/auto-sync.json";
 import Link from "next/link";
 import { BrandIcon, BrandNotice, Disclosure, EditorialCoverFeature, FeedbackLink, PageIntro, PageShell, QuickSummary, RiskBadge, SectionHeading, VerificationChip } from "../components/SiteChrome";
 import SubscriptionValueCalculator from "../components/SubscriptionValueCalculator";
+import ActionChecklist from "../components/ActionChecklist";
 
 export const metadata = {
   title: "GamsGo AI订阅",
@@ -101,6 +102,7 @@ export default function SubscriptionsPage() {
       <section className="content-section purchase-checklist">
         <SectionHeading index="05" title="付款前一分钟检查" />
         <ol><li>产品是在本人账号充值，还是交付一个新账号？</li><li>能否修改密码、恢复邮箱和二次验证？</li><li>页面显示的是月付、年付折算，还是限时公开起价？</li><li>订阅结束后，聊天记录、云盘或生成内容能否导出？</li><li>售后由GamsGo处理，还是AI官方处理？</li></ol>
+        <ActionChecklist id="subscription-before-payment" title="AI会员付款前清单" items={["免费版已经连续使用3—7天，并且确实经常遇到限制", "已经确认商品是本人账号充值、独立账号还是共享网页", "结算页的产品名、周期、币种和最终金额都与预期一致", "恢复邮箱、密码、二次验证和到期后的账号控制权已经写清", "知道由谁负责退款、取消自动续费和订单售后", "不会在第三方页面提交邮箱密码、验证码、Cookie或访问密钥"]} />
       </section>
 
       <section className="content-section soft-section">

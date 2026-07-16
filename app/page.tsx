@@ -5,7 +5,10 @@ import { aiProducts, commonApps, subscriptionOffers } from "../data/catalog";
 import { BrandIcon, BrandNotice, EditorialCoverFeature, FeedbackLink, PageShell, QuickSummary, SectionHeading, SiteFooter, SiteHeader } from "./components/SiteChrome";
 import DeviceChooser from "./components/DeviceChooser";
 import DecisionAssistant from "./components/DecisionAssistant";
+import ActionChecklist from "./components/ActionChecklist";
+import BeginnerTroubleshooter from "./components/BeginnerTroubleshooter";
 import StructuredData from "./components/StructuredData";
+import { networkPlaybook } from "../data/beginner-playbooks";
 
 const releaseVersions: Record<string, string | null> = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, "version" in client && typeof client.version === "string" ? client.version : null]));
 const releaseStates: Record<string, string> = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, client.state]));
@@ -289,7 +292,7 @@ export function NodeGuidePage() {
       <SiteHeader />
       <main id="main-content">
       <nav className="node-local-nav" aria-label="机场指南本页目录">
-        <strong>本页目录</strong><a href="#basics">先认识概念</a><a href="#guide">实际怎么用</a><a href="#choose">怎么选择</a><a href="#services">服务对比</a><a href="#evidence">页面证据</a><a href="#downloads">客户端下载</a><a href="#status">地址状态</a>
+        <strong>本页目录</strong><a href="#basics">先认识概念</a><a href="#guide">实际怎么用</a><a href="#troubleshoot">问题排查</a><a href="#choose">怎么选择</a><a href="#services">服务对比</a><a href="#evidence">页面证据</a><a href="#downloads">客户端下载</a><a href="#status">地址状态</a>
       </nav>
 
       <section className="hero" id="top">
@@ -329,6 +332,7 @@ export function NodeGuidePage() {
         </div>
         <div className="connection-diagram" aria-label="机场服务使用流程"><div><small>第1步</small><strong>购买服务</strong><p>获得自己的订阅链接</p></div><i>→</i><div><small>第2步</small><strong>安装客户端</strong><p>只从官方来源下载</p></div><i>→</i><div><small>第3步</small><strong>导入订阅</strong><p>客户端读取节点列表</p></div><i>→</i><div><small>第4步</small><strong>选择节点</strong><p>建立网络连接</p></div></div>
         <div className="can-cannot-grid"><article><h3>它可能帮助你</h3><ul><li>连接服务商提供的境外网络节点</li><li>按需要选择不同地区的出口</li><li>在跨境网络质量合适时改善连接体验</li></ul></article><article className="warning-card"><h3>它不能向你保证</h3><ul><li>完全匿名、绝对安全或永不记录</li><li>所有网站、账号地区和付款方式都能使用</li><li>任何时间、任何网络都保持同样速度</li></ul></article></div>
+        <ActionChecklist id="network-first-setup" title="第一次购买与连接清单" items={["已经写下必须使用的设备、地区和每月预算", "只选择证据仍在有效期内的最短周期套餐", "已经从官方项目或应用商店安装正确客户端", "订阅链接没有发给别人，也没有出现在截图中", "在自己的常用网络和常用时间连续测试三次", "知道怎样断开连接、关闭系统代理并恢复普通网络"]} />
       </section>
 
       <section className="section guide-section" id="guide">
@@ -345,8 +349,13 @@ export function NodeGuidePage() {
         </div>
       </section>
 
+      <section className="section node-troubleshoot-section" id="troubleshoot">
+        <div className="section-heading"><div><span className="section-index">03 / 出问题怎么排查</span><h2>先看症状，再决定要不要重装</h2></div><p>连接问题不一定来自同一个地方。订阅、客户端、节点、账号地区和目标网站要分开判断。</p></div>
+        <BeginnerTroubleshooter name="VPN与机场连接" playbook={networkPlaybook} />
+      </section>
+
       <section className="section node-choice-section" id="choose">
-        <div className="section-heading"><div><span className="section-index">03 / 怎么选择</span><h2>先看需求，不要先看广告词</h2></div><p>“IEPL、家宽、专线、稳定”可能来自商家描述。没有持续的多网络实测时，本站不会把它们当成独立性能结论。</p></div>
+        <div className="section-heading"><div><span className="section-index">04 / 怎么选择</span><h2>先看需求，不要先看广告词</h2></div><p>“IEPL、家宽、专线、稳定”可能来自商家描述。没有持续的多网络实测时，本站不会把它们当成独立性能结论。</p></div>
         <div className="selection-check-grid"><article><span>设备</span><h3>要在哪些设备上用？</h3><p>确认Windows、Mac、Android或iPhone，以及允许同时连接多少台设备。</p></article><article><span>用途</span><h3>主要打开哪些服务？</h3><p>不同服务对地区、IP质量和账号地区的要求不同，不能只看节点数量。</p></article><article><span>流量</span><h3>每月大约使用多少？</h3><p>视频和大文件更耗流量；还要确认流量何时重置、是否存在倍率。</p></article><article><span>售后</span><h3>出问题找谁处理？</h3><p>付款前查看工单、客服、退款、试用和失联后的处理方式。</p></article></div>
         <div className="selection-disclosure"><strong>为什么目前只展示这几家？</strong><p>它们来自当前已经获得入口、后台资料或可持续核验来源的候选服务，并覆盖低预算、长期使用、多地区、自有客户端和非月付等不同情况。它们不是“全市场前五名”，收录也不等于无条件推荐。</p></div>
         <div className="service-reason-grid">{serviceSelectionReasons.map((item) => <article key={item.name}><span>{item.evidence}</span><h3>{item.name}</h3><p>{item.reason}</p></article>)}</div>
@@ -361,7 +370,7 @@ export function NodeGuidePage() {
 
       <section className="section services-section" id="services">
         <div className="section-heading">
-          <div><span className="section-index">04 / 服务对比</span><h2>已核验月付优先，再按起价排序</h2></div>
+          <div><span className="section-index">05 / 服务对比</span><h2>已核验月付优先，再按起价排序</h2></div>
           <p>主榜只展示购买页已确认、并且人工核验未超过14天的 {rankedMonthlyServices.length} 家；没有明确月付或证据过期的服务单独放在下方，不参与价格排序。</p>
         </div>
         <div className="sort-note"><strong>排序口径</strong><span>当前可单独购买的月付或约31天套餐</span><i />已核验 <i className="review-dot" />待复核</div>
@@ -374,7 +383,7 @@ export function NodeGuidePage() {
 
       <section className="section node-evidence-section" id="evidence">
         <div className="section-heading compact">
-          <div><span className="section-index">05 / 页面证据</span><h2>截图用来证明“看到了什么”，不代替你的购买确认</h2></div>
+          <div><span className="section-index">06 / 页面证据</span><h2>截图用来证明“看到了什么”，不代替你的购买确认</h2></div>
           <p>以下截图来自 2026-07-16 的实际页面。只展示不含账号、订单、订阅密钥和付款资料的区域；价格和客户端证据分开标注。</p>
         </div>
         <div className="node-evidence-grid">
@@ -392,7 +401,7 @@ export function NodeGuidePage() {
 
       <section className="section downloads-section" id="downloads">
         <div className="section-heading compact">
-          <div><span className="section-index">06 / 客户端下载</span><h2>按设备选，按钮可以直接用</h2></div>
+          <div><span className="section-index">07 / 客户端下载</span><h2>按设备选，按钮可以直接用</h2></div>
           <p>开源软件进入 GitHub 的 Latest Release；苹果付费软件进入 App Store；不提供来历不明的安装包或 IPA。</p>
         </div>
         <BrandNotice />
@@ -410,7 +419,7 @@ export function NodeGuidePage() {
       </section>
 
       <section className="section status-section" id="status">
-        <div className="section-heading compact"><div><span className="section-index">07 / 地址状态</span><h2>能打开，不等于大陆裸网可用</h2></div><p>当前环境是否经过代理未知，所以不会标绿色“大陆可用”。只有真实普通网络测试后才升级状态。</p></div>
+        <div className="section-heading compact"><div><span className="section-index">08 / 地址状态</span><h2>能打开，不等于大陆裸网可用</h2></div><p>当前环境是否经过代理未知，所以不会标绿色“大陆可用”。只有真实普通网络测试后才升级状态。</p></div>
         <div className="status-table" role="table" aria-label="地址核验状态">
           <div className="status-row table-head" role="row"><span>服务</span><span>跳转结果</span><span>访问状态</span><span>结论</span></div>
           {addresses.map((item) => <div className="status-row" role="row" key={item.service}><strong>{item.service}</strong><span>{item.result}</span><span className={`status-pill ${item.tone}`}><i />{item.access}</span><span className="table-note">暂不标记大陆裸网可用</span></div>)}
@@ -418,7 +427,7 @@ export function NodeGuidePage() {
       </section>
 
       <section className="section pending-section" id="pending">
-        <div className="section-heading compact"><div><span className="section-index">08 / 待复核清单</span><h2>证据不足的字段，公开列出来</h2></div><p>这些内容不会靠旧宣传资料补齐。完成实际购买页或大陆普通网络测试后才更新。</p></div>
+        <div className="section-heading compact"><div><span className="section-index">09 / 待复核清单</span><h2>证据不足的字段，公开列出来</h2></div><p>这些内容不会靠旧宣传资料补齐。完成实际购买页或大陆普通网络测试后才更新。</p></div>
         <div className="verification-queue"><article><span>悠兔 Youtu</span><strong>月付价格、流量与付款方式</strong><p>客户端已在当前后台确认；套餐页没有成功展示可比较的月付价格，因此旧资料约¥40继续撤下。</p></article><article><span>TAG</span><strong>付款方式</strong><p>月付套餐和自有客户端均已核验；实际付款方式仍需进入结算步骤确认。</p></article><article><span>BoostNet</span><strong>直接月付是否恢复</strong><p>当前计划页以季付、半年付和年付为主，不按月付价格排序。</p></article><article><span>中国大陆普通网络</span><strong>入口实际可访问性</strong><p>需要关闭代理后分别用家庭宽带和移动网络测试，当前统一标为未核验。</p></article></div>
         <div className="manual-test-note"><strong>安全测试方式</strong><p>只记录“能否打开、是否跳转、时间和网络类型”，不记录账号、密码、Cookie、订阅地址或付款信息。</p><FeedbackLink label="提交实测结果或失效入口" /></div>
       </section>

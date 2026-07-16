@@ -83,6 +83,50 @@ type Result = {
   evidence: string;
 };
 
+type RouteGuardrails = {
+  test: string;
+  success: string;
+  stop: string;
+  spend: string;
+};
+
+function getGuardrails(goal: Goal, need: string, priority: string): RouteGuardrails {
+  if (goal === "network") return {
+    test: need === "coverage" ? "列出必须使用的2—3个地区，只买最短周期后逐个测试。" : "只买最短周期，在家庭网络和手机热点、白天和晚高峰分别测试。",
+    success: "连续3次连接成功，常用网站能打开，断开客户端后普通网络也能恢复。",
+    stop: "入口频繁变化、跳转异常、订阅无法更新或售后说不清时，不续费。",
+    spend: priority === "cost" ? "先把预算限制在一个月内，绝不为了折扣直接年付。" : "第一笔只承担一个月或31天费用，稳定后再重新判断。",
+  };
+  if (goal === "ai") {
+    const task: Record<string, string> = {
+      general: "用一封真实邮件、一份表格说明和一次语音问答完成综合测试。",
+      writing: "把同一份已脱敏长文交给两款AI，比较结构、遗漏和修改成本。",
+      research: "选一个你熟悉的话题，要求列来源并逐条打开核对。",
+      google: "用一份低敏感Drive文件测试查找、总结和授权范围。",
+      realtime: "选一个当天话题，区分原帖、转述、观点和官方公告。",
+      image: "用同一需求完成三轮图片修改，记录每轮解决了什么问题。",
+    };
+    return {
+      test: task[need] || task.general,
+      success: "最终结果能直接节省时间，而且重要事实、数字和来源可以复核。",
+      stop: "连续3次真实任务都需要大量返工，或地区、隐私限制无法接受时换方案。",
+      spend: "先用免费版；一周内多次碰到明确限制后，才考虑一个月官方订阅。",
+    };
+  }
+  if (goal === "subscription") return {
+    test: "连续3—7天记录使用次数、遇到的限制和实际节省时间。",
+    success: "每月节省的时间或完成的工作，稳定高于会员最终结算价。",
+    stop: "交付方式、账号归属、恢复权限、自动续费或退款有一项说不清就不付款。",
+    spend: priority === "cost" ? "只买最短周期；低价不能用共享账号和隐私风险来补偿。" : "能官方购买时优先本人账号；第三方只作为明确付款障碍下的替代。",
+  };
+  return {
+    test: "先核对产品名、开发者、系统、芯片和官方域名，再下载。",
+    success: "安装包来自官方来源，版本对应设备，系统安全检查没有异常。",
+    stop: "要求关闭安全防护、安装未知证书、输入共享账号或来源说不清时立即停止。",
+    spend: "能用官方网页版时先不安装；付费软件只在官方商店完成购买。",
+  };
+}
+
 function networkResult(need: string, device: Device, experience: Experience): Result {
   const deviceStep = device === "ios"
     ? "先确认 Apple ID 地区，再看服务是否支持 Shadowrocket、Stash 等 iOS 客户端"
@@ -173,7 +217,9 @@ export default function DecisionAssistant() {
   const [experience, setExperience] = useState<Experience>("first");
   const [priority, setPriority] = useState("safe");
   const [step, setStep] = useState(0);
+  const [copied, setCopied] = useState(false);
   const result = useMemo(() => getResult(goal, need, device, experience, priority), [device, experience, goal, need, priority]);
+  const guardrails = useMemo(() => getGuardrails(goal, need, priority), [goal, need, priority]);
   const selectedNeed = needs[goal].find((item) => item.id === need)?.label || "未选择";
   const selectedDevice = deviceOptions.find((item) => item.id === device)?.label || "未选择";
   const selectedExperience = experienceOptions.find((item) => item.id === experience)?.label || "未选择";
@@ -186,11 +232,51 @@ export default function DecisionAssistant() {
 
   function reset() {
     setGoal("ai"); setNeed("general"); setDevice("windows"); setExperience("first"); setPriority("safe");
+    setCopied(false);
     setStep(0);
   }
 
   function nextStep() { setStep((current) => Math.min(current + 1, questionTitles.length)); }
   function previousStep() { setStep((current) => Math.max(current - 1, 0)); }
+
+  async function copyRoute() {
+    const route = [
+      `建议：${result.title}`,
+      `原因：${result.reason}`,
+      `先测试：${guardrails.test}`,
+      `成功标准：${guardrails.success}`,
+      `停止条件：${guardrails.stop}`,
+      `花费边界：${guardrails.spend}`,
+      ...result.steps.map((item, index) => `${index + 1}. ${item}`),
+      "来自：数字工具指南（不含账号、密码或付款信息）",
+    ].join("\n");
+    let didCopy = false;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(route);
+        didCopy = true;
+      }
+    } catch {
+      didCopy = false;
+    }
+    if (!didCopy) {
+      const fallback = document.createElement("textarea");
+      fallback.value = route;
+      fallback.setAttribute("readonly", "");
+      fallback.style.position = "fixed";
+      fallback.style.opacity = "0";
+      document.body.appendChild(fallback);
+      fallback.select();
+      didCopy = document.execCommand("copy");
+      fallback.remove();
+    }
+    if (didCopy) {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2200);
+    } else {
+      setCopied(false);
+    }
+  }
 
   return (
     <div className="decision-assistant">
@@ -204,8 +290,8 @@ export default function DecisionAssistant() {
         {step === 4 && <fieldset className="decision-question compact"><legend><b>5</b>{questionTitles[4]}</legend><div>{priorityOptions.map((item) => <button type="button" key={item.id} aria-pressed={priority === item.id} onClick={() => setPriority(item.id)}><span>{item.label}</span></button>)}</div></fieldset>}
         <div className={`decision-controls ${step === 0 ? "single" : ""}`}>{step > 0 && <button type="button" className="decision-back" onClick={previousStep}>← 上一步</button>}<button type="button" className="decision-next" onClick={nextStep}>{step === questionTitles.length - 1 ? "查看我的路线" : "下一步"} →</button></div>
       </div> : <section className="decision-result" aria-live="polite">
-        <div className="decision-result-main"><span>根据你的五项选择，建议先做</span><h3>{result.title}</h3><p>{result.reason}</p><div className="decision-selection-summary" aria-label="你刚才的选择"><span>{goals.find((item) => item.id === goal)?.label}</span><span>{selectedNeed}</span><span>{selectedDevice}</span><span>{selectedExperience}</span><span>{selectedPriority}</span></div><p className="decision-priority-note"><strong>你的优先级</strong>{priorityGuidance[priority]}</p><ol>{result.steps.map((item, index) => <li key={item}><b>{index + 1}</b><span>{item}</span></li>)}</ol><Link className="decision-primary-action" href={result.href}>{result.action} <span aria-hidden="true">→</span></Link></div>
-        <aside><div><strong>先注意</strong><p>{result.caution}</p></div><div><strong>为什么不先选别的</strong><p>{result.whyNot}</p></div><div><strong>备选路线</strong><p>{result.alternative}</p></div><small>证据口径：{result.evidence}</small><button type="button" onClick={() => setStep(0)}>修改我的选择</button><button type="button" className="decision-reset" onClick={reset}>恢复默认并重新开始</button></aside>
+        <div className="decision-result-main"><span>根据你的五项选择，建议先做</span><h3>{result.title}</h3><p>{result.reason}</p><div className="decision-selection-summary" aria-label="你刚才的选择"><span>{goals.find((item) => item.id === goal)?.label}</span><span>{selectedNeed}</span><span>{selectedDevice}</span><span>{selectedExperience}</span><span>{selectedPriority}</span></div><p className="decision-priority-note"><strong>你的优先级</strong>{priorityGuidance[priority]}</p><div className="decision-guardrails" aria-label="这条路线的测试与停止条件"><article><span>先怎么试</span><p>{guardrails.test}</p></article><article><span>怎样算成功</span><p>{guardrails.success}</p></article><article><span>什么时候停止</span><p>{guardrails.stop}</p></article><article><span>花费边界</span><p>{guardrails.spend}</p></article></div><ol>{result.steps.map((item, index) => <li key={item}><b>{index + 1}</b><span>{item}</span></li>)}</ol><Link className="decision-primary-action" href={result.href}>{result.action} <span aria-hidden="true">→</span></Link></div>
+        <aside><div><strong>先注意</strong><p>{result.caution}</p></div><div><strong>为什么不先选别的</strong><p>{result.whyNot}</p></div><div><strong>备选路线</strong><p>{result.alternative}</p></div><small>证据口径：{result.evidence}</small><button type="button" onClick={copyRoute}>{copied ? "路线已复制" : "复制我的路线"}</button><button type="button" onClick={() => setStep(0)}>修改我的选择</button><button type="button" className="decision-reset" onClick={reset}>恢复默认并重新开始</button></aside>
       </section>}
     </div>
   );
