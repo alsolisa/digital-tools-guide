@@ -5,6 +5,7 @@ import { FeedbackLink, PageIntro, PageShell, QuickSummary, SectionHeading } from
 export const metadata = {
   title: "入口、价格与同步状态",
   description: "查看公开入口、客户端版本、GamsGo公开价格与评测来源最近一次检查结果和价格变化记录。",
+  alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/status/` },
 };
 
 const stateLabels: Record<string, string> = {

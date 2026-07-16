@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import { commonApps, getCommonApp } from "../../../data/catalog";
 import { getAppEditorialGuide } from "../../../data/editorial-guides";
 import { BrandIcon, Breadcrumbs, DownloadButtons, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, QuickSummary, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
+import ActionChecklist from "../../components/ActionChecklist";
+import StructuredData from "../../components/StructuredData";
 
 export function generateStaticParams() {
   return commonApps.map((app) => ({ slug: app.slug }));
@@ -11,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const app = getCommonApp(slug);
   const basePath = process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : "";
-  return app ? { title: `${app.name}完整安装与使用教程`, description: app.summary, openGraph: { images: [`${basePath}/editorial/${app.slug}.png`] } } : { title: "应用教程" };
+  return app ? { title: `${app.name}完整安装与使用教程`, description: app.summary, alternates: { canonical: `${basePath}/apps/${app.slug}/` }, openGraph: { images: [`${basePath}/editorial/${app.slug}.png`] } } : { title: "应用教程" };
 }
 
 export default async function AppDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -21,10 +23,11 @@ export default async function AppDetailPage({ params }: { params: Promise<{ slug
   if (!app || !guide) notFound();
   const webEntry = app.downloads.find((item) => item.platform === "Web");
   const howToJsonLd = { "@context": "https://schema.org", "@type": "HowTo", name: `${app.name}安装与第一次使用教程`, description: app.summary, step: app.setupSteps.map((step, index) => ({ "@type": "HowToStep", position: index + 1, name: `第${index + 1}步`, text: step })) };
+  const softwareJsonLd = { "@context": "https://schema.org", "@type": "SoftwareApplication", name: app.name, applicationCategory: "SocialNetworkingApplication", operatingSystem: [...new Set(app.downloads.map((download) => download.platform))].join(", "), description: app.summary, url: webEntry?.url, publisher: { "@type": "Organization", name: app.company } };
 
   return (
     <PageShell>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd).replace(/</g, "\\u003c") }} />
+      <StructuredData data={[howToJsonLd, softwareJsonLd]} />
       <Breadcrumbs items={[{ label: "首页", href: "/" }, { label: "常用应用", href: "/apps" }, { label: app.name }]} />
       <section className="detail-hero detail-hero-with-cover professional-detail-hero app-detail-hero">
         <div className="detail-hero-copy"><div className="detail-title-row"><BrandIcon slug={app.slug} name={app.name} size="hero" /><div><span className="eyebrow">{app.company} · 从用途到安全设置</span><h1>{app.name}</h1></div></div><p>{guide.verdict}</p><div className="detail-hero-actions">{webEntry && <a className="button primary" href={webEntry.url} target="_blank" rel="noopener noreferrer">先打开网页版 <span>↗</span></a>}<a className="button secondary" href="#screenshots">先看官方界面</a></div><div className="detail-meta"><VerificationChip status="verified" /><span>官方商店入口</span><span>核验 {app.verifiedAt}</span></div></div>
@@ -67,6 +70,7 @@ export default async function AppDetailPage({ params }: { params: Promise<{ slug
       <section className="content-section soft-section" id="start">
         <SectionHeading index="06" title="第一次打开后的十分钟" lead="先把账号、推荐和隐私设置好，再开始长期使用。" />
         <div className="first-ten-layout"><ol className="first-ten-list">{guide.firstTenMinutes.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}</ol><aside><span>安装与注册顺序</span><ol>{app.setupSteps.map((step) => <li key={step}>{step}</li>)}</ol></aside></div>
+        <ActionChecklist id={`app-${app.slug}`} title={`${app.name}安装与安全清单`} items={[...app.setupSteps.slice(0, 4), "确认恢复邮箱或手机号由自己控制", "检查隐私、通知和推荐设置"]} />
       </section>
 
       <section className="content-section" id="safety">

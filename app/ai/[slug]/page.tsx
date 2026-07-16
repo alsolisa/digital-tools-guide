@@ -3,6 +3,8 @@ import Link from "next/link";
 import { aiProducts, getAiProduct, subscriptionOffers } from "../../../data/catalog";
 import { getAiEditorialGuide } from "../../../data/editorial-guides";
 import { BrandIcon, Breadcrumbs, DownloadButtons, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, QuickSummary, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
+import ActionChecklist from "../../components/ActionChecklist";
+import StructuredData from "../../components/StructuredData";
 
 export function generateStaticParams() {
   return aiProducts.map((product) => ({ slug: product.slug }));
@@ -12,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const product = getAiProduct(slug);
   const basePath = process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : "";
-  return product ? { title: `${product.name}完整小白教程`, description: product.summary, openGraph: { images: [`${basePath}/editorial/${product.slug}.png`] } } : { title: "AI教程" };
+  return product ? { title: `${product.name}完整小白教程`, description: product.summary, alternates: { canonical: `${basePath}/ai/${product.slug}/` }, openGraph: { images: [`${basePath}/editorial/${product.slug}.png`] } } : { title: "AI教程" };
 }
 
 export default async function AiDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -23,10 +25,11 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
   const offer = subscriptionOffers.find((item) => item.productSlug === product.slug);
   const webEntry = product.downloads.find((item) => item.platform === "Web");
   const howToJsonLd = { "@context": "https://schema.org", "@type": "HowTo", name: `${product.name}第一次使用教程`, description: product.summary, step: product.setupSteps.map((step, index) => ({ "@type": "HowToStep", position: index + 1, name: `第${index + 1}步`, text: step })) };
+  const softwareJsonLd = { "@context": "https://schema.org", "@type": "SoftwareApplication", name: product.name, applicationCategory: "BusinessApplication", operatingSystem: [...new Set(product.downloads.map((download) => download.platform))].join(", "), description: product.summary, url: webEntry?.url, publisher: { "@type": "Organization", name: product.company } };
 
   return (
     <PageShell>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd).replace(/</g, "\\u003c") }} />
+      <StructuredData data={[howToJsonLd, softwareJsonLd]} />
       <Breadcrumbs items={[{ label: "首页", href: "/" }, { label: "AI怎么选", href: "/ai" }, { label: product.name }]} />
 
       <section className="detail-hero detail-hero-with-cover professional-detail-hero">
@@ -81,6 +84,7 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
           <ol className="setup-steps">{product.setupSteps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}</ol>
           <aside className="starter-task"><span>新手测试题</span><h2>{guide.starterTask.title}</h2><p>{guide.starterTask.prompt}</p><strong>完成后检查</strong><ul>{guide.starterTask.check.map((item) => <li key={item}>{item}</li>)}</ul></aside>
         </div>
+        <ActionChecklist id={`ai-${product.slug}`} title={`${product.name}第一次使用清单`} items={[...product.setupSteps.slice(0, 4), "用上面的新手测试题完成一次真实任务", "核对结果中的数字、引用和重要结论"]} />
       </section>
 
       <section className="content-section soft-section">

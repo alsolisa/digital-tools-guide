@@ -3,6 +3,7 @@ import { PageIntro, PageShell, QuickSummary, SectionHeading } from "../component
 export const metadata = {
   title: "关于数字工具指南",
   description: "了解本站是谁整理、为什么收录这些产品、如何处理推广关系、证据不足与更新错误。",
+  alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/about/` },
 };
 
 export default function AboutPage() {

@@ -1,6 +1,6 @@
 import { FeedbackLink, PageIntro, PageShell, RegionNotice, SectionHeading } from "../components/SiteChrome";
 
-export const metadata = { title: "常见问题", description: "机场、AI订阅、账号交付、付款、下载、地区与隐私的新手常见问题。" };
+export const metadata = { title: "常见问题", description: "机场、AI订阅、账号交付、付款、下载、地区与隐私的新手常见问题。", alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/faq/` } };
 
 const groups = [
   { title: "网络服务与客户端", items: [

@@ -194,9 +194,9 @@ export const aiProducts: ProductProfile[] = [
       { platform: "iOS", label: "Apple App Store", url: "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684", source: "app-store", status: "verified", verifiedAt: checkedAt },
     ],
     screenshots: [
-      { src: "/guides/claude/official-1.png", title: "把问题变成有用答案", caption: "Claude可以结合问题、位置和资料整理建议；涉及消费或出行时仍要核对营业信息。", alt: "Claude官方App Store截图，展示带地图的实用回答", focus: ["顶部菜单用于进入历史和设置", "先补充地点、人数、预算等限制", "打开外部来源确认时间与价格"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684", verifiedAt: checkedAt },
-      { src: "/guides/claude/official-2.png", title: "语音模式", caption: "适合移动时连续交流，结束后再把讨论整理成清单或文档。", alt: "Claude官方App Store截图，展示语音模式", focus: ["先允许真正需要的麦克风权限", "涉及专有名词时改用文字确认", "语音额度与开放范围可能变化"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684", verifiedAt: checkedAt },
-      { src: "/guides/claude/official-3.png", title: "工具与资料协作", caption: "可以围绕文件、搜索或连接的工具继续工作，适合项目型任务。", alt: "Claude官方App Store截图，展示工具与资料入口", focus: ["只连接任务真正需要的资料", "先说明最终要交付什么", "查看每个工具的授权范围"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684", verifiedAt: checkedAt },
+      { src: "/guides/claude/official-1.webp", title: "把问题变成有用答案", caption: "Claude可以结合问题、位置和资料整理建议；涉及消费或出行时仍要核对营业信息。", alt: "Claude官方App Store截图，展示带地图的实用回答", focus: ["顶部菜单用于进入历史和设置", "先补充地点、人数、预算等限制", "打开外部来源确认时间与价格"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684", verifiedAt: checkedAt },
+      { src: "/guides/claude/official-2.webp", title: "语音模式", caption: "适合移动时连续交流，结束后再把讨论整理成清单或文档。", alt: "Claude官方App Store截图，展示语音模式", focus: ["先允许真正需要的麦克风权限", "涉及专有名词时改用文字确认", "语音额度与开放范围可能变化"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684", verifiedAt: checkedAt },
+      { src: "/guides/claude/official-3.webp", title: "工具与资料协作", caption: "可以围绕文件、搜索或连接的工具继续工作，适合项目型任务。", alt: "Claude官方App Store截图，展示工具与资料入口", focus: ["只连接任务真正需要的资料", "先说明最终要交付什么", "查看每个工具的授权范围"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684", verifiedAt: checkedAt },
     ],
     officialSources: [
       { label: "Claude 官方产品与功能介绍", url: "https://www.anthropic.com/claude" },
@@ -346,9 +346,9 @@ export const aiProducts: ProductProfile[] = [
       { platform: "iOS", label: "Apple App Store", url: "https://apps.apple.com/us/app/perplexity-ai-search-chat/id1668000334", source: "app-store", status: "verified", verifiedAt: checkedAt },
     ],
     screenshots: [
-      { src: "/guides/perplexity/official-1.png", title: "从一个清楚的问题开始", caption: "把主题、地区、时间和用途说清楚，搜索结果更容易核对。", alt: "Perplexity官方App Store截图，展示搜索问答入口", focus: ["输入框写清范围和日期", "回答中的编号可打开来源", "重要结论不要只看摘要"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/perplexity-ai-search-chat/id1668000334", verifiedAt: checkedAt },
-      { src: "/guides/perplexity/official-2.png", title: "逐条打开引用来源", caption: "Perplexity的核心优势是来源可见，但你仍要检查原文是否真正支持结论。", alt: "Perplexity官方App Store截图，展示带引用的回答", focus: ["优先打开官网或一手资料", "检查发布日期和适用地区", "来源之间冲突时不要强行下结论"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/perplexity-ai-search-chat/id1668000334", verifiedAt: checkedAt },
-      { src: "/guides/perplexity/official-3.png", title: "Research深入研究", caption: "需要完整报告时使用多步研究，再导出、分享或继续修改。", alt: "Perplexity官方App Store截图，展示Research研究功能", focus: ["先限定问题和研究深度", "查看研究过程使用的来源", "导出前复核数字、引文和遗漏观点"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/perplexity-ai-search-chat/id1668000334", verifiedAt: checkedAt },
+      { src: "/guides/perplexity/official-1.webp", title: "从一个清楚的问题开始", caption: "把主题、地区、时间和用途说清楚，搜索结果更容易核对。", alt: "Perplexity官方App Store截图，展示搜索问答入口", focus: ["输入框写清范围和日期", "回答中的编号可打开来源", "重要结论不要只看摘要"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/perplexity-ai-search-chat/id1668000334", verifiedAt: checkedAt },
+      { src: "/guides/perplexity/official-2.webp", title: "逐条打开引用来源", caption: "Perplexity的核心优势是来源可见，但你仍要检查原文是否真正支持结论。", alt: "Perplexity官方App Store截图，展示带引用的回答", focus: ["优先打开官网或一手资料", "检查发布日期和适用地区", "来源之间冲突时不要强行下结论"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/perplexity-ai-search-chat/id1668000334", verifiedAt: checkedAt },
+      { src: "/guides/perplexity/official-3.webp", title: "Research深入研究", caption: "需要完整报告时使用多步研究，再导出、分享或继续修改。", alt: "Perplexity官方App Store截图，展示Research研究功能", focus: ["先限定问题和研究深度", "查看研究过程使用的来源", "导出前复核数字、引文和遗漏观点"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/perplexity-ai-search-chat/id1668000334", verifiedAt: checkedAt },
     ],
     officialSources: [
       { label: "Perplexity 平台下载", url: "https://www.perplexity.ai/platforms" },
@@ -395,7 +395,7 @@ export const aiProducts: ProductProfile[] = [
     screenshots: [
       { src: "/guides/midjourney/official-1.png", title: "Imagine输入栏", caption: "在Create页面顶部输入想要的画面；这不是搜索框，而是生成图片的提示词入口。", alt: "Midjourney官方文档截图，展示Imagine提示词输入栏", focus: ["先写主体，再补场景、构图和风格", "右侧设置用于调整默认生成选项", "第一次不要堆太多参数，先看基础结果"], sourceLabel: "Midjourney Docs", sourceUrl: "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide", verifiedAt: "2026-07-16" },
       { src: "/guides/midjourney/official-2.png", title: "Create生成结果", caption: "提交提示词后会得到一组结果，可以继续选择、变化、放大或进入编辑。", alt: "Midjourney官方文档截图，展示Create页面的生成结果", focus: ["先比较构图，再决定是否继续消耗生成时间", "查看结果对应的提示词与设置", "重要项目要保存原图和提示词版本"], sourceLabel: "Midjourney Docs", sourceUrl: "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide", verifiedAt: "2026-07-16" },
-      { src: "/guides/midjourney/official-3.png", title: "继续修改与变化", caption: "选中图片后可以创建变化、缩放、扩展画布或进入Editor继续处理。", alt: "Midjourney官方文档截图，展示图片修改与变化工具", focus: ["Vary用于探索相近版本", "Pan和Zoom Out用于扩展画面", "Editor可局部重绘；导出前检查细节和授权"], sourceLabel: "Midjourney Docs", sourceUrl: "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide", verifiedAt: "2026-07-16" },
+      { src: "/guides/midjourney/official-3.webp", title: "继续修改与变化", caption: "选中图片后可以创建变化、缩放、扩展画布或进入Editor继续处理。", alt: "Midjourney官方文档截图，展示图片修改与变化工具", focus: ["Vary用于探索相近版本", "Pan和Zoom Out用于扩展画面", "Editor可局部重绘；导出前检查细节和授权"], sourceLabel: "Midjourney Docs", sourceUrl: "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide", verifiedAt: "2026-07-16" },
     ],
     officialSources: [
       { label: "Midjourney官方入门指南", url: "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide" },
@@ -561,8 +561,8 @@ export const commonApps: AppProfile[] = [
     ],
     screenshots: [
       { src: "/guides/tiktok/official-1.png", title: "TikTok国际版入口", caption: "TikTok与中国大陆的抖音不是同一产品，账号、内容、商店和数据不互通。", alt: "TikTok官方App Store截图，展示国际版界面", focus: ["确认开发者与官方商店条目", "不要使用抖音账号直接套用", "功能会受地区、年龄和设备影响"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/tiktok/id835599320", verifiedAt: checkedAt },
-      { src: "/guides/tiktok/official-2.png", title: "For You推荐流", caption: "推荐会根据停留、互动、搜索和内容信息变化，可以主动训练，也要管理使用时间。", alt: "TikTok官方App Store截图，展示For You短视频流", focus: ["For You与Following用途不同", "长按选择Not interested", "设置屏幕时间和休息提醒"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/tiktok/id835599320", verifiedAt: checkedAt },
-      { src: "/guides/tiktok/official-3.png", title: "拍摄、编辑与发布", caption: "发布前要检查可见范围、评论、下载、合拍以及画面和音乐授权。", alt: "TikTok官方App Store截图，展示短视频创作", focus: ["先保存草稿并备份原素材", "检查人物、地点和版权", "未成年人优先配置Family Pairing"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/tiktok/id835599320", verifiedAt: checkedAt },
+      { src: "/guides/tiktok/official-2.webp", title: "For You推荐流", caption: "推荐会根据停留、互动、搜索和内容信息变化，可以主动训练，也要管理使用时间。", alt: "TikTok官方App Store截图，展示For You短视频流", focus: ["For You与Following用途不同", "长按选择Not interested", "设置屏幕时间和休息提醒"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/tiktok/id835599320", verifiedAt: checkedAt },
+      { src: "/guides/tiktok/official-3.webp", title: "拍摄、编辑与发布", caption: "发布前要检查可见范围、评论、下载、合拍以及画面和音乐授权。", alt: "TikTok官方App Store截图，展示短视频创作", focus: ["先保存草稿并备份原素材", "检查人物、地点和版权", "未成年人优先配置Family Pairing"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/tiktok/id835599320", verifiedAt: checkedAt },
     ],
     setupSteps: ["从TikTok官网或官方商店进入。", "使用本人邮箱、手机号或官方支持的第三方账号注册。", "设置用户名、生日与隐私选项。", "检查评论、私信、下载和推荐权限。"],
     languageSteps: ["进入Profile后打开Settings and privacy。", "选择Language。", "分别设置App language和Preferred languages。"],

@@ -6,6 +6,7 @@ import { BrandIcon, BrandNotice, PageIntro, PageShell, RegionNotice, SectionHead
 export const metadata = {
   title: "常用海外应用教程",
   description: "YouTube、X与TikTok的官方下载、注册登录、语言设置、账号安全和地区提示。",
+  alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/apps/` },
 };
 
 export default function AppsIndexPage() {

@@ -23,6 +23,7 @@ const mirrorDownloads = [
 export const metadata = {
   title: "官方下载中心",
   description: "按Windows、macOS、Android、iOS和网页分类的ChatGPT、Claude、Gemini、Grok、Perplexity、YouTube、X与TikTok官方入口。",
+  alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/downloads/` },
 };
 
 export default function DownloadsPage() {

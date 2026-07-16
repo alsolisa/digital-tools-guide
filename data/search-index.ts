@@ -9,6 +9,7 @@ const coreEntries: SearchEntry[] = [
   { title: "官方下载与开源备用文件中心", href: "/downloads", category: "下载", description: "按Windows、macOS、Android、iOS和网页端查找官方入口；官方页面打不开时，可下载两项已公开版本与SHA-256的开源客户端备用文件。", keywords: ["下载", "备用下载", "安装包", "SHA-256", "Windows", "Mac", "Android", "iPhone", "App Store", "Google Play", "Clash", "FlClash", "Shadowrocket"] },
   { title: "Apple与Google应用商店地区教程", href: "/stores", category: "下载", description: "解释商店搜不到、账号地区、产品上架与设备兼容的区别，以及安全处理顺序。", keywords: ["App Store", "Google Play", "地区", "国家", "账号地区", "商店搜不到", "Apple ID", "Google账号"] },
   { title: "入口、价格与同步状态", href: "/status", category: "网站说明", description: "查看公开入口、客户端版本、GamsGo价格读取与价格变化记录。", keywords: ["状态", "打不开", "价格冲突", "版本", "自动同步", "大陆网络", "历史"] },
+  { title: "证据与编辑标准", href: "/standards", category: "网站说明", description: "查看证据等级、资料过期窗口、自动失效规则、推广边界、纠错与上线门槛。", keywords: ["证据", "编辑标准", "可信", "过期", "新鲜度", "纠错", "质量", "核验"] },
   { title: "反馈与纠错助手", href: "/feedback", category: "帮助", description: "安全整理入口失效、价格变化、下载错误或教程问题，不自动上传填写内容。", keywords: ["反馈", "纠错", "失效", "问题", "价格变化", "入口"] },
   { title: "关于数字工具指南", href: "/about", category: "网站说明", description: "项目目的、收录标准、推广边界、隐私与核验原则。", keywords: ["关于", "作者", "收录", "标准", "推广", "独立整理"] },
   { title: "核验方法", href: "/methodology", category: "网站说明", description: "资料优先级、自动同步、价格保护、评测来源和状态标签。", keywords: ["核验", "来源", "Arena", "Artificial Analysis", "自动同步"] },

@@ -4,6 +4,7 @@ import { PageIntro, PageShell, QuickSummary, SectionHeading } from "../component
 export const metadata = {
   title: "反馈与纠错助手",
   description: "不用懂技术，也能把入口失效、价格变化、下载错误或教程问题整理成安全、清楚的反馈。",
+  alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/feedback/` },
 };
 
 export default function FeedbackPage() {

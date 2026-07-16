@@ -6,6 +6,7 @@ import { BrandIcon, BrandNotice, PageIntro, PageShell, SectionHeading, Verificat
 export const metadata = {
   title: "主流AI小白教程",
   description: "比较ChatGPT、Claude、Gemini、Grok、Perplexity与Midjourney的优势、模型、平台、官方下载和使用方法。",
+  alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/ai/` },
 };
 
 export default function AiIndexPage() {

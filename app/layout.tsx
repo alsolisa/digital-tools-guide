@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import StructuredData from "./components/StructuredData";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,9 +45,19 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const siteUrl = isGitHubPages ? "https://alsolisa.github.io/digital-tools-guide/" : "http://localhost:3000/";
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "数字工具指南",
+    url: siteUrl,
+    inLanguage: "zh-CN",
+    description: "面向中国大陆新手的网络连接、AI选择、订阅风险与官方下载指南。",
+    publisher: { "@type": "Organization", name: "数字工具指南", url: siteUrl },
+  };
   return (
     <html lang="zh-CN">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>{children}</body>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}><StructuredData data={websiteJsonLd} />{children}</body>
     </html>
   );
 }

@@ -4,6 +4,7 @@ import { PageIntro, PageShell, QuickSummary, RegionNotice, SectionHeading, Sourc
 export const metadata = {
   title: "Apple App Store与Google Play地区教程",
   description: "解释为什么应用商店搜不到软件、账号地区与网络有什么区别，以及如何只从官方商店安全下载。",
+  alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/stores/` },
 };
 
 const sources = [

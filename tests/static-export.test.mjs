@@ -27,7 +27,7 @@ function exportedTarget(urlPath) {
 }
 
 test("GitHub Pages导出包含全部主要页面", async () => {
-  const routes = ["/", "/nodes/", "/subscriptions/", "/ai/", "/ai/chatgpt/", "/ai/claude/", "/ai/gemini/", "/ai/grok/", "/ai/perplexity/", "/ai/midjourney/", "/apps/", "/apps/youtube/", "/apps/x/", "/apps/tiktok/", "/downloads/", "/stores/", "/status/", "/feedback/", "/about/", "/methodology/", "/search/", "/faq/", "/privacy/", "/disclosure/", "/changelog/"];
+  const routes = ["/", "/nodes/", "/subscriptions/", "/ai/", "/ai/chatgpt/", "/ai/claude/", "/ai/gemini/", "/ai/grok/", "/ai/perplexity/", "/ai/midjourney/", "/apps/", "/apps/youtube/", "/apps/x/", "/apps/tiktok/", "/downloads/", "/stores/", "/status/", "/standards/", "/feedback/", "/about/", "/methodology/", "/search/", "/faq/", "/privacy/", "/disclosure/", "/changelog/"];
   for (const route of routes) assert.equal(await exists(path.join(root, route, "index.html")), true, `缺少导出页面 ${route}`);
 });
 

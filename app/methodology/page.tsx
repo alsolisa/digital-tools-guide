@@ -4,6 +4,7 @@ import { PageIntro, PageShell, SectionHeading } from "../components/SiteChrome";
 export const metadata = {
   title: "核验方法与推广说明",
   description: "数字工具指南的数据来源、自动同步、第三方评测、风险分级、推广关系与隐私边界。",
+  alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/methodology/` },
 };
 
 export default function MethodologyPage() {

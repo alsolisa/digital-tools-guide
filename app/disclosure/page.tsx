@@ -1,6 +1,6 @@
 import { PageIntro, PageShell, SectionHeading } from "../components/SiteChrome";
 
-export const metadata = { title: "推广关系说明", description: "数字工具指南的推广链接、排序、佣金、核验和购买责任说明。" };
+export const metadata = { title: "推广关系说明", description: "数字工具指南的推广链接、排序、佣金、核验和购买责任说明。", alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/disclosure/` } };
 
 export default function DisclosurePage() {
   return <PageShell><PageIntro eyebrow="推广说明 · 推荐与收益分开" title="有推广关系，也必须把风险说清楚" lead="部分机场和GamsGo按钮包含推广参数。合作关系会影响哪些服务拥有推广入口，但不能改变价格核验、风险等级和排序原则；本站展示的也不是全市场完整名单。" />

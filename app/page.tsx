@@ -14,6 +14,8 @@ const syncTime = syncStatus.checkedAt
 
 const basePath = process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : "";
 
+export const metadata = { alternates: { canonical: `${basePath}/` } };
+
 const services = [
   {
     name: "WestData",
@@ -26,6 +28,7 @@ const services = [
     traffic: "200G",
     status: "购买页已核验",
     statusTone: "verified",
+    verifiedAt: "2026-07-16",
     accuracy: "2026-07-16 已登录购买页核验；四款均显示可立即订购",
     payment: "易支付、USDT-TRC20",
     monthly: "有月付 · 当前可订购",
@@ -47,6 +50,7 @@ const services = [
     traffic: "待复核",
     status: "购买页待核验",
     statusTone: "pending",
+    verifiedAt: "2026-07-16",
     accuracy: "2026-07-16 已登录后台确认多平台客户端；旧资料约 ¥40 已撤下，当前价格仍待购买页核验",
     payment: "待付款页实际核验",
     monthly: "是否有当前月付仍待核验",
@@ -69,6 +73,7 @@ const services = [
     traffic: "20–1500G/月",
     status: "当前计划页已核验",
     statusTone: "verified",
+    verifiedAt: "2026-07-13",
     accuracy: "2026-07-13 当前计划页仅直接展示年付、半年付、季付；不按月付排名",
     payment: "待付款页实际核验",
     monthly: "当前未直接展示可单买月付",
@@ -91,6 +96,7 @@ const services = [
     traffic: "160G 起",
     status: "价格待登录复核",
     statusTone: "pending",
+    verifiedAt: null,
     accuracy: "官方已确认流量档位；旧价格已撤下，等待当前购买页实际核验",
     payment: "微信、支付宝、USDT（官方帮助中心）",
     monthly: "有月付 · 官方文档已确认",
@@ -111,6 +117,7 @@ const services = [
     traffic: "200G",
     status: "购买页已核验",
     statusTone: "verified",
+    verifiedAt: "2026-07-12",
     accuracy: "2026-07-12 已登录购买页核验；两款31天套餐当前可购买",
     payment: "支付宝、账户余额",
     monthly: "31 天套餐 · 当前可购买",
@@ -131,6 +138,7 @@ const services = [
     traffic: "500G",
     status: "当前商店已核验",
     statusTone: "verified",
+    verifiedAt: "2026-07-16",
     accuracy: "2026-07-16 已登录 tagss.pro 商店核验；旧入口 tagss04.pro 已被劫持",
     payment: "待付款页实际核验",
     monthly: "有月付 · Silver / Gold / Team 当前可购买",
@@ -144,8 +152,15 @@ const services = [
 ];
 
 const sortedServices = services.filter((service) => service.active !== false).sort((a, b) => a.sortGroup - b.sortGroup || a.sortPrice - b.sortPrice);
-const rankedMonthlyServices = sortedServices.filter((service) => service.sortGroup === 0);
-const monthlyCandidates = sortedServices.filter((service) => service.sortGroup !== 0);
+const priceReferenceTime = new Date(syncStatus.checkedAt).getTime();
+const priceFreshnessWindow = 14 * 24 * 60 * 60 * 1000;
+function hasFreshPriceEvidence(service: (typeof services)[number]) {
+  if (!service.verifiedAt) return false;
+  const verifiedTime = new Date(`${service.verifiedAt}T23:59:59+08:00`).getTime();
+  return Number.isFinite(verifiedTime) && priceReferenceTime - verifiedTime <= priceFreshnessWindow;
+}
+const rankedMonthlyServices = sortedServices.filter((service) => service.sortGroup === 0 && hasFreshPriceEvidence(service));
+const monthlyCandidates = sortedServices.filter((service) => service.sortGroup !== 0 || !hasFreshPriceEvidence(service));
 
 const clients = [
   {
@@ -249,12 +264,13 @@ const serviceSelectionReasons = [
 ];
 
 function ServiceCard({ service, index, prefix = "月付" }: { service: (typeof services)[number]; index: number; prefix?: string }) {
+  const stalePrice = service.sortGroup === 0 && !hasFreshPriceEvidence(service);
   return <article className="service-card">
-    <div className="service-topline"><span className="service-tag">{prefix} {index + 1} · {service.tag}</span><span className={`status-pill ${service.statusTone}`}><i />{service.status}</span></div>
+    <div className="service-topline"><span className="service-tag">{prefix} {index + 1} · {service.tag}</span><span className={`status-pill ${stalePrice ? "pending" : service.statusTone}`}><i />{stalePrice ? "人工核验已超过14天" : service.status}</span></div>
     <div className="service-title"><h3>{service.name}</h3><span>{service.alias}</span></div>
     <p className="service-description">{service.description}</p>
     <div className="service-stats"><div><small>可比参考价格</small><strong>{service.price}</strong><span>{service.cycle}</span></div><div><small>参考流量</small><strong>{service.traffic}</strong></div></div>
-    <p className="accuracy-note">{service.accuracy}</p>
+    <p className="accuracy-note">{stalePrice ? "该月付证据已超过14天新鲜度窗口，暂时退出已核验价格榜；" : ""}{service.accuracy}</p>
     {"caution" in service && service.caution && <p className="service-caution"><strong>购买前注意</strong>{service.caution}</p>}
     <div className="fact-line"><span>月付</span>{service.monthly}</div>
     <div className="fact-line"><span>客户端</span>{service.ownClient}{"clientHref" in service && service.clientHref && <a href={service.clientHref} target="_blank" rel="noopener noreferrer">自有客户端下载 ↗</a>}</div>
@@ -343,13 +359,13 @@ export function NodeGuidePage() {
       <section className="section services-section" id="services">
         <div className="section-heading">
           <div><span className="section-index">04 / 服务对比</span><h2>已核验月付优先，再按起价排序</h2></div>
-          <p>主榜只展示当前已经在购买页确认可以单独月付的 {rankedMonthlyServices.length} 家；没有明确月付的服务单独放在下方，不参与价格排序。</p>
+          <p>主榜只展示购买页已确认、并且人工核验未超过14天的 {rankedMonthlyServices.length} 家；没有明确月付或证据过期的服务单独放在下方，不参与价格排序。</p>
         </div>
         <div className="sort-note"><strong>排序口径</strong><span>当前可单独购买的月付或约31天套餐</span><i />已核验 <i className="review-dot" />待复核</div>
         <div className="service-grid">
           {rankedMonthlyServices.map((service, index) => <ServiceCard service={service} index={index} key={service.name} />)}
         </div>
-        <div className="candidate-divider"><span>不进入月付价格榜</span><h3>有特点，但当前没有足够月付证据</h3><p>这两项仍保留入口、客户端和已核验信息；等月付套餐重新出现或完成实际购买页核验后，再进入上方主榜。</p></div>
+        <div className="candidate-divider"><span>不进入月付价格榜</span><h3>有特点，但当前没有足够新鲜的月付证据</h3><p>这些项目仍保留入口、客户端和已经确认的信息；月付重新出现或完成新的购买页核验后，才进入上方主榜。</p></div>
         <div className="service-grid candidate-service-grid">{monthlyCandidates.map((service, index) => <ServiceCard service={service} index={index} prefix="候选" key={service.name} />)}</div>
       </section>
 
@@ -440,7 +456,7 @@ export default function Home() {
       </section>
 
       <section className="portal-section" id="decision">
-        <SectionHeading index="先做选择" title="不用先看完整个网站，回答三个问题就知道从哪开始" lead="选择助手只使用当前页面状态，不需要登录，也不会上传你的答案。" />
+        <SectionHeading index="先做选择" title="不用先看完整个网站，回答五个问题就知道从哪开始" lead="选择助手只使用当前页面状态，不需要登录，也不会上传你的答案。它会同时解释推荐理由、排除理由与备选路线。" />
         <DecisionAssistant />
       </section>
 
