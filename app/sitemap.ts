@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next";
 import { aiProducts, commonApps } from "../data/catalog";
+import syncStatus from "../data/sync-status.json";
 
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://alsolisa.github.io/digital-tools-guide";
-  const updated = new Date("2026-07-16T00:00:00+08:00");
+  const updated = new Date(syncStatus.checkedAt);
   const routes = ["", "/nodes", "/subscriptions", "/ai", "/apps", "/downloads", "/stores", "/status", "/standards", "/feedback", "/about", "/methodology", "/search", "/faq", "/privacy", "/disclosure", "/changelog"];
   return [
     ...routes.map((route) => ({ url: `${base}${route}/`, lastModified: updated, changeFrequency: route === "" ? "daily" as const : "weekly" as const, priority: route === "" ? 1 : .8 })),

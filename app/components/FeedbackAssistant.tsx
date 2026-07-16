@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const issueUrl = "https://github.com/alsolisa/digital-tools-guide/issues/new";
+const issueTypes = ["入口打不开", "价格或套餐变化", "付款方式变化", "下载按钮错误", "教程看不懂", "其他问题"];
 
 export default function FeedbackAssistant() {
   const [type, setType] = useState("入口打不开");
@@ -10,14 +11,26 @@ export default function FeedbackAssistant() {
   const [network, setNetwork] = useState("未说明");
   const [detail, setDetail] = useState("");
   const [copied, setCopied] = useState(false);
+  const [occurredAt, setOccurredAt] = useState("填写时自动记录");
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const presetType = params.get("type");
+    const presetPage = params.get("page");
+    const frame = window.requestAnimationFrame(() => {
+      if (presetType && issueTypes.includes(presetType)) setType(presetType);
+      if (presetPage) setPage(presetPage.slice(0, 100));
+      setOccurredAt(new Date().toLocaleString("zh-CN"));
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
   const template = useMemo(() => [
     `问题类型：${type}`,
     `页面或产品：${page || "请填写"}`,
     `网络环境：${network}`,
-    `发生时间：${new Date().toLocaleString("zh-CN")}`,
+    `发生时间：${occurredAt}`,
     `看到的情况：${detail || "请填写"}`,
     "隐私确认：未包含密码、验证码、Cookie、订阅链接或付款信息。",
-  ].join("\n"), [type, page, network, detail]);
+  ].join("\n"), [type, page, network, detail, occurredAt]);
 
   async function copyTemplate() {
     await navigator.clipboard.writeText(template);
@@ -33,7 +46,7 @@ export default function FeedbackAssistant() {
   return (
     <div className="feedback-assistant">
       <div className="feedback-form">
-        <label>问题类型<select value={type} onChange={(event) => setType(event.target.value)}><option>入口打不开</option><option>价格或套餐变化</option><option>付款方式变化</option><option>下载按钮错误</option><option>教程看不懂</option><option>其他问题</option></select></label>
+        <label>问题类型<select value={type} onChange={(event) => setType(event.target.value)}>{issueTypes.map((item) => <option key={item}>{item}</option>)}</select></label>
         <label>页面或产品<input value={page} onChange={(event) => setPage(event.target.value)} placeholder="例如：Nexitally、ChatGPT下载页" /></label>
         <label>当时使用的网络<select value={network} onChange={(event) => setNetwork(event.target.value)}><option>未说明</option><option>中国大陆家庭宽带（未开代理）</option><option>中国大陆手机流量（未开代理）</option><option>已使用代理或境外网络</option><option>不确定</option></select></label>
         <label>你看到的情况<textarea value={detail} onChange={(event) => setDetail(event.target.value)} placeholder="写清点击了什么、出现了什么提示。不要粘贴账号密码、验证码或订阅链接。" rows={5} /></label>

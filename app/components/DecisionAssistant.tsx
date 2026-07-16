@@ -63,6 +63,14 @@ const priorityOptions = [
   { id: "power", label: "功能和能力" },
 ];
 
+const questionTitles = ["你现在最想解决什么？", "哪一种情况最接近你？", "你主要使用哪台设备？", "你对这些工具熟悉吗？", "你最在意什么？"];
+const priorityGuidance: Record<string, string> = {
+  safe: "你把安全放在第一位：优先本人账号、官方来源，并在付款或授权前检查找回方式与隐私范围。",
+  easy: "你把简单放在第一位：优先网页版、自有客户端或官方商店入口，先避开需要复杂手动配置的路线。",
+  cost: "你把花费放在第一位：先用免费版或最短周期，确认真实需要后再升级，不为暂时用不到的功能付费。",
+  power: "你把能力放在第一位：用同一个真实任务比较结果，并同时核对地区、用量、隐私和长期成本。",
+};
+
 type Result = {
   title: string;
   reason: string;
@@ -164,7 +172,12 @@ export default function DecisionAssistant() {
   const [device, setDevice] = useState<Device>("windows");
   const [experience, setExperience] = useState<Experience>("first");
   const [priority, setPriority] = useState("safe");
+  const [step, setStep] = useState(0);
   const result = useMemo(() => getResult(goal, need, device, experience, priority), [device, experience, goal, need, priority]);
+  const selectedNeed = needs[goal].find((item) => item.id === need)?.label || "未选择";
+  const selectedDevice = deviceOptions.find((item) => item.id === device)?.label || "未选择";
+  const selectedExperience = experienceOptions.find((item) => item.id === experience)?.label || "未选择";
+  const selectedPriority = priorityOptions.find((item) => item.id === priority)?.label || "未选择";
 
   function chooseGoal(next: Goal) {
     setGoal(next);
@@ -173,22 +186,27 @@ export default function DecisionAssistant() {
 
   function reset() {
     setGoal("ai"); setNeed("general"); setDevice("windows"); setExperience("first"); setPriority("safe");
+    setStep(0);
   }
+
+  function nextStep() { setStep((current) => Math.min(current + 1, questionTitles.length)); }
+  function previousStep() { setStep((current) => Math.max(current - 1, 0)); }
 
   return (
     <div className="decision-assistant">
       <div className="decision-assistant-head"><span>不用注册 · 不上传 · 可以随时重选</span><h2>回答五个小问题，得到一条能直接照做的路线</h2><p>它不会替你付款，也不会收集账号信息。推荐来自本站公开证据，并同时说明“为什么这样选”和“为什么不先选别的”。</p></div>
-
-      <fieldset className="decision-question"><legend><b>1</b>你现在最想解决什么？</legend><div>{goals.map((item) => <button type="button" key={item.id} aria-pressed={goal === item.id} onClick={() => chooseGoal(item.id)}><span>{item.label}</span><small>{item.note}</small></button>)}</div></fieldset>
-      <fieldset className="decision-question"><legend><b>2</b>哪一种情况最接近你？</legend><div>{needs[goal].map((item) => <button type="button" key={item.id} aria-pressed={need === item.id} onClick={() => setNeed(item.id)}><span>{item.label}</span></button>)}</div></fieldset>
-      <fieldset className="decision-question compact"><legend><b>3</b>你主要使用哪台设备？</legend><div>{deviceOptions.map((item) => <button type="button" key={item.id} aria-pressed={device === item.id} onClick={() => setDevice(item.id)}><span>{item.label}</span></button>)}</div></fieldset>
-      <fieldset className="decision-question"><legend><b>4</b>你对这些工具熟悉吗？</legend><div>{experienceOptions.map((item) => <button type="button" key={item.id} aria-pressed={experience === item.id} onClick={() => setExperience(item.id)}><span>{item.label}</span><small>{item.note}</small></button>)}</div></fieldset>
-      <fieldset className="decision-question compact"><legend><b>5</b>你最在意什么？</legend><div>{priorityOptions.map((item) => <button type="button" key={item.id} aria-pressed={priority === item.id} onClick={() => setPriority(item.id)}><span>{item.label}</span></button>)}</div></fieldset>
-
-      <section className="decision-result" aria-live="polite">
-        <div className="decision-result-main"><span>根据你的选择，建议先做</span><h3>{result.title}</h3><p>{result.reason}</p><ol>{result.steps.map((step, index) => <li key={step}><b>{index + 1}</b><span>{step}</span></li>)}</ol><Link className="decision-primary-action" href={result.href}>{result.action} <span aria-hidden="true">→</span></Link></div>
-        <aside><div><strong>先注意</strong><p>{result.caution}</p></div><div><strong>为什么不先选别的</strong><p>{result.whyNot}</p></div><div><strong>备选路线</strong><p>{result.alternative}</p></div><small>证据口径：{result.evidence}</small><button type="button" onClick={reset}>重新回答</button></aside>
-      </section>
+      {step < questionTitles.length ? <div className="decision-wizard">
+        <div className="decision-progress"><div><span>第 {step + 1} 步，共 {questionTitles.length} 步</span><strong>{questionTitles[step]}</strong></div><progress value={step + 1} max={questionTitles.length} aria-label={`选择进度：第${step + 1}步，共${questionTitles.length}步`} /></div>
+        {step === 0 && <fieldset className="decision-question"><legend><b>1</b>{questionTitles[0]}</legend><div>{goals.map((item) => <button type="button" key={item.id} aria-pressed={goal === item.id} onClick={() => chooseGoal(item.id)}><span>{item.label}</span><small>{item.note}</small></button>)}</div></fieldset>}
+        {step === 1 && <fieldset className="decision-question"><legend><b>2</b>{questionTitles[1]}</legend><div>{needs[goal].map((item) => <button type="button" key={item.id} aria-pressed={need === item.id} onClick={() => setNeed(item.id)}><span>{item.label}</span></button>)}</div></fieldset>}
+        {step === 2 && <fieldset className="decision-question compact"><legend><b>3</b>{questionTitles[2]}</legend><div>{deviceOptions.map((item) => <button type="button" key={item.id} aria-pressed={device === item.id} onClick={() => setDevice(item.id)}><span>{item.label}</span></button>)}</div></fieldset>}
+        {step === 3 && <fieldset className="decision-question"><legend><b>4</b>{questionTitles[3]}</legend><div>{experienceOptions.map((item) => <button type="button" key={item.id} aria-pressed={experience === item.id} onClick={() => setExperience(item.id)}><span>{item.label}</span><small>{item.note}</small></button>)}</div></fieldset>}
+        {step === 4 && <fieldset className="decision-question compact"><legend><b>5</b>{questionTitles[4]}</legend><div>{priorityOptions.map((item) => <button type="button" key={item.id} aria-pressed={priority === item.id} onClick={() => setPriority(item.id)}><span>{item.label}</span></button>)}</div></fieldset>}
+        <div className={`decision-controls ${step === 0 ? "single" : ""}`}>{step > 0 && <button type="button" className="decision-back" onClick={previousStep}>← 上一步</button>}<button type="button" className="decision-next" onClick={nextStep}>{step === questionTitles.length - 1 ? "查看我的路线" : "下一步"} →</button></div>
+      </div> : <section className="decision-result" aria-live="polite">
+        <div className="decision-result-main"><span>根据你的五项选择，建议先做</span><h3>{result.title}</h3><p>{result.reason}</p><div className="decision-selection-summary" aria-label="你刚才的选择"><span>{goals.find((item) => item.id === goal)?.label}</span><span>{selectedNeed}</span><span>{selectedDevice}</span><span>{selectedExperience}</span><span>{selectedPriority}</span></div><p className="decision-priority-note"><strong>你的优先级</strong>{priorityGuidance[priority]}</p><ol>{result.steps.map((item, index) => <li key={item}><b>{index + 1}</b><span>{item}</span></li>)}</ol><Link className="decision-primary-action" href={result.href}>{result.action} <span aria-hidden="true">→</span></Link></div>
+        <aside><div><strong>先注意</strong><p>{result.caution}</p></div><div><strong>为什么不先选别的</strong><p>{result.whyNot}</p></div><div><strong>备选路线</strong><p>{result.alternative}</p></div><small>证据口径：{result.evidence}</small><button type="button" onClick={() => setStep(0)}>修改我的选择</button><button type="button" className="decision-reset" onClick={reset}>恢复默认并重新开始</button></aside>
+      </section>}
     </div>
   );
 }

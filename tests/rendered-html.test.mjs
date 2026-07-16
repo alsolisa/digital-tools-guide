@@ -31,8 +31,9 @@ test("全站按零基础用户顺序先解释再比较", async () => {
   const home = await (await render("/")).text();
   assert.match(home, /先选你现在想解决的问题/);
   assert.match(home, /回答五个小问题/);
-  assert.match(home, /为什么不先选别的/);
-  assert.match(home, /备选路线/);
+  assert.match(home, /aria-label="选择进度：第1步，共5步"/);
+  assert.match(home, /帮助你少走弯路，不催你立刻购买/);
+  assert.match(home, /核验失败就隐藏数字/);
   assert.match(home, /它是什么/);
   const nodes = await (await render("/nodes")).text();
   for (const term of ["VPN", "机场", "节点", "客户端", "订阅链接"]) assert.match(nodes, new RegExp(term));
@@ -100,6 +101,8 @@ test("主要页面提供规范网址与可理解的结构化数据", async () =>
   const home = await (await render("/")).text();
   assert.match(home, /rel="canonical" href="http:\/\/localhost:3000\/"/);
   assert.match(home, /"@type":"WebSite"/);
+  assert.match(home, /"@type":"SearchAction"/);
+  assert.match(home, /"@type":"ItemList"/);
   const subscriptions = await (await render("/subscriptions")).text();
   assert.match(subscriptions, /rel="canonical" href="http:\/\/localhost:3000\/subscriptions\/"/);
   const chatgpt = await (await render("/ai/chatgpt")).text();
@@ -200,6 +203,10 @@ test("设备选择助手、搜索、FAQ和运营说明均可用", async () => {
   assert.match(downloads, /Windows ARM/);
   const search = await (await render("/search")).text();
   assert.match(search, /从一个关键词找到正确入口/);
+  assert.match(search, /role="search"/);
+  const nodes = await (await render("/nodes")).text();
+  assert.match(nodes, /feedback\?type=/);
+  assert.match(nodes, /价格、付款或入口变了/);
   const faq = await (await render("/faq")).text();
   assert.match(faq, /为什么购买后还要安装客户端/);
   const disclosure = await (await render("/disclosure")).text();

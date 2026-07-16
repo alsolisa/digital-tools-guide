@@ -5,6 +5,7 @@ import { aiProducts, commonApps, subscriptionOffers } from "../data/catalog";
 import { BrandIcon, BrandNotice, EditorialCoverFeature, FeedbackLink, PageShell, QuickSummary, SectionHeading, SiteFooter, SiteHeader } from "./components/SiteChrome";
 import DeviceChooser from "./components/DeviceChooser";
 import DecisionAssistant from "./components/DecisionAssistant";
+import StructuredData from "./components/StructuredData";
 
 const releaseVersions: Record<string, string | null> = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, "version" in client && typeof client.version === "string" ? client.version : null]));
 const releaseStates: Record<string, string> = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, client.state]));
@@ -13,6 +14,7 @@ const syncTime = syncStatus.checkedAt
   : "等待首次公开数据同步";
 
 const basePath = process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : "";
+const publicSiteUrl = process.env.GITHUB_PAGES === "true" ? "https://alsolisa.github.io/digital-tools-guide" : "http://localhost:3000";
 
 export const metadata = { alternates: { canonical: `${basePath}/` } };
 
@@ -277,6 +279,7 @@ function ServiceCard({ service, index, prefix = "月付" }: { service: (typeof s
     <div className="payment-line"><span>付款</span>{service.payment}</div>
     <div className="best-for"><span>适合</span>{service.bestFor}</div>
     <a href={service.href} target="_blank" rel="sponsored noopener" className="card-action">{service.linkLabel} <span>↗</span></a>
+    <Link className="service-feedback-link" href={`/feedback?type=${encodeURIComponent("价格或套餐变化")}&page=${encodeURIComponent(service.name)}`}>价格、付款或入口变了？告诉我们 →</Link>
   </article>;
 }
 
@@ -435,8 +438,20 @@ export function NodeGuidePage() {
 
 export default function Home() {
   const verifiedNodeCount = rankedMonthlyServices.length;
+  const routeListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "数字工具指南主要学习路线",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "VPN与机场零基础指南", url: `${publicSiteUrl}/nodes/` },
+      { "@type": "ListItem", position: 2, name: "AI订阅与账号风险", url: `${publicSiteUrl}/subscriptions/` },
+      { "@type": "ListItem", position: 3, name: "主流AI选择与使用教程", url: `${publicSiteUrl}/ai/` },
+      { "@type": "ListItem", position: 4, name: "官方软件下载中心", url: `${publicSiteUrl}/downloads/` },
+    ],
+  };
   return (
     <PageShell>
+      <StructuredData data={routeListJsonLd} />
       <section className="portal-hero">
         <div className="portal-hero-copy">
           <span className="eyebrow">先解释是什么，再告诉你怎么选</span>
@@ -453,6 +468,16 @@ export default function Home() {
           <div><strong>{commonApps.length}</strong><small>项常用应用教程</small></div>
           <p>公开入口每6小时检查；价格、模型和评测数据独立标注来源与更新时间。</p>
         </aside>
+      </section>
+
+      <section className="home-trust-rail" aria-labelledby="home-trust-title">
+        <div className="home-trust-intro"><span>先知道本站站在哪一边</span><h2 id="home-trust-title">帮助你少走弯路，不催你立刻购买</h2></div>
+        <div className="home-trust-grid">
+          <article><b>01</b><strong>免费能解决就先不买</strong><p>AI先完成真实任务；网络服务先确认需求，再购买最短周期。</p></article>
+          <article><b>02</b><strong>下载优先回到官方</strong><p>闭源软件不提供陌生安装包；开源备用文件公开版本和校验值。</p></article>
+          <article><b>03</b><strong>核验失败就隐藏数字</strong><p>价格冲突、页面失效或证据过期时，不继续沿用看似精确的旧价格。</p></article>
+          <article><b>04</b><strong>推广关系放在按钮附近</strong><p>推广收益不会改变排序、风险等级、证据状态和“不建议购买”的结论。</p></article>
+        </div>
       </section>
 
       <section className="portal-section" id="decision">

@@ -54,6 +54,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     inLanguage: "zh-CN",
     description: "面向中国大陆新手的网络连接、AI选择、订阅风险与官方下载指南。",
     publisher: { "@type": "Organization", name: "数字工具指南", url: siteUrl },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${siteUrl}search/?q={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
   };
   return (
     <html lang="zh-CN">
