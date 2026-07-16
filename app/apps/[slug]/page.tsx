@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { commonApps, getCommonApp } from "../../../data/catalog";
 import { getAppEditorialGuide } from "../../../data/editorial-guides";
-import { BrandIcon, Breadcrumbs, DownloadButtons, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, RegionNotice, SectionHeading, SourceList, VerificationChip } from "../../components/SiteChrome";
+import { BrandIcon, Breadcrumbs, DownloadButtons, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, QuickSummary, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
 
 export function generateStaticParams() {
   return commonApps.map((app) => ({ slug: app.slug }));
@@ -31,6 +31,8 @@ export default async function AppDetailPage({ params }: { params: Promise<{ slug
         <EditorialCover slug={app.slug} name={app.name} />
       </section>
 
+      <QuickSummary title={guide.decision} points={[`最适合：${guide.whyUse[0]}`, `常见误区：${guide.notFor[0]}`, "优先使用网页版或官方应用商店", "注册后先检查恢复方式、隐私与通知"]} action={webEntry ? { label: "打开官方网页版", href: webEntry.url } : undefined} />
+
       <nav className="detail-jump-nav" aria-label={`${app.name}页面目录`}><span>本页顺序</span><a href="#understand">它是什么</a><a href="#features">主要区域</a><a href="#workflows">怎么使用</a><a href="#screenshots">官方截图</a><a href="#start">安装设置</a><a href="#safety">安全检查</a></nav>
 
       <section className="content-section" id="understand">
@@ -53,6 +55,8 @@ export default async function AppDetailPage({ params }: { params: Promise<{ slug
       <section className="content-section soft-section screenshot-showcase" id="screenshots">
         <SectionHeading index="04" title="官方高清界面图：这一屏应该看哪里" lead="截图来自官方应用商店，中文说明帮助你识别正确产品、主要入口和需要注意的设置。" />
         <OfficialScreenshotGallery name={app.name} screenshots={app.screenshots} />
+        <div className="screenshot-to-action"><strong>先认界面，再按路线操作</strong><p>官方宣传截图用于识别产品和功能；下面的路线图说明安装后应该依次检查什么。</p></div>
+        <TutorialPath name={app.name} slug={app.slug} steps={app.setupSteps} />
       </section>
 
       <section className="content-section" id="download">

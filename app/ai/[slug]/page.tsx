@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { aiProducts, getAiProduct, subscriptionOffers } from "../../../data/catalog";
 import { getAiEditorialGuide } from "../../../data/editorial-guides";
-import { BrandIcon, Breadcrumbs, DownloadButtons, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, RegionNotice, SectionHeading, SourceList, VerificationChip } from "../../components/SiteChrome";
+import { BrandIcon, Breadcrumbs, DownloadButtons, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, QuickSummary, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
 
 export function generateStaticParams() {
   return aiProducts.map((product) => ({ slug: product.slug }));
@@ -39,6 +39,8 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
         <EditorialCover slug={product.slug} name={product.name} />
       </section>
 
+      <QuickSummary title={guide.decision} points={[`最适合：${guide.chooseIf[0]}`, `先别选：${guide.skipIf[0]}`, "第一次先用免费版完成一个真实任务", "重要答案、数字和来源必须自己核对"]} action={webEntry ? { label: "打开官方网页版", href: webEntry.url } : undefined} />
+
       <nav className="detail-jump-nav" aria-label={`${product.name}页面目录`}>
         <span>本页顺序</span><a href="#understand">先看懂</a><a href="#workflows">真实场景</a><a href="#screenshots">官方截图</a><a href="#start">第一次使用</a><a href="#plans">是否付费</a><a href="#advanced">进阶资料</a>
       </nav>
@@ -63,6 +65,8 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
       <section className="content-section screenshot-showcase" id="screenshots">
         <SectionHeading index="03" title="先看官方界面，再决定要不要安装" lead="以下是高清官方应用商店截图。每张图都标出新手真正需要看的位置，点击图片可以放大。" />
         <OfficialScreenshotGallery name={product.name} screenshots={product.screenshots} />
+        <div className="screenshot-to-action"><strong>这些是官方界面参考，不是完整操作截图</strong><p>下面的路线图把“识别界面”继续连接到“真正怎么做”。按钮位置更新后，以官方界面为准。</p></div>
+        <TutorialPath name={product.name} slug={product.slug} steps={product.setupSteps} />
       </section>
 
       <section className="content-section soft-section" id="download">
@@ -96,7 +100,7 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
       <section className="content-section soft-section" id="advanced">
         <SectionHeading index="08 / 进阶" title="模型与评测：需要时再看" lead="模型可以理解成产品内部的不同引擎。新手不必背名称；界面显示和用量随套餐更新，以本人账号为准。" />
         <details className="advanced-panel"><summary>展开查看当前主流模型说明</summary><div className="model-table" role="table" aria-label={`${product.name}模型说明`}><div className="model-row model-head" role="row"><span>模型</span><span>可用范围</span><span>上下文</span><span>适合什么</span></div>{product.models.map((model) => <div className="model-row" role="row" key={model.name}><strong>{model.name}</strong><span>{model.availability}</span><span>{model.context}</span><div><p>{model.note}</p><small>{model.inputs.join(" · ")}</small></div></div>)}</div></details>
-        <div className="benchmark-cards">{product.benchmarks.map((benchmark) => <article key={benchmark.source}><span>{benchmark.source}</span><strong>{benchmark.scope}</strong><p>{benchmark.summary}</p><a href={benchmark.url} target="_blank" rel="noopener noreferrer">查看来源 ↗</a></article>)}</div>
+        {product.benchmarks.length > 0 ? <div className="benchmark-cards">{product.benchmarks.map((benchmark) => <article key={benchmark.source}><span>{benchmark.source}</span><strong>{benchmark.scope}</strong><p>{benchmark.summary}</p><a href={benchmark.url} target="_blank" rel="noopener noreferrer">查看来源 ↗</a></article>)}</div> : <p className="benchmark-empty">本产品暂不显示 Arena 或 Artificial Analysis 排名：它们当前主要用于语言模型比较，本站不会把文本榜单强行套用到图片生成产品上。选择时请优先看官方功能、实际作品和授权条款。</p>}
       </section>
 
       <section className="content-section">

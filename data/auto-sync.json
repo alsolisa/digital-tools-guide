@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-07-13T06:22:02.207Z",
+  "checkedAt": "2026-07-16T03:40:53.781Z",
   "exchange": {
     "state": "ok",
-    "date": "2026-07-10",
+    "date": "2026-07-15",
     "base": "USD",
     "rates": {
-      "CNY": 6.7745,
-      "SGD": 1.2911
+      "CNY": 6.7743,
+      "SGD": 1.2922
     },
     "sourceUrl": "https://api.frankfurter.app/latest?from=USD&to=CNY,SGD"
   },
@@ -14,12 +14,21 @@
     {
       "slug": "chatgpt-recharge",
       "url": "https://www.gamsgo.com/details/chatgpt-recharge",
-      "state": "unreadable",
+      "state": "ok",
+      "published": {
+        "currency": "USD",
+        "value": 17.99
+      },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-13T06:21:59.360Z",
-      "note": "公开页未稳定展示可校验的月付价格",
-      "error": "Error"
+      "checkedAt": "2026-07-16T03:40:53.007Z",
+      "officialObserved": {
+        "currency": "USD",
+        "value": 20
+      },
+      "period": "month",
+      "cny": 121.87,
+      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
     },
     {
       "slug": "claude",
@@ -27,7 +36,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-13T06:21:59.666Z",
+      "checkedAt": "2026-07-16T03:40:52.959Z",
       "note": "公开页未稳定展示可校验的月付价格",
       "error": "Error"
     },
@@ -41,7 +50,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-13T06:21:59.075Z",
+      "checkedAt": "2026-07-16T03:40:53.004Z",
       "officialObserved": {
         "currency": "USD",
         "value": 6.66
@@ -53,33 +62,38 @@
     {
       "slug": "grok",
       "url": "https://www.gamsgo.com/details/grok",
-      "state": "price-change-pending",
-      "published": {
-        "currency": "USD",
-        "value": 17.99
-      },
-      "candidate": {
-        "currency": "USD",
-        "value": 6.17
-      },
-      "candidateSeenCount": 1,
-      "checkedAt": "2026-07-13T06:21:59.130Z",
-      "officialObserved": {
-        "currency": "USD",
-        "value": 30
-      },
-      "period": "month",
-      "cny": 121.87,
-      "note": "价格变化超过50%，等待下一次读取一致后发布"
+      "state": "conflict",
+      "published": null,
+      "candidate": null,
+      "candidateSeenCount": 0,
+      "checkedAt": "2026-07-16T03:40:53.400Z",
+      "observedValues": [
+        10,
+        30,
+        300,
+        18.99,
+        6.17
+      ],
+      "note": "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核"
     },
     {
       "slug": "perplexity",
       "url": "https://www.gamsgo.com/details/Perplexity_AI",
-      "state": "unreadable",
+      "state": "ok",
+      "published": {
+        "currency": "USD",
+        "value": 4.09
+      },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-13T06:21:59.404Z",
-      "note": "公开页未稳定展示可校验的月付价格"
+      "checkedAt": "2026-07-16T03:40:53.322Z",
+      "officialObserved": {
+        "currency": "USD",
+        "value": 16.66
+      },
+      "period": "month",
+      "cny": 27.71,
+      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
     },
     {
       "slug": "midjourney",
@@ -91,7 +105,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-13T06:21:59.261Z",
+      "checkedAt": "2026-07-16T03:40:53.781Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
@@ -106,13 +120,13 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-07-13T06:22:02.207Z"
+      "checkedAt": "2026-07-16T03:40:53.781Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/",
       "state": "ok",
-      "checkedAt": "2026-07-13T06:22:02.207Z"
+      "checkedAt": "2026-07-16T03:40:53.781Z"
     }
   ],
   "history": [
@@ -176,6 +190,42 @@
         "value": 2.25
       },
       "sourceUrl": "https://www.gamsgo.com/details/gemini"
+    },
+    {
+      "changedAt": "2026-07-16T02:55:03.751Z",
+      "type": "gamsgo-price",
+      "slug": "grok",
+      "before": {
+        "currency": "USD",
+        "value": 17.99
+      },
+      "after": {
+        "currency": "USD",
+        "value": 6.17
+      },
+      "sourceUrl": "https://www.gamsgo.com/details/grok"
+    },
+    {
+      "changedAt": "2026-07-16T03:13:19.559Z",
+      "type": "gamsgo-price",
+      "slug": "chatgpt-recharge",
+      "before": null,
+      "after": {
+        "currency": "USD",
+        "value": 17.99
+      },
+      "sourceUrl": "https://www.gamsgo.com/details/chatgpt-recharge"
+    },
+    {
+      "changedAt": "2026-07-16T03:13:19.559Z",
+      "type": "gamsgo-price",
+      "slug": "perplexity",
+      "before": null,
+      "after": {
+        "currency": "USD",
+        "value": 4.09
+      },
+      "sourceUrl": "https://www.gamsgo.com/details/Perplexity_AI"
     }
   ]
 }

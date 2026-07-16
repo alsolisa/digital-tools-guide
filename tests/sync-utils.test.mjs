@@ -13,6 +13,27 @@ test("价格解析同时校验币种、周期与正数", () => {
   assert.equal(parseGamsgoPrice("Official Price $30 /month vs GamsGo Special $0 /month"), null);
 });
 
+test("同一商家页面出现多个互相冲突的月付价时停止自动发布", () => {
+  const html = "<div>Official Price $30 /month vs GamsGo Special $6.17 /month</div><p>SuperGrok on GamsGo $18.99 per month</p><p>GamsGo SuperGrok $17.99/month</p>";
+  const parsed = parseGamsgoPrice(html, {
+    conflictPatterns: [/(?:GamsGo|SuperGrok)[^$]{0,90}\$\s*([0-9]+(?:[.,][0-9]+)?)\s*(?:per month|\/\s*month)/gi],
+  });
+  assert.equal(parsed.conflict, true);
+  assert.deepEqual(parsed.observedValues, [6.17, 18.99, 17.99]);
+});
+
+test("可用产品专用语句读取公开月付价", () => {
+  const parsed = parseGamsgoPrice("Buy ChatGPT Plus subscription for just $17.99 per month", {
+    specialPattern: /ChatGPT Plus(?: subscription| plan)?\s*(?:on GamsGo\s*)?(?:for just|costs just|costs)?\s*(US\$|S\$|\$|€|£)?\s*([0-9]+(?:[.,][0-9]+)?)\s*(?:per month|\/\s*month)/i,
+    official: { currency: "USD", value: 20 },
+  });
+  assert.deepEqual(parsed, {
+    official: { currency: "USD", value: 20 },
+    special: { currency: "USD", value: 17.99 },
+    period: "month",
+  });
+});
+
 test("价格暴涨或暴跌必须连续两次一致才发布", () => {
   const previous = { state: "ok", published: { currency: "USD", value: 20 }, candidate: null, candidateSeenCount: 0 };
   const first = decidePublishedPrice(previous, { currency: "USD", value: 6 });

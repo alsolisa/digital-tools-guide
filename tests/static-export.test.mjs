@@ -27,7 +27,7 @@ function exportedTarget(urlPath) {
 }
 
 test("GitHub Pages导出包含全部主要页面", async () => {
-  const routes = ["/", "/nodes/", "/subscriptions/", "/ai/", "/ai/chatgpt/", "/ai/claude/", "/ai/gemini/", "/ai/grok/", "/ai/perplexity/", "/apps/", "/apps/youtube/", "/apps/x/", "/apps/tiktok/", "/downloads/", "/methodology/", "/search/", "/faq/", "/privacy/", "/disclosure/", "/changelog/"];
+  const routes = ["/", "/nodes/", "/subscriptions/", "/ai/", "/ai/chatgpt/", "/ai/claude/", "/ai/gemini/", "/ai/grok/", "/ai/perplexity/", "/ai/midjourney/", "/apps/", "/apps/youtube/", "/apps/x/", "/apps/tiktok/", "/downloads/", "/stores/", "/status/", "/feedback/", "/about/", "/methodology/", "/search/", "/faq/", "/privacy/", "/disclosure/", "/changelog/"];
   for (const route of routes) assert.equal(await exists(path.join(root, route, "index.html")), true, `缺少导出页面 ${route}`);
 });
 
@@ -35,12 +35,15 @@ test("静态导出包含搜索引擎、PWA与教程图片资源", async () => {
   for (const file of ["sitemap.xml", "robots.txt", "manifest.webmanifest"]) {
     assert.equal(await exists(path.join(root, file)), true, `缺少 ${file}`);
   }
-  for (const slug of ["chatgpt", "claude", "gemini", "grok", "perplexity", "youtube", "x", "tiktok"]) {
+  for (const slug of ["chatgpt", "claude", "gemini", "grok", "perplexity", "midjourney", "youtube", "x", "tiktok"]) {
     const directory = path.join(root, "guides", slug);
     assert.equal(await exists(directory), true, `缺少${slug}教程图片目录`);
   }
-  for (const slug of ["chatgpt", "claude", "gemini", "grok", "perplexity", "youtube", "x", "tiktok", "nodes", "subscriptions"]) {
+  for (const slug of ["chatgpt", "claude", "gemini", "grok", "perplexity", "midjourney", "youtube", "x", "tiktok", "nodes", "subscriptions"]) {
     assert.equal(await exists(path.join(root, "editorial", `${slug}.png`)), true, `缺少${slug}编辑封面`);
+  }
+  for (const file of ["tag-shop.png", "youtu-client-proof.png"]) {
+    assert.equal(await exists(path.join(root, "guides", "nodes", file)), true, `缺少机场核验证据 ${file}`);
   }
   for (const file of ["Clash.Verge_2.5.1_x64-setup.exe", "FlClash-0.8.94-android-arm64-v8a.apk"]) {
     assert.equal(await exists(path.join(root, "mirror", file)), true, `缺少本站备用安装包 ${file}`);

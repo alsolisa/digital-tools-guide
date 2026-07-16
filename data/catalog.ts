@@ -19,7 +19,7 @@ export interface OfficialScreenshot {
   caption: string;
   alt: string;
   focus: string[];
-  sourceLabel: "Apple App Store" | "Google Play";
+  sourceLabel: "Apple App Store" | "Google Play" | "Midjourney Docs";
   sourceUrl: string;
   verifiedAt: string;
 }
@@ -373,6 +373,50 @@ export const aiProducts: ProductProfile[] = [
     regionNote: "网页和移动应用的套餐、模型与支付选项可能因地区变化；教育优惠等需要资格验证。",
     verifiedAt: checkedAt,
   },
+  {
+    slug: "midjourney",
+    name: "Midjourney",
+    company: "Midjourney, Inc.",
+    mark: "M",
+    tone: "violet",
+    tagline: "专注图片、视频、风格探索与视觉编辑的生成式创作工具",
+    summary: "Midjourney适合持续进行图片和视频创作的人。它把文字提示、图片参考、风格控制、局部编辑、放大、素材整理和个性化集中在网页端，也支持Discord工作流。",
+    bestFor: ["专业图片与概念视觉", "品牌风格与情绪板", "局部重绘和画面扩展", "图片转视频与视觉探索"],
+    notFor: ["只偶尔生成一两张图", "要求作品默认完全私密", "尚未确认商业使用与人物素材授权"],
+    strengths: ["视觉质量与风格探索成熟", "网页Create、Edit和Organize工作流完整", "支持图片提示、风格参考、个性化与视频"],
+    limitations: ["官方当前需要订阅才能开始主要创作", "作品和素材的可见范围需要主动检查", "Fast、Relax、Stealth等权益随套餐变化"],
+    capabilities: ["文字生成图片", "图片提示", "Style Reference", "Omni Reference", "局部重绘", "扩图与缩放", "个性化", "Moodboards", "图片转视频", "素材整理"],
+    models: [
+      { name: "Midjourney V8.1", availability: "Midjourney网页与Discord；具体开放以账号内设置为准", context: "官方未公开模型参数量或统一上下文窗口", inputs: ["文本", "图片参考"], note: "当前官方文档展示的主力图像版本，支持更高分辨率与新的提示、Describe等能力；具体兼容功能以Version文档为准。" },
+    ],
+    downloads: [
+      { platform: "Web", label: "打开Midjourney官方网页", url: "https://www.midjourney.com/", source: "official", status: "verified", verifiedAt: "2026-07-16" },
+    ],
+    screenshots: [
+      { src: "/guides/midjourney/official-1.png", title: "Imagine输入栏", caption: "在Create页面顶部输入想要的画面；这不是搜索框，而是生成图片的提示词入口。", alt: "Midjourney官方文档截图，展示Imagine提示词输入栏", focus: ["先写主体，再补场景、构图和风格", "右侧设置用于调整默认生成选项", "第一次不要堆太多参数，先看基础结果"], sourceLabel: "Midjourney Docs", sourceUrl: "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide", verifiedAt: "2026-07-16" },
+      { src: "/guides/midjourney/official-2.png", title: "Create生成结果", caption: "提交提示词后会得到一组结果，可以继续选择、变化、放大或进入编辑。", alt: "Midjourney官方文档截图，展示Create页面的生成结果", focus: ["先比较构图，再决定是否继续消耗生成时间", "查看结果对应的提示词与设置", "重要项目要保存原图和提示词版本"], sourceLabel: "Midjourney Docs", sourceUrl: "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide", verifiedAt: "2026-07-16" },
+      { src: "/guides/midjourney/official-3.png", title: "继续修改与变化", caption: "选中图片后可以创建变化、缩放、扩展画布或进入Editor继续处理。", alt: "Midjourney官方文档截图，展示图片修改与变化工具", focus: ["Vary用于探索相近版本", "Pan和Zoom Out用于扩展画面", "Editor可局部重绘；导出前检查细节和授权"], sourceLabel: "Midjourney Docs", sourceUrl: "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide", verifiedAt: "2026-07-16" },
+    ],
+    officialSources: [
+      { label: "Midjourney官方入门指南", url: "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide" },
+      { label: "Midjourney网页功能总览", url: "https://docs.midjourney.com/hc/en-us/articles/33329460426765-Website-Overview" },
+      { label: "Midjourney Editor官方说明", url: "https://docs.midjourney.com/hc/en-us/articles/32764383466893-Editor" },
+      { label: "Midjourney套餐对比", url: "https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans" },
+      { label: "Midjourney官方文档首页", url: "https://docs.midjourney.com/hc/en-us" },
+    ],
+    benchmarks: [],
+    setupSteps: ["只从midjourney.com进入，并使用自己的账号登录。", "打开Manage Subscription，比较Basic、Standard、Pro与Mega的月付、年付和自动续费。", "订阅后进入Create页面，在Imagine栏输入一个简短、明确的画面描述。", "从生成结果中选择一张，尝试Vary、Zoom Out或Editor，并记录消耗的Fast时间。", "进入Organize整理作品，再检查公开范围、下载、商业使用和自动续费设置。"],
+    prompts: [
+      { title: "产品概念图", text: "极简桌面上的【产品】，柔和侧光，真实材质，商业摄影，留出标题空间，横向16:9。" },
+      { title: "品牌情绪板", text: "为【品牌主题】创建情绪板，关键词：【三个关键词】，统一色彩与材质，不出现文字和商标。" },
+      { title: "人物一致性", text: "使用这张参考图保持人物主要特征，改变为【场景】和【服装】，自然光，纪实摄影。" },
+      { title: "局部修改", text: "保持整体构图和光线，只把选中区域改成【目标内容】，边缘自然融合。" },
+      { title: "安全自检", text: "生成前列出可能涉及的肖像、商标、版权、隐私和误导风险，并给出更安全的替代方案。" },
+    ],
+    privacy: ["Midjourney社区以公开分享为重要特征，敏感素材上传前先检查可见范围。", "不要上传客户机密、未授权人物照片、证件或未公开产品。", "Stealth只在特定高阶套餐提供，不能把普通套餐默认当作私密。", "商业使用前阅读最新服务条款；品牌、肖像与素材授权仍由使用者负责。"],
+    regionNote: "官方主要通过网页和Discord提供服务。注册、订阅、付款与访问能力会受所在地区、网络和付款方式影响；本站不提供第三方客户端或修改版安装包。",
+    verifiedAt: "2026-07-16",
+  },
 ];
 
 const baseSubscriptionOffers: SubscriptionOffer[] = [
@@ -442,7 +486,9 @@ function syncedSubscriptionOffer(offer: SubscriptionOffer): SubscriptionOffer {
       gamsgoCny: "以购买页实时显示为准",
       priceNote: synced.state === "price-change-pending"
         ? "读取到价格明显变化，正在等待第二次一致结果；为避免误导，暂时隐藏具体数字。"
-        : "公开页面暂时无法稳定读取月付价格；不要把旧价格当作当前价格。",
+        : synced.state === "conflict"
+          ? "同一公开页面出现多个互相冲突的月付价格；本站已隐藏数字，等待商家页面统一或人工复核。"
+          : "公开页面暂时无法稳定读取月付价格；不要把旧价格当作当前价格。",
       verifiedAt: autoSync.checkedAt.slice(0, 10),
     };
   }

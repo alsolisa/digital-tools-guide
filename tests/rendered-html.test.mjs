@@ -16,8 +16,8 @@ async function render(path = "/") {
 test("全部公开页面与详情页都能正常打开", async () => {
   const routes = [
     "/", "/nodes", "/subscriptions", "/ai", "/ai/chatgpt", "/ai/claude", "/ai/gemini",
-    "/ai/grok", "/ai/perplexity", "/apps", "/apps/youtube", "/apps/x", "/apps/tiktok",
-    "/downloads", "/methodology", "/search", "/faq", "/privacy", "/disclosure", "/changelog",
+    "/ai/grok", "/ai/perplexity", "/ai/midjourney", "/apps", "/apps/youtube", "/apps/x", "/apps/tiktok",
+    "/downloads", "/stores", "/status", "/feedback", "/about", "/methodology", "/search", "/faq", "/privacy", "/disclosure", "/changelog",
   ];
   for (const route of routes) {
     const response = await render(route);
@@ -30,6 +30,7 @@ test("全部公开页面与详情页都能正常打开", async () => {
 test("全站按零基础用户顺序先解释再比较", async () => {
   const home = await (await render("/")).text();
   assert.match(home, /先选你现在想解决的问题/);
+  assert.match(home, /回答三个小问题/);
   assert.match(home, /它是什么/);
   const nodes = await (await render("/nodes")).text();
   for (const term of ["VPN", "机场", "节点", "客户端", "订阅链接"]) assert.match(nodes, new RegExp(term));
@@ -61,6 +62,10 @@ test("机场指南按已核验实际月付优先排序并保留待核验标记",
   assert.match(html, /已核验月付优先，再按起价排序/);
   assert.match(html, /购买页待核验/);
   assert.match(html, /暂无直接月付/);
+  assert.match(html, /截图用来证明/);
+  assert.match(html, /\/guides\/nodes\/tag-shop\.png/);
+  assert.match(html, /\/guides\/nodes\/youtu-client-proof\.png/);
+  assert.match(html, /服务仅限中国大陆，海外及新疆不可用/);
 });
 
 test("GamsGo价格与账号风险分栏，读取失败时不沿用旧价", async () => {
@@ -94,7 +99,7 @@ test("下载中心只链接允许的官方域名且没有空链接", async () =>
   const allowed = [
     "chatgpt.com", "claude.ai", "gemini.google.com", "grok.com", "perplexity.ai",
     "youtube.com", "x.com", "tiktok.com", "play.google.com", "apps.apple.com",
-    "github.com", "nssurge.com",
+    "github.com", "nssurge.com", "midjourney.com",
   ];
   for (const link of externalLinks) {
     const host = new URL(link).hostname;
@@ -113,6 +118,26 @@ test("AI详情页包含真实场景、高清截图、下载、模型、提示词
     assert.match(html, /这一屏重点看/);
     assert.match(html, new RegExp(`/editorial/${slug}\\.png`), `${slug} 缺少V3编辑封面`);
   }
+  const midjourney = await (await render("/ai/midjourney")).text();
+  for (const text of ["三个真实使用场景", "选择你的设备，只走官方入口", "先看官方界面", "模型与评测：需要时再看", "五组可以直接复制的提示词", "隐私", "Midjourney Docs"]) {
+    assert.match(midjourney, new RegExp(text), `midjourney 缺少 ${text}`);
+  }
+  assert.match(midjourney, /\/guides\/midjourney\/official-1\.png/);
+  assert.match(midjourney, /\/editorial\/midjourney\.png/);
+});
+
+test("新手决策、商店地区、状态与反馈功能都能解释边界", async () => {
+  const home = await (await render("/")).text();
+  for (const text of ["了解VPN和机场", "选一款AI", "购买AI会员", "安全下载软件"]) assert.match(home, new RegExp(text));
+  const stores = await (await render("/stores")).text();
+  assert.match(stores, /至少要等待90天/);
+  assert.match(stores, /不要购买陌生共享Apple ID/);
+  const status = await (await render("/status")).text();
+  assert.match(status, /同页价格冲突/);
+  assert.match(status, /不等于中国大陆家庭宽带或手机流量实测/);
+  const feedback = await (await render("/feedback")).text();
+  assert.match(feedback, /不会自动上传/);
+  assert.match(feedback, /不要粘贴账号密码/);
 });
 
 test("应用教程分开显示Google Play与Apple App Store", async () => {

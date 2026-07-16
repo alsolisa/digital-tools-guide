@@ -5,7 +5,7 @@ import { BrandIcon, BrandNotice, PageIntro, PageShell, SectionHeading, Verificat
 
 export const metadata = {
   title: "主流AI小白教程",
-  description: "比较ChatGPT、Claude、Gemini、Grok与Perplexity的优势、模型、平台、官方下载和使用方法。",
+  description: "比较ChatGPT、Claude、Gemini、Grok、Perplexity与Midjourney的优势、模型、平台、官方下载和使用方法。",
 };
 
 export default function AiIndexPage() {
@@ -21,12 +21,12 @@ export default function AiIndexPage() {
       <section className="content-section ai-basics" id="choose">
         <SectionHeading index="01" title="先看AI能做什么，也要知道它不能保证什么" />
         <div className="can-cannot-grid"><article><h2>适合拿来辅助</h2><ul><li>把复杂内容解释成容易理解的话</li><li>整理文件、会议记录和学习材料</li><li>起草文字、比较方案和寻找思路</li><li>搜索资料并帮助建立研究提纲</li></ul></article><article className="warning-card"><h2>不要完全交给AI</h2><ul><li>医疗、法律和财务等重要决定</li><li>未经核对的新闻、数字和引用</li><li>密码、验证码、身份证和公司机密</li><li>代替本人承担工作或考试责任</li></ul></article></div>
-        <div className="ai-first-choice"><strong>只想先选一款？</strong><p>没有明确需求时，可以先从ChatGPT免费版体验；长文档可试Claude，Google生态可试Gemini，带来源搜索可试Perplexity，X和实时内容可试Grok。</p></div>
+        <div className="ai-first-choice"><strong>只想先选一款？</strong><p>没有明确需求时，可以先从ChatGPT免费版体验；长文档可试Claude，Google生态可试Gemini，带来源搜索可试Perplexity，X和实时内容可试Grok，持续做专业图片再看Midjourney。</p></div>
       </section>
 
       <section className="content-section soft-section ai-chooser-section">
         <SectionHeading index="02" title="按你的任务选择，不按广告口号选择" lead="同一款AI不可能在所有任务上都最好。下面先告诉你每款更适合什么，也说明它不适合什么。" />
-        <div className="selection-disclosure"><strong>为什么首批选择这五项？</strong><p>它们覆盖了通用助手、长文档与写作、Google生态、X实时内容、带来源搜索五种差异明显的路线，并且都有可核验的官网、帮助中心和多平台入口。收录不等于“前五名”，也不代表所有人都需要安装五款。</p></div>
+        <div className="selection-disclosure"><strong>为什么首批选择这六项？</strong><p>它们覆盖通用助手、长文档与写作、Google生态、X实时内容、带来源搜索、专业图片与视频创作六条差异明显的路线，并且都有可核验的官网或官方文档。收录不等于“前六名”，也不代表每个人都需要全部安装。</p></div>
         <BrandNotice />
         <div className="ai-card-grid">
           {aiProducts.map((product) => (
@@ -44,13 +44,14 @@ export default function AiIndexPage() {
 
       <section className="content-section ai-comparison-section">
         <SectionHeading index="03" title="只看这一张表，也能先做出选择" lead="主任务相同的人，也可能因为账号地区、资料隐私和习惯不同而选择不同。" />
-        <div className="choice-matrix" role="table" aria-label="五款AI新手选择对照">
+        <div className="choice-matrix" role="table" aria-label="六款AI新手选择对照">
           <div className="choice-row choice-head" role="row"><span>产品</span><span>最适合先做</span><span>明显优势</span><span>先注意</span></div>
           <div className="choice-row" role="row"><strong>ChatGPT</strong><span>通用问答、办公、图片和文件</span><span>覆盖最全面，适合第一款AI</span><span>功能与用量随套餐变化</span></div>
           <div className="choice-row" role="row"><strong>Claude</strong><span>长文档、写作、代码与项目</span><span>长内容和持续协作体验清楚</span><span>地区与用量限制</span></div>
           <div className="choice-row" role="row"><strong>Gemini</strong><span>Google资料、研究和多模态</span><span>Gmail、Drive、Android生态</span><span>账号、地区和授权范围</span></div>
           <div className="choice-row" role="row"><strong>Grok</strong><span>X实时话题和多媒体创作</span><span>靠近公开社交内容</span><span>热度不等于事实</span></div>
           <div className="choice-row" role="row"><strong>Perplexity</strong><span>搜索、比较和带来源研究</span><span>引用直接可见</span><span>仍要打开原文核对</span></div>
+          <div className="choice-row" role="row"><strong>Midjourney</strong><span>图片、风格、编辑与视频</span><span>视觉工作流成熟</span><span>需要订阅并检查公开范围</span></div>
         </div>
       </section>
 

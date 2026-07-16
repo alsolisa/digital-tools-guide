@@ -27,7 +27,7 @@ export default function AppsIndexPage() {
         <SectionHeading index="03" title="三款应用不是互相替代：按内容形态选择" />
         <div className="choice-matrix app-choice-matrix" role="table" aria-label="常用应用选择对照"><div className="choice-row choice-head" role="row"><span>产品</span><span>内容重点</span><span>更适合</span><span>主要风险</span></div><div className="choice-row" role="row"><strong>YouTube</strong><span>长视频、课程、直播</span><span>系统学习和长期订阅频道</span><span>推荐沉迷、错误教程、破解版</span></div><div className="choice-row" role="row"><strong>X</strong><span>实时公开信息与讨论</span><span>跟踪当事方、行业和新闻动态</span><span>假账号、断章取义、私信钓鱼</span></div><div className="choice-row" role="row"><strong>TikTok</strong><span>短视频、趋势、创作</span><span>内容发现和国际短视频表达</span><span>地区差异、时长、未成年人隐私</span></div></div>
       </section>
-      <section className="content-section"><SectionHeading index="04" title="下载前先理解地区差异" /><RegionNotice>应用能否在商店中看到、账号能否注册、某项功能能否使用，是三个不同问题。本站分别标注，不把“当前网络能打开”写成“中国大陆裸网可用”。</RegionNotice></section>
+      <section className="content-section"><SectionHeading index="04" title="下载前先理解地区差异" /><RegionNotice>应用能否在商店中看到、账号能否注册、某项功能能否使用，是三个不同问题。本站分别标注，不把“当前网络能打开”写成“中国大陆裸网可用”。</RegionNotice><Link className="feedback-link" href="/stores">查看Apple与Google应用商店地区教程 →</Link></section>
     </PageShell>
   );
 }

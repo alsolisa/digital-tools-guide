@@ -29,12 +29,13 @@ function publicAsset(path: string) {
 
 const navItems = [
   ["首页", "/"],
-  ["新手入门", "/#start"],
+  ["新手选择", "/#decision"],
   ["网络连接", "/nodes"],
   ["AI怎么选", "/ai"],
   ["AI订阅", "/subscriptions"],
   ["常用应用", "/apps"],
   ["下载中心", "/downloads"],
+  ["状态", "/status"],
 ];
 
 export function SiteHeader() {
@@ -63,7 +64,7 @@ export function SiteFooter() {
         <span><strong>数字工具指南</strong><small>把来源放在推荐前面</small></span>
       </div>
       <p>公开资料与新手教程整理站。不销售软件，不保存账号、密码、订阅链接、访问密钥或付款信息。</p>
-      <div><Link href="/search">站内搜索</Link><Link href="/faq">常见问题</Link><Link href="/privacy">隐私说明</Link><Link href="/disclosure">推广说明</Link><Link href="/changelog">更新记录</Link><Link href="/methodology">核验方法</Link><Link href="/downloads">官方下载</Link><Link href="/nodes">机场指南</Link></div>
+      <div><Link href="/search">站内搜索</Link><Link href="/faq">常见问题</Link><Link href="/stores">应用商店与地区</Link><Link href="/status">实时状态</Link><Link href="/feedback">反馈助手</Link><Link href="/about">关于本站</Link><Link href="/privacy">隐私说明</Link><Link href="/disclosure">推广说明</Link><Link href="/changelog">更新记录</Link><Link href="/methodology">核验方法</Link><Link href="/downloads">官方下载</Link><Link href="/nodes">机场指南</Link></div>
       <small className="footer-disclosure">© 2026 数字工具指南 · 部分链接包含推广关系，最终价格与服务以商家结算页为准。产品标志归各自权利人所有，仅用于识别；不代表品牌方认可或合作。</small>
       <small className="footer-trademark">Midjourney™ is a trademark of Midjourney, Inc. We are not endorsed by or affiliated with Midjourney, Inc.</small>
     </footer>
@@ -89,6 +90,18 @@ export function PageIntro({ eyebrow, title, lead, aside }: { eyebrow: string; ti
 
 export function SectionHeading({ index, title, lead }: { index?: string; title: string; lead?: string }) {
   return <div className="content-heading">{index && <span>{index}</span>}<div><h2>{title}</h2>{lead && <p>{lead}</p>}</div></div>;
+}
+
+export function QuickSummary({ title, points, action }: { title: string; points: string[]; action?: { label: string; href: string } }) {
+  return (
+    <aside className="quick-summary" aria-label="30秒结论">
+      <div><span>30秒先看这里</span><h2>{title}</h2></div>
+      <ul>{points.map((point) => <li key={point}>{point}</li>)}</ul>
+      {action && (action.href.startsWith("http")
+        ? <a href={action.href} target="_blank" rel="noopener noreferrer">{action.label} ↗</a>
+        : <Link href={action.href}>{action.label} →</Link>)}
+    </aside>
+  );
 }
 
 const verificationLabels: Record<VerificationStatus, string> = {
@@ -152,14 +165,13 @@ export function OfficialScreenshotGallery({ name, screenshots }: { name: string;
           </figcaption>
         </figure>
       ))}
-      <p className="screenshot-source-note">以上为{name}官方应用商店高清截图。点击图片可单独放大；中文说明由本站整理。实际按钮、语言、功能和套餐会随版本、账号及地区变化。</p>
+      <p className="screenshot-source-note">以上图片直接来自{name}的官方资料页或官方应用商店。它们用于识别产品和主要界面，不冒充本站实机操作截图；点击图片可单独放大。实际按钮、语言、功能和套餐会随版本、账号及地区变化。</p>
     </div>
   );
 }
 
 export function FeedbackLink({ label = "报告错误或失效入口" }: { label?: string }) {
-  const href = "https://github.com/alsolisa/digital-tools-guide/issues/new?title=%E8%B5%84%E6%96%99%E6%88%96%E5%85%A5%E5%8F%A3%E9%9C%80%E8%A6%81%E6%9B%B4%E6%96%B0&body=%E9%A1%B5%E9%9D%A2%EF%BC%9A%0A%E9%97%AE%E9%A2%98%EF%BC%9A%0A%E6%88%91%E7%9C%8B%E5%88%B0%E7%9A%84%E6%97%B6%E9%97%B4%EF%BC%9A";
-  return <a className="feedback-link" href={href} target="_blank" rel="noopener noreferrer">{label} ↗</a>;
+  return <Link className="feedback-link" href="/feedback">{label} →</Link>;
 }
 
 export function RiskBadge({ level, children }: { level: RiskLevel; children: ReactNode }) {

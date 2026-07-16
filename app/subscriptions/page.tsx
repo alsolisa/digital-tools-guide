@@ -1,7 +1,7 @@
 import { aiProducts, getOfferPriceStatus, subscriptionOffers } from "../../data/catalog";
 import autoSync from "../../data/auto-sync.json";
 import Link from "next/link";
-import { BrandIcon, BrandNotice, Disclosure, EditorialCoverFeature, FeedbackLink, PageIntro, PageShell, RiskBadge, SectionHeading, VerificationChip } from "../components/SiteChrome";
+import { BrandIcon, BrandNotice, Disclosure, EditorialCoverFeature, FeedbackLink, PageIntro, PageShell, QuickSummary, RiskBadge, SectionHeading, VerificationChip } from "../components/SiteChrome";
 
 export const metadata = {
   title: "GamsGo AI订阅",
@@ -20,6 +20,7 @@ export default function SubscriptionsPage() {
         lead="免费版、官方订阅和第三方购买不是一回事。先看你需要什么、账号归谁和会失去哪些保障，最后才比较价格。"
         aside={<><strong>价格口径</strong><p>原币价格 + 人民币参考价</p><small>汇率参考：{exchangeDate}，1 USD≈{usdToCny} CNY；每日自动更新，不含税费和支付手续费。</small></>}
       />
+      <QuickSummary title="大多数新手不应该先买最便宜的" points={["先用免费版完成真实任务3—7天", "能官方购买时，优先本人账号与官方订阅", "第三方低价必须先确认账号归属和交付方式", "价格冲突或无法读取时，本站会隐藏数字"]} action={{ label: "直接看六项风险分级", href: "#offers" }} />
 
       <EditorialCoverFeature slug="subscriptions" title="AI订阅：购买前先看账号归属" lead="视觉版先讲清官方价、本人账号充值、交付账号和共享网页的差别，再进入具体产品对比。" />
 

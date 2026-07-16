@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-13T06:22:02.207Z",
+  "checkedAt": "2026-07-16T03:40:53.781Z",
   "policy": {
     "publicLinks": "automatic-6h",
     "clientReleases": "automatic-6h",
@@ -65,7 +65,7 @@
       "finalUrl": "https://tagss.pro/"
     },
     {
-      "id": "catalog-official-71",
+      "id": "catalog-official-77",
       "url": "https://nssurge.com/",
       "kind": "download-source",
       "state": "ok",
@@ -404,8 +404,8 @@
       "id": "catalog-official-39",
       "url": "https://www.perplexity.ai/help-center/en/articles/10738684-what-is-research-mode",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://www.perplexity.ai/help-center/en/articles/10738684-what-is-research-mode"
     },
     {
@@ -434,6 +434,54 @@
     },
     {
       "id": "catalog-official-43",
+      "url": "https://www.midjourney.com/",
+      "kind": "download-source",
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://www.midjourney.com/"
+    },
+    {
+      "id": "catalog-official-44",
+      "url": "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide"
+    },
+    {
+      "id": "catalog-official-45",
+      "url": "https://docs.midjourney.com/hc/en-us/articles/33329460426765-Website-Overview",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://docs.midjourney.com/hc/en-us/articles/33329460426765-Website-Overview"
+    },
+    {
+      "id": "catalog-official-46",
+      "url": "https://docs.midjourney.com/hc/en-us/articles/32764383466893-Editor",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://docs.midjourney.com/hc/en-us/articles/32764383466893-Editor"
+    },
+    {
+      "id": "catalog-official-47",
+      "url": "https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans"
+    },
+    {
+      "id": "catalog-official-48",
+      "url": "https://docs.midjourney.com/hc/en-us",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://docs.midjourney.com/hc/en-us"
+    },
+    {
+      "id": "catalog-official-49",
       "url": "https://www.anthropic.com/pricing",
       "kind": "download-source",
       "state": "ok",
@@ -441,7 +489,7 @@
       "finalUrl": "https://claude.com/pricing"
     },
     {
-      "id": "catalog-official-44",
+      "id": "catalog-official-50",
       "url": "https://www.midjourney.com/plans/",
       "kind": "download-source",
       "state": "ok",
@@ -449,7 +497,7 @@
       "finalUrl": "https://www.midjourney.com/plans/"
     },
     {
-      "id": "catalog-official-45",
+      "id": "catalog-official-51",
       "url": "https://www.youtube.com/",
       "kind": "download-source",
       "state": "ok",
@@ -457,7 +505,7 @@
       "finalUrl": "https://www.youtube.com/"
     },
     {
-      "id": "catalog-official-46",
+      "id": "catalog-official-52",
       "url": "https://play.google.com/store/apps/details?id=com.google.android.youtube",
       "kind": "download-source",
       "state": "ok",
@@ -465,7 +513,7 @@
       "finalUrl": "https://play.google.com/store/apps/details?id=com.google.android.youtube"
     },
     {
-      "id": "catalog-official-47",
+      "id": "catalog-official-53",
       "url": "https://apps.apple.com/us/app/youtube/id544007664",
       "kind": "download-source",
       "state": "ok",
@@ -473,7 +521,7 @@
       "finalUrl": "https://apps.apple.com/us/app/youtube/id544007664"
     },
     {
-      "id": "catalog-official-48",
+      "id": "catalog-official-54",
       "url": "https://support.google.com/youtube/answer/3227660",
       "kind": "download-source",
       "state": "ok",
@@ -481,7 +529,7 @@
       "finalUrl": "https://support.google.com/youtube/answer/3227660"
     },
     {
-      "id": "catalog-official-49",
+      "id": "catalog-official-55",
       "url": "https://support.google.com/youtube/answer/16475192",
       "kind": "download-source",
       "state": "ok",
@@ -489,7 +537,7 @@
       "finalUrl": "https://support.google.com/youtube/answer/16475192"
     },
     {
-      "id": "catalog-official-50",
+      "id": "catalog-official-56",
       "url": "https://support.google.com/youtube/answer/2474026",
       "kind": "download-source",
       "state": "ok",
@@ -497,7 +545,7 @@
       "finalUrl": "https://support.google.com/youtube/answer/2474026"
     },
     {
-      "id": "catalog-official-51",
+      "id": "catalog-official-57",
       "url": "https://x.com/",
       "kind": "download-source",
       "state": "ok",
@@ -505,7 +553,7 @@
       "finalUrl": "https://x.com/"
     },
     {
-      "id": "catalog-official-52",
+      "id": "catalog-official-58",
       "url": "https://play.google.com/store/apps/details?id=com.twitter.android",
       "kind": "download-source",
       "state": "ok",
@@ -513,7 +561,7 @@
       "finalUrl": "https://play.google.com/store/apps/details?id=com.twitter.android"
     },
     {
-      "id": "catalog-official-53",
+      "id": "catalog-official-59",
       "url": "https://apps.apple.com/us/app/x/id333903271",
       "kind": "download-source",
       "state": "ok",
@@ -521,7 +569,7 @@
       "finalUrl": "https://apps.apple.com/us/app/x/id333903271"
     },
     {
-      "id": "catalog-official-54",
+      "id": "catalog-official-60",
       "url": "https://help.x.com/en/using-x/download-the-x-app",
       "kind": "download-source",
       "state": "ok",
@@ -529,7 +577,7 @@
       "finalUrl": "https://help.x.com/en/using-x/download-the-x-app"
     },
     {
-      "id": "catalog-official-55",
+      "id": "catalog-official-61",
       "url": "https://help.x.com/en/using-x/x-premium",
       "kind": "download-source",
       "state": "ok",
@@ -537,15 +585,15 @@
       "finalUrl": "https://help.x.com/en/using-x/x-premium"
     },
     {
-      "id": "catalog-official-56",
+      "id": "catalog-official-62",
       "url": "https://help.x.com/en/using-x/x-lists",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://help.x.com/en/using-x/x-lists"
     },
     {
-      "id": "catalog-official-57",
+      "id": "catalog-official-63",
       "url": "https://help.x.com/en/using-x/spaces",
       "kind": "download-source",
       "state": "ok",
@@ -553,7 +601,7 @@
       "finalUrl": "https://help.x.com/en/using-x/spaces"
     },
     {
-      "id": "catalog-official-58",
+      "id": "catalog-official-64",
       "url": "https://help.x.com/en/using-x/communities",
       "kind": "download-source",
       "state": "ok",
@@ -561,7 +609,7 @@
       "finalUrl": "https://help.x.com/en/using-x/communities"
     },
     {
-      "id": "catalog-official-59",
+      "id": "catalog-official-65",
       "url": "https://www.tiktok.com/",
       "kind": "download-source",
       "state": "ok",
@@ -569,7 +617,7 @@
       "finalUrl": "https://www.tiktok.com/"
     },
     {
-      "id": "catalog-official-60",
+      "id": "catalog-official-66",
       "url": "https://play.google.com/store/apps/details?id=com.zhiliaoapp.musically",
       "kind": "download-source",
       "state": "ok",
@@ -577,7 +625,7 @@
       "finalUrl": "https://play.google.com/store/apps/details?id=com.zhiliaoapp.musically"
     },
     {
-      "id": "catalog-official-61",
+      "id": "catalog-official-67",
       "url": "https://apps.apple.com/us/app/tiktok/id835599320",
       "kind": "download-source",
       "state": "ok",
@@ -585,7 +633,7 @@
       "finalUrl": "https://apps.apple.com/us/app/tiktok-videos-shop-live/id835599320"
     },
     {
-      "id": "catalog-official-62",
+      "id": "catalog-official-68",
       "url": "https://support.tiktok.com/en/getting-started/for-you/test-for-you",
       "kind": "download-source",
       "state": "ok",
@@ -593,7 +641,7 @@
       "finalUrl": "https://support.tiktok.com/en/getting-started/for-you/test-for-you"
     },
     {
-      "id": "catalog-official-63",
+      "id": "catalog-official-69",
       "url": "https://support.tiktok.com/en/account-and-privacy/account-privacy-settings/privacy-and-safety-settings-for-users-under-age-18/",
       "kind": "download-source",
       "state": "ok",
@@ -601,7 +649,7 @@
       "finalUrl": "https://www.tiktok.com/support/faq_detail?id=7611839632052853259"
     },
     {
-      "id": "catalog-official-64",
+      "id": "catalog-official-70",
       "url": "https://github.com/clash-verge-rev/clash-verge-rev/releases/latest",
       "kind": "download-source",
       "state": "ok",
@@ -609,7 +657,7 @@
       "finalUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.1"
     },
     {
-      "id": "catalog-official-65",
+      "id": "catalog-official-71",
       "url": "https://github.com/2dust/v2rayN/releases/latest",
       "kind": "download-source",
       "state": "ok",
@@ -617,7 +665,7 @@
       "finalUrl": "https://github.com/2dust/v2rayN/releases/tag/7.23.4"
     },
     {
-      "id": "catalog-official-66",
+      "id": "catalog-official-72",
       "url": "https://github.com/chen08209/FlClash/releases/latest",
       "kind": "download-source",
       "state": "ok",
@@ -625,7 +673,7 @@
       "finalUrl": "https://github.com/chen08209/FlClash/releases/tag/v0.8.94"
     },
     {
-      "id": "catalog-official-67",
+      "id": "catalog-official-73",
       "url": "https://github.com/hiddify/hiddify-app/releases/latest",
       "kind": "download-source",
       "state": "ok",
@@ -633,7 +681,7 @@
       "finalUrl": "https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1"
     },
     {
-      "id": "catalog-official-68",
+      "id": "catalog-official-74",
       "url": "https://apps.apple.com/us/app/shadowrocket/id932747118",
       "kind": "download-source",
       "state": "ok",
@@ -641,7 +689,7 @@
       "finalUrl": "https://apps.apple.com/us/app/shadowrocket/id932747118"
     },
     {
-      "id": "catalog-official-69",
+      "id": "catalog-official-75",
       "url": "https://apps.apple.com/us/app/quantumult-x/id1443988620",
       "kind": "download-source",
       "state": "ok",
@@ -649,7 +697,7 @@
       "finalUrl": "https://apps.apple.com/us/app/quantumult-x/id1443988620"
     },
     {
-      "id": "catalog-official-70",
+      "id": "catalog-official-76",
       "url": "https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349",
       "kind": "download-source",
       "state": "ok",

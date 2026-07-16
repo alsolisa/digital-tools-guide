@@ -1,13 +1,18 @@
 import syncStatus from "../data/sync-status.json";
+import Image from "next/image";
 import Link from "next/link";
 import { aiProducts, commonApps, subscriptionOffers } from "../data/catalog";
-import { BrandIcon, BrandNotice, EditorialCoverFeature, FeedbackLink, PageShell, SectionHeading, SiteFooter, SiteHeader } from "./components/SiteChrome";
+import { BrandIcon, BrandNotice, EditorialCoverFeature, FeedbackLink, PageShell, QuickSummary, SectionHeading, SiteFooter, SiteHeader } from "./components/SiteChrome";
 import DeviceChooser from "./components/DeviceChooser";
+import DecisionAssistant from "./components/DecisionAssistant";
 
-const releaseVersions = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, client.version]));
+const releaseVersions: Record<string, string | null> = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, "version" in client && typeof client.version === "string" ? client.version : null]));
+const releaseStates: Record<string, string> = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, client.state]));
 const syncTime = syncStatus.checkedAt
   ? new Intl.DateTimeFormat("zh-CN", { timeZone: "Asia/Shanghai", dateStyle: "medium", timeStyle: "short", hour12: false }).format(new Date(syncStatus.checkedAt))
   : "等待首次公开数据同步";
+
+const basePath = process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : "";
 
 const services = [
   {
@@ -21,11 +26,12 @@ const services = [
     traffic: "200G",
     status: "购买页已核验",
     statusTone: "verified",
-    accuracy: "2026-07-12 已登录购买页核验；四款均显示可立即订购",
+    accuracy: "2026-07-16 已登录购买页核验；四款均显示可立即订购",
     payment: "易支付、USDT-TRC20",
     monthly: "有月付 · 当前可订购",
     ownClient: "未发现明确自研客户端，以第三方客户端为主",
-    description: "Silver ¥20/200GiB；Platinum ¥40/400GiB；Diamond ¥60/600GiB；Ultimate ¥80/800GiB，均为当前月付套餐。",
+    description: "Silver ¥20/200GiB、Platinum ¥40/400GiB，最高500Mbps；Diamond ¥60/600GiB，最高1000Mbps；Ultimate ¥80/800GiB，最高2000Mbps。",
+    caution: "购买页写明仅限个人使用、暂不支持退款；低价不等于适合所有人。",
     bestFor: "低预算、备用线路",
     href: "https://wd-gold.net/aff.php?aff=15433",
     linkLabel: "打开推广入口",
@@ -41,12 +47,13 @@ const services = [
     traffic: "待复核",
     status: "购买页待核验",
     statusTone: "pending",
-    accuracy: "旧资料约 ¥40 已撤下，等待当前购买页实际核验",
+    accuracy: "2026-07-16 已登录后台确认多平台客户端；旧资料约 ¥40 已撤下，当前价格仍待购买页核验",
     payment: "待付款页实际核验",
     monthly: "是否有当前月付仍待核验",
     ownClient: "有 · Windows / Android / iOS / macOS",
     clientHref: "https://d.yoututz.top/ph/youtu",
-    description: "提供 Windows、Android、iOS 与 macOS 使用入口，也支持 Clash 等第三方客户端。",
+    description: "后台提供 Windows、Android、iOS 与 macOS 下载入口，并提供 Clash、ClashMeta 一键导入及 v2rayN 手动导入。",
+    caution: "客户端已确认，价格、流量和付款方式尚未确认；不要把“有客户端”误解成“套餐已核验”。",
     bestFor: "希望安装步骤简单",
     href: "https://777.youtu6.shop/register?code=2tr1tmSh",
     linkLabel: "打开推广入口",
@@ -124,11 +131,12 @@ const services = [
     traffic: "500G",
     status: "当前商店已核验",
     statusTone: "verified",
-    accuracy: "2026-07-13 已登录 tagss.pro 商店核验；旧入口 tagss04.pro 已被劫持",
+    accuracy: "2026-07-16 已登录 tagss.pro 商店核验；旧入口 tagss04.pro 已被劫持",
     payment: "待付款页实际核验",
     monthly: "有月付 · Silver / Gold / Team 当前可购买",
-    ownClient: "待有效订阅后核验 · 官网当前未明确展示",
-    description: "Silver ¥114/500G；Gold ¥219/999G；Team ¥658/3000G，均为当前月付套餐。",
+    ownClient: "有 · 当前公告推荐内测自有客户端，同时支持第三方客户端",
+    description: "Silver ¥114/500G；Gold ¥219/999G；Team ¥658/3000G，均为月付。另有 Bronze ¥185/季与 Special ¥162/年，不混入月付排名。",
+    caution: "商店写明服务仅限中国大陆，海外及新疆不可用；不保证 TikTok 可用。覆盖与解锁描述属于商家说明。",
     bestFor: "多国家/地区节点需求",
     href: "https://tagss.pro/",
     linkLabel: "打开当前入口",
@@ -144,6 +152,7 @@ const clients = [
     slug: "clash-verge",
     platform: "Windows / macOS / Linux",
     app: "Clash Verge Rev",
+    repository: "clash-verge-rev/clash-verge-rev",
     version: releaseVersions["clash-verge-rev/clash-verge-rev"] || "v2.5.1",
     note: "新手首选。Windows 普通电脑通常选 x64；Mac 要区分 Apple 芯片与 Intel。",
     tone: "blue",
@@ -154,6 +163,7 @@ const clients = [
     slug: "v2rayn",
     platform: "Windows",
     app: "v2rayN",
+    repository: "2dust/v2rayN",
     version: releaseVersions["2dust/v2rayN"] || "v7.23.3",
     note: "功能较多，适合需要更多协议的人。旧版存在安全风险，请只用当前正式版。",
     tone: "purple",
@@ -164,6 +174,7 @@ const clients = [
     slug: "flclash",
     platform: "Android",
     app: "FlClash",
+    repository: "chen08209/FlClash",
     version: releaseVersions["chen08209/FlClash"] || "v0.8.94",
     note: "多数新安卓手机选择 arm64-v8a 安装包；不确定时先看手机处理器类型。",
     tone: "green",
@@ -174,6 +185,7 @@ const clients = [
     slug: "hiddify",
     platform: "Android / iOS / macOS",
     app: "Hiddify",
+    repository: "hiddify/hiddify-app",
     version: releaseVersions["hiddify/hiddify-app"] || "v4.1.1",
     note: "界面相对直观，覆盖多平台；下载时按照自己的设备系统选择文件。",
     tone: "green",
@@ -243,6 +255,7 @@ function ServiceCard({ service, index, prefix = "月付" }: { service: (typeof s
     <p className="service-description">{service.description}</p>
     <div className="service-stats"><div><small>可比参考价格</small><strong>{service.price}</strong><span>{service.cycle}</span></div><div><small>参考流量</small><strong>{service.traffic}</strong></div></div>
     <p className="accuracy-note">{service.accuracy}</p>
+    {"caution" in service && service.caution && <p className="service-caution"><strong>购买前注意</strong>{service.caution}</p>}
     <div className="fact-line"><span>月付</span>{service.monthly}</div>
     <div className="fact-line"><span>客户端</span>{service.ownClient}{"clientHref" in service && service.clientHref && <a href={service.clientHref} target="_blank" rel="noopener noreferrer">自有客户端下载 ↗</a>}</div>
     <div className="payment-line"><span>付款</span>{service.payment}</div>
@@ -257,7 +270,7 @@ export function NodeGuidePage() {
       <SiteHeader />
       <main id="main-content">
       <nav className="node-local-nav" aria-label="机场指南本页目录">
-        <strong>本页目录</strong><a href="#basics">先认识概念</a><a href="#guide">实际怎么用</a><a href="#choose">怎么选择</a><a href="#services">服务对比</a><a href="#downloads">客户端下载</a><a href="#status">地址状态</a>
+        <strong>本页目录</strong><a href="#basics">先认识概念</a><a href="#guide">实际怎么用</a><a href="#choose">怎么选择</a><a href="#services">服务对比</a><a href="#evidence">页面证据</a><a href="#downloads">客户端下载</a><a href="#status">地址状态</a>
       </nav>
 
       <section className="hero" id="top">
@@ -284,6 +297,7 @@ export function NodeGuidePage() {
       </section>
 
       <EditorialCoverFeature slug="nodes" title="网络连接服务：第一次使用指南" lead="先解释VPN、机场、节点、客户端和订阅链接，再进入服务与价格对比。" />
+      <QuickSummary title="第一次买网络服务，先做这四步" points={["先确认自己真的需要，不要只看广告词", "优先选择已核验且周期最短的套餐", "客户端与套餐是两样东西，通常都需要", "订阅链接等同个人钥匙，绝不能公开"]} action={{ label: "直接看已核验月付", href: "#services" }} />
 
       <section className="section node-basics-section" id="basics">
         <div className="section-heading"><div><span className="section-index">01 / 先认识概念</span><h2>五个词，第一次看到也能懂</h2></div><p>这些词不是一回事。先分清它们，后面的购买和安装才不会混乱。</p></div>
@@ -339,9 +353,27 @@ export function NodeGuidePage() {
         <div className="service-grid candidate-service-grid">{monthlyCandidates.map((service, index) => <ServiceCard service={service} index={index} prefix="候选" key={service.name} />)}</div>
       </section>
 
+      <section className="section node-evidence-section" id="evidence">
+        <div className="section-heading compact">
+          <div><span className="section-index">05 / 页面证据</span><h2>截图用来证明“看到了什么”，不代替你的购买确认</h2></div>
+          <p>以下截图来自 2026-07-16 的实际页面。只展示不含账号、订单、订阅密钥和付款资料的区域；价格和客户端证据分开标注。</p>
+        </div>
+        <div className="node-evidence-grid">
+          <figure>
+            <div className="node-evidence-media"><Image src={`${basePath}/guides/nodes/tag-shop.png`} alt="TAG 当前商店页面，展示 Special、Team 与私人节点计划" width={1264} height={710} unoptimized /></div>
+            <figcaption><span>已登录商店 · 价格证据</span><h3>TAG 当前商店</h3><p>截图可见 Special ¥162/年、Team ¥658/月和私人节点 ¥1500+/月。Silver、Gold 等月付价格已在同一商店逐项读取，页面卡片按可比较月付价格展示。</p><a href="https://tagss.pro/" target="_blank" rel="noopener noreferrer">打开当前入口 ↗</a></figcaption>
+          </figure>
+          <figure>
+            <div className="node-evidence-media"><Image src={`${basePath}/guides/nodes/youtu-client-proof.png`} alt="悠兔后台公告中的多平台客户端说明" width={1000} height={510} unoptimized /></div>
+            <figcaption><span>已登录后台 · 客户端证据</span><h3>悠兔多平台客户端</h3><p>后台明确提供 Windows、Android、iOS、macOS 客户端，并说明可使用 Clash 等第三方客户端。这只能证明客户端存在，不能证明当前套餐价格。</p><a href="https://777.youtu6.shop/register?code=2tr1tmSh" target="_blank" rel="sponsored noopener">打开推广入口 ↗</a></figcaption>
+          </figure>
+        </div>
+        <div className="privacy-evidence-note"><strong>为什么没有完整后台截图？</strong><p>完整后台可能含账号昵称、订单、余额或个人订阅链接。为了保护账号安全，WestData 等核验只公开文字结论，不公开带个人信息的原始页面。</p></div>
+      </section>
+
       <section className="section downloads-section" id="downloads">
         <div className="section-heading compact">
-          <div><span className="section-index">05 / 客户端下载</span><h2>按设备选，按钮可以直接用</h2></div>
+          <div><span className="section-index">06 / 客户端下载</span><h2>按设备选，按钮可以直接用</h2></div>
           <p>开源软件进入 GitHub 的 Latest Release；苹果付费软件进入 App Store；不提供来历不明的安装包或 IPA。</p>
         </div>
         <BrandNotice />
@@ -350,7 +382,7 @@ export function NodeGuidePage() {
           {clients.map((client) => (
             <article className="client-card" key={`${client.platform}-${client.app}`}>
               <BrandIcon slug={client.slug} name={client.app} size="large" /><div className="client-platform">{client.platform}</div><h3>{client.app}</h3>
-              <div className="version-row"><span>{client.version}</span><small>2026-07-12 核验</small></div><p>{client.note}</p>
+              <div className="version-row"><span>{client.version}</span><small>{"repository" in client && client.repository ? (releaseStates[client.repository] === "ok" ? `${syncTime} 自动核验` : "上次核验版本 · 本轮读取失败") : "进入官方商店或官网确认"}</small></div><p>{client.note}</p>
               <div className="client-actions"><a href={client.download} target="_blank" rel="noopener noreferrer">官方下载 <span>↗</span></a>{client.project && <a className="muted-action" href={client.project} target="_blank" rel="noopener noreferrer">项目主页</a>}</div>
             </article>
           ))}
@@ -359,7 +391,7 @@ export function NodeGuidePage() {
       </section>
 
       <section className="section status-section" id="status">
-        <div className="section-heading compact"><div><span className="section-index">06 / 地址状态</span><h2>能打开，不等于大陆裸网可用</h2></div><p>当前环境是否经过代理未知，所以不会标绿色“大陆可用”。只有真实普通网络测试后才升级状态。</p></div>
+        <div className="section-heading compact"><div><span className="section-index">07 / 地址状态</span><h2>能打开，不等于大陆裸网可用</h2></div><p>当前环境是否经过代理未知，所以不会标绿色“大陆可用”。只有真实普通网络测试后才升级状态。</p></div>
         <div className="status-table" role="table" aria-label="地址核验状态">
           <div className="status-row table-head" role="row"><span>服务</span><span>跳转结果</span><span>访问状态</span><span>结论</span></div>
           {addresses.map((item) => <div className="status-row" role="row" key={item.service}><strong>{item.service}</strong><span>{item.result}</span><span className={`status-pill ${item.tone}`}><i />{item.access}</span><span className="table-note">暂不标记大陆裸网可用</span></div>)}
@@ -367,8 +399,8 @@ export function NodeGuidePage() {
       </section>
 
       <section className="section pending-section" id="pending">
-        <div className="section-heading compact"><div><span className="section-index">07 / 待复核清单</span><h2>证据不足的字段，公开列出来</h2></div><p>这些内容不会靠旧宣传资料补齐。完成实际购买页或大陆普通网络测试后才更新。</p></div>
-        <div className="verification-queue"><article><span>悠兔 Youtu</span><strong>月付价格、流量与付款方式</strong><p>需要在当前计划页和结算页逐项确认；旧资料约¥40已撤下。</p></article><article><span>TAG</span><strong>付款方式与自有客户端</strong><p>月付套餐已核验，自有客户端仍需有效订阅后确认。</p></article><article><span>BoostNet</span><strong>直接月付是否恢复</strong><p>当前计划页以季付、半年付和年付为主，不按月付价格排序。</p></article><article><span>中国大陆普通网络</span><strong>入口实际可访问性</strong><p>需要关闭代理后分别用家庭宽带和移动网络测试，当前统一标为未核验。</p></article></div>
+        <div className="section-heading compact"><div><span className="section-index">08 / 待复核清单</span><h2>证据不足的字段，公开列出来</h2></div><p>这些内容不会靠旧宣传资料补齐。完成实际购买页或大陆普通网络测试后才更新。</p></div>
+        <div className="verification-queue"><article><span>悠兔 Youtu</span><strong>月付价格、流量与付款方式</strong><p>客户端已在当前后台确认；套餐页没有成功展示可比较的月付价格，因此旧资料约¥40继续撤下。</p></article><article><span>TAG</span><strong>付款方式</strong><p>月付套餐和自有客户端均已核验；实际付款方式仍需进入结算步骤确认。</p></article><article><span>BoostNet</span><strong>直接月付是否恢复</strong><p>当前计划页以季付、半年付和年付为主，不按月付价格排序。</p></article><article><span>中国大陆普通网络</span><strong>入口实际可访问性</strong><p>需要关闭代理后分别用家庭宽带和移动网络测试，当前统一标为未核验。</p></article></div>
         <div className="manual-test-note"><strong>安全测试方式</strong><p>只记录“能否打开、是否跳转、时间和网络类型”，不记录账号、密码、Cookie、订阅地址或付款信息。</p><FeedbackLink label="提交实测结果或失效入口" /></div>
       </section>
 
@@ -394,7 +426,7 @@ export default function Home() {
           <span className="eyebrow">先解释是什么，再告诉你怎么选</span>
           <h1>不知道从哪里开始，<br /><em>也能一步一步看懂</em></h1>
           <p>这里不默认你懂VPN、机场、节点、AI模型或第三方订阅。先用普通话解释它们能做什么、是否适合你，再提供价格、官方下载和购买风险。</p>
-          <div className="hero-actions"><Link className="button primary" href="#start">我是第一次来 <span>→</span></Link><Link className="button secondary" href="/faq">先看常见问题</Link></div>
+          <div className="hero-actions"><Link className="button primary" href="#decision">帮我选择起点 <span>→</span></Link><Link className="button secondary" href="/faq">先看常见问题</Link></div>
           <small>面向中国大陆新手 · 不保存账号、密码、访问密钥或付款信息</small>
         </div>
         <aside className="portal-proof">
@@ -405,6 +437,11 @@ export default function Home() {
           <div><strong>{commonApps.length}</strong><small>项常用应用教程</small></div>
           <p>公开入口每6小时检查；价格、模型和评测数据独立标注来源与更新时间。</p>
         </aside>
+      </section>
+
+      <section className="portal-section" id="decision">
+        <SectionHeading index="先做选择" title="不用先看完整个网站，回答三个问题就知道从哪开始" lead="选择助手只使用当前页面状态，不需要登录，也不会上传你的答案。" />
+        <DecisionAssistant />
       </section>
 
       <section className="portal-section beginner-start" id="start">

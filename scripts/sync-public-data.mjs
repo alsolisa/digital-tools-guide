@@ -8,6 +8,7 @@ const curl = process.platform === "win32" ? "curl.exe" : "curl";
 const nullDevice = process.platform === "win32" ? "NUL" : "/dev/null";
 const dataDirectory = new URL("../data/", import.meta.url);
 const autoSyncPath = new URL("../data/auto-sync.json", import.meta.url);
+const syncStatusPath = new URL("../data/sync-status.json", import.meta.url);
 
 const links = [
   { id: "westdata", url: "https://wd-gold.net/aff.php?aff=15433", kind: "affiliate" },
@@ -29,11 +30,31 @@ const links = [
 ];
 
 const gamsgoOffers = [
-  { slug: "chatgpt-recharge", url: "https://www.gamsgo.com/details/chatgpt-recharge" },
+  {
+    slug: "chatgpt-recharge",
+    url: "https://www.gamsgo.com/details/chatgpt-recharge",
+    parseOptions: {
+      specialPattern: /ChatGPT Plus(?: subscription| plan)?\s*(?:on GamsGo\s*)?(?:for just|costs just|costs)?\s*(US\$|S\$|\$|€|£)?\s*([0-9]+(?:[.,][0-9]+)?)\s*(?:per month|\/\s*month)/i,
+      official: { currency: "USD", value: 20 },
+    },
+  },
   { slug: "claude", url: "https://www.gamsgo.com/details/claude" },
   { slug: "gemini", url: "https://www.gamsgo.com/details/gemini" },
-  { slug: "grok", url: "https://www.gamsgo.com/details/grok" },
-  { slug: "perplexity", url: "https://www.gamsgo.com/details/Perplexity_AI" },
+  {
+    slug: "grok",
+    url: "https://www.gamsgo.com/details/grok",
+    parseOptions: {
+      conflictPatterns: [/(?:GamsGo|SuperGrok)[^$]{0,90}\$\s*([0-9]+(?:[.,][0-9]+)?)\s*(?:per month|\/\s*month)/gi],
+    },
+  },
+  {
+    slug: "perplexity",
+    url: "https://www.gamsgo.com/details/Perplexity_AI",
+    parseOptions: {
+      specialPattern: /(?:in\s+)?GamsGo(?:\s+only)?\s*(US\$|S\$|\$|€|£)?\s*([0-9]+(?:[.,][0-9]+)?)\s*(?:per month|\/\s*month)/i,
+      official: { currency: "USD", value: 16.66 },
+    },
+  },
   { slug: "midjourney", url: "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK" },
 ];
 
@@ -64,13 +85,15 @@ async function checkLink(item) {
   }
 }
 
-async function checkRelease(repository) {
+async function checkRelease(repository, previous) {
   try {
     const body = await curlText(["-fLsS", "--connect-timeout", "8", "--max-time", "30", "-A", "DigitalToolsGuide-ReleaseMonitor/1.0", "-H", "Accept: application/vnd.github+json", `https://api.github.com/repos/${repository}/releases/latest`]);
     const release = JSON.parse(body);
     return { repository, state: "ok", version: release.tag_name, releaseUrl: release.html_url };
   } catch (error) {
-    return { repository, state: "error", error: error.name };
+    return previous?.version
+      ? { repository, state: "stale", version: previous.version, releaseUrl: previous.releaseUrl, error: error.name }
+      : { repository, state: "error", error: error.name };
   }
 }
 
@@ -88,25 +111,40 @@ async function readExchange(previousExchange) {
 }
 
 async function readGamsgoOffer(item, previous, exchange) {
+  const { parseOptions, ...publicItem } = item;
+  const previousPublic = { ...(previous || {}) };
+  delete previousPublic.parseOptions;
   try {
     const html = await curlText(["-fLsS", "--compressed", "--connect-timeout", "8", "--max-time", "30", "-A", "Mozilla/5.0 DigitalToolsGuide-PriceMonitor/1.0", item.url], 15 * 1024 * 1024);
-    const parsed = parseGamsgoPrice(html);
+    const parsed = parseGamsgoPrice(html, parseOptions);
+    if (parsed?.conflict) {
+      return {
+        ...publicItem,
+        state: "conflict",
+        published: null,
+        candidate: null,
+        candidateSeenCount: 0,
+        checkedAt: new Date().toISOString(),
+        observedValues: parsed.observedValues,
+        note: "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核",
+      };
+    }
     if (!parsed || !validatePublicPrice(parsed.special, new URL(item.url).hostname)) {
-      return { ...item, ...decidePublishedPrice(previous, null), checkedAt: new Date().toISOString(), note: "公开页未稳定展示可校验的月付价格" };
+      return { ...publicItem, ...decidePublishedPrice(previousPublic, null), checkedAt: new Date().toISOString(), note: "公开页未稳定展示可校验的月付价格" };
     }
 
-    const decision = decidePublishedPrice(previous, parsed.special);
+    const decision = decidePublishedPrice(previousPublic, parsed.special);
     return {
-      ...item,
+      ...publicItem,
       ...decision,
       checkedAt: new Date().toISOString(),
-      officialObserved: parsed.official,
+      officialObserved: parsed.official || undefined,
       period: parsed.period,
       cny: decision.published ? cnyValue(decision.published, exchange) : null,
       note: decision.state === "price-change-pending" ? "价格变化超过50%，等待下一次读取一致后发布" : "公开购买页月付起价；具体交付方式与结算价以下单页为准",
     };
   } catch (error) {
-    return { ...item, ...decidePublishedPrice(previous, null), checkedAt: new Date().toISOString(), error: error.name, note: "页面读取失败，隐藏具体数字并提示以购买页为准" };
+    return { ...publicItem, ...decidePublishedPrice(previousPublic, null), checkedAt: new Date().toISOString(), error: error.name, note: "页面读取失败，隐藏具体数字并提示以购买页为准" };
   }
 }
 
@@ -115,12 +153,17 @@ try {
   previousAutoSync = JSON.parse(await readFile(autoSyncPath, "utf8"));
 } catch {}
 
+let previousSyncStatus = { clients: [] };
+try {
+  previousSyncStatus = JSON.parse(await readFile(syncStatusPath, "utf8"));
+} catch {}
+
 const exchange = await readExchange(previousAutoSync.exchange);
 const catalogOfficialLinks = await loadCatalogOfficialLinks();
 const allLinks = [...new Map([...links, ...catalogOfficialLinks].map((item) => [item.url, item])).values()];
 const [linkResults, clientResults, gamsgoResults] = await Promise.all([
   Promise.all(allLinks.map(checkLink)),
-  Promise.all(repositories.map(checkRelease)),
+  Promise.all(repositories.map((repository) => checkRelease(repository, previousSyncStatus.clients?.find((client) => client.repository === repository)))),
   Promise.all(gamsgoOffers.map((item) => readGamsgoOffer(item, previousAutoSync.gamsgo?.find((offer) => offer.slug === item.slug), exchange))),
 ]);
 

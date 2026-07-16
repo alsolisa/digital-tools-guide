@@ -17,22 +17,49 @@ export function normalizePageText(html) {
     .trim();
 }
 
-export function parseGamsgoPrice(html) {
+export function parseGamsgoPrice(html, options = {}) {
   const text = normalizePageText(html);
   const match = text.match(
     /Official Price\s*(US\$|S\$|\$|€|£)?\s*([0-9]+(?:[.,][0-9]+)?)\s*\/\s*month\s*vs\s*GamsGo Special\s*(US\$|S\$|\$|€|£)?\s*([0-9]+(?:[.,][0-9]+)?)\s*\/\s*month/i,
   );
-  if (!match) return null;
+  let result = null;
+  if (match) {
+    const officialValue = Number(match[2].replace(",", "."));
+    const specialValue = Number(match[4].replace(",", "."));
+    if (Number.isFinite(officialValue) && Number.isFinite(specialValue) && officialValue > 0 && specialValue > 0) {
+      result = {
+        official: { currency: CURRENCY_MARKS[match[1] || "$"] || "USD", value: officialValue },
+        special: { currency: CURRENCY_MARKS[match[3] || "$"] || "USD", value: specialValue },
+        period: "month",
+      };
+    }
+  }
 
-  const officialValue = Number(match[2].replace(",", "."));
-  const specialValue = Number(match[4].replace(",", "."));
-  if (!Number.isFinite(officialValue) || !Number.isFinite(specialValue) || officialValue <= 0 || specialValue <= 0) return null;
+  if (!result && options.specialPattern) {
+    const fallback = text.match(options.specialPattern);
+    if (fallback) {
+      const value = Number(fallback[2].replace(",", "."));
+      if (Number.isFinite(value) && value > 0) {
+        result = {
+          official: options.official || null,
+          special: { currency: CURRENCY_MARKS[fallback[1] || "$"] || "USD", value },
+          period: "month",
+        };
+      }
+    }
+  }
 
-  return {
-    official: { currency: CURRENCY_MARKS[match[1] || "$"] || "USD", value: officialValue },
-    special: { currency: CURRENCY_MARKS[match[3] || "$"] || "USD", value: specialValue },
-    period: "month",
-  };
+  if (!result) return null;
+
+  const observed = (options.conflictPatterns || []).flatMap((pattern) =>
+    [...text.matchAll(pattern)].map((item) => Number(item[1]?.replace(",", "."))).filter((value) => Number.isFinite(value) && value > 0),
+  );
+  const distinctObserved = [...new Set(observed.map((value) => value.toFixed(2)))];
+  if (distinctObserved.length > 1) {
+    return { ...result, conflict: true, observedValues: distinctObserved.map(Number) };
+  }
+
+  return result;
 }
 
 export function validatePublicPrice(price, expectedDomain) {
