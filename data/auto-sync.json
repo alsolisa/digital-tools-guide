@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-16T06:52:13.195Z",
+  "checkedAt": "2026-07-16T06:53:34.406Z",
   "exchange": {
     "state": "ok",
     "date": "2026-07-15",
@@ -21,7 +21,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-16T06:52:11.502Z",
+      "checkedAt": "2026-07-16T06:53:33.993Z",
       "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error",
       "officialObserved": {
@@ -37,7 +37,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-16T06:52:11.567Z",
+      "checkedAt": "2026-07-16T06:53:33.984Z",
       "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error"
     },
@@ -51,7 +51,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-16T06:52:11.540Z",
+      "checkedAt": "2026-07-16T06:53:33.930Z",
       "officialObserved": {
         "currency": "USD",
         "value": 20
@@ -68,7 +68,7 @@
       "published": null,
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-16T06:52:11.557Z",
+      "checkedAt": "2026-07-16T06:53:33.943Z",
       "observedValues": [
         10,
         30,
@@ -89,7 +89,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-16T06:52:11.542Z",
+      "checkedAt": "2026-07-16T06:53:34.004Z",
       "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "officialObserved": {
         "currency": "USD",
@@ -109,7 +109,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-16T06:52:11.576Z",
+      "checkedAt": "2026-07-16T06:53:33.994Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
@@ -125,13 +125,13 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-07-16T06:52:13.195Z"
+      "checkedAt": "2026-07-16T06:53:34.406Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/",
       "state": "ok",
-      "checkedAt": "2026-07-16T06:52:13.195Z"
+      "checkedAt": "2026-07-16T06:53:34.406Z"
     }
   ],
   "history": [
