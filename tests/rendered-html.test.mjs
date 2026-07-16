@@ -17,7 +17,7 @@ test("全部公开页面与详情页都能正常打开", async () => {
   const routes = [
     "/", "/nodes", "/subscriptions", "/ai", "/ai/chatgpt", "/ai/claude", "/ai/gemini",
     "/ai/grok", "/ai/perplexity", "/ai/midjourney", "/apps", "/apps/youtube", "/apps/x", "/apps/tiktok",
-    "/downloads", "/stores", "/status", "/standards", "/feedback", "/about", "/methodology", "/search", "/faq", "/privacy", "/disclosure", "/changelog",
+    "/downloads", "/benchmarks", "/stores", "/status", "/standards", "/feedback", "/about", "/methodology", "/search", "/faq", "/privacy", "/disclosure", "/changelog",
   ];
   for (const route of routes) {
     const response = await render(route);
@@ -29,15 +29,12 @@ test("全部公开页面与详情页都能正常打开", async () => {
 
 test("全站按零基础用户顺序先解释再比较", async () => {
   const home = await (await render("/")).text();
-  assert.match(home, /先选你现在想解决的问题/);
-  assert.match(home, /回答五个小问题/);
-  assert.match(home, /aria-label="选择进度：第1步，共5步"/);
-  assert.match(home, /帮助你少走弯路，不催你立刻购买/);
-  assert.match(home, /核验失败就隐藏数字/);
-  assert.match(home, /它是什么/);
+  assert.match(home, /三个项目，一条清楚路线|三个项目 · 第一次使用也能看懂/);
+  for (const text of ["机场介绍与下载", "AI、订阅与常用应用", "主流模型评测解读", "先看懂五个词，再选择服务"]) assert.match(home, new RegExp(text));
+  for (const term of ["VPN", "机场", "节点", "客户端", "订阅链接"]) assert.match(home, new RegExp(term));
   const nodes = await (await render("/nodes")).text();
   for (const term of ["VPN", "机场", "节点", "客户端", "订阅链接"]) assert.match(nodes, new RegExp(term));
-  assert.match(nodes, /它们不是“全市场前五名”/);
+  assert.match(nodes, /为什么提供这几家/);
   const subscriptions = await (await render("/subscriptions")).text();
   assert.match(subscriptions, /GamsGo是什么/);
   assert.match(subscriptions, /能官方购买时，优先官方/);
@@ -51,20 +48,22 @@ test("全站按零基础用户顺序先解释再比较", async () => {
   assert.match(methodology, /目前不称为实时同步/);
 });
 
-test("机场指南按已核验实际月付优先排序并保留待核验标记", async () => {
+test("机场指南按已核验月付排序并清楚分开非月付方案", async () => {
   const html = await (await render("/nodes")).text();
   const names = ["WestData", "Nexitally", "TAG", "悠兔 Youtu", "BoostNet"];
   assert.match(html, /https:\/\/nxonearth\.com\/Main\.aspx/);
   assert.match(html, /打开官方入口/);
   let previous = -1;
   for (const name of names) {
-    const position = html.indexOf(name);
+    const position = html.indexOf(`<h3>${name}</h3>`);
     assert.ok(position > previous, `${name} 应按价格顺序出现`);
     previous = position;
   }
-  assert.match(html, /已核验月付优先，再按起价排序/);
-  assert.match(html, /购买页待核验/);
-  assert.match(html, /暂无直接月付/);
+  assert.match(html, /按预算直接选/);
+  assert.match(html, /悠兔与 BoostNet 暂以季付、半年付和年付为主/);
+  assert.match(html, /月付暂停/);
+  assert.doesNotMatch(html, /已登录购买页核验；四款均显示可立即订购/);
+  assert.doesNotMatch(html, /当前计划页仅直接展示年付、半年付、季付/);
   assert.match(html, /截图用来证明/);
   assert.match(html, /\/guides\/nodes\/tag-shop\.png/);
   assert.match(html, /\/guides\/nodes\/youtu-client-proof\.png/);
@@ -153,7 +152,7 @@ test("AI详情页包含真实场景、高清截图、下载、模型、提示词
 
 test("新手决策、商店地区、状态与反馈功能都能解释边界", async () => {
   const home = await (await render("/")).text();
-  for (const text of ["了解 VPN 和机场", "选一款 AI", "判断要不要买 AI 会员", "安全下载软件"]) assert.match(home, new RegExp(text));
+  for (const text of ["机场介绍与下载", "AI、订阅与常用应用", "主流模型评测解读"]) assert.match(home, new RegExp(text));
   const stores = await (await render("/stores")).text();
   assert.match(stores, /至少要等待90天/);
   assert.match(stores, /不要购买陌生共享Apple ID/);
@@ -194,18 +193,21 @@ test("应用教程分开显示Google Play与Apple App Store", async () => {
 
 test("下载中心提供带版本和SHA-256的开源备用文件", async () => {
   const html = await (await render("/downloads")).text();
-  assert.match(html, /本站提供两项开源客户端备用文件/);
+  assert.match(html, /本站提供三项开源客户端备用文件/);
   assert.match(html, /Clash\.Verge_2\.5\.1_x64-setup\.exe/);
   assert.match(html, /FlClash-0\.8\.94-android-arm64-v8a\.apk/);
+  assert.match(html, /Hiddify-Windows-Setup-x64-v4\.1\.1\.exe/);
   assert.match(html, /SHA-256/);
-  assert.match(html, /GPL许可证/);
+  assert.match(html, /许可证/);
 });
 
-test("机场与AI订阅页面接入对应V3视觉指南", async () => {
+test("机场页面直接从基础概念进入服务推荐并提供三类下载入口", async () => {
   const nodes = await (await render("/nodes")).text();
-  assert.match(nodes, /网络连接服务：第一次使用指南/);
-  assert.match(nodes, /\/editorial\/nodes\.webp/);
-  assert.match(nodes, /本页编辑责任与复核范围/);
+  assert.match(nodes, /五个词，第一次看到也能懂/);
+  assert.match(nodes, /<h1[^>]*>五个词，第一次看到也能懂<\/h1>/);
+  assert.ok(nodes.indexOf("五个词，第一次看到也能懂") < nodes.indexOf("按预算直接选"));
+  assert.match(nodes, /本地下载 · Windows x64/);
+  assert.match(nodes, /使用教程/);
   assert.match(nodes, /先看症状，再决定要不要重装/);
   assert.match(nodes, /第一次购买与连接清单/);
   const subscriptions = await (await render("/subscriptions")).text();
@@ -213,6 +215,14 @@ test("机场与AI订阅页面接入对应V3视觉指南", async () => {
   assert.match(subscriptions, /\/editorial\/subscriptions\.webp/);
   assert.match(subscriptions, /本页编辑责任与复核范围/);
   assert.match(subscriptions, /AI会员付款前清单/);
+});
+
+test("模型评测页面分开解释两套榜单并覆盖八个主流家族", async () => {
+  const html = await (await render("/benchmarks")).text();
+  for (const text of ["Arena", "Artificial Analysis", "真人盲测", "API成本", "不合并成本站自制总分"]) assert.match(html, new RegExp(text));
+  for (const family of ["Claude", "GPT", "Gemini", "Grok", "DeepSeek", "Qwen", "GLM", "Kimi"]) assert.match(html, new RegExp(family));
+  assert.match(html, /Perplexity是以搜索与引用为核心的产品/);
+  assert.match(html, /Midjourney主要生成图像/);
 });
 
 test("设备选择助手、搜索、FAQ和运营说明均可用", async () => {

@@ -18,6 +18,11 @@ const mirrorDownloads = [
     file: "FlClash-0.8.94-android-arm64-v8a.apk", size: "51.6 MB", sha256: "2B0F058A79BD584FDE8BBB46452F3539E92563CBF5070C2626C3BE3C900E807B",
     project: "https://github.com/chen08209/FlClash", official: "https://github.com/chen08209/FlClash/releases/tag/v0.8.94", license: "https://github.com/chen08209/FlClash/blob/main/LICENSE",
   },
+  {
+    product: "Hiddify", platform: "Windows普通电脑", version: "v4.1.1", repository: "hiddify/hiddify-app",
+    file: "Hiddify-Windows-Setup-x64-v4.1.1.exe", size: "34.8 MB", sha256: "3F6182B610168C0BB386FFEA1FC7F68318D3DF23C15840C8B13A3BE51B080A96",
+    project: "https://github.com/hiddify/hiddify-app", official: "https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1", license: "https://github.com/hiddify/hiddify-app/blob/main/LICENSE.md",
+  },
 ];
 
 export const metadata = {
@@ -31,19 +36,19 @@ export default function DownloadsPage() {
   return (
     <PageShell>
       <PageIntro eyebrow="下载中心 · 不需要先看懂文件名" title="先选设备，再去官方页面下载" lead="这里同时整理AI、常用应用和网络客户端。本站不保存闭源安装包，按钮只连接官网、官方项目、Microsoft Store、Google Play或Apple App Store。" />
-      <QuickSummary title="下载前只记住三条" points={["先选自己的系统，不要凭文件名猜", "核对官网域名、开发者名称和版本", "商店搜不到时先看地区教程，不下载破解版", "本站备份只覆盖两项开源文件并公开校验值"]} action={{ label: "看应用商店地区教程", href: "/stores" }} />
+      <QuickSummary title="下载前只记住三条" points={["先选自己的系统，不要凭文件名猜", "核对官网域名、开发者名称和版本", "商店搜不到时先看地区教程，不下载破解版", "本站为三项常用开源客户端提供本地备用文件和校验值"]} action={{ label: "看应用商店地区教程", href: "/stores" }} />
       <div className="download-brand-note"><BrandNotice /></div>
       <section className="content-section device-section"><DeviceChooser /></section>
       <section className="content-section mirror-section" id="mirror">
-        <SectionHeading index="备用下载" title="官方页面打不开时，本站提供两项开源客户端备用文件" lead="文件直接取自项目官方Release，未修改；同时保留版本、大小、源码、许可证和SHA-256校验值。闭源应用不做私自镜像。" />
-        <div className="mirror-safety-note"><strong>为什么只有两项？</strong><p>首批只收录许可证允许再分发、文件低于托管限制、并且新手容易选对架构的版本。苹果商店软件、ChatGPT、YouTube等闭源产品仍必须通过官方入口安装。</p></div>
+        <SectionHeading index="本地下载" title="官方页面打不开时，本站提供三项开源客户端备用文件" lead="文件直接取自项目官方Release，未修改；同时保留版本、大小、源码、许可证和SHA-256校验值。闭源应用不做私自镜像。" />
+        <div className="mirror-safety-note"><strong>为什么不是所有软件都有本地下载？</strong><p>只收录允许再分发、文件低于托管限制、并且能明确指出设备架构的版本。v2rayN当前常用Windows文件超过本站单文件限制；苹果商店软件、ChatGPT、YouTube等闭源产品仍必须通过官方入口安装。</p></div>
         <div className="mirror-grid">{mirrorDownloads.map((item) => {
           const release = releaseChecks[item.repository];
           const observedVersion = release && "version" in release && typeof release.version === "string" ? release.version : null;
           const currentVersion = release?.state === "ok" ? observedVersion : null;
           const fresh = Boolean(currentVersion) && currentVersion === item.version;
           const versionState = release?.state !== "ok" ? "本轮官方版本检查失败，备用文件暂停" : fresh ? "版本已核对" : "新版已发布，备用文件暂停";
-          return <article key={item.product} className={!fresh ? "mirror-stale" : ""}><div className="mirror-head"><span>{item.platform}</span><strong>{versionState}</strong></div><h2>{item.product}</h2><p className="mirror-file">{item.file}</p><dl><div><dt>本站文件</dt><dd>{item.version} · {item.size}</dd></div><div><dt>官方当前版</dt><dd>{currentVersion || (observedVersion ? `${observedVersion}（上次核验）` : "本轮未读取成功")}</dd></div><div><dt>SHA-256</dt><dd><code>{item.sha256}</code></dd></div></dl>{fresh ? <a className="mirror-download" href={`${basePath}/mirror/${item.file}`} download>从本站下载已校验文件 ↓</a> : <p className="mirror-paused">为避免提供无法确认是否最新的文件，本站下载已自动隐藏。请先使用官方发布页。</p>}<div className="mirror-links"><a href={item.official} target="_blank" rel="noopener noreferrer">官方发布页 ↗</a><a href={item.project} target="_blank" rel="noopener noreferrer">源码 ↗</a><a href={item.license} target="_blank" rel="noopener noreferrer">GPL许可证 ↗</a></div></article>;
+          return <article key={item.product} className={!fresh ? "mirror-stale" : ""}><div className="mirror-head"><span>{item.platform}</span><strong>{versionState}</strong></div><h2>{item.product}</h2><p className="mirror-file">{item.file}</p><dl><div><dt>本站文件</dt><dd>{item.version} · {item.size}</dd></div><div><dt>官方当前版</dt><dd>{currentVersion || (observedVersion ? `${observedVersion}（上次核验）` : "本轮未读取成功")}</dd></div><div><dt>SHA-256</dt><dd><code>{item.sha256}</code></dd></div></dl>{fresh ? <a className="mirror-download" href={`${basePath}/mirror/${item.file}`} download>从本站下载已校验文件 ↓</a> : <p className="mirror-paused">为避免提供无法确认是否最新的文件，本站下载已自动隐藏。请先使用官方发布页。</p>}<div className="mirror-links"><a href={item.official} target="_blank" rel="noopener noreferrer">官方发布页 ↗</a><a href={item.project} target="_blank" rel="noopener noreferrer">源码 ↗</a><a href={item.license} target="_blank" rel="noopener noreferrer">许可证 ↗</a></div></article>;
         })}</div>
         <div className="checksum-help"><strong>SHA-256是什么？</strong><div><p>它像文件的“指纹”。下载后计算出的字符串与页面完全一致，说明文件在传输中没有发生变化；它不能代替杀毒扫描，也不代表软件绝对没有风险。</p><details className="checksum-steps"><summary>Windows小白：展开查看校验步骤</summary><ol><li>打开下载文件所在的文件夹。</li><li>在文件夹地址栏输入 <code>powershell</code> 并按回车。</li><li>输入 <code>Get-FileHash &quot;.\文件名.exe&quot; -Algorithm SHA256</code>，把“文件名”换成实际名称。</li><li>把出现的Hash与本页SHA-256逐字比较；不一致就删除文件，不要安装。</li></ol></details><p className="android-check-note"><strong>Android：</strong>如果不会在手机上校验，优先从官方项目页直接下载，并在安装前让系统安全检查；不要为了安装而关闭所有安全保护。</p></div></div>
       </section>

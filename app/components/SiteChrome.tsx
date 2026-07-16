@@ -31,13 +31,11 @@ function publicAsset(path: string) {
 
 const navItems = [
   ["首页", "/"],
-  ["新手选择", "/#decision"],
-  ["网络连接", "/nodes"],
-  ["AI怎么选", "/ai"],
+  ["机场指南", "/nodes"],
+  ["AI与应用", "/ai"],
   ["AI订阅", "/subscriptions"],
-  ["常用应用", "/apps"],
+  ["模型评测", "/benchmarks"],
   ["下载中心", "/downloads"],
-  ["状态", "/status"],
 ] as const;
 
 export function SiteHeader() {
