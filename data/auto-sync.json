@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-15T19:37:06.801Z",
+  "checkedAt": "2026-07-16T03:37:41.205Z",
   "exchange": {
     "state": "ok",
     "date": "2026-07-15",
@@ -17,7 +17,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-15T19:37:06.261Z",
+      "checkedAt": "2026-07-16T03:37:40.467Z",
       "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error"
     },
@@ -27,7 +27,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-15T19:37:06.527Z",
+      "checkedAt": "2026-07-16T03:37:40.928Z",
       "note": "公开页未稳定展示可校验的月付价格",
       "error": "Error"
     },
@@ -41,7 +41,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-15T19:37:06.629Z",
+      "checkedAt": "2026-07-16T03:37:40.870Z",
       "officialObserved": {
         "currency": "USD",
         "value": 20
@@ -60,7 +60,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-15T19:37:06.539Z",
+      "checkedAt": "2026-07-16T03:37:40.896Z",
       "officialObserved": {
         "currency": "USD",
         "value": 30
@@ -75,7 +75,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-15T19:37:06.574Z",
+      "checkedAt": "2026-07-16T03:37:40.981Z",
       "note": "公开页未稳定展示可校验的月付价格"
     },
     {
@@ -88,7 +88,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-15T19:37:06.557Z",
+      "checkedAt": "2026-07-16T03:37:41.000Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
@@ -103,13 +103,13 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-07-15T19:37:06.801Z"
+      "checkedAt": "2026-07-16T03:37:41.205Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/",
       "state": "ok",
-      "checkedAt": "2026-07-15T19:37:06.801Z"
+      "checkedAt": "2026-07-16T03:37:41.205Z"
     }
   ],
   "history": [
