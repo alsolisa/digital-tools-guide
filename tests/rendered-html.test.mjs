@@ -29,9 +29,9 @@ test("全部公开页面与详情页都能正常打开", async () => {
 
 test("全站按零基础用户顺序先解释再比较", async () => {
   const home = await (await render("/")).text();
-  assert.match(home, /三个项目，一条清楚路线|三个项目 · 第一次使用也能看懂/);
-  for (const text of ["机场介绍与下载", "AI、订阅与常用应用", "主流模型评测解读", "先看懂五个词，再选择服务"]) assert.match(home, new RegExp(text));
-  for (const term of ["VPN", "机场", "节点", "客户端", "订阅链接"]) assert.match(home, new RegExp(term));
+  assert.match(home, /机场怎么选、AI怎么用/);
+  for (const text of ["看懂机场，选择服务并安装客户端", "了解AI、比较订阅、下载常用应用", "看懂当前主流模型和评测结果"]) assert.match(home, new RegExp(text));
+  assert.doesNotMatch(home, /先看懂五个词，再选择服务|按预算直接选/);
   const nodes = await (await render("/nodes")).text();
   for (const term of ["VPN", "机场", "节点", "客户端", "订阅链接"]) assert.match(nodes, new RegExp(term));
   assert.match(nodes, /为什么提供这几家/);
@@ -41,7 +41,7 @@ test("全站按零基础用户顺序先解释再比较", async () => {
   assert.match(subscriptions, /为什么首批选择这六项/);
   const ai = await (await render("/ai")).text();
   assert.match(ai, /第一次使用AI，不需要先懂模型/);
-  assert.match(ai, /先免费体验，再决定付费/);
+  assert.doesNotMatch(ai, /先免费体验，再决定付费|只想先选一款|按你的任务选择，不按广告口号选择/);
   const downloads = await (await render("/downloads")).text();
   assert.match(downloads, /网络客户端不是网络套餐/);
   const methodology = await (await render("/methodology")).text();
@@ -64,9 +64,7 @@ test("机场指南按已核验月付排序并清楚分开非月付方案", async
   assert.match(html, /月付暂停/);
   assert.doesNotMatch(html, /已登录购买页核验；四款均显示可立即订购/);
   assert.doesNotMatch(html, /当前计划页仅直接展示年付、半年付、季付/);
-  assert.match(html, /截图用来证明/);
-  assert.match(html, /\/guides\/nodes\/tag-shop\.png/);
-  assert.match(html, /\/guides\/nodes\/youtu-client-proof\.png/);
+  assert.doesNotMatch(html, /截图用来证明|\/guides\/nodes\/tag-shop\.png|\/guides\/nodes\/youtu-client-proof\.png/);
   assert.match(html, /服务仅限中国大陆，海外及新疆不可用/);
 });
 
@@ -152,7 +150,7 @@ test("AI详情页包含真实场景、高清截图、下载、模型、提示词
 
 test("新手决策、商店地区、状态与反馈功能都能解释边界", async () => {
   const home = await (await render("/")).text();
-  for (const text of ["机场介绍与下载", "AI、订阅与常用应用", "主流模型评测解读"]) assert.match(home, new RegExp(text));
+  for (const text of ["看懂机场，选择服务并安装客户端", "了解AI、比较订阅、下载常用应用", "看懂当前主流模型和评测结果"]) assert.match(home, new RegExp(text));
   const stores = await (await render("/stores")).text();
   assert.match(stores, /至少要等待90天/);
   assert.match(stores, /不要购买陌生共享Apple ID/);
@@ -208,8 +206,9 @@ test("机场页面直接从基础概念进入服务推荐并提供三类下载�
   assert.ok(nodes.indexOf("五个词，第一次看到也能懂") < nodes.indexOf("按预算直接选"));
   assert.match(nodes, /本地下载 · Windows x64/);
   assert.match(nodes, /使用教程/);
-  assert.match(nodes, /先看症状，再决定要不要重装/);
-  assert.match(nodes, /第一次购买与连接清单/);
+  for (const removed of ["它可能帮助你", "第一次购买与连接清单", "先看症状，再决定要不要重装", "先看需求，不要先看广告词", "页面证据", "地址状态", "把“证据”放在推荐前面", "GamsGo 内容独立整理"]) {
+    assert.doesNotMatch(nodes, new RegExp(removed));
+  }
   const subscriptions = await (await render("/subscriptions")).text();
   assert.match(subscriptions, /AI订阅：购买前先看账号归属/);
   assert.match(subscriptions, /\/editorial\/subscriptions\.webp/);

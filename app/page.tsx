@@ -1,12 +1,8 @@
 import syncStatus from "../data/sync-status.json";
-import Image from "next/image";
 import Link from "next/link";
 import { BrandIcon, BrandNotice, PageShell, SiteFooter, SiteHeader } from "./components/SiteChrome";
 import DeviceChooser from "./components/DeviceChooser";
-import ActionChecklist from "./components/ActionChecklist";
-import BeginnerTroubleshooter from "./components/BeginnerTroubleshooter";
 import StructuredData from "./components/StructuredData";
-import { networkPlaybook } from "../data/beginner-playbooks";
 
 const releaseVersions: Record<string, string | null> = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, "version" in client && typeof client.version === "string" ? client.version : null]));
 const releaseStates: Record<string, string> = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, client.state]));
@@ -258,16 +254,6 @@ const clients = [
   },
 ];
 
-const addresses = [
-  { service: "Nexitally", result: "官方入口可打开", access: "当前环境可访问", tone: "review" },
-  { service: "WgetCloud", result: "永久入口会跳转", access: "已确认入口，暂停使用", tone: "review" },
-  { service: "TAG", result: "tagss04.pro 已劫持；已换 tagss.pro", access: "当前官网与商店已核验", tone: "review" },
-  { service: "BoostNet", result: "邀请码可自动写入", access: "当前环境可访问", tone: "review" },
-  { service: "悠兔 Youtu", result: "注册入口进入登录页", access: "当前环境可访问", tone: "review" },
-  { service: "WestData", result: "旧域名跳转到新域名", access: "当前环境可访问", tone: "review" },
-  { service: "GamsGo", result: "推广参数已保留", access: "当前环境可访问", tone: "review" },
-];
-
 function ServiceCard({ service, index, prefix = "月付" }: { service: (typeof services)[number]; index: number; prefix?: string }) {
   const stalePrice = service.sortGroup === 0 && !hasFreshPriceEvidence(service);
   const isMonthly = service.sortGroup === 0;
@@ -313,7 +299,7 @@ export function NodeGuidePage() {
       <SiteHeader />
       <main id="main-content">
       <nav className="node-local-nav" aria-label="机场指南本页目录">
-        <strong>本页目录</strong><a href="#basics">先认识概念</a><a href="#services">机场推荐</a><a href="#guide">实际怎么用</a><a href="#troubleshoot">问题排查</a><a href="#choose">怎么选择</a><a href="#evidence">页面证据</a><a href="#downloads">客户端下载</a><a href="#status">地址状态</a>
+        <strong>本页目录</strong><a href="#basics">先认识概念</a><a href="#services">机场推荐</a><a href="#guide">实际怎么用</a><a href="#downloads">客户端下载</a>
       </nav>
 
       <section className="section node-basics-section" id="basics">
@@ -326,8 +312,6 @@ export function NodeGuidePage() {
           <article><span>订阅链接</span><h3>把套餐和节点导入客户端的个人钥匙</h3><p>购买后由服务商提供。不要发给别人、公开截图或提交给陌生网站，否则可能造成流量被盗用。</p></article>
         </div>
         <div className="connection-diagram" aria-label="机场服务使用流程"><div><small>第1步</small><strong>购买服务</strong><p>获得自己的订阅链接</p></div><i>→</i><div><small>第2步</small><strong>安装客户端</strong><p>只从官方来源下载</p></div><i>→</i><div><small>第3步</small><strong>导入订阅</strong><p>客户端读取节点列表</p></div><i>→</i><div><small>第4步</small><strong>选择节点</strong><p>建立网络连接</p></div></div>
-        <div className="can-cannot-grid"><article><h3>它可能帮助你</h3><ul><li>连接服务商提供的境外网络节点</li><li>按需要选择不同地区的出口</li><li>在跨境网络质量合适时改善连接体验</li></ul></article><article className="warning-card"><h3>它不能向你保证</h3><ul><li>完全匿名、绝对安全或永不记录</li><li>所有网站、账号地区和付款方式都能使用</li><li>任何时间、任何网络都保持同样速度</li></ul></article></div>
-        <ActionChecklist id="network-first-setup" title="第一次购买与连接清单" items={["已经写下必须使用的设备、地区和每月预算", "只选择证据仍在有效期内的最短周期套餐", "已经从官方项目或应用商店安装正确客户端", "订阅链接没有发给别人，也没有出现在截图中", "在自己的常用网络和常用时间连续测试三次", "知道怎样断开连接、关闭系统代理并恢复普通网络"]} />
       </section>
 
       <ServiceComparison />
@@ -346,38 +330,9 @@ export function NodeGuidePage() {
         </div>
       </section>
 
-      <section className="section node-troubleshoot-section" id="troubleshoot">
-        <div className="section-heading"><div><span className="section-index">04 / 出问题怎么排查</span><h2>先看症状，再决定要不要重装</h2></div><p>连接问题不一定来自同一个地方。订阅、客户端、节点、账号地区和目标网站要分开判断。</p></div>
-        <BeginnerTroubleshooter name="VPN与机场连接" playbook={networkPlaybook} />
-      </section>
-
-      <section className="section node-choice-section" id="choose">
-        <div className="section-heading"><div><span className="section-index">05 / 怎么选择</span><h2>先看需求，不要先看广告词</h2></div><p>“IEPL、家宽、专线、稳定”可能来自商家描述。没有持续的多网络实测时，本站不会把它们当成独立性能结论。</p></div>
-        <div className="selection-check-grid"><article><span>设备</span><h3>要在哪些设备上用？</h3><p>确认Windows、Mac、Android或iPhone，以及允许同时连接多少台设备。</p></article><article><span>用途</span><h3>主要打开哪些服务？</h3><p>不同服务对地区、IP质量和账号地区的要求不同，不能只看节点数量。</p></article><article><span>流量</span><h3>每月大约使用多少？</h3><p>视频和大文件更耗流量；还要确认流量何时重置、是否存在倍率。</p></article><article><span>售后</span><h3>出问题找谁处理？</h3><p>付款前查看工单、客服、退款、试用和失联后的处理方式。</p></article></div>
-        <div className="selection-disclosure"><strong>最简单的选择方法</strong><p>先按预算选一档，再看自己最在意的是低价备用、长期稳定还是更多地区节点。第一次购买优先选择当前可用的最短周期；实际速度仍要在自己的宽带、手机网络和常用时段测试。</p></div>
-      </section>
-
-      <section className="section node-evidence-section" id="evidence">
-        <div className="section-heading compact">
-          <div><span className="section-index">06 / 页面证据</span><h2>截图用来证明“看到了什么”，不代替你的购买确认</h2></div>
-          <p>以下截图来自 2026-07-16 的实际页面。只展示不含账号、订单、订阅密钥和付款资料的区域；价格和客户端证据分开标注。</p>
-        </div>
-        <div className="node-evidence-grid">
-          <figure>
-            <div className="node-evidence-media"><Image src={`${basePath}/guides/nodes/tag-shop.png`} alt="TAG 当前商店页面，展示 Special、Team 与私人节点计划" width={1264} height={710} unoptimized /></div>
-            <figcaption><span>已登录商店 · 价格证据</span><h3>TAG 当前商店</h3><p>截图可见 Special ¥162/年、Team ¥658/月和私人节点 ¥1500+/月。Silver、Gold 等月付价格已在同一商店逐项读取，页面卡片按可比较月付价格展示。</p><a href="https://tagss.pro/" target="_blank" rel="noopener noreferrer">打开当前入口 ↗</a></figcaption>
-          </figure>
-          <figure>
-            <div className="node-evidence-media"><Image src={`${basePath}/guides/nodes/youtu-client-proof.png`} alt="悠兔后台公告中的多平台客户端说明" width={1000} height={510} unoptimized /></div>
-            <figcaption><span>已登录后台 · 客户端证据</span><h3>悠兔多平台客户端</h3><p>后台明确提供 Windows、Android、iOS、macOS 客户端，并说明可使用 Clash 等第三方客户端。这只能证明客户端存在，不能证明当前套餐价格。</p><a href="https://777.youtu6.shop/register?code=2tr1tmSh" target="_blank" rel="sponsored noopener">打开推广入口 ↗</a></figcaption>
-          </figure>
-        </div>
-        <div className="privacy-evidence-note"><strong>为什么没有完整后台截图？</strong><p>完整后台可能含账号昵称、订单、余额或个人订阅链接。为了保护账号安全，WestData 等核验只公开文字结论，不公开带个人信息的原始页面。</p></div>
-      </section>
-
       <section className="section downloads-section" id="downloads">
         <div className="section-heading compact">
-          <div><span className="section-index">07 / 客户端下载</span><h2>按设备选，按钮可以直接用</h2></div>
+          <div><span className="section-index">04 / 客户端下载</span><h2>按设备选，按钮可以直接用</h2></div>
           <p>开源软件进入 GitHub 的 Latest Release；苹果付费软件进入 App Store；不提供来历不明的安装包或 IPA。</p>
         </div>
         <BrandNotice />
@@ -400,21 +355,6 @@ export function NodeGuidePage() {
         <div className="security-alert"><span className="alert-icon">!</span><div><strong>安全提醒</strong><p>下载页可能同时提供多种系统和芯片版本。看不懂文件名时先不要安装；本站后续会补充逐设备截图教程。</p></div><span className="alert-date">所有入口均为官方来源</span></div>
       </section>
 
-      <section className="section status-section" id="status">
-        <div className="section-heading compact"><div><span className="section-index">08 / 地址状态</span><h2>能打开，不等于大陆裸网可用</h2></div><p>当前环境是否经过代理未知，所以不会标绿色“大陆可用”。只有真实普通网络测试后才升级状态。</p></div>
-        <div className="status-table" role="table" aria-label="地址核验状态">
-          <div className="status-row table-head" role="row"><span role="columnheader">服务</span><span role="columnheader">跳转结果</span><span role="columnheader">访问状态</span><span role="columnheader">结论</span></div>
-          {addresses.map((item) => <div className="status-row" role="row" key={item.service}><strong role="cell">{item.service}</strong><span role="cell">{item.result}</span><span role="cell" className={`status-pill ${item.tone}`}><i />{item.access}</span><span role="cell" className="table-note">暂不标记大陆裸网可用</span></div>)}
-        </div>
-      </section>
-
-      <section className="method-section" id="method">
-        <div className="method-copy"><span className="section-index light">我们的核验方法</span><h2>把“证据”放在推荐前面</h2><p>推广链接可能带来收益，但资料可信度不能因此降低。重要字段会保留来源、状态和更新时间。</p></div>
-        <div className="method-grid"><div><span>01</span><h3>官方优先</h3><p>官网、用户后台、官方文档、官方 GitHub 或应用商店。</p></div><div><span>02</span><h3>冲突暂停</h3><p>价格出现冲突时标为待复核，不把搜索摘要当官方现价。</p></div><div><span>03</span><h3>分层同步</h3><p>公开入口和版本每 6 小时检查；登录后的深层月付价格进入人工复核。</p></div></div>
-      </section>
-
-      <section className="gamsgo-banner"><div><span>AI 与数字订阅</span><h2>GamsGo 内容独立整理</h2><p>与网络服务分区展示，避免新手把两类产品混淆。</p></div><a href="https://www.gamsgo.com/partner/BTzCM" target="_blank" rel="sponsored noopener">查看推广入口 ↗</a></section>
-
       </main>
       <SiteFooter />
     </>
@@ -436,31 +376,12 @@ export default function Home() {
     <PageShell>
       <StructuredData data={routeListJsonLd} />
       <section className="project-overview" id="projects">
-        <div className="project-overview-copy"><span className="eyebrow">三个项目 · 第一次使用也能看懂</span><h1>机场、AI 与模型评测，<br />分别讲清楚</h1><p>不再用大量选择题挡在前面。先看三个项目分别解决什么问题，再直接进入机场基础概念和推荐列表。</p></div>
+        <div className="project-overview-copy"><span className="eyebrow">三个独立指南 · 需要哪个就看哪个</span><h1>机场怎么选、AI怎么用、<br />模型谁更强？</h1><p>第一次进来，只要先选你现在想解决的问题。三个项目彼此独立，不需要按顺序看，也不需要先懂专业名词。</p></div>
         <div className="project-overview-grid">
-          <article><span>项目 01</span><h2>机场介绍与下载</h2><p>解释VPN、机场、节点、客户端和订阅链接，再按预算比较服务，提供官方下载、本地下载和使用教程。</p><Link href="/nodes">查看完整机场指南 →</Link></article>
-          <article><span>项目 02</span><h2>AI、订阅与常用应用</h2><p>把AI用途、官方入口、GamsGo订阅方式，以及 YouTube、TikTok、X 的下载和使用放在同一条学习路线中。</p><div><Link href="/ai">AI介绍</Link><Link href="/subscriptions">AI订阅</Link><Link href="/apps">常用应用</Link></div></article>
-          <article><span>项目 03</span><h2>主流模型评测解读</h2><p>分别解读 Arena 真人盲测和 Artificial Analysis 的能力、速度、延迟与API成本，帮助普通人认识当前主流模型。</p><Link href="/benchmarks">查看模型评测 →</Link></article>
+          <article><span>项目 01 · 网络服务</span><h2>看懂机场，选择服务并安装客户端</h2><p>适合不知道“机场、节点、订阅链接”是什么的人。这里会比较五家服务，并按 Windows、Mac、Android 和 iPhone 提供下载与使用教程。</p><Link href="/nodes">进入机场指南 →</Link></article>
+          <article><span>项目 02 · AI与应用</span><h2>了解AI、比较订阅、下载常用应用</h2><p>适合想使用 ChatGPT、Claude、Gemini 等 AI 的人。这里也会说明 GamsGo 订阅，并提供 YouTube、TikTok、X 的官方入口和安装教程。</p><div><Link href="/ai">了解AI</Link><Link href="/subscriptions">比较AI订阅</Link><Link href="/apps">下载常用应用</Link></div></article>
+          <article><span>项目 03 · 模型评测</span><h2>看懂当前主流模型和评测结果</h2><p>适合想知道“现在有哪些主流模型、谁的效果更好”的人。这里把 Arena 真人评价与 Artificial Analysis 能力、速度和成本数据分开解释。</p><Link href="/benchmarks">查看模型评测 →</Link></article>
         </div>
-      </section>
-
-      <section className="section node-basics-section home-node-start" id="basics">
-        <div className="section-heading"><div><span className="section-index">机场入门</span><h2>先看懂五个词，再选择服务</h2></div><p>客户端不是套餐，节点不是机场，订阅链接也不是普通网址。先分清这些概念，购买和安装就不会混乱。</p></div>
-        <div className="plain-term-grid">
-          <article><span>VPN</span><h3>一种建立网络连接的技术或服务</h3><p>通常通过加密通道把设备的网络流量发送到另一台服务器。具体隐私、速度和可用范围取决于服务商。</p></article>
-          <article><span>机场</span><h3>提供节点和订阅链接的服务商</h3><p>“机场”是中文互联网中的非正式叫法。它通常出售可使用的线路套餐，不等于客户端软件。</p></article>
-          <article><span>节点</span><h3>连接时经过的服务器</h3><p>节点常按国家或地区区分。出口位置、速度和可访问服务可能不同，也不能保证解锁所有平台。</p></article>
-          <article><span>客户端</span><h3>安装在手机或电脑上的连接软件</h3><p>Clash Verge、v2rayN、Shadowrocket 等负责读取订阅并建立连接，本身通常不包含可用套餐。</p></article>
-          <article><span>订阅链接</span><h3>把套餐和节点导入客户端的个人钥匙</h3><p>购买后由服务商提供。不要发给别人、公开截图或提交给陌生网站，否则可能造成流量被盗用。</p></article>
-        </div>
-        <div className="connection-diagram" aria-label="机场服务使用流程"><div><small>第1步</small><strong>购买服务</strong><p>获得自己的订阅链接</p></div><i>→</i><div><small>第2步</small><strong>安装客户端</strong><p>优先官方，本地下载作备用</p></div><i>→</i><div><small>第3步</small><strong>导入订阅</strong><p>客户端读取节点列表</p></div><i>→</i><div><small>第4步</small><strong>选择节点</strong><p>建立网络连接</p></div></div>
-      </section>
-
-      <ServiceComparison sectionIndex="机场推荐" />
-
-      <section className="section home-followup">
-        <div><span>需要继续操作？</span><h2>选择服务后，再去下载客户端和查看教程</h2><p>完整机场页还包括安装步骤、问题排查、真实页面截图、地址状态和八款客户端。</p></div>
-        <nav><Link href="/nodes#downloads">客户端与使用教程 →</Link><Link href="/downloads#mirror">打开本地下载 →</Link></nav>
       </section>
     </PageShell>
   );
