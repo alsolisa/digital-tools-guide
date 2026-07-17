@@ -1,11 +1,11 @@
-import { aiProducts } from "../../data/catalog";
-import { getAiEditorialGuide } from "../../data/editorial-guides";
+import { aiProducts, commonApps } from "../../data/catalog";
+import { getAiEditorialGuide, getAppEditorialGuide } from "../../data/editorial-guides";
 import Link from "next/link";
 import { BrandIcon, PageIntro, PageShell, SectionHeading, VerificationChip } from "../components/SiteChrome";
 
 export const metadata = {
   title: "主流AI小白教程",
-  description: "比较ChatGPT、Claude、Gemini、Grok与Perplexity的优势、模型、平台、官方下载和使用方法。",
+  description: "比较ChatGPT、Claude、Gemini、Grok与Perplexity，并介绍YouTube、X、TikTok三项常用应用的用途、风险和完整教程。",
   alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/ai/` },
 };
 
@@ -49,6 +49,27 @@ export default function AiIndexPage() {
           <div className="choice-row" role="row"><strong>Gemini</strong><span>Google资料、研究和多模态</span><span>Gmail、Drive、Android生态</span><span>账号、地区和授权范围</span></div>
           <div className="choice-row" role="row"><strong>Grok</strong><span>X实时话题和多媒体创作</span><span>靠近公开社交内容</span><span>热度不等于事实</span></div>
           <div className="choice-row" role="row"><strong>Perplexity</strong><span>搜索、比较和带来源研究</span><span>引用直接可见</span><span>仍要打开原文核对</span></div>
+        </div>
+      </section>
+
+      <section className="content-section soft-section common-app-showcase" aria-label="三项常用应用介绍">
+        <SectionHeading index="03" title="三项常用应用：先按你想看的内容选择" lead="YouTube偏长视频与系统学习，X偏实时公开信息，TikTok偏短视频与创作。它们不是AI模型，也不是互相替代的同一类产品。" />
+        <div className="ai-card-grid common-app-feature-grid">
+          {commonApps.map((app) => {
+            const guide = getAppEditorialGuide(app.slug);
+            return (
+              <article className={`ai-card common-app-feature-card common-app-${app.slug}`} key={app.slug}>
+                <div className="ai-card-top"><BrandIcon slug={app.slug} name={app.name} size="large" /><VerificationChip status="verified" /></div>
+                <span className="card-kicker">常用应用 · {app.company}</span>
+                <h2>{app.name}</h2>
+                <p className="card-tagline">{guide?.verdict || app.tagline}</p>
+                <div className="tag-row">{(guide?.whyUse || []).slice(0, 3).map((item) => <span key={item}>{item}</span>)}</div>
+                <ul>{(guide?.coreAreas || []).slice(0, 3).map((area) => <li key={area.name}><strong>{area.name}：</strong>{area.plain}</li>)}</ul>
+                <p className="ai-card-limit"><strong>先注意：</strong>{guide?.notFor[0] || app.regionNote}</p>
+                <div className="ai-card-foot"><small>核验 {app.verifiedAt}</small><Link href={`/apps/${app.slug}`}>查看完整教程 →</Link></div>
+              </article>
+            );
+          })}
         </div>
       </section>
     </PageShell>

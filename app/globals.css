@@ -405,6 +405,7 @@ footer > div { display: flex; gap: 18px; font-size: 11px; font-weight: 700; }
 .subscription-card { scroll-margin-top: 20px; }.subscription-actions .official-action { color: var(--navy); background: #e7f1ed; border: 1px solid #b9d4ca; }
 .ai-first-choice,.non-comparable-note { border-radius: 2px; }.ai-first-choice { margin-top: 14px; padding: 20px 22px; display: grid; grid-template-columns: 180px 1fr; gap: 18px; color: var(--white); background: var(--navy); }.ai-first-choice strong { color: #a9ddce; }.ai-first-choice p { margin: 0; color: #cad6db; font-size: 13px; line-height: 1.8; }
 .ai-card-limit { margin: 16px 0 0; padding: 12px; color: #6f5a39; background: #fff5e7; font-size: 12px; line-height: 1.6; }.ai-card-limit strong { color: #8c5d1d; }.plan-guide-grid a { margin-top: 14px; display: inline-block; color: var(--green); font-size: 12px; font-weight: 900; }
+.common-app-showcase { border-top: 1px solid var(--line); }.common-app-feature-card { min-height: 540px; border-top: 5px solid var(--green); }.common-app-feature-card.common-app-youtube { border-top-color: #ff0033; }.common-app-feature-card.common-app-x { border-top-color: #101820; }.common-app-feature-card.common-app-tiktok { border-top-color: #25bfc3; }.common-app-feature-card .card-tagline { min-height: 92px; }.common-app-feature-card ul strong { color: var(--navy); }.common-app-feature-card .ai-card-limit { margin-top: 18px; }
 .download-explainer { padding-top: 0; padding-bottom: 25px; }.download-explainer .selection-disclosure { margin-top: 0; }
 
 @media (max-width: 1050px) {

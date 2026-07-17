@@ -154,6 +154,19 @@ test("AI与应用列表按要求移除说明条、Midjourney和后续两个冗�
   for (const removed of ["品牌图标来自品牌官方资料", "<h2>Midjourney</h2>", "<strong>Midjourney</strong>", "付费前先做一次真实测试", "评测怎么看才不会被误导"]) assert.doesNotMatch(html, new RegExp(removed));
 });
 
+test("AI与应用对照表下方提供三项常用应用的完整介绍卡片", async () => {
+  const html = await (await render("/ai")).text();
+  assert.match(html, /三项常用应用：先按你想看的内容选择/);
+  for (const [name, slug] of [["YouTube", "youtube"], ["X", "x"], ["TikTok", "tiktok"]]) {
+    assert.match(html, new RegExp(`<h2>${name}</h2>`));
+    assert.match(html, new RegExp(`href="/apps/${slug}"`));
+  }
+  assert.match(html, /YouTube不只是娱乐视频/);
+  assert.match(html, /X适合追踪实时公开信息/);
+  assert.match(html, /TikTok是面向国际市场的短视频与直播平台/);
+  assert.ok(html.indexOf("只看这一张表，也能先做出选择") < html.indexOf("三项常用应用：先按你想看的内容选择"));
+});
+
 test("新手决策、商店地区、状态与反馈功能都能解释边界", async () => {
   const home = await (await render("/")).text();
   for (const text of ["看懂机场，选择服务并安装客户端", "了解AI、比较订阅、下载常用应用", "看懂当前主流模型和评测结果"]) assert.match(home, new RegExp(text));
