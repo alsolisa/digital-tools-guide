@@ -17,6 +17,63 @@ export function normalizePageText(html) {
     .trim();
 }
 
+function decodeHtml(value = "") {
+  return value
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;|&#160;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#(?:x27|39);/gi, "'")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function metricNumber(value) {
+  const normalized = value.replace(/[$,*]/g, "").trim();
+  if (!normalized || normalized === "--") return null;
+  const number = Number(normalized);
+  return Number.isFinite(number) && number >= 0 ? number : null;
+}
+
+export function parseArtificialAnalysisLeaderboard(html) {
+  const bodies = [...html.matchAll(/<tbody\b[^>]*>([\s\S]*?)<\/tbody>/gi)].map((match) => match[1]);
+  const leaderboardBody = bodies.find((body) => body.includes("font-semibold border-l-4") && body.includes("text-center"));
+  if (!leaderboardBody) return [];
+
+  const rows = [];
+  for (const rowMatch of leaderboardBody.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi)) {
+    const row = rowMatch[1];
+    const modelMatch = row.match(/<div[^>]*class="[^"]*font-semibold\s+border-l-4[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
+    const providerMatch = row.match(/<img[^>]*alt="([^"]+)"[^>]*>/i);
+    const metrics = [...row.matchAll(/<div[^>]*class="[^"]*text-center[^"]*"[^>]*>([\s\S]*?)<\/div>/gi)].map((match) => decodeHtml(match[1]));
+    if (!modelMatch || !providerMatch || metrics.length < 6) continue;
+
+    const intelligence = metricNumber(metrics[1]);
+    const outputTokensPerSecond = metricNumber(metrics[3]);
+    const latencySeconds = metricNumber(metrics[4]);
+    const totalResponseSeconds = metricNumber(metrics[5]);
+    if (intelligence === null || intelligence > 100 || outputTokensPerSecond === null || latencySeconds === null || totalResponseSeconds === null) continue;
+
+    rows.push({
+      rank: rows.length + 1,
+      model: decodeHtml(modelMatch[1]),
+      company: decodeHtml(providerMatch[1]),
+      contextWindow: metrics[0],
+      intelligence,
+      priceUsdPerMillion: metricNumber(metrics[2]),
+      outputTokensPerSecond,
+      latencySeconds,
+      totalResponseSeconds,
+    });
+  }
+
+  return rows;
+}
+
 export function parseGamsgoPrice(html, options = {}) {
   const text = normalizePageText(html);
   const match = text.match(

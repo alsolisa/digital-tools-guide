@@ -148,6 +148,12 @@ test("AI详情页包含真实场景、高清截图、下载、模型、提示词
   assert.match(midjourney, /\/editorial\/midjourney\.webp/);
 });
 
+test("AI与应用列表按要求移除说明条、Midjourney和后续两个冗余章节", async () => {
+  const html = await (await render("/ai")).text();
+  for (const product of ["ChatGPT", "Claude", "Gemini", "Grok", "Perplexity"]) assert.match(html, new RegExp(product));
+  for (const removed of ["品牌图标来自品牌官方资料", "<h2>Midjourney</h2>", "<strong>Midjourney</strong>", "付费前先做一次真实测试", "评测怎么看才不会被误导"]) assert.doesNotMatch(html, new RegExp(removed));
+});
+
 test("新手决策、商店地区、状态与反馈功能都能解释边界", async () => {
   const home = await (await render("/")).text();
   for (const text of ["看懂机场，选择服务并安装客户端", "了解AI、比较订阅、下载常用应用", "看懂当前主流模型和评测结果"]) assert.match(home, new RegExp(text));
@@ -216,12 +222,12 @@ test("机场页面直接从基础概念进入服务推荐并提供三类下载�
   assert.match(subscriptions, /AI会员付款前清单/);
 });
 
-test("模型评测页面分开解释两套榜单并覆盖八个主流家族", async () => {
+test("模型评测页面解释两套榜单并展示自动同步的Artificial Analysis前十", async () => {
   const html = await (await render("/benchmarks")).text();
-  for (const text of ["Arena", "Artificial Analysis", "真人盲测", "API成本", "不合并成本站自制总分"]) assert.match(html, new RegExp(text));
-  for (const family of ["Claude", "GPT", "Gemini", "Grok", "DeepSeek", "Qwen", "GLM", "Kimi"]) assert.match(html, new RegExp(family));
-  assert.match(html, /Perplexity是以搜索与引用为核心的产品/);
-  assert.match(html, /Midjourney主要生成图像/);
+  for (const text of ["Arena", "Artificial Analysis", "真人盲测", "API成本", "不合并成本站自制总分", "能力指数", "输出速度", "首段延迟", "上下文长度", "自动同步正常", "最近成功读取"]) assert.match(html, new RegExp(text));
+  for (const model of ["Claude Fable 5", "GPT-5.6 Sol", "Kimi K3", "Grok 4.5"]) assert.match(html, new RegExp(model));
+  assert.doesNotMatch(html, /第一版收录八个主流模型家族/);
+  assert.doesNotMatch(html, /不想研究参数，可以这样选/);
 });
 
 test("设备选择助手、搜索、FAQ和运营说明均可用", async () => {

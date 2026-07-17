@@ -1,70 +1,168 @@
-import Link from "next/link";
+import autoSync from "../../data/auto-sync.json";
 import { PageIntro, PageShell, QuickSummary, SectionHeading } from "../components/SiteChrome";
 import StructuredData from "../components/StructuredData";
 
-const arenaSnapshot = "2026-07-13";
-const artificialSnapshot = "2026-07-16";
+type LeaderboardRow = {
+  rank: number;
+  model: string;
+  company: string;
+  contextWindow: string;
+  intelligence: number;
+  priceUsdPerMillion: number | null;
+  outputTokensPerSecond: number;
+  latencySeconds: number;
+  totalResponseSeconds: number;
+};
 
-const modelFamilies = [
-  { family: "Claude", company: "Anthropic", arena: "第 1 名 · 1508±7", arenaModel: "Claude Fable 5", analysis: "指数 60", analysisModel: "Claude Fable 5（含回退）", takeaway: "当前两套榜单都处于第一梯队，适合重点关注复杂推理、长文档与高要求写作。" },
-  { family: "GPT", company: "OpenAI", arena: "第 10 名 · 1484±11", arenaModel: "GPT-5.6 Sol xhigh", analysis: "指数 59", analysisModel: "GPT-5.6 Sol max", takeaway: "综合能力、工具生态和通用性突出，适合需要一款主力AI的普通用户。" },
-  { family: "Gemini", company: "Google", arena: "第 8 名 · 1486±4", arenaModel: "Gemini 3.1 Pro Preview", analysis: "指数 50 · 161 token/s", analysisModel: "Gemini 3.5 Flash", takeaway: "高阶型号偏能力，Flash偏速度；Google生态和多模态使用者值得优先比较。" },
-  { family: "Grok", company: "xAI", arena: "第 19 名 · 1474±5", arenaModel: "Grok 4.20 beta1", analysis: "指数 54 · 125 token/s", analysisModel: "Grok 4.5 high", takeaway: "当前能力与速度均有竞争力，适合关注实时信息和X平台生态的人。" },
-  { family: "Qwen", company: "Alibaba", arena: "第 16 名 · 1475±10", arenaModel: "Qwen3.7 Max Preview", analysis: "指数 46", analysisModel: "Qwen3.7 Max", takeaway: "中文、开源生态和模型规格选择丰富；预览型号的名次仍可能明显变化。" },
-  { family: "GLM", company: "Z.ai", arena: "第 25 名 · 1472±5", arenaModel: "GLM-5.1", analysis: "指数 51 · 146 token/s", analysisModel: "GLM-5.2 max", takeaway: "兼顾较强能力、速度和API成本，是值得持续追踪的开放权重路线。" },
-  { family: "Kimi", company: "Moonshot", arena: "第 37 名 · 1462±5", arenaModel: "Kimi K2.6", analysis: "本轮不列精确值", analysisModel: "避免混用不同版本", takeaway: "中文和长上下文体验具有代表性，但型号更新快，使用时要核对产品内实际版本。" },
-  { family: "DeepSeek", company: "DeepSeek", arena: "第 42 名 · 1457±5", arenaModel: "DeepSeek V4 Pro Thinking", analysis: "指数 44", analysisModel: "DeepSeek V4 Pro max", takeaway: "开放权重、中文与价格优势明显；不要只凭旧型号名判断当前能力。" },
-];
+type LeaderboardSnapshot = {
+  source: string;
+  url: string;
+  state: "ok" | "stale" | "error";
+  checkedAt: string;
+  lastSuccessfulAt?: string;
+  methodologyVersion?: string;
+  rows: LeaderboardRow[];
+};
+
+const artificialAnalysis = (autoSync as { artificialAnalysisLeaderboard?: LeaderboardSnapshot }).artificialAnalysisLeaderboard;
+const leaderboardRows = artificialAnalysis?.rows?.slice(0, 10) || [];
+
+function formatTime(value?: string) {
+  if (!value) return "暂无成功快照";
+  return new Intl.DateTimeFormat("zh-CN", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(new Date(value));
+}
+
+function plainLanguageSignals(row: LeaderboardRow) {
+  const signals = [];
+  if (row.intelligence >= 56) signals.push("能力第一梯队");
+  if (row.outputTokensPerSecond >= 100) signals.push("输出很快");
+  if (row.latencySeconds <= 5) signals.push("开始回答快");
+  if (row.priceUsdPerMillion !== null && row.priceUsdPerMillion <= 2.5) signals.push("API成本较低");
+  return signals.length ? signals.slice(0, 3) : ["表现较均衡"];
+}
 
 export const metadata = {
   title: "主流AI模型评测解读",
-  description: "用普通人能理解的方式分别解读Arena真人盲测与Artificial Analysis能力、速度、延迟和API成本数据。",
+  description: "用普通人能理解的方式区分Arena真人偏好榜与Artificial Analysis能力、速度、延迟和API成本榜，并展示自动更新的主流模型快照。",
   alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/benchmarks/` },
 };
 
 export default function BenchmarksPage() {
   const publicSiteUrl = process.env.GITHUB_PAGES === "true" ? "https://alsolisa.github.io/digital-tools-guide" : "http://localhost:3000";
+  const snapshotTime = artificialAnalysis?.lastSuccessfulAt || artificialAnalysis?.checkedAt;
+  const snapshotState = artificialAnalysis?.state === "ok"
+    ? "自动同步正常"
+    : artificialAnalysis?.state === "stale"
+      ? "本轮读取失败，显示上次成功快照"
+      : "暂时无法核验榜单";
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Dataset",
-    name: "主流AI模型评测解读快照",
-    description: "Arena真人盲测与Artificial Analysis公开指标的分开展示。",
+    name: "主流AI模型评测解读与Artificial Analysis榜单快照",
+    description: "Arena真人偏好评测与Artificial Analysis公开能力、速度、延迟和API成本指标的分开展示。",
     url: `${publicSiteUrl}/benchmarks/`,
-    dateModified: artificialSnapshot,
-    isBasedOn: ["https://arena.ai/leaderboard/text", "https://artificialanalysis.ai/leaderboards/models"],
+    dateModified: snapshotTime || autoSync.checkedAt,
+    isBasedOn: ["https://arena.ai/leaderboard/text", "https://artificialanalysis.ai/leaderboards/models", "https://artificialanalysis.ai/methodology/intelligence-benchmarking"],
   };
 
   return (
     <PageShell>
       <StructuredData data={structuredData} />
-      <PageIntro eyebrow="项目 03 · 模型评测" title="榜单不是答案，但能帮你看懂当前主流模型" lead="这里不制作一个来源不明的总分。Arena反映真人盲测偏好；Artificial Analysis反映标准化能力、速度、延迟和API成本。两套结果分开看，最后再结合自己的任务选择。" />
-      <QuickSummary title="普通人先记住四件事" points={["同一家公司会有多个型号和推理档位，不要只看品牌名", "Arena名次代表用户偏好，不等于每项任务都更准确", "Artificial Analysis的价格是API成本，不是ChatGPT或Claude会员费", "Preview、Beta和样本较少的型号，名次可能快速变化"]} />
+      <PageIntro
+        eyebrow="项目 03 · 模型评测"
+        title="两个模型榜单，回答的是两件事"
+        lead="如果你想知道哪种回答更受真实用户喜欢，看 Arena；如果你想比较标准测试能力、输出速度、等待时间和API成本，看 Artificial Analysis。两个网站测的不是同一件事，不能把名次直接相加。"
+      />
+      <QuickSummary title="第一次看榜单，先记住四件事" points={["Arena回答“人更喜欢哪份回答”，不是严格的事实准确率考试", "Artificial Analysis把能力、速度、延迟和API成本分开测，不能只看一个数字", "榜单里的API价格是开发者调用模型的成本，不是ChatGPT、Claude等会员月费", "同一品牌会出现多个型号和推理档位；名次对应具体型号，不代表整个品牌永久排名"]} />
 
       <section className="content-section benchmark-methods">
-        <SectionHeading index="01" title="两套评测分别回答什么问题" lead="它们测量的不是同一件事，所以不合并成本站自制总分。" />
+        <SectionHeading index="01" title="先分清：两个网站分别测什么" lead="最简单的记法是：Arena更接近“真人试吃投票”，Artificial Analysis更接近“实验室分项检测”。两者不合并成本站自制总分。" />
         <div className="benchmark-method-grid">
-          <article><span>真人选择</span><h2>Arena</h2><p>匿名展示两份回答，让用户投票选择更喜欢的一份，再根据大量对战计算排名。适合观察回答质量、风格和综合偏好。</p><ul><li>重点看：Text / Overall</li><li>优势：真实用户、开放问题</li><li>局限：偏好会受语言、风格与样本构成影响</li></ul><a href="https://arena.ai/leaderboard/text" target="_blank" rel="noopener noreferrer">打开 Arena 原榜单 ↗</a></article>
-          <article><span>能力与效率</span><h2>Artificial Analysis</h2><p>把多项标准化测试组合成 Intelligence Index，并同时记录输出速度、首字延迟、总响应时间和API价格。</p><ul><li>重点看：能力、速度、延迟分别看</li><li>优势：便于比较性能与成本</li><li>局限：API环境不等于普通会员产品体验</li></ul><a href="https://artificialanalysis.ai/leaderboards/models" target="_blank" rel="noopener noreferrer">打开 Artificial Analysis 原榜单 ↗</a></article>
+          <article className="benchmark-method-card arena-method">
+            <span>真人盲测 · 回答偏好</span>
+            <h2>Arena</h2>
+            <p className="benchmark-question">它回答：面对同一道题，真实用户更喜欢哪一个回答？</p>
+            <p>系统匿名展示两个模型的回答，投票者在不知道模型名称的情况下选出更喜欢的一份，再用大量两两对比计算排名。Text / Overall 综合了数学、编程、创意写作和开放问答等真实提示词。</p>
+            <dl className="benchmark-facts">
+              <div><dt>榜单内容</dt><dd>总榜，以及写作、编程、数学、指令遵循、多轮对话、困难提示词等分类榜</dd></div>
+              <div><dt>重点看法</dt><dd>同时看名次、分数后的“±”不确定范围，以及是否标记 Preliminary</dd></div>
+              <div><dt>不能证明</dt><dd>不能单独证明事实一定正确，也不是专门针对中文或你的个人任务</dd></div>
+            </dl>
+            <a href="https://arena.ai/leaderboard/text" target="_blank" rel="noopener noreferrer">打开 Arena Text 原榜单 ↗</a>
+          </article>
+          <article className="benchmark-method-card analysis-method">
+            <span>统一测试 · 能力与效率</span>
+            <h2>Artificial Analysis</h2>
+            <p className="benchmark-question">它回答：在统一测试和API环境下，模型能力、速度、延迟与成本分别怎样？</p>
+            <p>它用 Intelligence Index 汇总标准化能力测试，同时把输出速度、首段响应延迟、完整响应时间、上下文长度和API价格独立列出。这样能看见“更强”是否伴随“更慢”或“更贵”。</p>
+            <dl className="benchmark-facts">
+              <div><dt>能力测试</dt><dd>当前 v4.1 由九项测试组成，涵盖智能体、编程、科学推理和通用能力</dd></div>
+              <div><dt>效率测试</dt><dd>输出速度、开始回答前的等待、完整响应时间和每百万token的API成本</dd></div>
+              <div><dt>不能证明</dt><dd>英文纯文本测试不等于中文、多模态或会员App的实际体验</dd></div>
+            </dl>
+            <a href="https://artificialanalysis.ai/leaderboards/models" target="_blank" rel="noopener noreferrer">打开 Artificial Analysis 原榜单 ↗</a>
+          </article>
+        </div>
+        <div className="benchmark-difference" aria-label="两套评测如何选择">
+          <strong>普通人怎么用：</strong>
+          <span>想看回答读起来是否更好、更符合人类偏好 → 先看 Arena</span>
+          <span>想比较能力、速度、等待和API成本 → 先看 Artificial Analysis</span>
+          <span>准备长期付费 → 最后仍要用自己的真实任务试一次</span>
         </div>
       </section>
 
-      <section className="content-section soft-section" id="snapshot">
-        <SectionHeading index="02" title="第一版收录八个主流模型家族" lead={`Arena 快照 ${arenaSnapshot}；Artificial Analysis 读取 ${artificialSnapshot}。每个家族只选一个有代表性的当前型号，避免同一家公司的多个档位挤满页面。`} />
-        <div className="benchmark-family-table" role="table" aria-label="主流AI模型家族评测快照">
-          <div className="benchmark-family-row benchmark-family-head" role="row"><span role="columnheader">模型家族</span><span role="columnheader">Arena代表结果</span><span role="columnheader">Artificial Analysis代表结果</span><span role="columnheader">普通人怎么理解</span></div>
-          {modelFamilies.map((item) => <div className="benchmark-family-row" role="row" key={item.family}><div role="cell"><strong>{item.family}</strong><small>{item.company}</small></div><div role="cell"><strong>{item.arena}</strong><small>{item.arenaModel}</small></div><div role="cell"><strong>{item.analysis}</strong><small>{item.analysisModel}</small></div><p role="cell">{item.takeaway}</p></div>)}
+      <section className="content-section soft-section benchmark-metrics">
+        <SectionHeading index="02" title="Artificial Analysis 榜单里的六个指标，普通人这样看" lead="不要只追第一名。能力更高、启动更快、输出更快和成本更低，往往不是同一个模型。" />
+        <div className="benchmark-metric-grid">
+          <article><span>01 · 越高越好</span><h2>能力指数</h2><p>综合推理、知识、数学和编程等标准测试。适合判断文本模型的总体能力层级，但不代表所有任务都更好。</p></article>
+          <article><span>02 · 不是会员费</span><h2>API成本</h2><p>开发者调用模型时，每百万输入与输出token的混合参考价。普通用户购买App会员时，不按这个数字付款。</p></article>
+          <article><span>03 · 越高越快</span><h2>输出速度</h2><p>模型开始回答后，每秒生成多少token。数值高说明文字吐得快，但不代表开始回答也快。</p></article>
+          <article><span>04 · 越低越快</span><h2>首段延迟</h2><p>提交问题到看到第一段内容前的等待时间。它决定“多久开始有反应”，与完整任务耗时不同。</p></article>
+          <article><span>05 · 越低越快</span><h2>完整响应</h2><p>从提交问题到完成整段测试回答的总时间。推理更深入的档位可能能力高，但整体等待更久。</p></article>
+          <article><span>06 · 容量不是质量</span><h2>上下文长度</h2><p>一次最多可处理的文字、代码或文件容量。窗口更大适合长资料，但不保证对全部内容理解得更准确。</p></article>
         </div>
-        <p className="benchmark-caveat">名次只对应上面写明的具体型号与快照日期，不代表整个品牌永久排名。带 Preview、Beta 或样本量较少的结果，应当视为阶段性信号。</p>
+        <p className="benchmark-methodology-note"><strong>能力指数当前权重：</strong>智能体 34%、编程 24%、科学推理 24%、通用能力 18%。这是 Artificial Analysis 的英文纯文本评测方法，不是本站自制评分。<a href="https://artificialanalysis.ai/methodology/intelligence-benchmarking" target="_blank" rel="noopener noreferrer">查看官方方法说明 ↗</a></p>
       </section>
 
-      <section className="content-section benchmark-decisions">
-        <SectionHeading index="03" title="不想研究参数，可以这样选" lead="先按任务缩小范围，再去对应产品页试用免费版。" />
-        <div className="benchmark-decision-grid">
-          <article><span>综合主力</span><h2>GPT、Claude、Gemini</h2><p>三者都有成熟产品和多平台入口。写作与复杂任务先比较Claude和GPT；Google生态与多模态需求重点看Gemini。</p></article>
-          <article><span>实时与社交内容</span><h2>Grok</h2><p>适合希望结合X平台和实时内容的人，但实时不代表自动准确，仍需核对原始来源。</p></article>
-          <article><span>中文与开放生态</span><h2>DeepSeek、Qwen、GLM、Kimi</h2><p>适合中文任务、开放模型与成本敏感场景。具体体验取决于使用的平台、部署版本和是否启用推理模式。</p></article>
+      <section className="content-section benchmark-live" id="snapshot">
+        <SectionHeading index="03" title="Artificial Analysis 当前综合能力前十" lead="下表按原站 Intelligence Index 从高到低排列，并保留成本、速度和延迟，避免把“能力第一”误解成“所有方面第一”。" />
+        <div className={`benchmark-live-status ${artificialAnalysis?.state || "error"}`}>
+          <div><span>{snapshotState}</span><strong>最近成功读取：{formatTime(snapshotTime)}</strong></div>
+          <p>每 6 小时自动检查；读取失败时保留上次成功快照，不沿用无法验证的新数字。</p>
+          <a href="https://artificialanalysis.ai/leaderboards/models" target="_blank" rel="noopener noreferrer">核对原榜单 ↗</a>
         </div>
-        <div className="benchmark-product-note"><strong>为什么没有把 Perplexity 和 Midjourney 放进文本模型榜？</strong><p>Perplexity是以搜索与引用为核心的产品，底层可能调用不同模型；Midjourney主要生成图像。它们都值得介绍，但与文本大模型放在同一张综合排行榜会误导普通人。</p><nav><Link href="/ai/perplexity">查看 Perplexity 教程 →</Link><Link href="/ai/midjourney">查看 Midjourney 教程 →</Link></nav></div>
+        <p className="benchmark-swipe-hint">手机查看：在表格内左右滑动，可以看到成本、速度、延迟和普通人读法。</p>
+
+        {leaderboardRows.length ? (
+          <div className="benchmark-ranking-wrap">
+            <table className="benchmark-ranking-table" aria-label="Artificial Analysis 综合能力前十模型">
+              <thead><tr><th>名次</th><th>具体模型</th><th>能力指数</th><th>上下文</th><th>API成本<br /><small>美元/百万token</small></th><th>输出速度<br /><small>token/秒</small></th><th>首段延迟<br /><small>秒</small></th><th>普通人读法</th></tr></thead>
+              <tbody>
+                {leaderboardRows.map((row) => (
+                  <tr key={`${row.rank}-${row.model}`}>
+                    <td><strong className="benchmark-rank">{String(row.rank).padStart(2, "0")}</strong></td>
+                    <td><strong className="benchmark-model">{row.model}</strong><small>{row.company}</small></td>
+                    <td><strong>{row.intelligence}</strong></td>
+                    <td>{row.contextWindow}</td>
+                    <td>{row.priceUsdPerMillion === null ? "未提供" : `$${row.priceUsdPerMillion.toFixed(2)}`}</td>
+                    <td>{row.outputTokensPerSecond}</td>
+                    <td>{row.latencySeconds.toFixed(2)}</td>
+                    <td><div className="benchmark-signal-list">{plainLanguageSignals(row).map((signal) => <span key={signal}>{signal}</span>)}</div></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : <p className="benchmark-empty">榜单当前无法核验，因此暂不展示具体数字。请通过上方原榜单入口查看最新结果。</p>}
+        <p className="benchmark-caveat">“能力第一梯队、输出很快、开始回答快、API成本较低”只是帮助新手阅读当前数据的阈值标签，不是本站重新计算的总分。实际会员产品还会受到套餐、地区、联网、工具权限和平台负载影响。</p>
       </section>
     </PageShell>
   );

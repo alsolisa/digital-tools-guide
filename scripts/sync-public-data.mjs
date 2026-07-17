@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { cnyValue, decidePublishedPrice, isAllowedOfficialDownload, parseGamsgoPrice, validatePublicPrice } from "./sync-utils.mjs";
+import { cnyValue, decidePublishedPrice, isAllowedOfficialDownload, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, validatePublicPrice } from "./sync-utils.mjs";
 
 const execFileAsync = promisify(execFile);
 const curl = process.platform === "win32" ? "curl.exe" : "curl";
@@ -21,7 +21,7 @@ const links = [
   { id: "surge", url: "https://nssurge.com/", kind: "client" },
   { id: "gamsgo", url: "https://www.gamsgo.com/partner/BTzCM", kind: "affiliate" },
   { id: "arena", url: "https://arena.ai/leaderboard/text", kind: "benchmark" },
-  { id: "artificial-analysis", url: "https://artificialanalysis.ai/", kind: "benchmark" },
+  { id: "artificial-analysis", url: "https://artificialanalysis.ai/leaderboards/models", kind: "benchmark" },
   { id: "chatgpt-download", url: "https://chatgpt.com/download/", kind: "download" },
   { id: "claude-download", url: "https://claude.ai/download", kind: "download" },
   { id: "gemini-web", url: "https://gemini.google.com/", kind: "download" },
@@ -148,6 +148,30 @@ async function readGamsgoOffer(item, previous, exchange) {
   }
 }
 
+async function readArtificialAnalysisLeaderboard(previous) {
+  const url = "https://artificialanalysis.ai/leaderboards/models";
+  const checkedAt = new Date().toISOString();
+  try {
+    const html = await curlText(["-fLsS", "--compressed", "--connect-timeout", "8", "--max-time", "60", "-A", "Mozilla/5.0 DigitalToolsGuide-BenchmarkMonitor/1.0", url], 20 * 1024 * 1024);
+    const rows = parseArtificialAnalysisLeaderboard(html).slice(0, 20);
+    if (rows.length < 10 || new Set(rows.map((row) => row.model)).size !== rows.length) throw new Error("invalid leaderboard rows");
+    return {
+      source: "Artificial Analysis",
+      url,
+      state: "ok",
+      checkedAt,
+      lastSuccessfulAt: checkedAt,
+      methodologyVersion: "Intelligence Index v4.1",
+      rows,
+    };
+  } catch (error) {
+    if (previous?.rows?.length >= 10) {
+      return { ...previous, state: "stale", checkedAt, note: "本轮自动读取失败，当前展示上次成功快照", error: error.name };
+    }
+    return { source: "Artificial Analysis", url, state: "error", checkedAt, rows: [], note: "暂时无法读取榜单，页面不会发布可疑数字", error: error.name };
+  }
+}
+
 let previousAutoSync = { exchange: null, gamsgo: [], history: [] };
 try {
   previousAutoSync = JSON.parse(await readFile(autoSyncPath, "utf8"));
@@ -161,10 +185,11 @@ try {
 const exchange = await readExchange(previousAutoSync.exchange);
 const catalogOfficialLinks = await loadCatalogOfficialLinks();
 const allLinks = [...new Map([...links, ...catalogOfficialLinks].map((item) => [item.url, item])).values()];
-const [linkResults, clientResults, gamsgoResults] = await Promise.all([
+const [linkResults, clientResults, gamsgoResults, artificialAnalysisLeaderboard] = await Promise.all([
   Promise.all(allLinks.map(checkLink)),
   Promise.all(repositories.map((repository) => checkRelease(repository, previousSyncStatus.clients?.find((client) => client.repository === repository)))),
   Promise.all(gamsgoOffers.map((item) => readGamsgoOffer(item, previousAutoSync.gamsgo?.find((offer) => offer.slug === item.slug), exchange))),
+  readArtificialAnalysisLeaderboard(previousAutoSync.artificialAnalysisLeaderboard),
 ]);
 
 const checkedAt = new Date().toISOString();
@@ -176,14 +201,20 @@ for (const result of gamsgoResults) {
   }
 }
 
+const previousTopModel = previousAutoSync.artificialAnalysisLeaderboard?.rows?.[0]?.model;
+const currentTopModel = artificialAnalysisLeaderboard.rows?.[0]?.model;
+if (currentTopModel && previousTopModel !== currentTopModel) {
+  history.push({ changedAt: checkedAt, type: "artificial-analysis-leader", before: previousTopModel || null, after: currentTopModel, sourceUrl: artificialAnalysisLeaderboard.url });
+}
+
 const benchmarkResults = linkResults
   .filter((item) => item.kind === "benchmark")
   .map((item) => ({ source: item.id === "arena" ? "Arena" : "Artificial Analysis", url: item.url, state: item.state, checkedAt }));
 
-const autoOutput = { checkedAt, exchange, gamsgo: gamsgoResults, benchmarks: benchmarkResults, history: history.slice(-100) };
+const autoOutput = { checkedAt, exchange, gamsgo: gamsgoResults, benchmarks: benchmarkResults, artificialAnalysisLeaderboard, history: history.slice(-100) };
 const statusOutput = {
   checkedAt,
-  policy: { publicLinks: "automatic-6h", clientReleases: "automatic-6h", publicPrices: "automatic-6h-with-guardrails", exchange: "automatic-6h", loginRequiredPrices: "manual-review" },
+  policy: { publicLinks: "automatic-6h", clientReleases: "automatic-6h", publicPrices: "automatic-6h-with-guardrails", benchmarkLeaderboard: "automatic-6h-with-last-good-snapshot", exchange: "automatic-6h", loginRequiredPrices: "manual-review" },
   links: linkResults,
   clients: clientResults,
 };
@@ -196,5 +227,5 @@ await Promise.all([
 
 const hardFailures = linkResults.filter((item) => item.state === "error").length + clientResults.filter((item) => item.state === "error").length;
 const readablePrices = gamsgoResults.filter((item) => item.state === "ok" || item.state === "price-changed").length;
-console.log(`同步完成：${linkResults.length} 个公开入口，${clientResults.length} 个客户端项目，${readablePrices}/${gamsgoResults.length} 项公开月付价格可核验。`);
+console.log(`同步完成：${linkResults.length} 个公开入口，${clientResults.length} 个客户端项目，${readablePrices}/${gamsgoResults.length} 项公开月付价格可核验，Artificial Analysis 读取 ${artificialAnalysisLeaderboard.rows?.length || 0} 个模型。`);
 if (hardFailures > 0) console.warn(`${hardFailures} 个入口或客户端版本检查失败，页面会保留异常标记。`);

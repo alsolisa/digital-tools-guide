@@ -22,6 +22,7 @@ const stateLabels: Record<string, string> = {
 };
 
 const networkSampleTargets = ["Nexitally", "WestData", "TAG", "悠兔 Youtu", "BoostNet"];
+type PriceHistoryItem = { changedAt: string; type: "gamsgo-price"; slug: string; before: { currency: string; value: number } | null; after: { currency: string; value: number }; sourceUrl: string };
 
 function timeLabel(value: string) {
   return new Intl.DateTimeFormat("zh-CN", { timeZone: "Asia/Shanghai", dateStyle: "medium", timeStyle: "short", hour12: false }).format(new Date(value));
@@ -29,7 +30,7 @@ function timeLabel(value: string) {
 
 export default function StatusPage() {
   const counts = syncStatus.links.reduce<Record<string, number>>((total, item) => ({ ...total, [item.state]: (total[item.state] || 0) + 1 }), {});
-  const latestHistory = [...autoSync.history].reverse().slice(0, 12);
+  const latestHistory = (autoSync.history as unknown as PriceHistoryItem[]).filter((item) => item.type === "gamsgo-price").reverse().slice(0, 12);
   const qualifiedNetworkTests = manualNetworkTests.tests.length;
   return (
     <PageShell>

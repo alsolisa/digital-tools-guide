@@ -1,6 +1,17 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { decidePublishedPrice, isAllowedOfficialDownload, parseGamsgoPrice } from "../scripts/sync-utils.mjs";
+import { decidePublishedPrice, isAllowedOfficialDownload, parseArtificialAnalysisLeaderboard, parseGamsgoPrice } from "../scripts/sync-utils.mjs";
+
+test("Artificial Analysis 榜单解析会同时读取能力、成本、速度和延迟", () => {
+  const html = `<table><tbody>
+    <tr><td><div class="font-semibold border-l-4 pl-2">Model A<span><svg></svg></span></div></td><td><div class="text-center">1M</div></td><td><img alt="Company A" /></td><td><div class="text-center">60</div></td><td><div class="text-center">$7.70</div></td><td><div class="text-center">66</div></td><td><div class="text-center">148.11</div></td><td><div class="text-center">155.74</div></td></tr>
+    <tr><td><div class="font-semibold border-l-4 pl-2">Model B</div></td><td><div class="text-center">500k</div></td><td><img alt="Company B" /></td><td><div class="text-center">57</div></td><td><div class="text-center">$2.31</div></td><td><div class="text-center">62</div></td><td><div class="text-center">1.99</div></td><td><div class="text-center">42.30</div></td></tr>
+  </tbody></table>`;
+  assert.deepEqual(parseArtificialAnalysisLeaderboard(html), [
+    { rank: 1, model: "Model A", company: "Company A", contextWindow: "1M", intelligence: 60, priceUsdPerMillion: 7.7, outputTokensPerSecond: 66, latencySeconds: 148.11, totalResponseSeconds: 155.74 },
+    { rank: 2, model: "Model B", company: "Company B", contextWindow: "500k", intelligence: 57, priceUsdPerMillion: 2.31, outputTokensPerSecond: 62, latencySeconds: 1.99, totalResponseSeconds: 42.3 },
+  ]);
+});
 
 test("价格解析同时校验币种、周期与正数", () => {
   const html = "<div>Official Price $30.00 /month vs GamsGo Special $6.17 /month</div>";
