@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-17T07:59:55.074Z",
+  "checkedAt": "2026-07-17T08:01:42.438Z",
   "policy": {
     "publicLinks": "automatic-6h",
     "clientReleases": "automatic-6h",
@@ -13,27 +13,25 @@
       "id": "westdata",
       "url": "https://wd-gold.net/aff.php?aff=15433",
       "kind": "affiliate",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://wd-cloud.net/"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://wd-gold.net/aff.php?aff=15433"
     },
     {
       "id": "youtu-client",
       "url": "https://d.yoututz.top/ph/youtu",
       "kind": "client",
-      "state": "error",
-      "status": null,
-      "finalUrl": null,
-      "error": "Error"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://d.yoututz.top/ph/youtu/"
     },
     {
       "id": "youtu",
       "url": "https://777.youtu6.shop/register?code=2tr1tmSh",
       "kind": "affiliate",
-      "state": "error",
-      "status": null,
-      "finalUrl": null,
-      "error": "Error"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://777.youtu6.shop/register?code=2tr1tmSh"
     },
     {
       "id": "boostnet",
@@ -55,9 +53,9 @@
       "id": "nexitally",
       "url": "https://nxonearth.com/Main.aspx",
       "kind": "official",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://nxonearth.com/signinbyemail.aspx?gourl=%2FMain.aspx"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://nxonearth.com/Main.aspx"
     },
     {
       "id": "tag",
@@ -103,13 +101,21 @@
       "id": "catalog-official-2",
       "url": "https://chatgpt.com/download/",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://chatgpt.com/download/"
     },
     {
       "id": "catalog-official-12",
       "url": "https://claude.ai/download",
+      "kind": "download-source",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://claude.com/download"
+    },
+    {
+      "id": "catalog-official-19",
+      "url": "https://gemini.google.com/",
       "kind": "download-source",
       "state": "error",
       "status": null,
@@ -117,19 +123,11 @@
       "error": "Error"
     },
     {
-      "id": "catalog-official-19",
-      "url": "https://gemini.google.com/",
-      "kind": "download-source",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://gemini.google.com/"
-    },
-    {
       "id": "catalog-official-28",
       "url": "https://grok.com/",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://grok.com/"
     },
     {
@@ -144,10 +142,9 @@
       "id": "catalog-official-1",
       "url": "https://chatgpt.com/",
       "kind": "download-source",
-      "state": "error",
-      "status": null,
-      "finalUrl": null,
-      "error": "Error"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://chatgpt.com/"
     },
     {
       "id": "catalog-official-3",
@@ -169,50 +166,48 @@
       "id": "catalog-official-5",
       "url": "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq"
     },
     {
       "id": "catalog-official-6",
       "url": "https://chatgpt.com/pricing/",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://chatgpt.com/pricing/"
     },
     {
       "id": "catalog-official-7",
       "url": "https://help.openai.com/en/articles/9930697-what-is-the-canvas-feature-in-chatgpt-and-how-do-i-use-i",
       "kind": "download-source",
-      "state": "error",
-      "status": null,
-      "finalUrl": null,
-      "error": "Error"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://help.openai.com/en/articles/9930697-what-is-the-canvas-feature-in-chatgpt-and-how-do-i-use-i"
     },
     {
       "id": "catalog-official-8",
       "url": "https://help.openai.com/en/articles/6950777-what-is-chatgpt",
       "kind": "download-source",
-      "state": "error",
-      "status": null,
-      "finalUrl": null,
-      "error": "Error"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://help.openai.com/en/articles/6950777-what-is-chatgpt"
     },
     {
       "id": "catalog-official-9",
       "url": "https://help.openai.com/en/articles/20001354-gpt-56-in-chatgpt",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.openai.com/en/articles/20001354-gpt-56-in-chatgpt"
     },
     {
       "id": "catalog-official-10",
       "url": "https://help.openai.com/en/articles/7730893-datacontrols-faq",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.openai.com/en/articles/7730893-datacontrols-faq"
     },
     {
@@ -221,7 +216,7 @@
       "kind": "download-source",
       "state": "protected",
       "status": 403,
-      "finalUrl": "https://claude.ai/login"
+      "finalUrl": "https://claude.ai/"
     },
     {
       "id": "catalog-official-13",
@@ -251,10 +246,9 @@
       "id": "catalog-official-16",
       "url": "https://support.anthropic.com/en/articles/8114487-what-interfaces-can-i-use-to-access-claude",
       "kind": "download-source",
-      "state": "error",
-      "status": null,
-      "finalUrl": null,
-      "error": "Error"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://support.claude.com/en/articles/8114487-what-interfaces-can-i-use-to-access-claude"
     },
     {
       "id": "catalog-official-17",
@@ -356,24 +350,24 @@
       "id": "catalog-official-31",
       "url": "https://help.x.com/en/using-x/about-grok",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.x.com/en/using-x/about-grok"
     },
     {
       "id": "catalog-official-32",
       "url": "https://x.ai/grok",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://x.ai/grok"
     },
     {
       "id": "catalog-official-33",
       "url": "https://x.ai/pricing",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://x.ai/pricing"
     },
     {
@@ -420,16 +414,16 @@
       "id": "catalog-official-40",
       "url": "https://www.perplexity.ai/help-center/en/collections/18799298-comet",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://www.perplexity.ai/help-center/en/collections/18799298-comet"
     },
     {
       "id": "catalog-official-41",
       "url": "https://www.perplexity.ai/help-center/en/articles/9385876-what-is-perplexity-pro",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://www.perplexity.ai/help-center/en/articles/9385876-what-is-perplexity-pro"
     },
     {
@@ -444,65 +438,64 @@
       "id": "catalog-official-43",
       "url": "https://www.midjourney.com/",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://www.midjourney.com/"
     },
     {
       "id": "catalog-official-44",
       "url": "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide"
     },
     {
       "id": "catalog-official-45",
       "url": "https://docs.midjourney.com/hc/en-us/articles/33329460426765-Website-Overview",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://docs.midjourney.com/hc/en-us/articles/33329460426765-Website-Overview"
     },
     {
       "id": "catalog-official-46",
       "url": "https://docs.midjourney.com/hc/en-us/articles/32764383466893-Editor",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://docs.midjourney.com/hc/en-us/articles/32764383466893-Editor"
     },
     {
       "id": "catalog-official-47",
       "url": "https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans"
     },
     {
       "id": "catalog-official-48",
       "url": "https://docs.midjourney.com/hc/en-us",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://docs.midjourney.com/hc/en-us"
     },
     {
       "id": "catalog-official-49",
       "url": "https://www.anthropic.com/pricing",
       "kind": "download-source",
-      "state": "error",
-      "status": null,
-      "finalUrl": null,
-      "error": "Error"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://claude.com/pricing"
     },
     {
       "id": "catalog-official-50",
       "url": "https://www.midjourney.com/plans/",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://www.midjourney.com/plans/"
     },
     {
@@ -581,24 +574,24 @@
       "id": "catalog-official-60",
       "url": "https://help.x.com/en/using-x/download-the-x-app",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.x.com/en/using-x/download-the-x-app"
     },
     {
       "id": "catalog-official-61",
       "url": "https://help.x.com/en/using-x/x-premium",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.x.com/en/using-x/x-premium"
     },
     {
       "id": "catalog-official-62",
       "url": "https://help.x.com/en/using-x/x-lists",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.x.com/en/using-x/x-lists"
     },
     {
@@ -613,8 +606,8 @@
       "id": "catalog-official-64",
       "url": "https://help.x.com/en/using-x/communities",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.x.com/en/using-x/communities"
     },
     {
@@ -717,31 +710,27 @@
   "clients": [
     {
       "repository": "clash-verge-rev/clash-verge-rev",
-      "state": "stale",
+      "state": "ok",
       "version": "v2.5.1",
-      "releaseUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.1",
-      "error": "Error"
+      "releaseUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.1"
     },
     {
       "repository": "2dust/v2rayN",
-      "state": "stale",
+      "state": "ok",
       "version": "7.23.4",
-      "releaseUrl": "https://github.com/2dust/v2rayN/releases/tag/7.23.4",
-      "error": "Error"
+      "releaseUrl": "https://github.com/2dust/v2rayN/releases/tag/7.23.4"
     },
     {
       "repository": "chen08209/FlClash",
-      "state": "stale",
+      "state": "ok",
       "version": "v0.8.94",
-      "releaseUrl": "https://github.com/chen08209/FlClash/releases/tag/v0.8.94",
-      "error": "Error"
+      "releaseUrl": "https://github.com/chen08209/FlClash/releases/tag/v0.8.94"
     },
     {
       "repository": "hiddify/hiddify-app",
-      "state": "stale",
+      "state": "ok",
       "version": "v4.1.1",
-      "releaseUrl": "https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1",
-      "error": "Error"
+      "releaseUrl": "https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1"
     }
   ]
 }

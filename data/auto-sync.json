@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-17T07:59:55.074Z",
+  "checkedAt": "2026-07-17T08:01:42.438Z",
   "exchange": {
     "state": "ok",
     "date": "2026-07-16",
@@ -14,15 +14,15 @@
     {
       "slug": "chatgpt-recharge",
       "url": "https://www.gamsgo.com/details/chatgpt-recharge",
-      "state": "ok",
+      "state": "unreadable",
       "published": {
         "currency": "USD",
         "value": 17.99
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-17T07:59:50.038Z",
-      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准",
+      "checkedAt": "2026-07-17T08:01:29.886Z",
+      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error",
       "officialObserved": {
         "currency": "USD",
@@ -37,28 +37,31 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-17T07:59:49.091Z",
+      "checkedAt": "2026-07-17T08:01:30.489Z",
       "note": "公开页未稳定展示可校验的月付价格",
       "error": "Error"
     },
     {
       "slug": "gemini",
       "url": "https://www.gamsgo.com/details/gemini",
-      "state": "ok",
+      "state": "price-change-pending",
       "published": {
         "currency": "USD",
         "value": 2.25
       },
-      "candidate": null,
-      "candidateSeenCount": 0,
-      "checkedAt": "2026-07-17T07:59:49.505Z",
+      "candidate": {
+        "currency": "USD",
+        "value": 3.5
+      },
+      "candidateSeenCount": 1,
+      "checkedAt": "2026-07-17T08:01:30.883Z",
       "officialObserved": {
         "currency": "USD",
-        "value": 6.66
+        "value": 20
       },
       "period": "month",
       "cny": 15.23,
-      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
+      "note": "价格变化超过50%，等待下一次读取一致后发布"
     },
     {
       "slug": "grok",
@@ -67,13 +70,13 @@
       "published": null,
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-17T07:59:49.506Z",
+      "checkedAt": "2026-07-17T08:01:30.545Z",
       "observedValues": [
         10,
         30,
         300,
         18.99,
-        6.17
+        17.99
       ],
       "note": "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核"
     },
@@ -87,7 +90,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-17T07:59:49.727Z",
+      "checkedAt": "2026-07-17T08:01:30.953Z",
       "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准",
       "officialObserved": {
         "currency": "USD",
@@ -107,7 +110,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-17T07:59:49.825Z",
+      "checkedAt": "2026-07-17T08:01:30.776Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
@@ -123,21 +126,21 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-07-17T07:59:55.074Z"
+      "checkedAt": "2026-07-17T08:01:42.438Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/leaderboards/models",
       "state": "ok",
-      "checkedAt": "2026-07-17T07:59:55.074Z"
+      "checkedAt": "2026-07-17T08:01:42.438Z"
     }
   ],
   "artificialAnalysisLeaderboard": {
     "source": "Artificial Analysis",
     "url": "https://artificialanalysis.ai/leaderboards/models",
     "state": "ok",
-    "checkedAt": "2026-07-17T07:59:47.321Z",
-    "lastSuccessfulAt": "2026-07-17T07:59:47.321Z",
+    "checkedAt": "2026-07-17T08:01:29.663Z",
+    "lastSuccessfulAt": "2026-07-17T08:01:29.663Z",
     "methodologyVersion": "Intelligence Index v4.1",
     "rows": [
       {
