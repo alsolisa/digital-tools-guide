@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-17T14:04:05.333Z",
+  "checkedAt": "2026-07-17T19:33:21.164Z",
   "policy": {
     "publicLinks": "automatic-6h",
     "clientReleases": "automatic-6h",
@@ -615,7 +615,7 @@
       "kind": "download-source",
       "state": "ok",
       "status": 200,
-      "finalUrl": "https://www.tiktok.com/"
+      "finalUrl": "https://www.tiktok.com/explore"
     },
     {
       "id": "catalog-official-66",
