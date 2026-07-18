@@ -32,10 +32,8 @@ function publicAsset(path: string) {
 const navItems = [
   ["首页", "/"],
   ["机场指南", "/nodes"],
-  ["AI与应用", "/ai"],
-  ["AI订阅", "/subscriptions"],
+  ["AI与应用", "/ai", ["/subscriptions", "/apps", "/downloads"]],
   ["模型评测", "/benchmarks"],
-  ["下载中心", "/downloads"],
 ] as const;
 
 export function SiteHeader() {

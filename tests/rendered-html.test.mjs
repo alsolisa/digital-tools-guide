@@ -27,7 +27,7 @@ test("全部公开页面与详情页都能正常打开", async () => {
 test("全站按零基础用户顺序先解释再比较", async () => {
   const home = await (await render("/")).text();
   assert.match(home, /机场怎么选、AI怎么用/);
-  for (const text of ["看懂机场，选择服务并安装客户端", "了解AI、比较订阅、下载常用应用", "看懂当前主流模型和评测结果"]) assert.match(home, new RegExp(text));
+  for (const text of ["看懂机场，选择服务并安装客户端", "先选AI，再决定是否订阅或安装", "看懂当前主流模型和评测结果"]) assert.match(home, new RegExp(text));
   assert.doesNotMatch(home, /先看懂五个词，再选择服务|按预算直接选/);
   const nodes = await (await render("/nodes")).text();
   for (const term of ["VPN", "机场", "节点", "客户端", "订阅链接"]) assert.match(nodes, new RegExp(term));
@@ -179,7 +179,7 @@ test("AI与应用对照表下方提供三项常用应用的完整介绍卡片", 
 
 test("新手决策、商店地区、状态与反馈功能都能解释边界", async () => {
   const home = await (await render("/")).text();
-  for (const text of ["看懂机场，选择服务并安装客户端", "了解AI、比较订阅、下载常用应用", "看懂当前主流模型和评测结果"]) assert.match(home, new RegExp(text));
+  for (const text of ["看懂机场，选择服务并安装客户端", "先选AI，再决定是否订阅或安装", "看懂当前主流模型和评测结果"]) assert.match(home, new RegExp(text));
   const stores = await (await render("/stores")).text();
   assert.match(stores, /至少要等待90天/);
   assert.match(stores, /不要购买陌生共享Apple ID/);
@@ -246,10 +246,19 @@ test("机场页面直接从基础概念进入服务推荐并提供三类下载�
 
 test("模型评测页面解释两套榜单并展示自动同步的Artificial Analysis前十", async () => {
   const html = await (await render("/benchmarks")).text();
-  for (const text of ["Arena", "Artificial Analysis", "真人盲测", "API成本", "不合并成本站自制总分", "能力指数", "输出速度", "首段延迟", "上下文长度", "自动同步正常", "最近成功读取"]) assert.match(html, new RegExp(text));
+  for (const text of ["Arena", "Artificial Analysis", "真人盲测", "API成本", "不合并成本站自制总分", "能力指数", "输出速度", "首段延迟", "上下文长度", "自动同步正常", "最近成功读取", "先看每家公司的一个代表模型", "保留原始名次"]) assert.match(html, new RegExp(text));
   for (const model of ["Claude Fable 5", "GPT-5.6 Sol", "Kimi K3", "Grok 4.5"]) assert.match(html, new RegExp(model));
   assert.doesNotMatch(html, /第一版收录八个主流模型家族/);
   assert.doesNotMatch(html, /不想研究参数，可以这样选/);
+});
+
+test("全站导航与三个项目一致，AI相关页面归入同一个二级导航", async () => {
+  const home = await (await render("/")).text();
+  for (const label of ["首页", "机场指南", "AI与应用", "模型评测"]) assert.match(home, new RegExp(`>${label}<`));
+  const ai = await (await render("/ai")).text();
+  for (const label of ["AI介绍", "AI订阅", "常用应用", "下载中心"]) assert.match(ai, new RegExp(`>${label}<`));
+  assert.match(ai, /AI与应用项目导航/);
+  assert.match(ai, /AI与应用四个入口/);
 });
 
 test("设备选择助手、搜索、FAQ和运营说明均可用", async () => {

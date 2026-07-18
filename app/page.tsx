@@ -379,7 +379,7 @@ export default function Home() {
         <div className="project-overview-copy"><span className="eyebrow">三个独立指南 · 需要哪个就看哪个</span><h1>机场怎么选、AI怎么用、<br />模型谁更强？</h1><p>第一次进来，只要先选你现在想解决的问题。三个项目彼此独立，不需要按顺序看，也不需要先懂专业名词。</p></div>
         <div className="project-overview-grid">
           <article><span>项目 01 · 网络服务</span><h2>看懂机场，选择服务并安装客户端</h2><p>适合不知道“机场、节点、订阅链接”是什么的人。这里会比较五家服务，并按 Windows、Mac、Android 和 iPhone 提供下载与使用教程。</p><Link href="/nodes">进入机场指南 →</Link></article>
-          <article><span>项目 02 · AI与应用</span><h2>了解AI、比较订阅、下载常用应用</h2><p>适合想使用 ChatGPT、Claude、Gemini 等 AI 的人。这里也会说明 GamsGo 订阅，并提供 YouTube、TikTok、X 的官方入口和安装教程。</p><div><Link href="/ai">了解AI</Link><Link href="/subscriptions">比较AI订阅</Link><Link href="/apps">下载常用应用</Link></div></article>
+          <article><span>项目 02 · AI与应用</span><h2>先选AI，再决定是否订阅或安装</h2><p>想知道 ChatGPT、Claude、Gemini 分别适合什么，去哪里下载，或者怎样通过 GamsGo 购买会员，都从这里进入。YouTube、TikTok、X 也放在同一项目内。</p><div><Link href="/ai">AI介绍</Link><Link href="/subscriptions">AI订阅</Link><Link href="/apps">常用应用</Link><Link href="/downloads">下载中心</Link></div></article>
           <article><span>项目 03 · 模型评测</span><h2>看懂当前主流模型和评测结果</h2><p>适合想知道“现在有哪些主流模型、谁的效果更好”的人。这里把 Arena 真人评价与 Artificial Analysis 能力、速度和成本数据分开解释。</p><Link href="/benchmarks">查看模型评测 →</Link></article>
         </div>
       </section>

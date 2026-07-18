@@ -30,13 +30,13 @@ export const metadata: Metadata = {
     siteName: "数字工具指南",
     title: "数字工具指南｜第一次也能看懂",
     description: "机场、AI订阅与应用、主流模型评测，先解释是什么，再告诉你怎么选。",
-    images: [{ url: `${publicBasePath}/og-v4.png`, width: 1536, height: 1024, alt: "数字工具指南：第一次来也能一步一步看懂" }],
+    images: [{ url: `${publicBasePath}/og-v10.png`, width: 1536, height: 1024, alt: "数字工具指南：机场、AI与应用、模型评测" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "数字工具指南",
     description: "机场介绍与下载、AI订阅与应用、模型评测的零基础指南。",
-    images: [`${publicBasePath}/og-v4.png`],
+    images: [`${publicBasePath}/og-v10.png`],
   },
   icons: {
     icon: `${publicBasePath}/favicon.svg`,

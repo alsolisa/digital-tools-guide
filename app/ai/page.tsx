@@ -20,6 +20,13 @@ export default function AiIndexPage() {
         lead="你可以先把AI理解成一个能对话、整理资料、写作、搜索和处理文件的助手。它会犯错，也不应该替你做重要决定。"
       />
 
+      <nav className="ai-channel-overview" aria-label="AI与应用四个入口">
+        <Link href="/ai" aria-current="page"><span>01</span><strong>AI介绍</strong><small>先看每款AI擅长什么</small></Link>
+        <Link href="/subscriptions"><span>02</span><strong>AI订阅</strong><small>比较GamsGo方案与价格</small></Link>
+        <Link href="/apps"><span>03</span><strong>常用应用</strong><small>YouTube、X、TikTok教程</small></Link>
+        <Link href="/downloads"><span>04</span><strong>下载中心</strong><small>按设备找官方入口</small></Link>
+      </nav>
+
       <section className="content-section ai-basics" id="choose">
         <SectionHeading index="01" title="先看AI能做什么，也要知道它不能保证什么" />
         <div className="can-cannot-grid"><article><h2>适合拿来辅助</h2><ul><li>把复杂内容解释成容易理解的话</li><li>整理文件、会议记录和学习材料</li><li>起草文字、比较方案和寻找思路</li><li>搜索资料并帮助建立研究提纲</li></ul></article><article className="warning-card"><h2>不要完全交给AI</h2><ul><li>医疗、法律和财务等重要决定</li><li>未经核对的新闻、数字和引用</li><li>密码、验证码、身份证和公司机密</li><li>代替本人承担工作或考试责任</li></ul></article></div>
@@ -52,7 +59,7 @@ export default function AiIndexPage() {
         </div>
       </section>
 
-      <section className="content-section soft-section common-app-showcase" aria-label="三项常用应用介绍">
+      <section className="content-section soft-section common-app-showcase" id="apps" aria-label="三项常用应用介绍">
         <SectionHeading index="03" title="三项常用应用：先按你想看的内容选择" lead="YouTube偏长视频与系统学习，X偏实时公开信息，TikTok偏短视频与创作。它们不是AI模型，也不是互相替代的同一类产品。" />
         <div className="ai-card-grid common-app-feature-grid">
           {commonApps.map((app) => {

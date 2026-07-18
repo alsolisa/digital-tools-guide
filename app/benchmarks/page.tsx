@@ -26,6 +26,10 @@ type LeaderboardSnapshot = {
 
 const artificialAnalysis = (autoSync as { artificialAnalysisLeaderboard?: LeaderboardSnapshot }).artificialAnalysisLeaderboard;
 const leaderboardRows = artificialAnalysis?.rows?.slice(0, 10) || [];
+const representativeRows = (artificialAnalysis?.rows || []).reduce<LeaderboardRow[]>((selected, row) => {
+  if (!selected.some((item) => item.company === row.company)) selected.push(row);
+  return selected;
+}, []).slice(0, 7);
 
 function formatTime(value?: string) {
   if (!value) return "暂无成功快照";
@@ -47,6 +51,12 @@ function plainLanguageSignals(row: LeaderboardRow) {
   if (row.latencySeconds <= 5) signals.push("开始回答快");
   if (row.priceUsdPerMillion !== null && row.priceUsdPerMillion <= 2.5) signals.push("API成本较低");
   return signals.length ? signals.slice(0, 3) : ["表现较均衡"];
+}
+
+function representativeLabel(row: LeaderboardRow) {
+  if (row.intelligence >= 56) return "综合能力领先";
+  if (row.intelligence >= 52) return "主流高水平";
+  return "效率型主流";
 }
 
 export const metadata = {
@@ -133,12 +143,33 @@ export default function BenchmarksPage() {
       </section>
 
       <section className="content-section benchmark-live" id="snapshot">
-        <SectionHeading index="03" title="Artificial Analysis 当前综合能力前十" lead="下表按原站 Intelligence Index 从高到低排列，并保留成本、速度和延迟，避免把“能力第一”误解成“所有方面第一”。" />
+        <SectionHeading index="03" title="先看每家公司的一个代表模型" lead="同一家公司常有多个模型和推理档位。这里按原榜单顺序，每家公司只保留当前能力指数最高的一项，让普通人先认清主流阵营；下面仍完整保留原榜单前十。" />
         <div className={`benchmark-live-status ${artificialAnalysis?.state || "error"}`}>
           <div><span>{snapshotState}</span><strong>最近成功读取：{formatTime(snapshotTime)}</strong></div>
           <p>每 6 小时自动检查；读取失败时保留上次成功快照，不沿用无法验证的新数字。</p>
           <a href="https://artificialanalysis.ai/leaderboards/models" target="_blank" rel="noopener noreferrer">核对原榜单 ↗</a>
         </div>
+
+        {representativeRows.length ? (
+          <div className="benchmark-representative-grid" aria-label="每家公司当前代表模型">
+            {representativeRows.map((row) => (
+              <article key={`${row.company}-${row.model}`}>
+                <div><span>原榜第 {row.rank} 名</span><strong>{representativeLabel(row)}</strong></div>
+                <small>{row.company}</small>
+                <h2>{row.model}</h2>
+                <dl>
+                  <div><dt>能力指数</dt><dd>{row.intelligence}</dd></div>
+                  <div><dt>输出速度</dt><dd>{row.outputTokensPerSecond} token/秒</dd></div>
+                  <div><dt>首段延迟</dt><dd>{row.latencySeconds.toFixed(2)} 秒</dd></div>
+                  <div><dt>API成本</dt><dd>{row.priceUsdPerMillion === null ? "未提供" : `$${row.priceUsdPerMillion.toFixed(2)}/百万token`}</dd></div>
+                </dl>
+                <div className="benchmark-signal-list">{plainLanguageSignals(row).map((signal) => <span key={signal}>{signal}</span>)}</div>
+              </article>
+            ))}
+          </div>
+        ) : <p className="benchmark-empty">当前没有可用快照，因此暂不生成代表模型视图。</p>}
+
+        <div className="benchmark-raw-heading"><div><span>保留原始名次</span><h2>Artificial Analysis 当前综合能力前十</h2></div><p>同一家公司可能重复出现，因为型号和推理档位不同。这里不合并、不重排，也不把API价格解释成会员月费。</p></div>
         <p className="benchmark-swipe-hint">手机查看：在表格内左右滑动，可以看到成本、速度、延迟和普通人读法。</p>
 
         {leaderboardRows.length ? (

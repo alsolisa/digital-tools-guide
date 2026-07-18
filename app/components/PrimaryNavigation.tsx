@@ -4,9 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
-export type NavigationItem = readonly [label: string, href: string];
+export type NavigationItem = readonly [label: string, href: string, matchers?: readonly string[]];
 
-function isCurrentPath(pathname: string, href: string) {
+function pathMatches(pathname: string, href: string) {
   if (href.includes("#")) return false;
   if (href === "/") return pathname === "/";
   const cleanHref = href.split("#")[0];
@@ -14,9 +14,21 @@ function isCurrentPath(pathname: string, href: string) {
   return pathname === cleanHref || pathname.startsWith(`${cleanHref}/`);
 }
 
+function isCurrentPath(pathname: string, href: string, matchers: readonly string[] = []) {
+  return pathMatches(pathname, href) || matchers.some((matcher) => pathMatches(pathname, matcher));
+}
+
+const aiChannelItems = [
+  ["AI介绍", "/ai"],
+  ["AI订阅", "/subscriptions"],
+  ["常用应用", "/apps"],
+  ["下载中心", "/downloads"],
+] as const;
+
 export default function PrimaryNavigation({ items }: { items: readonly NavigationItem[] }) {
   const pathname = usePathname();
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const isAiChannel = aiChannelItems.some(([, href]) => pathMatches(pathname, href));
 
   useEffect(() => {
     dialogRef.current?.close();
@@ -25,8 +37,8 @@ export default function PrimaryNavigation({ items }: { items: readonly Navigatio
   return (
     <>
       <nav className="global-nav" aria-label="全站导航">
-        {items.map(([label, href]) => (
-          <Link href={href} key={href} aria-current={isCurrentPath(pathname, href) ? "page" : undefined}>
+        {items.map(([label, href, matchers]) => (
+          <Link href={href} key={href} aria-current={isCurrentPath(pathname, href, matchers) ? "page" : undefined}>
             {label}
           </Link>
         ))}
@@ -44,8 +56,8 @@ export default function PrimaryNavigation({ items }: { items: readonly Navigatio
             <button type="button" onClick={() => dialogRef.current?.close()} aria-label="关闭菜单">×</button>
           </header>
           <nav aria-label="手机端全站导航">
-            {items.map(([label, href], index) => (
-              <Link href={href} key={href} aria-current={isCurrentPath(pathname, href) ? "page" : undefined}>
+            {items.map(([label, href, matchers], index) => (
+              <Link href={href} key={href} aria-current={isCurrentPath(pathname, href, matchers) ? "page" : undefined}>
                 <span>{String(index + 1).padStart(2, "0")}</span>{label}<i aria-hidden="true">→</i>
               </Link>
             ))}
@@ -53,6 +65,15 @@ export default function PrimaryNavigation({ items }: { items: readonly Navigatio
           <p>按 Esc 或点击菜单外侧也可以关闭。本站不会在菜单中收集任何信息。</p>
         </div>
       </dialog>
+
+      {isAiChannel && (
+        <nav className="ai-channel-nav" aria-label="AI与应用项目导航">
+          <strong>项目 02</strong>
+          {aiChannelItems.map(([label, href]) => (
+            <Link href={href} key={href} aria-current={pathMatches(pathname, href) ? "page" : undefined}>{label}</Link>
+          ))}
+        </nav>
+      )}
     </>
   );
 }
