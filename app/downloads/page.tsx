@@ -35,7 +35,7 @@ export default function DownloadsPage() {
   const basePath = process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : "";
   return (
     <PageShell>
-      <PageIntro eyebrow="下载中心 · 不需要先看懂文件名" title="先选设备，再去官方页面下载" lead="这里同时整理AI、常用应用和网络客户端。本站不保存闭源安装包，按钮只连接官网、官方项目、Microsoft Store、Google Play或Apple App Store。" />
+      <PageIntro eyebrow="下载中心 · 不需要先看懂文件名" title="先选设备，再去官方页面下载" lead="这里同时整理AI、常用应用和网络客户端。本站不保存闭源安装包，按钮只连接官网、官方项目、Microsoft Store、Google Play或Apple App Store。" artwork={{ src: "/illustrations/official-downloads-v1.webp", alt: "一个经过核验的软件包分发到电脑、笔记本、手机和平板的原创纸艺插画", caption: "原创插画 · 从官方来源到正确设备" }} />
       <QuickSummary title="下载前只记住三条" points={["先选自己的系统，不要凭文件名猜", "核对官网域名、开发者名称和版本", "商店搜不到时先看地区教程，不下载破解版", "本站为三项常用开源客户端提供本地备用文件和校验值"]} action={{ label: "看应用商店地区教程", href: "/stores" }} />
       <div className="download-brand-note"><BrandNotice /></div>
       <section className="content-section device-section"><DeviceChooser /></section>

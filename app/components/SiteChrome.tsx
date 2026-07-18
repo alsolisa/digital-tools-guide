@@ -80,11 +80,12 @@ export function Breadcrumbs({ items }: { items: { label: string; href?: string }
   return <><StructuredData data={jsonLd} /><nav className="breadcrumbs" aria-label="当前位置">{items.map((item, index) => <span key={`${item.label}-${index}`}>{index > 0 && <i aria-hidden="true">/</i>}{item.href ? <Link href={item.href}>{item.label}</Link> : <strong aria-current="page">{item.label}</strong>}</span>)}</nav></>;
 }
 
-export function PageIntro({ eyebrow, title, lead, aside }: { eyebrow: string; title: string; lead: string; aside?: ReactNode }) {
+export function PageIntro({ eyebrow, title, lead, aside, artwork }: { eyebrow: string; title: string; lead: string; aside?: ReactNode; artwork?: { src: string; alt: string; caption: string } }) {
   return (
-    <section className="page-intro">
+    <section className={`page-intro${artwork ? " page-intro-with-art" : ""}`}>
       <div><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p>{lead}</p></div>
       {aside && <aside>{aside}</aside>}
+      {artwork && <figure className="page-intro-art"><Image src={publicAsset(artwork.src)} alt={artwork.alt} width={1536} height={1024} sizes="(max-width: 700px) 100vw, 46vw" priority unoptimized /><figcaption>{artwork.caption}</figcaption></figure>}
     </section>
   );
 }

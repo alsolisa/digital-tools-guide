@@ -1,18 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "@fontsource-variable/noto-serif-sc/wght.css";
+import "@fontsource-variable/noto-sans-sc/wght.css";
 import "./globals.css";
 import StructuredData from "./components/StructuredData";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const isGitHubPages = process.env.GITHUB_PAGES === "true";
 const publicBasePath = isGitHubPages ? "/digital-tools-guide" : "";
@@ -63,7 +53,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   };
   return (
     <html lang="zh-CN">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}><StructuredData data={websiteJsonLd} />{children}</body>
+      <body><StructuredData data={websiteJsonLd} />{children}</body>
     </html>
   );
 }

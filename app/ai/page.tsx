@@ -18,6 +18,7 @@ export default function AiIndexPage() {
         eyebrow="AI工具 · 从“它能帮我做什么”开始"
         title="第一次使用AI，不需要先懂模型"
         lead="你可以先把AI理解成一个能对话、整理资料、写作、搜索和处理文件的助手。它会犯错，也不应该替你做重要决定。"
+        artwork={{ src: "/illustrations/ai-assistant-v1.webp", alt: "对话、文档、搜索、图片、语音和文件被一条清晰路径连接的原创纸艺插画", caption: "原创插画 · AI助手如何连接对话、资料与创作" }}
       />
 
       <nav className="ai-channel-overview" aria-label="AI与应用四个入口">
