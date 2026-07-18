@@ -65,7 +65,7 @@ export default function SubscriptionsPage() {
           <div className="gamsgo-hero-actions"><a className="primary-action" href="https://www.gamsgo.com/partner/BTzCM" target="_blank" rel="sponsored noopener">打开 GamsGo ↗</a><a href="#offers">查看 AI 订阅方案 ↓</a></div>
         </div>
         <div className="gamsgo-hero-side">
-          <figure className="gamsgo-hero-art"><Image src={`${assetBase}/illustrations/subscription-choice-v1.webp`} alt="个人账号、共享方案、套餐选择与售后支持相互连接的原创纸艺插画" width={1536} height={1024} sizes="(max-width: 700px) 100vw, 44vw" priority unoptimized /><figcaption>原创插画 · 先分清账号归属，再比较订阅方案</figcaption></figure>
+          <figure className="gamsgo-hero-art"><Image src={`${assetBase}/illustrations/subscription-choice-v2.webp`} alt="一个购买者分流到共享使用、独享账号和本人账号充值三种方案的原创纸艺插画" width={1536} height={1024} sizes="(max-width: 700px) 100vw, 44vw" priority unoptimized /><figcaption>原创插画 · 三种交付方式，对应不同账号归属</figcaption></figure>
           <div className="gamsgo-trust-panel" aria-label="GamsGo官方公开数据">
             <span>GamsGo 官方公开介绍</span>
             <dl><div><dt>7 年</dt><dd>数字订阅服务经验</dd></div><div><dt>150+</dt><dd>覆盖国家与地区</dd></div><div><dt>1000 万+</dt><dd>平台累计用户</dd></div><div><dt>最高 85%</dt><dd>部分订阅折扣</dd></div></dl>

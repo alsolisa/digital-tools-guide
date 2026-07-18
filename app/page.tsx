@@ -305,7 +305,7 @@ export function NodeGuidePage() {
 
       <section className="section node-basics-section" id="basics">
         <div className="section-heading"><div><span className="section-index">01 / 先认识概念</span><h1>五个词，第一次看到也能懂</h1></div><p>这些词不是一回事。先分清它们，后面的购买和安装才不会混乱。</p></div>
-        <figure className="section-artwork-wide node-section-art"><Image src={`${basePath}/illustrations/network-journey-v1.webp`} alt="从家庭设备经过多个网络节点到达核验终点的原创纸艺插画" width={1536} height={1024} sizes="(max-width: 700px) 100vw, 1280px" priority unoptimized /><figcaption>原创插画 · 从设备、节点到目标服务的连接路径</figcaption></figure>
+        <figure className="section-artwork-wide node-section-art"><Image src={`${basePath}/illustrations/network-journey-v2.webp`} alt="家庭设备通过多条网络路径和不同节点到达已核验服务的原创纸艺插画" width={1536} height={1024} sizes="(max-width: 700px) 100vw, 1280px" priority unoptimized /><figcaption>原创插画 · 从设备出发，经由节点到达目标服务</figcaption></figure>
         <div className="plain-term-grid">
           <article><span>VPN</span><h3>一种建立网络连接的技术或服务</h3><p>通常通过加密通道把设备的网络流量发送到另一台服务器。商业VPN一般提供自己的App，具体隐私和可用范围取决于服务商。</p></article>
           <article><span>机场</span><h3>中文互联网中的非正式叫法</h3><p>通常指提供多个代理服务器“节点”和订阅链接的服务商。它不等同于所有VPN，也不是航空机场。</p></article>
