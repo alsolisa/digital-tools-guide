@@ -1,5 +1,6 @@
 import syncStatus from "../data/sync-status.json";
 import Link from "next/link";
+import Image from "next/image";
 import { BrandIcon, BrandNotice, PageShell, SiteFooter, SiteHeader } from "./components/SiteChrome";
 import DeviceChooser from "./components/DeviceChooser";
 import StructuredData from "./components/StructuredData";
@@ -377,7 +378,10 @@ export default function Home() {
       <StructuredData data={routeListJsonLd} />
       <section className="project-overview" id="projects">
         <div className="project-overview-hero">
-          <div className="project-overview-copy"><span className="eyebrow">三个独立指南 · 需要哪个就看哪个</span><h1>机场怎么选、AI怎么用、<br />模型谁更强？</h1><p>第一次进来，只要先选你现在想解决的问题。三个项目彼此独立，不需要按顺序看，也不需要先懂专业名词。</p></div>
+          <div className="project-overview-copy">
+            <figure className="project-master-art" aria-hidden="true"><Image src={`${basePath}/editorial/digital-atlas-v1.webp`} width="1536" height="1024" alt="" priority unoptimized /></figure>
+            <div className="project-overview-copy-content"><span className="eyebrow">三个独立指南 · 需要哪个就看哪个</span><h1>机场怎么选、AI怎么用、<br />模型谁更强？</h1><p>第一次进来，只要先选你现在想解决的问题。三个项目彼此独立，不需要按顺序看，也不需要先懂专业名词。</p></div>
+          </div>
           <aside className="project-route-map" aria-label="三个项目分别解决什么问题">
             <span>先按你的问题选择</span>
             <ol>

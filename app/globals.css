@@ -1436,7 +1436,7 @@ body { font-size: 16px; line-height: 1.65; }
   --gold: #b97820;
   --blue: #2f7fae;
   --line: #d5cec0;
-  --display: Georgia, "STSong", "Songti SC", serif;
+  --display: "Noto Serif SC Variable", "STSong", "Songti SC", Georgia, serif;
   --body: var(--font-geist-sans), "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 
@@ -1776,4 +1776,68 @@ body {
   .footer-nav-groups > div:last-child { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; }
   .footer-nav-groups > div:last-child strong { grid-column: 1 / -1; }
   .footer-intro p { margin-top: 22px; }
+}
+
+/* V13 — bespoke editorial artwork and a self-hosted Chinese type system */
+body {
+  font-kerning: normal;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+}
+h1,h2,h3,.brand strong,.global-brand strong,.service-title h3,.client-card h3,.content-heading h2,.project-route-map strong {
+  font-family: var(--display) !important;
+  font-optical-sizing: auto;
+}
+h1,h2,h3 { text-wrap: balance; }
+p,li,dd,figcaption { text-wrap: pretty; }
+
+.project-overview-copy {
+  position: relative;
+  min-height: 470px;
+  isolation: isolate;
+  color: var(--navy);
+  background: #f5f1e8;
+  border: 1px solid #d7d0c3;
+  box-shadow: 0 30px 76px rgba(11,43,69,.12);
+}
+.project-overview-copy::before { display: none; }
+.project-overview-copy::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+  background: linear-gradient(90deg,rgba(245,241,232,.99) 0%,rgba(245,241,232,.96) 44%,rgba(245,241,232,.72) 61%,rgba(245,241,232,.08) 100%);
+}
+.project-master-art {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  margin: 0;
+  overflow: hidden;
+}
+.project-master-art img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: 56% center; }
+.project-overview-copy-content { position: relative; z-index: 2; width: min(66%,650px); }
+.project-overview-copy .eyebrow { color: var(--green); }
+.project-overview h1 { color: var(--navy); font-weight: 560; letter-spacing: -.045em; }
+.project-overview-copy > .project-overview-copy-content > p { max-width: 590px; margin: 0; color: #465d68; font-size: 16px; line-height: 1.9; }
+.project-route-map { background: rgba(255,253,248,.92); }
+
+.project-overview-grid .project-card h2 { font-weight: 570; line-height: 1.32; letter-spacing: -.025em; }
+.project-overview-grid .project-card > span,.project-card-outcome,.footer-nav-groups strong { letter-spacing: .1em; }
+.content-heading h2,.page-intro h1,.detail-hero h1 { font-weight: 560; }
+
+@media (max-width: 1000px) {
+  .project-overview-copy { min-height: 460px; }
+  .project-overview-copy-content { width: min(62%,650px); }
+}
+
+@media (max-width: 700px) {
+  .project-overview-copy { min-height: 595px; padding-bottom: 205px; justify-content: flex-start; }
+  .project-overview-copy::after { background: linear-gradient(180deg,rgba(245,241,232,1) 0%,rgba(245,241,232,.98) 51%,rgba(245,241,232,.64) 69%,rgba(245,241,232,.1) 100%); }
+  .project-master-art img { object-position: 59% bottom; }
+  .project-overview-copy-content { width: 100%; }
+  .project-overview h1 { font-size: clamp(40px,11.4vw,52px); letter-spacing: -.035em; }
+  .project-overview-copy > .project-overview-copy-content > p { font-size: 14px; line-height: 1.82; }
 }
