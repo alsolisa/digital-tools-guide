@@ -157,8 +157,13 @@ export default function BenchmarksPage() {
                 <div><span>原榜第 {row.rank} 名</span><strong>{representativeLabel(row)}</strong></div>
                 <small>{row.company}</small>
                 <h2>{row.model}</h2>
+                <div className="benchmark-scoreline">
+                  <span>综合能力指数</span>
+                  <meter min="0" max="70" value={row.intelligence} aria-label={`${row.model}综合能力指数 ${row.intelligence}`} />
+                  <strong>{row.intelligence}</strong>
+                </div>
                 <dl>
-                  <div><dt>能力指数</dt><dd>{row.intelligence}</dd></div>
+                  <div><dt>上下文</dt><dd>{row.contextWindow}</dd></div>
                   <div><dt>输出速度</dt><dd>{row.outputTokensPerSecond} token/秒</dd></div>
                   <div><dt>首段延迟</dt><dd>{row.latencySeconds.toFixed(2)} 秒</dd></div>
                   <div><dt>API成本</dt><dd>{row.priceUsdPerMillion === null ? "未提供" : `$${row.priceUsdPerMillion.toFixed(2)}/百万token`}</dd></div>
