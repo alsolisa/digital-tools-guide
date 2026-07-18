@@ -79,6 +79,16 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   assert.match(html, /Visa、Mastercard、Apple Pay、Google Pay 等；以GamsGo结算页为准/);
   assert.match(html, /联系客服处理 · 7×24小时/);
   assert.match(html, /可能是独立账号交付，不一定是本人原账号/);
+  for (const text of ["PRO · 3个月", "$10.49", "$3.50 / 月 · 充值到自己的账号", "PRO · 12个月", "$27.99", "$2.34 / 月 · 官方提供账号", "PRO · 18个月", "$45.99", "$2.56 / 月 · 充值到自己的账号"]) {
+    assert.match(html, new RegExp(text.replace(/[.$]/g, "\\$&")));
+  }
+  for (const text of ["$17.99 / 月", "$34.99", "$11.67 / 月", "$58.99", "$9.84 / 月", "$98.99", "$8.25 / 月"]) {
+    assert.match(html, new RegExp(text.replace(/[.$]/g, "\\$&")));
+  }
+  assert.match(html, /https:\/\/x\.ai\/pricing/);
+  assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/gemini\/partner\/BTzCM/);
+  assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/perplexity_ai\/partner\/BTzCM/);
+  assert.doesNotMatch(html, /class="official-action" href="https:\/\/grok\.com\/"/);
   assert.doesNotMatch(html, /<h2>Midjourney<\/h2>|中风险 · 涉及访问密钥|高风险 ·|先看产品教程|<dt>地区<\/dt>|下单前必须确认|未作独立审计|<small class="inline-disclosure">|三种交付方式，使用体验不同|付款前一分钟检查|安全购买流程/);
 });
 
