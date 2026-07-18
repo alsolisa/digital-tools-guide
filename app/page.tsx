@@ -388,9 +388,9 @@ export default function Home() {
           </aside>
         </div>
         <div className="project-overview-grid">
-          <article><span>项目 01 · 网络服务</span><h2>看懂机场，选择服务并安装客户端</h2><p>适合不知道“机场、节点、订阅链接”是什么的人。这里会比较五家服务，并按 Windows、Mac、Android 和 iPhone 提供下载与使用教程。</p><small className="project-card-outcome">看完可以：理解术语 · 比较服务 · 安装客户端</small><Link href="/nodes">进入机场指南 →</Link></article>
-          <article><span>项目 02 · AI与应用</span><h2>先选AI，再决定是否订阅或安装</h2><p>想知道 ChatGPT、Claude、Gemini 分别适合什么，去哪里下载，或者怎样通过 GamsGo 购买会员，都从这里进入。YouTube、TikTok、X 也放在同一项目内。</p><small className="project-card-outcome">看完可以：选择 AI · 比较订阅 · 找到下载</small><div><Link href="/ai">AI介绍</Link><Link href="/subscriptions">AI订阅</Link><Link href="/apps">常用应用</Link><Link href="/downloads">下载中心</Link></div></article>
-          <article><span>项目 03 · 模型评测</span><h2>看懂当前主流模型和评测结果</h2><p>适合想知道“现在有哪些主流模型、谁的效果更好”的人。这里把 Arena 真人评价与 Artificial Analysis 能力、速度和成本数据分开解释。</p><small className="project-card-outcome">看完可以：分清榜单 · 认识模型 · 看懂差异</small><Link href="/benchmarks">查看模型评测 →</Link></article>
+          <article className="project-card project-card-network"><span>项目 01 · 网络服务</span><div className="project-card-visual network-visual" aria-hidden="true"><i /><i /><i /><b>服务</b><b>客户端</b><b>节点</b></div><h2>看懂机场，选择服务并安装客户端</h2><p>适合不知道“机场、节点、订阅链接”是什么的人。这里会比较五家服务，并按 Windows、Mac、Android 和 iPhone 提供下载与使用教程。</p><small className="project-card-outcome">看完可以：理解术语 · 比较服务 · 安装客户端</small><Link href="/nodes">进入机场指南 →</Link></article>
+          <article className="project-card project-card-ai"><span>项目 02 · AI与应用</span><div className="project-card-visual ai-visual" aria-hidden="true"><i /><i /><i /><b>问</b><b>整</b><b>创</b></div><h2>先选AI，再决定是否订阅或安装</h2><p>想知道 ChatGPT、Claude、Gemini 分别适合什么，去哪里下载，或者怎样通过 GamsGo 购买会员，都从这里进入。YouTube、TikTok、X 也放在同一项目内。</p><small className="project-card-outcome">看完可以：选择 AI · 比较订阅 · 找到下载</small><div><Link href="/ai">AI介绍</Link><Link href="/subscriptions">AI订阅</Link><Link href="/apps">常用应用</Link><Link href="/downloads">下载中心</Link></div></article>
+          <article className="project-card project-card-benchmark"><span>项目 03 · 模型评测</span><div className="project-card-visual benchmark-visual" aria-hidden="true"><i /><i /><i /><i /><i /><b>能力</b><b>速度</b><b>成本</b></div><h2>看懂当前主流模型和评测结果</h2><p>适合想知道“现在有哪些主流模型、谁的效果更好”的人。这里把 Arena 真人评价与 Artificial Analysis 能力、速度和成本数据分开解释。</p><small className="project-card-outcome">看完可以：分清榜单 · 认识模型 · 看懂差异</small><Link href="/benchmarks">查看模型评测 →</Link></article>
         </div>
       </section>
     </PageShell>
