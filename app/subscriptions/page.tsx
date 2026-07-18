@@ -1,90 +1,75 @@
-import { aiProducts, getOfferPriceStatus, subscriptionOffers } from "../../data/catalog";
-import autoSync from "../../data/auto-sync.json";
-import Link from "next/link";
-import { BrandIcon, BrandNotice, Disclosure, EditorialAccountability, EditorialCoverFeature, FeedbackLink, PageIntro, PageShell, QuickSummary, RiskBadge, SectionHeading, VerificationChip } from "../components/SiteChrome";
-import SubscriptionValueCalculator from "../components/SubscriptionValueCalculator";
+import { getOfferPriceStatus, subscriptionOffers } from "../../data/catalog";
+import Image from "next/image";
+import { BrandIcon, FeedbackLink, PageShell, SectionHeading, VerificationChip } from "../components/SiteChrome";
 import ActionChecklist from "../components/ActionChecklist";
 
 export const metadata = {
   title: "GamsGo AI订阅",
-  description: "比较ChatGPT、Claude、Gemini、Grok、Perplexity与Midjourney的官方价、GamsGo公开价、交付方式和账号风险。",
+  description: "介绍GamsGo平台、售后与付款方式，并比较ChatGPT、Claude、Gemini、Grok、Perplexity与Midjourney的官方价和购买方案。",
   alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/subscriptions/` },
   openGraph: { images: [`${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/editorial/subscriptions.webp`] },
 };
 
 export default function SubscriptionsPage() {
-  const exchangeDate = autoSync.exchange.date;
-  const usdToCny = autoSync.exchange.rates.CNY.toFixed(4);
   return (
     <PageShell>
-      <PageIntro
-        eyebrow="AI会员购买 · 第一次也能看懂"
-        title="先判断要不要买，再决定去哪里买"
-        lead="免费版、官方订阅和第三方购买不是一回事。先看你需要什么、账号归谁和会失去哪些保障，最后才比较价格。"
-        aside={<><strong>价格口径</strong><p>原币价格 + 人民币参考价</p><small>汇率参考：{exchangeDate}，1 USD≈{usdToCny} CNY；每日自动更新，不含税费和支付手续费。</small></>}
-      />
-      <QuickSummary title="大多数新手不应该先买最便宜的" points={["先用免费版完成真实任务3—7天", "能官方购买时，优先本人账号与官方订阅", "第三方低价必须先确认账号归属和交付方式", "价格冲突或无法读取时，本站会隐藏数字"]} action={{ label: "直接看六项风险分级", href: "#offers" }} />
-      <EditorialAccountability reviewedAt={exchangeDate} evidence="AI官方价格页、GamsGo公开商品页、交付说明与汇率数据分开核对" scope="公开商品与风险说明；最终金额、库存、退款和售后以结算页及商家条款为准" />
-
-      <EditorialCoverFeature slug="subscriptions" title="AI订阅：购买前先看账号归属" lead="视觉版先讲清官方价、本人账号充值、交付账号和共享网页的差别，再进入具体产品对比。" />
-
-      <section className="content-section subscription-value-section">
-        <SubscriptionValueCalculator />
-      </section>
-
-      <section className="content-section subscription-basics" id="before-buy">
-        <SectionHeading index="01" title="GamsGo是什么？为什么有人会选择它？" lead="先说明关系：GamsGo是第三方购买渠道，不是ChatGPT、Claude、Gemini等AI产品的官方公司。" />
-        <div className="platform-explainer-grid">
-          <article><span>它可能解决的问题</span><h2>支付、地区或购买流程不方便</h2><p>第三方平台可能提供不同支付方式、本人账号充值、交付账号或共享网页，让部分用户更容易购买或以更低价格试用。</p></article>
-          <article><span>你付出的代价</span><h2>官方保障可能变少</h2><p>售后通常由第三方处理；账号归属、找回权限、聊天隐私、功能完整性和续费方式也可能与官方购买不同。</p></article>
-          <article className="recommended"><span>本站默认建议</span><h2>能官方购买时，优先官方</h2><p>如果要保存私人聊天、公司文件或长期资料，优先使用本人账号和官方订阅。第三方更适合明确理解风险后的替代选择。</p></article>
+      <section className="content-section gamsgo-hero" aria-labelledby="gamsgo-title">
+        <div className="gamsgo-hero-copy">
+          <span>AI订阅购买平台 · 第一次也能看懂</span>
+          <h1 id="gamsgo-title">先认识 GamsGo，再选择适合自己的 AI 订阅</h1>
+          <p>GamsGo 提供 AI、流媒体和游戏等数字订阅服务。按照平台官方公开介绍，部分方案最高可节省 85%；本页把不同产品、价格和购买方式分开说明，让你可以直接比较。</p>
+          <div className="gamsgo-hero-actions"><a className="primary-action" href="https://www.gamsgo.com/partner/BTzCM" target="_blank" rel="sponsored noopener">打开 GamsGo ↗</a><a href="#offers">查看 AI 订阅方案 ↓</a></div>
         </div>
-        <div className="official-third-party-flow"><article><strong>官方购买</strong><p>你 → AI官方</p><small>账号、付款、续费和售后关系最直接</small></article><i>或</i><article><strong>第三方购买</strong><p>你 → GamsGo → AI产品或交付账号</p><small>购买可能更方便，但中间多了一层账号与售后风险</small></article></div>
+        <div className="gamsgo-trust-panel" aria-label="GamsGo官方公开数据">
+          <span>GamsGo 官方公开介绍</span>
+          <dl><div><dt>7 年</dt><dd>数字订阅服务经验</dd></div><div><dt>150+</dt><dd>覆盖国家与地区</dd></div><div><dt>1000 万+</dt><dd>平台累计用户</dd></div><div><dt>最高 85%</dt><dd>部分订阅折扣</dd></div></dl>
+          <small>以上年限、覆盖范围、用户数量及折扣为 GamsGo 官方公开宣传数据，本站未作独立审计。</small>
+        </div>
       </section>
 
-      <section className="content-section soft-section subscription-chooser">
-        <SectionHeading index="02" title="为什么首批选择这六项？" lead="它们覆盖六种最常见的普通用户需求，并且在GamsGo有对应商品资料。收录不等于每个人都应该购买。" />
-        <div className="subscription-choice-grid">{subscriptionOffers.map((offer) => <a href={`#offer-${offer.slug}`} key={offer.slug}><BrandIcon slug={offer.productSlug} name={offer.name} /><div><h3>{offer.name}</h3><p>{offer.whySelected}</p><strong>{offer.freeAdvice}</strong></div><span>查看 →</span></a>)}</div>
+      <section className="content-section soft-section gamsgo-benefit-section">
+        <SectionHeading index="01" title="为什么有人通过 GamsGo 订阅？" lead="对普通用户来说，主要价值不是复杂的技术功能，而是价格更低、付款更方便、套餐写得清楚，并且出现问题时有人可以联系。" />
+        <div className="gamsgo-benefit-grid">
+          <article><span>01 · 售后保障</span><h2>7×24 小时在线客服</h2><p>遇到账号、交付或订单问题，可以从订单页联系 GamsGo 客服处理，不需要自己寻找产品供应方。</p></article>
+          <article><span>02 · 价格优势</span><h2>多项 AI 方案处于较低价位</h2><p>共享、独享账号和本人账号充值分别定价，你可以按预算选择，不必只看官方原价。</p></article>
+          <article><span>03 · 国内购买</span><h2>商品页可直接访问，付款更方便</h2><p>中国大陆用户可以直接打开购买页；结算时可选择支付宝等方式，实际可用选项以 GamsGo 结算页为准。</p></article>
+          <article><span>04 · 信息透明</span><h2>先看清套餐，再决定购买</h2><p>商品页会展示价格、周期和交付方式。下单前可以先确认买到的是共享使用、独享账号还是本人账号充值。</p></article>
+        </div>
       </section>
 
       <section className="content-section" id="offers">
-        <Disclosure />
-        <SectionHeading index="03" title="六项AI订阅资料" lead="官方订阅、本人账号充值、交付账号和共享网页不是同一种商品。只有权益与交付方式相同时，价格才具有直接可比性。" />
-        <div className="non-comparable-note"><strong>不要只算“便宜多少”</strong><p>价格特别低时，先确认是不是年付折算、交付账号、共享网页、限时价或功能受限版本。</p></div>
-        <BrandNotice />
+        <SectionHeading index="02" title="AI订阅方案：先选产品，再选购买方式" lead="每张卡片先列官方参考价，再展示GamsGo当前方案和购买入口。ChatGPT已分成共享、独享账号和本人账号充值三种方式。" />
         <div className="subscription-grid">
           {subscriptionOffers.map((offer) => {
-            const product = aiProducts.find((item) => item.slug === offer.productSlug);
             return (
-              <article className="subscription-card" id={`offer-${offer.slug}`} key={offer.slug}>
+              <article className={`subscription-card${offer.purchaseOptions ? " subscription-card-featured" : ""}`} id={`offer-${offer.slug}`} key={offer.slug}>
                 <div className="subscription-card-head">
                   <BrandIcon slug={offer.productSlug} name={offer.name} />
                   <div><h2>{offer.name}</h2><p>{offer.useCase}</p></div>
-                  <RiskBadge level={offer.risk}>{offer.riskLabel}</RiskBadge>
                 </div>
                 <div className="why-selected"><span>为什么收录</span><p>{offer.whySelected}</p><strong>付费前建议：{offer.freeAdvice}</strong></div>
-                <div className="price-comparison">
+                <div className={`price-comparison${offer.purchaseOptions ? " price-comparison-options" : ""}`}>
                   <div><span>官方参考价</span><strong>{offer.officialPrice}</strong><small>{offer.officialCny}</small></div>
-                  <div><span>GamsGo公开价</span><strong>{offer.gamsgoPrice}</strong><small>{offer.gamsgoCny}</small><VerificationChip status={getOfferPriceStatus(offer.slug)} /></div>
+                  {offer.purchaseOptions ? <div className="price-option-summary"><span>GamsGo 当前方案</span>{offer.purchaseOptions.map((option) => <p key={option.label}><b>{option.label}</b><strong>{option.price}</strong></p>)}</div> : <div><span>GamsGo公开价</span><strong>{offer.gamsgoPrice}</strong><small>{offer.gamsgoCny}</small><VerificationChip status={getOfferPriceStatus(offer.slug)} /></div>}
                 </div>
                 <p className="price-note">{offer.priceNote}</p>
-                <div className="purchase-proof"><span>下单前必须确认</span><p>{offer.deliveryType} · {offer.ownership}</p></div>
                 <dl className="fact-list">
                   <div><dt>交付方式</dt><dd>{offer.deliveryType}</dd></div>
                   <div><dt>账号归属</dt><dd>{offer.ownership}</dd></div>
                   <div><dt>隐私</dt><dd>{offer.privacy}</dd></div>
                   <div><dt>续费</dt><dd>{offer.renewal}</dd></div>
                   <div><dt>付款</dt><dd>{offer.payment}</dd></div>
-                  <div><dt>地区</dt><dd>{offer.region}</dd></div>
                   <div><dt>售后</dt><dd>{offer.support}</dd></div>
                 </dl>
-                <div className="card-source-row"><span>核验：{offer.verifiedAt}</span><a href={offer.sourceUrl} target="_blank" rel="noopener noreferrer">打开对应商品资料页 ↗</a></div>
+                <div className="card-source-row"><span>核验：{offer.priceVerifiedAt || offer.verifiedAt}</span><a href={offer.sourceUrl} target="_blank" rel="noopener noreferrer">打开商品说明 ↗</a></div>
                 <div className="subscription-actions">
-                  {product && <Link className="text-action" href={`/ai/${product.slug}`}>先看产品教程</Link>}
                   <a className="official-action" href={offer.officialUrl} target="_blank" rel="noopener noreferrer">查看官方方案 ↗</a>
-                  <a className="primary-action" href={offer.affiliateUrl} target="_blank" rel="sponsored noopener">第三方推广入口 ↗</a>
                 </div>
-                <small className="inline-disclosure">推广链接 · 下单前请再次核对产品名称、周期与交付方式</small>
+                <div className={`purchase-option-grid${offer.purchaseOptions ? " purchase-option-grid-multiple" : ""}`}>
+                  {offer.purchaseOptions ? offer.purchaseOptions.map((option) => <a href={option.url} key={option.label} target="_blank" rel="sponsored noopener"><span>{option.label}</span><strong>{option.price}</strong><small>{option.note}</small><b>前往购买 ↗</b></a>) : <a className="purchase-option-single" href={offer.affiliateUrl} target="_blank" rel="sponsored noopener"><span>GamsGo 购买入口</span><strong>查看当前方案</strong><small>价格、周期和交付方式以购买页为准</small><b>前往购买 ↗</b></a>}
+                </div>
+                {offer.purchaseQrCodes && <div className="purchase-qr-grid" aria-label="ChatGPT购买二维码">{offer.purchaseQrCodes.map((qr) => <a href={qr.url} key={qr.label} target="_blank" rel="sponsored noopener"><Image src={qr.image} width={100} height={100} unoptimized alt={`${qr.label}购买二维码`} /><span>扫码打开<br /><strong>{qr.label}</strong></span></a>)}</div>}
+                <small className="inline-disclosure">推广链接 · 通过本站链接购买可能产生佣金，商品价格不会因此增加</small>
               </article>
             );
           })}
@@ -92,22 +77,22 @@ export default function SubscriptionsPage() {
       </section>
 
       <section className="content-section soft-section">
-        <SectionHeading index="04" title="三种交付方式，风险完全不同" />
+        <SectionHeading index="03" title="三种交付方式，使用体验不同" />
         <div className="delivery-grid">
-          <article><span>01</span><h3>本人账号充值</h3><p>会员开通在你原来的账号上，历史记录与设置通常可以保留。仍要警惕访问密钥、授权范围和自动续费。</p><RiskBadge level="medium">优先选择，但仍需核对</RiskBadge></article>
-          <article><span>02</span><h3>独立账号交付</h3><p>平台提供一个新账号。必须确认恢复邮箱、二次验证、修改密码和订阅到期后的控制权。</p><RiskBadge level="high">不存放敏感资料</RiskBadge></article>
-          <article><span>03</span><h3>共享网页使用</h3><p>多人或平台中转使用同一环境，价格低但隐私、稳定性和功能完整性最弱。</p><RiskBadge level="high">只用于低敏感试用</RiskBadge></article>
+          <article><span>01</span><h3>本人账号充值</h3><p>会员开通在你原来的账号上，原有对话、设置和使用习惯通常可以继续保留。</p></article>
+          <article><span>02</span><h3>独享账号交付</h3><p>平台提供一个独立账号，购买后按商品说明登录使用，适合希望独立使用的人。</p></article>
+          <article><span>03</span><h3>共享使用</h3><p>价格通常最低，适合预算优先和轻量体验；具体登录方式与可用功能以商品页为准。</p></article>
         </div>
       </section>
 
       <section className="content-section purchase-checklist">
-        <SectionHeading index="05" title="付款前一分钟检查" />
+        <SectionHeading index="04" title="付款前一分钟检查" />
         <ol><li>产品是在本人账号充值，还是交付一个新账号？</li><li>能否修改密码、恢复邮箱和二次验证？</li><li>页面显示的是月付、年付折算，还是限时公开起价？</li><li>订阅结束后，聊天记录、云盘或生成内容能否导出？</li><li>售后由GamsGo处理，还是AI官方处理？</li></ol>
         <ActionChecklist id="subscription-before-payment" title="AI会员付款前清单" items={["免费版已经连续使用3—7天，并且确实经常遇到限制", "已经确认商品是本人账号充值、独立账号还是共享网页", "结算页的产品名、周期、币种和最终金额都与预期一致", "恢复邮箱、密码、二次验证和到期后的账号控制权已经写清", "知道由谁负责退款、取消自动续费和订单售后", "不会在第三方页面提交邮箱密码、验证码、Cookie或访问密钥"]} />
       </section>
 
       <section className="content-section soft-section">
-        <SectionHeading index="06" title="安全购买流程" lead="不要从价格最低的一步直接跳到付款。" />
+        <SectionHeading index="05" title="安全购买流程" lead="不要从价格最低的一步直接跳到付款。" />
         <ol className="purchase-flow"><li><span>01</span><div><strong>先打开商品资料页</strong><p>确认产品名称、交付方式、周期、地区与当前公开价格。</p></div></li><li><span>02</span><div><strong>确认账号归属</strong><p>本人账号充值优先；账号交付必须检查恢复邮箱、密码和二次验证。</p></div></li><li><span>03</span><div><strong>进入结算页核对</strong><p>核对币种、税费、支付手续费、自动续费和退款条款。</p></div></li><li><span>04</span><div><strong>交付后立即检查</strong><p>确认会员状态和到期时间；交付账号应修改可修改的安全设置。</p></div></li></ol>
         <FeedbackLink label="价格、付款或交付信息与页面不一致？反馈更新" />
       </section>

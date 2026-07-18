@@ -1,8 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
 import test from "node:test";
-
-const autoSync = JSON.parse(await readFile(new URL("../data/auto-sync.json", import.meta.url), "utf8"));
 
 async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -36,9 +33,9 @@ test("全站按零基础用户顺序先解释再比较", async () => {
   for (const term of ["VPN", "机场", "节点", "客户端", "订阅链接"]) assert.match(nodes, new RegExp(term));
   assert.match(nodes, /为什么提供这几家/);
   const subscriptions = await (await render("/subscriptions")).text();
-  assert.match(subscriptions, /GamsGo是什么/);
-  assert.match(subscriptions, /能官方购买时，优先官方/);
-  assert.match(subscriptions, /为什么首批选择这六项/);
+  assert.match(subscriptions, /先认识 GamsGo，再选择适合自己的 AI 订阅/);
+  for (const text of ["最高可节省 85%", "7×24 小时在线客服", "1000 万+", "支付宝", "先看清套餐，再决定购买"]) assert.match(subscriptions, new RegExp(text));
+  for (const removed of ["先判断要不要买，再决定去哪里买", "这个会员对你真的值得吗", "GamsGo是什么？为什么有人会选择它？", "为什么首批选择这六项？"]) assert.doesNotMatch(subscriptions, new RegExp(removed.replace(/[?？]/g, ".")));
   const ai = await (await render("/ai")).text();
   assert.match(ai, /第一次使用AI，不需要先懂模型/);
   assert.doesNotMatch(ai, /先免费体验，再决定付费|只想先选一款|按你的任务选择，不按广告口号选择/);
@@ -68,30 +65,22 @@ test("机场指南按已核验月付排序并清楚分开非月付方案", async
   assert.match(html, /服务仅限中国大陆，海外及新疆不可用/);
 });
 
-test("GamsGo价格与账号风险分栏，读取失败时不沿用旧价", async () => {
+test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入口", async () => {
   const html = await (await render("/subscriptions")).text();
-  assert.match(html, /这个会员对你真的值得吗/);
-  assert.match(html, /所有数字只在当前页面计算/);
-  for (const name of ["ChatGPT Plus 充值", "Claude Pro / Max", "Gemini / Google AI Pro", "SuperGrok", "Perplexity Pro", "Midjourney"]) {
+  for (const name of ["ChatGPT Plus", "Claude Pro / Max", "Gemini / Google AI Pro", "SuperGrok", "Perplexity Pro", "Midjourney"]) {
     assert.match(html, new RegExp(name.replace(/[+\/]/g, "\\$&")));
   }
-  const grokHeading = html.indexOf("<h2>SuperGrok</h2>");
-  const grokCardStart = html.lastIndexOf("<article", grokHeading);
-  const grokCardEnd = html.indexOf("</article>", grokHeading);
-  const grokCard = html.slice(grokCardStart, grokCardEnd);
-  const grokSync = autoSync.gamsgo.find((item) => item.slug === "grok");
-  assert.ok(grokSync, "应存在Grok同步状态");
-  if (["ok", "price-changed"].includes(grokSync.state) && grokSync.published) {
-    const currency = grokSync.published.currency === "SGD" ? "S$" : grokSync.published.currency === "USD" ? "US$" : grokSync.published.currency;
-    assert.ok(grokCard.includes(`${currency}${grokSync.published.value.toFixed(2)} / 月公开起价`), "页面应显示当前已发布的Grok价格");
-  } else {
-    assert.match(grokCard, /暂时无法核验/);
-    assert.match(grokCard, /以购买页实时显示为准/);
-  }
-  assert.match(html, /暂时无法核验/);
-  assert.match(html, /推广链接/);
-  assert.match(html, /账号归属/);
-  assert.match(html, /隐私/);
+  for (const price of ["$5.77", "$8.99", "$24.49"]) assert.match(html, new RegExp(price.replace("$", "\\$")));
+  for (const label of ["共享使用", "独享账号", "本人账号充值"]) assert.match(html, new RegExp(label));
+  assert.match(html, /https:\/\/www\.gamsgo\.com\/details\/chatgpt\/partner\/BTzCM/);
+  assert.match(html, /https:\/\/www\.gamsgo\.com\/details\/chatgpt-recharge\/partner\/BTzCM/);
+  assert.match(html, /\/qr\/gamsgo-chatgpt-account\.png/);
+  assert.match(html, /\/qr\/gamsgo-chatgpt-recharge\.png/);
+  assert.match(html, /Visa、Mastercard、Apple Pay、Google Pay 等；以GamsGo结算页为准/);
+  assert.match(html, /联系客服处理 · 7×24小时/);
+  assert.match(html, /可能是独立账号交付，不一定是本人原账号/);
+  assert.match(html, /推广链接 · 通过本站链接购买可能产生佣金/);
+  assert.doesNotMatch(html, /中风险 · 涉及访问密钥|高风险 ·|先看产品教程|<dt>地区<\/dt>|下单前必须确认/);
 });
 
 test("主要页面提供规范网址与可理解的结构化数据", async () => {
@@ -229,10 +218,10 @@ test("机场页面直接从基础概念进入服务推荐并提供三类下载�
     assert.doesNotMatch(nodes, new RegExp(removed));
   }
   const subscriptions = await (await render("/subscriptions")).text();
-  assert.match(subscriptions, /AI订阅：购买前先看账号归属/);
-  assert.match(subscriptions, /\/editorial\/subscriptions\.webp/);
-  assert.match(subscriptions, /本页编辑责任与复核范围/);
+  assert.match(subscriptions, /GamsGo 官方公开介绍/);
+  assert.match(subscriptions, /AI订阅方案：先选产品，再选购买方式/);
   assert.match(subscriptions, /AI会员付款前清单/);
+  for (const removed of ["AI订阅：购买前先看账号归属", "本页编辑责任与复核范围", "为什么首批选择这六项"]) assert.doesNotMatch(subscriptions, new RegExp(removed.replace(/[/.]/g, "\\$&")));
 });
 
 test("模型评测页面解释两套榜单并展示自动同步的Artificial Analysis前十", async () => {
