@@ -1,6 +1,50 @@
 import { getOfferPriceStatus, subscriptionOffers } from "../../data/catalog";
 import Image from "next/image";
+import { CopyCodeButton } from "../components/CopyCodeButton";
 import { BrandIcon, PageShell, SectionHeading, VerificationChip } from "../components/SiteChrome";
+
+const firstLoginSteps = [
+  {
+    number: "01",
+    title: "在“我的订阅”找到订单",
+    body: "登录 GamsGo，打开“我的订阅”，找到已经购买的 ChatGPT 会员。这里会显示平台交付的用户名、密码，以及后续获取登录验证码的入口。",
+    image: { src: "/guides/subscriptions/gamsgo-get-code.png", width: 1380, height: 681, alt: "GamsGo我的订阅页面，账号信息已隐藏并标出获取链接或代码入口" },
+  },
+  {
+    number: "02",
+    title: "复制交付的用户名和密码",
+    body: "先复制“用户名”，再复制“密码”。这是订单交付的订阅账号资料，不是你自己的邮箱密码；不要把它转发给陌生人。",
+  },
+  {
+    number: "03",
+    title: "在 ChatGPT 选择邮箱登录",
+    body: "打开 ChatGPT 官方登录页，选择邮箱登录，把刚才复制的用户名粘贴到“Email address”输入框，再点击“继续”。",
+    image: { src: "/guides/subscriptions/chatgpt-email-login.png", width: 1912, height: 882, alt: "ChatGPT登录窗口中的邮箱地址输入框" },
+  },
+  {
+    number: "04",
+    title: "输入订单里的密码",
+    body: "粘贴 GamsGo“我的订阅”中显示的密码，确认用户名没有多余空格，然后点击“继续”。",
+    image: { src: "/guides/subscriptions/chatgpt-password.png", width: 1920, height: 911, alt: "ChatGPT密码输入页面，账号和密码已隐藏" },
+  },
+  {
+    number: "05",
+    title: "遇到验证码页面，先不要关闭",
+    body: "如果 ChatGPT 显示“验证你的身份”，先保留这个页面，再返回 GamsGo 的“我的订阅”获取一次性验证码。",
+    image: { src: "/guides/subscriptions/chatgpt-verification.png", width: 1227, height: 625, alt: "ChatGPT身份验证页面，等待输入一次性验证码" },
+  },
+  {
+    number: "06",
+    title: "回到订单获取验证码",
+    body: "点击“获取链接/代码”。如果出现确认提示，选择“是的，我有”；随后点击眼睛图标显示验证码并复制。验证码通常会过期，失效时回到这里重新获取。",
+    image: { src: "/guides/subscriptions/gamsgo-hidden-code.png", width: 1184, height: 718, alt: "GamsGo订单页中的验证码区域，验证码已隐藏" },
+  },
+  {
+    number: "07",
+    title: "输入验证码，完成登录",
+    body: "回到 ChatGPT，把验证码粘贴到输入框并点击“继续”。看到 ChatGPT 对话首页，就说明登录成功。以后仍从“我的订阅”查看账号状态和需要的登录信息。",
+  },
+];
 
 export const metadata = {
   title: "GamsGo AI订阅",
@@ -34,6 +78,10 @@ export default function SubscriptionsPage() {
           <article><span>03 · 国内购买</span><h2>商品页可直接访问，付款更方便</h2><p>中国大陆用户可以直接打开购买页；结算时可选择支付宝等方式，实际可用选项以 GamsGo 结算页为准。</p></article>
           <article><span>04 · 信息透明</span><h2>先看清套餐，再决定购买</h2><p>商品页会展示价格、周期和交付方式。下单前可以先确认买到的是共享使用、独享账号还是本人账号充值。</p></article>
         </div>
+        <aside className="email-preparation" aria-labelledby="email-preparation-title">
+          <div><span>注册前准备</span><h2 id="email-preparation-title">准备一个能够正常接收验证码的邮箱</h2></div>
+          <p>注册 GamsGo 或登录 AI 产品时，可以使用 Gmail（谷歌邮箱）、QQ邮箱或网易163邮箱。若几分钟后仍未收到验证码，先检查垃圾邮件，并避免连续多次点击发送；仍然收不到时，可以改用163邮箱重新注册。请使用自己能够长期访问的邮箱，今后登录验证或找回账号还会用到。</p>
+        </aside>
       </section>
 
       <section className="content-section" id="offers">
@@ -58,7 +106,7 @@ export default function SubscriptionsPage() {
                   <div><dt>账号归属</dt><dd>{offer.ownership}</dd></div>
                   <div><dt>隐私</dt><dd>{offer.privacy}</dd></div>
                   <div><dt>续费</dt><dd>{offer.renewal}</dd></div>
-                  <div><dt>付款</dt><dd>{offer.payment}</dd></div>
+                  <div><dt>付款</dt><dd>{offer.payment}{offer.paymentNote && <strong className="payment-alert">{offer.paymentNote}</strong>}</dd></div>
                   <div><dt>售后</dt><dd>{offer.support}</dd></div>
                 </dl>
                 <div className="card-source-row"><span>核验：{offer.priceVerifiedAt || offer.verifiedAt}</span><a href={offer.sourceUrl} target="_blank" rel="noopener noreferrer">打开商品说明 ↗</a></div>
@@ -72,6 +120,44 @@ export default function SubscriptionsPage() {
               </article>
             );
           })}
+        </div>
+      </section>
+
+      <section className="content-section soft-section subscription-howto" id="subscription-howto">
+        <SectionHeading index="03" title="先领优惠，再完成首次登录" lead="优惠券、下单和登录分成两段操作。先在 GamsGo 结算页确认优惠，再从“我的订阅”取得账号与验证码；跟着下面的顺序做即可。" />
+
+        <div className="coupon-guide" aria-labelledby="coupon-guide-title">
+          <div className="coupon-guide-copy">
+            <span>下单前 · 先看优惠</span>
+            <h2 id="coupon-guide-title">领取优惠券，或使用优惠码</h2>
+            <ol>
+              <li>在 GamsGo 首页右下角点击优惠券图标，先领取当前账号可用的优惠券。</li>
+              <li>进入结算页，展开“有促销码或券吗？”，选择已领取的优惠券，或填写下面的优惠码。</li>
+              <li>点击“使用”后再确认合计金额；能否使用、是否可以叠加及最终优惠金额，以结算页实际显示为准。</li>
+            </ol>
+            <CopyCodeButton code="RWSY8" />
+          </div>
+          <div className="coupon-proof-grid">
+            <figure><a href={`${assetBase}/guides/subscriptions/gamsgo-coupon-entry.png`} target="_blank" rel="noopener noreferrer" aria-label="打开优惠券入口大图"><Image src={`${assetBase}/guides/subscriptions/gamsgo-coupon-entry.png`} width={1711} height={947} unoptimized alt="GamsGo首页右下角的优惠券入口" /></a><figcaption><span><b>第1步</b> 点击首页右下角的优惠券图标</span><em>点击查看大图 ↗</em></figcaption></figure>
+            <figure><a href={`${assetBase}/guides/subscriptions/gamsgo-coupon-checkout.png`} target="_blank" rel="noopener noreferrer" aria-label="打开结算页优惠码大图"><Image src={`${assetBase}/guides/subscriptions/gamsgo-coupon-checkout.png`} width={1356} height={570} unoptimized alt="GamsGo结算页中的促销码和优惠券输入区域" /></a><figcaption><span><b>第2步</b> 在结算页选择优惠券或填写优惠码</span><em>点击查看大图 ↗</em></figcaption></figure>
+          </div>
+        </div>
+
+        <div className="first-login-guide" aria-labelledby="first-login-title">
+          <div className="first-login-intro">
+            <span>购买后 · 第一次登录</span>
+            <h2 id="first-login-title">从“我的订阅”取得账号和验证码</h2>
+            <p>下面以 GamsGo 交付的 ChatGPT 账号为例。页面名称可能随平台更新略有变化，但顺序不变：复制账号 → 登录 ChatGPT → 返回订单获取验证码 → 完成验证。</p>
+          </div>
+          <ol className="first-login-steps">
+            {firstLoginSteps.map((step) => (
+              <li key={step.number}>
+                <div className="login-step-copy"><span>{step.number}</span><div><h3>{step.title}</h3><p>{step.body}</p></div></div>
+                {step.image && <figure><a href={`${assetBase}${step.image.src}`} target="_blank" rel="noopener noreferrer" aria-label={`打开${step.title}大图`}><Image src={`${assetBase}${step.image.src}`} width={step.image.width} height={step.image.height} unoptimized alt={step.image.alt} /></a><figcaption><span>示例截图中的账号、密码和验证码均已隐藏</span><em>点击查看大图 ↗</em></figcaption></figure>}
+              </li>
+            ))}
+          </ol>
+          <aside className="login-safety-note"><strong>保护账号信息</strong><p>只在 GamsGo 订单页查看交付信息，只在 <b>chatgpt.com</b> 输入账号、密码和验证码。不要把这些内容发送给陌生人，也不要使用自己其他网站的常用密码。</p></aside>
         </div>
       </section>
 

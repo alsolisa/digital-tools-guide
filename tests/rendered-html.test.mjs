@@ -76,7 +76,8 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   assert.match(html, /https:\/\/www\.gamsgo\.com\/details\/chatgpt-recharge\/partner\/BTzCM/);
   assert.match(html, /\/qr\/gamsgo-chatgpt-account\.png/);
   assert.match(html, /\/qr\/gamsgo-chatgpt-recharge\.png/);
-  assert.match(html, /Visa、Mastercard、Apple Pay、Google Pay 等；以GamsGo结算页为准/);
+  assert.match(html, /Visa、Mastercard、Apple Pay、Google Pay、银联、支付宝等；以GamsGo结算页为准/);
+  assert.match(html, /共享订阅3个月、6个月均支持支付宝付款；1个月订阅暂不支持支付宝/);
   assert.match(html, /联系客服处理 · 7×24小时/);
   assert.match(html, /可能是独立账号交付，不一定是本人原账号/);
   for (const text of ["PRO · 3个月", "$10.49", "$3.50 / 月 · 充值到自己的账号", "PRO · 12个月", "$27.99", "$2.34 / 月 · 官方提供账号", "PRO · 18个月", "$45.99", "$2.56 / 月 · 充值到自己的账号"]) {
@@ -93,6 +94,12 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   }
   assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/claude\/partner\/BTzCM/);
   assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/accounts\/claude\/partner\/BTzCM/);
+  for (const text of ["准备一个能够正常接收验证码的邮箱", "Gmail（谷歌邮箱）", "QQ邮箱", "网易163邮箱", "先领优惠，再完成首次登录", "RWSY8", "复制优惠码", "在“我的订阅”找到订单", "选择邮箱登录", "获取链接/代码", "输入验证码，完成登录"]) {
+    assert.match(html, new RegExp(text.replace(/[?？]/g, ".")));
+  }
+  for (const image of ["gamsgo-coupon-entry.png", "gamsgo-coupon-checkout.png", "gamsgo-get-code.png", "chatgpt-email-login.png", "chatgpt-password.png", "chatgpt-verification.png", "gamsgo-hidden-code.png"]) {
+    assert.match(html, new RegExp(`/guides/subscriptions/${image.replace(".", "\\.")}`));
+  }
   assert.doesNotMatch(html, /class="official-action" href="https:\/\/grok\.com\/"/);
   assert.doesNotMatch(html, /<h2>Midjourney<\/h2>|中风险 · 涉及访问密钥|高风险 ·|先看产品教程|<dt>地区<\/dt>|下单前必须确认|未作独立审计|<small class="inline-disclosure">|三种交付方式，使用体验不同|付款前一分钟检查|安全购买流程/);
 });

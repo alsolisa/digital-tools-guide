@@ -74,4 +74,8 @@ test("脚本、样式、图片资源均使用正确子目录", async () => {
     assert.match(subscriptions, new RegExp(`${basePath}/qr/${qr.replace(".", "\\.")}`), `${qr} 缺少GitHub Pages子目录`);
     assert.equal(await exists(path.join(root, "qr", qr)), true, `缺少二维码文件 ${qr}`);
   }
+
+  for (const image of ["gamsgo-coupon-entry.png", "gamsgo-coupon-checkout.png", "gamsgo-get-code.png", "chatgpt-email-login.png", "chatgpt-password.png", "chatgpt-verification.png", "gamsgo-hidden-code.png"]) {
+    assert.equal(await exists(path.join(root, "guides", "subscriptions", image)), true, `缺少订阅教程截图：${image}`);
+  }
 });

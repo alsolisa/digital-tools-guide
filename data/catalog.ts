@@ -87,6 +87,7 @@ export interface SubscriptionOffer {
   renewal: string;
   support: string;
   payment: string;
+  paymentNote?: string;
   region: string;
   sourceUrl: string;
   affiliateUrl: string;
@@ -444,7 +445,7 @@ const baseSubscriptionOffers: SubscriptionOffer[] = [
     whySelected: "通用能力覆盖最广，适合作为多数人的第一款AI，也最容易遇到官方支付与账号地区问题。", freeAdvice: "第一次使用先体验免费版；只有经常上传文件、生成图片或遇到用量限制时再考虑Plus。",
     officialPrice: "US$20 / 月", officialCny: "约 ¥135.49", gamsgoPrice: "US$5.77 起", gamsgoCny: "共享、独享与本人账号充值价格不同", priceNote: "三种方式的账号归属与使用方式不同；最终价格、周期和库存以GamsGo购买页为准。",
     officialUrl: "https://chatgpt.com/pricing/",
-    deliveryType: "多种方式", risk: "medium", riskLabel: "", ownership: "可能是独立账号交付，不一定是本人原账号。选择充值方式时，会员开通在自己的账号上。", privacy: "不同购买方式的记录与隐私范围不同，请按商品说明选择", renewal: "按所选周期续费，具体规则以订单页为准", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay 等；以GamsGo结算页为准", region: "",
+    deliveryType: "多种方式", risk: "medium", riskLabel: "", ownership: "可能是独立账号交付，不一定是本人原账号。选择充值方式时，会员开通在自己的账号上。", privacy: "不同购买方式的记录与隐私范围不同，请按商品说明选择", renewal: "按所选周期续费，具体规则以订单页为准", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay、银联、支付宝等；以GamsGo结算页为准", paymentNote: "共享订阅3个月、6个月均支持支付宝付款；1个月订阅暂不支持支付宝。", region: "",
     sourceUrl: "https://www.gamsgo.com/details/chatgpt", affiliateUrl: "https://www.gamsgo.com/details/chatgpt/partner/BTzCM",
     purchaseOptions: [
       { label: "共享使用", price: "$5.77", note: "适合预算优先、轻量使用", url: "https://www.gamsgo.com/details/chatgpt/partner/BTzCM" },
@@ -462,7 +463,7 @@ const baseSubscriptionOffers: SubscriptionOffer[] = [
     whySelected: "长文档、自然写作和持续对话是它的代表性场景，适合需要阅读与整理大量材料的人。", freeAdvice: "先用免费版测试长文、写作和文件阅读；用量经常不足时再选择Pro，Max不适合只为尝鲜的新手。",
     officialPrice: "Pro US$20 / 月", officialCny: "约 ¥135.49", gamsgoPrice: "Max 5x US$89.99 起", gamsgoCny: "Max 5x 与 Max 20x 独享账号", priceNote: "右侧为GamsGo官方商品页的独享账号方案；市场中心的价格和交付方式由不同卖家提供，需进入市场页逐项比较。",
     officialUrl: "https://www.anthropic.com/pricing",
-    deliveryType: "多种方式", risk: "high", riskLabel: "", ownership: "官方商品页的Max 5x与Max 20x均为平台提供的独享账号；市场中心以具体卖家说明为准", privacy: "交付账号不要存放公司机密或个人敏感资料；收到账号后检查恢复方式、二次验证和密码权限", renewal: "确认到期后账号能否继续使用，以及卖家保障期覆盖多久", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay 等；以GamsGo结算页为准", region: "Claude本身有支持地区限制",
+    deliveryType: "多种方式", risk: "high", riskLabel: "", ownership: "官方商品页的Max 5x与Max 20x均为平台提供的独享账号；市场中心以具体卖家说明为准", privacy: "交付账号不要存放公司机密或个人敏感资料；收到账号后检查恢复方式、二次验证和密码权限", renewal: "确认到期后账号能否继续使用，以及卖家保障期覆盖多久", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay、银联、支付宝等；以GamsGo结算页为准", region: "Claude本身有支持地区限制",
     sourceUrl: "https://www.gamsgo.com/zh/details/claude", affiliateUrl: "https://www.gamsgo.com/zh/details/claude/partner/BTzCM",
     purchaseOptions: [
       { label: "Max 5x · 独享", price: "$89.99", note: "官方提供账号", url: "https://www.gamsgo.com/zh/details/claude/partner/BTzCM" },
@@ -480,7 +481,7 @@ const baseSubscriptionOffers: SubscriptionOffer[] = [
     whySelected: "与Google账号、云盘和办公生态联系紧密，适合已经长期使用Google服务的人。", freeAdvice: "普通问答和简单总结先用免费版；确认确实需要高级模型、研究能力或Google存储权益后再付费。",
     officialPrice: "US$19.99 / 月参考", officialCny: "约 ¥135.42", gamsgoPrice: "US$10.49 / 3个月起", gamsgoCny: "提供3、12、18个月方案", priceNote: "3个月和18个月为本人账号充值；12个月由平台提供账号。最终价格、库存与交付方式以GamsGo购买页为准。",
     officialUrl: "https://one.google.com/about/google-ai-plans/",
-    deliveryType: "多种方式", risk: "high", riskLabel: "", ownership: "3个月和18个月充值到本人账号；12个月由平台提供账号", privacy: "本人账号充值更适合保留个人资料；平台提供的账号不要存放私人Gmail、照片或云盘文件", renewal: "确认云存储和订阅到期后的数据处理", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay 等；以GamsGo结算页为准", region: "权益和存储容量随地区与产品变化",
+    deliveryType: "多种方式", risk: "high", riskLabel: "", ownership: "3个月和18个月充值到本人账号；12个月由平台提供账号", privacy: "本人账号充值更适合保留个人资料；平台提供的账号不要存放私人Gmail、照片或云盘文件", renewal: "确认云存储和订阅到期后的数据处理", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay、银联、支付宝等；以GamsGo结算页为准", region: "权益和存储容量随地区与产品变化",
     sourceUrl: "https://www.gamsgo.com/zh/details/gemini", affiliateUrl: "https://www.gamsgo.com/zh/details/gemini/partner/BTzCM",
     purchaseOptions: [
       { label: "PRO · 3个月", price: "$10.49", note: "$3.50 / 月 · 充值到自己的账号", url: "https://www.gamsgo.com/zh/details/gemini/partner/BTzCM" },
@@ -494,7 +495,7 @@ const baseSubscriptionOffers: SubscriptionOffer[] = [
     whySelected: "它与X平台和即时公开内容联系紧密，适合关注实时话题、社交内容和多媒体功能的人。", freeAdvice: "先确认免费入口和X中的Grok是否已满足需求；还要分清SuperGrok与X Premium不是同一订阅。",
     officialPrice: "US$30 / 月", officialCny: "约 ¥203.24", gamsgoPrice: "US$17.99 / 月", gamsgoCny: "充值到自己的账号", priceNote: "GamsGo当前展示为本人账号充值方案；最终价格、库存与开通说明以购买页为准。",
     officialUrl: "https://x.ai/pricing",
-    deliveryType: "本人账号充值", risk: "medium", riskLabel: "", ownership: "会员充值到购买者自己的账号", privacy: "不要把X账号密码交给不明页面", renewal: "确认SuperGrok与X Premium不是同一订阅", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay 等；以GamsGo结算页为准", region: "Grok与商店可用性随地区变化",
+    deliveryType: "本人账号充值", risk: "medium", riskLabel: "", ownership: "会员充值到购买者自己的账号", privacy: "不要把X账号密码交给不明页面", renewal: "确认SuperGrok与X Premium不是同一订阅", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay、银联、支付宝等；以GamsGo结算页为准", region: "Grok与商店可用性随地区变化",
     sourceUrl: "https://www.gamsgo.com/details/grok", affiliateUrl: "https://www.gamsgo.com/details/grok/partner/BTzCM",
     purchaseOptions: [
       { label: "SuperGrok · 月付", price: "$17.99 / 月", note: "充值到自己的账号", url: "https://www.gamsgo.com/details/grok/partner/BTzCM" },
@@ -506,7 +507,7 @@ const baseSubscriptionOffers: SubscriptionOffer[] = [
     whySelected: "回答旁边直接显示资料来源，适合查资料、做比较和快速建立研究脉络。", freeAdvice: "先用免费版完成几次带来源的搜索，并打开原文检查引用；需要更深研究和更多模型时再付费。",
     officialPrice: "US$17 / 月（年付折算）", officialCny: "约 ¥115.17", gamsgoPrice: "US$34.99 / 3个月起", gamsgoCny: "提供3、6、12个月方案", priceNote: "三档方案均充值到购买者自己的Perplexity账号；最终价格、库存与开通说明以GamsGo购买页为准。",
     officialUrl: "https://www.perplexity.ai/pro",
-    deliveryType: "本人账号充值", risk: "high", riskLabel: "", ownership: "会员充值到购买者自己的Perplexity账号", privacy: "充值前确认订单页面不要求提供账号密码或其他敏感信息", renewal: "确认到期后历史记录能否导出", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay 等；以GamsGo结算页为准", region: "模型和用量随地区、套餐变化",
+    deliveryType: "本人账号充值", risk: "high", riskLabel: "", ownership: "会员充值到购买者自己的Perplexity账号", privacy: "充值前确认订单页面不要求提供账号密码或其他敏感信息", renewal: "确认到期后历史记录能否导出", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay、银联、支付宝等；以GamsGo结算页为准", region: "模型和用量随地区、套餐变化",
     sourceUrl: "https://www.gamsgo.com/zh/details/perplexity_ai", affiliateUrl: "https://www.gamsgo.com/zh/details/perplexity_ai/partner/BTzCM",
     purchaseOptions: [
       { label: "PRO · 3个月", price: "$34.99", note: "$11.67 / 月 · 充值到自己的账号", url: "https://www.gamsgo.com/zh/details/perplexity_ai/partner/BTzCM" },
@@ -520,7 +521,7 @@ const baseSubscriptionOffers: SubscriptionOffer[] = [
     whySelected: "它代表专业图片生成场景，与前五项文字和研究型AI形成互补。", freeAdvice: "先确认自己是否真的需要持续生成图片；偶尔做图的人不一定需要长期月付。",
     officialPrice: "以Midjourney计划页为准", officialCny: "未稳定读取", gamsgoPrice: "US$24.99 / 月公开参考", gamsgoCny: "约 ¥169.30", priceNote: "GamsGo公开页同时提供独立账号与共享网页方式，两者体验和风险不同。",
     officialUrl: "https://www.midjourney.com/plans/",
-    deliveryType: "多种方式", risk: "high", riskLabel: "", ownership: "独立账号与共享网页的账号控制权不同", privacy: "共享环境不要上传私人图片或商业机密素材", renewal: "确认Fast/Relax额度和到期处理", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay 等；以GamsGo结算页为准", region: "官方平台和Discord功能可能受地区影响",
+    deliveryType: "多种方式", risk: "high", riskLabel: "", ownership: "独立账号与共享网页的账号控制权不同", privacy: "共享环境不要上传私人图片或商业机密素材", renewal: "确认Fast/Relax额度和到期处理", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay、银联、支付宝等；以GamsGo结算页为准", region: "官方平台和Discord功能可能受地区影响",
     sourceUrl: "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK", affiliateUrl: "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK", verifiedAt: checkedAt,
   },
 ];
