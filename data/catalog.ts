@@ -96,6 +96,13 @@ export interface SubscriptionOffer {
     note: string;
     url: string;
   }[];
+  purchaseChannels?: {
+    label: string;
+    title: string;
+    note: string;
+    url: string;
+  }[];
+  marketplaceSummary?: string;
   purchaseQrCodes?: {
     label: string;
     image: string;
@@ -453,10 +460,20 @@ const baseSubscriptionOffers: SubscriptionOffer[] = [
   {
     slug: "claude", name: "Claude Pro / Max", productSlug: "claude", mark: "A", useCase: "获得更高的 Claude 使用额度、模型和付费功能。",
     whySelected: "长文档、自然写作和持续对话是它的代表性场景，适合需要阅读与整理大量材料的人。", freeAdvice: "先用免费版测试长文、写作和文件阅读；用量经常不足时再选择Pro，Max不适合只为尝鲜的新手。",
-    officialPrice: "Pro US$20 / 月", officialCny: "约 ¥135.49", gamsgoPrice: "购买页实时显示", gamsgoCny: "待公开页读取", priceNote: "Claude官方美国月付参考价；地区税费和应用商店价格可能不同。",
+    officialPrice: "Pro US$20 / 月", officialCny: "约 ¥135.49", gamsgoPrice: "Max 5x US$89.99 起", gamsgoCny: "Max 5x 与 Max 20x 独享账号", priceNote: "右侧为GamsGo官方商品页的独享账号方案；市场中心的价格和交付方式由不同卖家提供，需进入市场页逐项比较。",
     officialUrl: "https://www.anthropic.com/pricing",
-    deliveryType: "多种方式", risk: "high", riskLabel: "", ownership: "可能是独立账号交付，不一定是本人原账号", privacy: "交付账号应立即检查恢复邮箱、二次验证和密码修改权限", renewal: "确认到期后账号能否继续使用", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay 等；以GamsGo结算页为准", region: "Claude本身有支持地区限制",
-    sourceUrl: "https://www.gamsgo.com/details/claude", affiliateUrl: "https://www.gamsgo.com/details/claude/partner/BTzCM", verifiedAt: checkedAt,
+    deliveryType: "多种方式", risk: "high", riskLabel: "", ownership: "官方商品页的Max 5x与Max 20x均为平台提供的独享账号；市场中心以具体卖家说明为准", privacy: "交付账号不要存放公司机密或个人敏感资料；收到账号后检查恢复方式、二次验证和密码权限", renewal: "确认到期后账号能否继续使用，以及卖家保障期覆盖多久", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay 等；以GamsGo结算页为准", region: "Claude本身有支持地区限制",
+    sourceUrl: "https://www.gamsgo.com/zh/details/claude", affiliateUrl: "https://www.gamsgo.com/zh/details/claude/partner/BTzCM",
+    purchaseOptions: [
+      { label: "Max 5x · 独享", price: "$89.99", note: "官方提供账号", url: "https://www.gamsgo.com/zh/details/claude/partner/BTzCM" },
+      { label: "Max 20x · 独享", price: "$171.99", note: "官方提供账号", url: "https://www.gamsgo.com/zh/details/claude/partner/BTzCM" },
+    ],
+    purchaseChannels: [
+      { label: "GamsGo 官方商品页", title: "购买 Max 5x / Max 20x", note: "平台直接提供的独享账号方案", url: "https://www.gamsgo.com/zh/details/claude/partner/BTzCM" },
+      { label: "GamsGo 市场中心", title: "比较不同卖家方案", note: "查看商品类型、卖家评分、发货速度与保障期", url: "https://www.gamsgo.com/zh/accounts/claude/partner/BTzCM" },
+    ],
+    marketplaceSummary: "市场中心是多卖家交易区，同一页面可能同时出现独享账号、共享账号、本人账号充值、激活码或API等不同商品。价格、卖家评分、发货时间和保障期各不相同，购买前要先确认商品类型、账号归属与售后条件。",
+    priceVerifiedAt: "2026-07-18", verifiedAt: checkedAt,
   },
   {
     slug: "gemini", name: "Gemini / Google AI Pro", productSlug: "gemini", mark: "G", useCase: "获得Gemini高级功能、更多用量及Google生态权益。",

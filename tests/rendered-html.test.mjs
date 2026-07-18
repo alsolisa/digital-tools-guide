@@ -88,6 +88,11 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   assert.match(html, /https:\/\/x\.ai\/pricing/);
   assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/gemini\/partner\/BTzCM/);
   assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/perplexity_ai\/partner\/BTzCM/);
+  for (const text of ["Max 5x · 独享", "$89.99", "Max 20x · 独享", "$171.99", "市场中心是什么？", "市场中心是多卖家交易区", "购买 Max 5x / Max 20x", "比较不同卖家方案"]) {
+    assert.match(html, new RegExp(text.replace(/[.$?]/g, "\\$&")));
+  }
+  assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/claude\/partner\/BTzCM/);
+  assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/accounts\/claude\/partner\/BTzCM/);
   assert.doesNotMatch(html, /class="official-action" href="https:\/\/grok\.com\/"/);
   assert.doesNotMatch(html, /<h2>Midjourney<\/h2>|中风险 · 涉及访问密钥|高风险 ·|先看产品教程|<dt>地区<\/dt>|下单前必须确认|未作独立审计|<small class="inline-disclosure">|三种交付方式，使用体验不同|付款前一分钟检查|安全购买流程/);
 });

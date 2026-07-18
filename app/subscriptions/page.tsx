@@ -52,6 +52,7 @@ export default function SubscriptionsPage() {
                   {offer.purchaseOptions ? <div className="price-option-summary"><span>GamsGo 当前方案</span>{offer.purchaseOptions.map((option) => <p key={option.label}><span className="price-option-label"><b>{option.label}</b><small>{option.note}</small></span><strong>{option.price}</strong></p>)}</div> : <div><span>GamsGo公开价</span><strong>{offer.gamsgoPrice}</strong><small>{offer.gamsgoCny}</small><VerificationChip status={getOfferPriceStatus(offer.slug)} /></div>}
                 </div>
                 <p className="price-note">{offer.priceNote}</p>
+                {offer.marketplaceSummary && <aside className="marketplace-summary"><span>市场中心是什么？</span><p>{offer.marketplaceSummary}</p></aside>}
                 <dl className="fact-list">
                   <div><dt>交付方式</dt><dd>{offer.deliveryType}</dd></div>
                   <div><dt>账号归属</dt><dd>{offer.ownership}</dd></div>
@@ -64,8 +65,8 @@ export default function SubscriptionsPage() {
                 <div className="subscription-actions">
                   <a className="official-action" href={offer.officialUrl} target="_blank" rel="noopener noreferrer">查看官方方案 ↗</a>
                 </div>
-                <div className={`purchase-option-grid${offer.purchaseOptions && offer.purchaseOptions.length > 1 ? " purchase-option-grid-multiple" : ""}`}>
-                  {offer.purchaseOptions ? offer.purchaseOptions.map((option) => <a href={option.url} key={option.label} target="_blank" rel="sponsored noopener"><span>{option.label}</span><strong>{option.price}</strong><small>{option.note}</small><b>前往购买 ↗</b></a>) : <a className="purchase-option-single" href={offer.affiliateUrl} target="_blank" rel="sponsored noopener"><span>GamsGo 购买入口</span><strong>查看当前方案</strong><small>价格、周期和交付方式以购买页为准</small><b>前往购买 ↗</b></a>}
+                <div className={`purchase-option-grid${(offer.purchaseChannels?.length || offer.purchaseOptions?.length || 0) > 1 ? " purchase-option-grid-multiple" : ""}`}>
+                  {offer.purchaseChannels ? offer.purchaseChannels.map((channel) => <a href={channel.url} key={channel.label} target="_blank" rel="sponsored noopener"><span>{channel.label}</span><strong>{channel.title}</strong><small>{channel.note}</small><b>打开购买页 ↗</b></a>) : offer.purchaseOptions ? offer.purchaseOptions.map((option) => <a href={option.url} key={option.label} target="_blank" rel="sponsored noopener"><span>{option.label}</span><strong>{option.price}</strong><small>{option.note}</small><b>前往购买 ↗</b></a>) : <a className="purchase-option-single" href={offer.affiliateUrl} target="_blank" rel="sponsored noopener"><span>GamsGo 购买入口</span><strong>查看当前方案</strong><small>价格、周期和交付方式以购买页为准</small><b>前往购买 ↗</b></a>}
                 </div>
                 {offer.purchaseQrCodes && <div className="purchase-qr-grid" aria-label="ChatGPT购买二维码">{offer.purchaseQrCodes.map((qr) => <a href={qr.url} key={qr.label} target="_blank" rel="sponsored noopener"><Image src={`${assetBase}${qr.image}`} width={100} height={100} unoptimized alt={`${qr.label}购买二维码`} /><span>扫码打开<br /><strong>{qr.label}</strong></span></a>)}</div>}
               </article>
