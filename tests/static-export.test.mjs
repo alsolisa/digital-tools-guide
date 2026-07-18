@@ -68,4 +68,10 @@ test("脚本、样式、图片资源均使用正确子目录", async () => {
   assert.ok(resources.length > 0);
   for (const resource of resources) assert.equal(resource.startsWith(basePath), true, `资源地址缺少${basePath}：${resource}`);
   assert.match(home, /https:\/\/alsolisa\.github\.io\/digital-tools-guide\/og-v4\.png/);
+
+  const subscriptions = await readFile(path.join(root, "subscriptions", "index.html"), "utf8");
+  for (const qr of ["gamsgo-chatgpt-account.png", "gamsgo-chatgpt-recharge.png"]) {
+    assert.match(subscriptions, new RegExp(`${basePath}/qr/${qr.replace(".", "\\.")}`), `${qr} 缺少GitHub Pages子目录`);
+    assert.equal(await exists(path.join(root, "qr", qr)), true, `缺少二维码文件 ${qr}`);
+  }
 });

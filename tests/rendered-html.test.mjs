@@ -67,7 +67,7 @@ test("机场指南按已核验月付排序并清楚分开非月付方案", async
 
 test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入口", async () => {
   const html = await (await render("/subscriptions")).text();
-  for (const name of ["ChatGPT Plus", "Claude Pro / Max", "Gemini / Google AI Pro", "SuperGrok", "Perplexity Pro", "Midjourney"]) {
+  for (const name of ["ChatGPT Plus", "Claude Pro / Max", "Gemini / Google AI Pro", "SuperGrok", "Perplexity Pro"]) {
     assert.match(html, new RegExp(name.replace(/[+\/]/g, "\\$&")));
   }
   for (const price of ["$5.77", "$8.99", "$24.49"]) assert.match(html, new RegExp(price.replace("$", "\\$")));
@@ -79,8 +79,7 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   assert.match(html, /Visa、Mastercard、Apple Pay、Google Pay 等；以GamsGo结算页为准/);
   assert.match(html, /联系客服处理 · 7×24小时/);
   assert.match(html, /可能是独立账号交付，不一定是本人原账号/);
-  assert.match(html, /推广链接 · 通过本站链接购买可能产生佣金/);
-  assert.doesNotMatch(html, /中风险 · 涉及访问密钥|高风险 ·|先看产品教程|<dt>地区<\/dt>|下单前必须确认/);
+  assert.doesNotMatch(html, /<h2>Midjourney<\/h2>|中风险 · 涉及访问密钥|高风险 ·|先看产品教程|<dt>地区<\/dt>|下单前必须确认|未作独立审计|<small class="inline-disclosure">|三种交付方式，使用体验不同|付款前一分钟检查|安全购买流程/);
 });
 
 test("主要页面提供规范网址与可理解的结构化数据", async () => {
@@ -220,8 +219,7 @@ test("机场页面直接从基础概念进入服务推荐并提供三类下载�
   const subscriptions = await (await render("/subscriptions")).text();
   assert.match(subscriptions, /GamsGo 官方公开介绍/);
   assert.match(subscriptions, /AI订阅方案：先选产品，再选购买方式/);
-  assert.match(subscriptions, /AI会员付款前清单/);
-  for (const removed of ["AI订阅：购买前先看账号归属", "本页编辑责任与复核范围", "为什么首批选择这六项"]) assert.doesNotMatch(subscriptions, new RegExp(removed.replace(/[/.]/g, "\\$&")));
+  for (const removed of ["AI订阅：购买前先看账号归属", "本页编辑责任与复核范围", "为什么首批选择这六项", "AI会员付款前清单", "三种交付方式，使用体验不同", "安全购买流程"]) assert.doesNotMatch(subscriptions, new RegExp(removed.replace(/[/.]/g, "\\$&")));
 });
 
 test("模型评测页面解释两套榜单并展示自动同步的Artificial Analysis前十", async () => {
