@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-19T13:54:06.513Z",
+  "checkedAt": "2026-07-19T19:32:35.903Z",
   "policy": {
     "publicLinks": "automatic-6h",
     "clientReleases": "automatic-6h",
@@ -117,10 +117,9 @@
       "id": "catalog-official-19",
       "url": "https://gemini.google.com/",
       "kind": "download-source",
-      "state": "error",
-      "status": null,
-      "finalUrl": null,
-      "error": "Error"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://gemini.google.com/"
     },
     {
       "id": "catalog-official-28",
@@ -638,9 +637,10 @@
       "id": "catalog-official-68",
       "url": "https://support.tiktok.com/en/getting-started/for-you/test-for-you",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://support.tiktok.com/en/getting-started/for-you/test-for-you"
+      "state": "error",
+      "status": null,
+      "finalUrl": null,
+      "error": "Error"
     },
     {
       "id": "catalog-official-69",
@@ -656,7 +656,7 @@
       "kind": "download-source",
       "state": "ok",
       "status": 200,
-      "finalUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.1"
+      "finalUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.2"
     },
     {
       "id": "catalog-official-71",
@@ -711,8 +711,8 @@
     {
       "repository": "clash-verge-rev/clash-verge-rev",
       "state": "ok",
-      "version": "v2.5.1",
-      "releaseUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.1"
+      "version": "v2.5.2",
+      "releaseUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.2"
     },
     {
       "repository": "2dust/v2rayN",
