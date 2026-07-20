@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readFile } from "node:fs/promises";
 
 async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -77,15 +78,23 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   assert.match(html, /\/qr\/gamsgo-chatgpt-account\.png/);
   assert.match(html, /\/qr\/gamsgo-chatgpt-recharge\.png/);
   assert.match(html, /Visa、Mastercard、Apple Pay、Google Pay、银联、支付宝等；以GamsGo结算页为准/);
-  assert.match(html, /共享订阅3个月、6个月均支持支付宝付款；1个月订阅暂不支持支付宝/);
+  assert.match(html, /共享订阅：1个月订阅暂不支持支付宝，3个月、6个月均支持支付宝付款/);
+  assert.match(html, /使用中国大陆网络直接访问时通常只显示1个月/);
+  assert.match(html, /使用境外网络（需要连接机场或VPN）时可能显示1个月、3个月和6个月/);
   assert.match(html, /联系客服处理 · 7×24小时/);
   assert.match(html, /可能是独立账号交付，不一定是本人原账号/);
-  for (const text of ["PRO · 3个月", "$10.49", "$3.50 / 月 · 充值到自己的账号", "PRO · 12个月", "$27.99", "$2.34 / 月 · 官方提供账号", "PRO · 18个月", "$45.99", "$2.56 / 月 · 充值到自己的账号"]) {
+  for (const text of ["PRO · 3个月", "$10.49", "$3.50/月 · ¥23.88人民币/月 · 充值到自己的账号", "PRO · 12个月", "$27.99", "$2.34/月 · ¥15.97人民币/月 · 官方提供账号", "PRO · 18个月", "$45.99", "$2.56/月 · ¥17.47人民币/月 · 充值到自己的账号"]) {
     assert.match(html, new RegExp(text.replace(/[.$]/g, "\\$&")));
   }
-  for (const text of ["$17.99 / 月", "$34.99", "$11.67 / 月", "$58.99", "$9.84 / 月", "$98.99", "$8.25 / 月"]) {
+  for (const text of ["$17.99 / 月", "$34.99", "$11.67/月", "$58.99", "$9.84/月", "$98.99", "$8.25/月"]) {
     assert.match(html, new RegExp(text.replace(/[.$]/g, "\\$&")));
   }
+  assert.match(html, /1 USD = ¥<!-- -->6\.823/);
+  for (const cny of ["¥136.46人民币", "¥39.37人民币", "¥61.34人民币", "¥167.10人民币", "¥614.00人民币", "¥1173.49人民币", "¥136.39人民币", "¥71.57人民币", "¥190.98人民币", "¥313.79人民币", "¥204.69人民币", "¥122.75人民币\/月", "¥115.99人民币", "¥238.74人民币", "¥402.49人民币", "¥675.41人民币"]) {
+    assert.match(html, new RegExp(cny.replace(/[.¥/]/g, "\\$&")));
+  }
+  assert.doesNotMatch(html, /约 ¥/);
+  assert.ok((html.match(/class="price-option-link"/g) || []).length >= 11, "每个套餐价格都应能点击购买");
   assert.match(html, /https:\/\/x\.ai\/pricing/);
   assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/gemini\/partner\/BTzCM/);
   assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/perplexity_ai\/partner\/BTzCM/);
@@ -247,7 +256,10 @@ test("机场页面直接从基础概念进入服务推荐并提供三类下载�
 test("模型评测页面解释两套榜单并展示自动同步的Artificial Analysis前十", async () => {
   const html = await (await render("/benchmarks")).text();
   for (const text of ["Arena", "Artificial Analysis", "真人盲测", "API成本", "不合并成本站自制总分", "能力指数", "输出速度", "首段延迟", "上下文长度", "自动同步正常", "最近成功读取", "先看每家公司的一个代表模型", "保留原始名次"]) assert.match(html, new RegExp(text));
-  for (const model of ["Claude Fable 5", "GPT-5.6 Sol", "Kimi K3", "Grok 4.5"]) assert.match(html, new RegExp(model));
+  const snapshot = JSON.parse(await readFile(new URL("../data/auto-sync.json", import.meta.url), "utf8"));
+  const topTen = snapshot.artificialAnalysisLeaderboard.rows.slice(0, 10);
+  assert.equal(topTen.length, 10);
+  for (const model of topTen) assert.match(html, new RegExp(model.model.replace(/[()\[\].+*?^$|]/g, "\\$&")));
   assert.doesNotMatch(html, /第一版收录八个主流模型家族/);
   assert.doesNotMatch(html, /不想研究参数，可以这样选/);
 });

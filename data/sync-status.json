@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-19T19:32:35.903Z",
+  "checkedAt": "2026-07-20T11:09:09.192Z",
   "policy": {
     "publicLinks": "automatic-6h",
     "clientReleases": "automatic-6h",
@@ -13,25 +13,27 @@
       "id": "westdata",
       "url": "https://wd-gold.net/aff.php?aff=15433",
       "kind": "affiliate",
-      "state": "protected",
-      "status": 403,
-      "finalUrl": "https://wd-gold.net/aff.php?aff=15433"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://wd-cloud.net/"
     },
     {
       "id": "youtu-client",
       "url": "https://d.yoututz.top/ph/youtu",
       "kind": "client",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://d.yoututz.top/ph/youtu/"
+      "state": "error",
+      "status": null,
+      "finalUrl": null,
+      "error": "Error"
     },
     {
       "id": "youtu",
       "url": "https://777.youtu6.shop/register?code=2tr1tmSh",
       "kind": "affiliate",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://777.youtu6.shop/register?code=2tr1tmSh"
+      "state": "error",
+      "status": null,
+      "finalUrl": null,
+      "error": "Error"
     },
     {
       "id": "boostnet",
@@ -53,9 +55,9 @@
       "id": "nexitally",
       "url": "https://nxonearth.com/Main.aspx",
       "kind": "official",
-      "state": "protected",
-      "status": 403,
-      "finalUrl": "https://nxonearth.com/Main.aspx"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://nxonearth.com/signinbyemail.aspx?gourl=%2FMain.aspx"
     },
     {
       "id": "tag",
@@ -101,8 +103,8 @@
       "id": "catalog-official-2",
       "url": "https://chatgpt.com/download/",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://chatgpt.com/download/"
     },
     {
@@ -125,8 +127,8 @@
       "id": "catalog-official-28",
       "url": "https://grok.com/",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://grok.com/"
     },
     {
@@ -141,8 +143,8 @@
       "id": "catalog-official-1",
       "url": "https://chatgpt.com/",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://chatgpt.com/"
     },
     {
@@ -165,48 +167,48 @@
       "id": "catalog-official-5",
       "url": "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq"
     },
     {
       "id": "catalog-official-6",
       "url": "https://chatgpt.com/pricing/",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://chatgpt.com/pricing/"
     },
     {
       "id": "catalog-official-7",
       "url": "https://help.openai.com/en/articles/9930697-what-is-the-canvas-feature-in-chatgpt-and-how-do-i-use-i",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://help.openai.com/en/articles/9930697-what-is-the-canvas-feature-in-chatgpt-and-how-do-i-use-i"
     },
     {
       "id": "catalog-official-8",
       "url": "https://help.openai.com/en/articles/6950777-what-is-chatgpt",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://help.openai.com/en/articles/6950777-what-is-chatgpt"
     },
     {
       "id": "catalog-official-9",
       "url": "https://help.openai.com/en/articles/20001354-gpt-56-in-chatgpt",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://help.openai.com/en/articles/20001354-gpt-56-in-chatgpt"
     },
     {
       "id": "catalog-official-10",
       "url": "https://help.openai.com/en/articles/7730893-datacontrols-faq",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://help.openai.com/en/articles/7730893-datacontrols-faq"
     },
     {
@@ -215,7 +217,7 @@
       "kind": "download-source",
       "state": "protected",
       "status": 403,
-      "finalUrl": "https://claude.ai/"
+      "finalUrl": "https://claude.ai/login"
     },
     {
       "id": "catalog-official-13",
@@ -357,16 +359,16 @@
       "id": "catalog-official-32",
       "url": "https://x.ai/grok",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://x.ai/grok"
     },
     {
       "id": "catalog-official-33",
       "url": "https://x.ai/pricing",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://x.ai/pricing"
     },
     {
@@ -453,24 +455,24 @@
       "id": "catalog-official-45",
       "url": "https://docs.midjourney.com/hc/en-us/articles/33329460426765-Website-Overview",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://docs.midjourney.com/hc/en-us/articles/33329460426765-Website-Overview"
     },
     {
       "id": "catalog-official-46",
       "url": "https://docs.midjourney.com/hc/en-us/articles/32764383466893-Editor",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://docs.midjourney.com/hc/en-us/articles/32764383466893-Editor"
     },
     {
       "id": "catalog-official-47",
       "url": "https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans"
     },
     {
@@ -581,8 +583,8 @@
       "id": "catalog-official-61",
       "url": "https://help.x.com/en/using-x/x-premium",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://help.x.com/en/using-x/x-premium"
     },
     {
@@ -605,8 +607,8 @@
       "id": "catalog-official-64",
       "url": "https://help.x.com/en/using-x/communities",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://help.x.com/en/using-x/communities"
     },
     {
@@ -637,10 +639,9 @@
       "id": "catalog-official-68",
       "url": "https://support.tiktok.com/en/getting-started/for-you/test-for-you",
       "kind": "download-source",
-      "state": "error",
-      "status": null,
-      "finalUrl": null,
-      "error": "Error"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://support.tiktok.com/en/getting-started/for-you/test-for-you"
     },
     {
       "id": "catalog-official-69",
@@ -705,6 +706,62 @@
       "state": "ok",
       "status": 200,
       "finalUrl": "https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349"
+    },
+    {
+      "id": "subscription-chatgpt-recharge-2",
+      "url": "https://www.gamsgo.com/details/chatgpt/partner/BTzCM",
+      "kind": "subscription-purchase",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://www.gamsgo.com/details/chatgpt?promote=BTzCM"
+    },
+    {
+      "id": "subscription-chatgpt-recharge-3",
+      "url": "https://www.gamsgo.com/details/chatgpt-recharge/partner/BTzCM",
+      "kind": "subscription-purchase",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://www.gamsgo.com/details/chatgpt-recharge?promote=BTzCM"
+    },
+    {
+      "id": "subscription-claude-2",
+      "url": "https://www.gamsgo.com/zh/details/claude/partner/BTzCM",
+      "kind": "subscription-purchase",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://www.gamsgo.com/zh/details/claude?promote=BTzCM"
+    },
+    {
+      "id": "subscription-gemini-3",
+      "url": "https://www.gamsgo.com/zh/details/gemini/partner/BTzCM",
+      "kind": "subscription-purchase",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://www.gamsgo.com/zh/details/gemini?promote=BTzCM"
+    },
+    {
+      "id": "subscription-grok-1",
+      "url": "https://www.gamsgo.com/details/grok/partner/BTzCM",
+      "kind": "subscription-purchase",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://www.gamsgo.com/details/grok?promote=BTzCM"
+    },
+    {
+      "id": "subscription-perplexity-3",
+      "url": "https://www.gamsgo.com/zh/details/perplexity_ai/partner/BTzCM",
+      "kind": "subscription-purchase",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://www.gamsgo.com/zh/details/perplexity_ai?promote=BTzCM"
+    },
+    {
+      "id": "subscription-midjourney-1",
+      "url": "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK",
+      "kind": "subscription-purchase",
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://www.gamsgo.com/details/midjourney_official?promote=2MGZTK"
     }
   ],
   "clients": [

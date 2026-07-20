@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-19T19:32:35.903Z",
+  "checkedAt": "2026-07-20T11:09:09.192Z",
   "exchange": {
     "state": "ok",
     "date": "2026-07-17",
@@ -14,22 +14,22 @@
     {
       "slug": "chatgpt-recharge",
       "url": "https://www.gamsgo.com/details/chatgpt-recharge",
-      "state": "unreadable",
+      "state": "ok",
       "published": {
         "currency": "USD",
         "value": 17.99
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-19T19:32:34.880Z",
-      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
+      "checkedAt": "2026-07-20T11:09:05.484Z",
+      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准",
       "error": "Error",
       "officialObserved": {
         "currency": "USD",
         "value": 20
       },
       "period": "month",
-      "cny": 121.74
+      "cny": 121.93
     },
     {
       "slug": "claude",
@@ -37,7 +37,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-19T19:32:35.498Z",
+      "checkedAt": "2026-07-20T11:09:05.662Z",
       "note": "公开页未稳定展示可校验的月付价格",
       "error": "Error"
     },
@@ -47,17 +47,17 @@
       "state": "ok",
       "published": {
         "currency": "USD",
-        "value": 3.5
+        "value": 2.25
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-19T19:32:35.561Z",
+      "checkedAt": "2026-07-20T11:09:04.900Z",
       "officialObserved": {
         "currency": "USD",
-        "value": 20
+        "value": 6.66
       },
       "period": "month",
-      "cny": 23.72,
+      "cny": 15.25,
       "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
     },
     {
@@ -67,13 +67,13 @@
       "published": null,
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-19T19:32:35.357Z",
+      "checkedAt": "2026-07-20T11:09:05.439Z",
       "observedValues": [
         10,
         30,
         300,
         18.99,
-        17.99
+        6.17
       ],
       "note": "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核"
     },
@@ -87,7 +87,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-19T19:32:35.470Z",
+      "checkedAt": "2026-07-20T11:09:05.315Z",
       "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准",
       "officialObserved": {
         "currency": "USD",
@@ -107,7 +107,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-19T19:32:35.367Z",
+      "checkedAt": "2026-07-20T11:09:05.312Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
@@ -123,21 +123,21 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-07-19T19:32:35.903Z"
+      "checkedAt": "2026-07-20T11:09:09.192Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/leaderboards/models",
       "state": "ok",
-      "checkedAt": "2026-07-19T19:32:35.903Z"
+      "checkedAt": "2026-07-20T11:09:09.192Z"
     }
   ],
   "artificialAnalysisLeaderboard": {
     "source": "Artificial Analysis",
     "url": "https://artificialanalysis.ai/leaderboards/models",
     "state": "ok",
-    "checkedAt": "2026-07-19T19:32:34.724Z",
-    "lastSuccessfulAt": "2026-07-19T19:32:34.724Z",
+    "checkedAt": "2026-07-20T11:09:02.890Z",
+    "lastSuccessfulAt": "2026-07-20T11:09:02.890Z",
     "methodologyVersion": "Intelligence Index v4.1",
     "rows": [
       {
@@ -146,10 +146,10 @@
         "company": "Anthropic",
         "contextWindow": "1M",
         "intelligence": 60,
-        "priceUsdPerMillion": 7.7,
-        "outputTokensPerSecond": 61,
-        "latencySeconds": 116.24,
-        "totalResponseSeconds": 124.47
+        "priceUsdPerMillion": 2.75,
+        "outputTokensPerSecond": 67,
+        "latencySeconds": 108.57,
+        "totalResponseSeconds": 116.08
       },
       {
         "rank": 2,
@@ -157,10 +157,10 @@
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 59,
-        "priceUsdPerMillion": 4.35,
-        "outputTokensPerSecond": 59,
-        "latencySeconds": 130.34,
-        "totalResponseSeconds": 138.83
+        "priceUsdPerMillion": 1.04,
+        "outputTokensPerSecond": 66,
+        "latencySeconds": 127.35,
+        "totalResponseSeconds": 134.98
       },
       {
         "rank": 3,
@@ -168,197 +168,197 @@
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 58,
-        "priceUsdPerMillion": 4.35,
-        "outputTokensPerSecond": 56,
-        "latencySeconds": 51.31,
-        "totalResponseSeconds": 60.16
+        "priceUsdPerMillion": 0.68,
+        "outputTokensPerSecond": 60,
+        "latencySeconds": 49.89,
+        "totalResponseSeconds": 58.24
       },
       {
         "rank": 4,
-        "model": "Kimi K3",
-        "company": "Kimi",
-        "contextWindow": "1.05M",
-        "intelligence": 57,
-        "priceUsdPerMillion": 2.31,
-        "outputTokensPerSecond": 62,
-        "latencySeconds": 1.99,
-        "totalResponseSeconds": 42.3
-      },
-      {
-        "rank": 5,
         "model": "GPT-5.6 Sol (high)",
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 56,
-        "priceUsdPerMillion": 4.35,
-        "outputTokensPerSecond": 52,
-        "latencySeconds": 12.87,
-        "totalResponseSeconds": 22.5
+        "priceUsdPerMillion": 0.45,
+        "outputTokensPerSecond": 62,
+        "latencySeconds": 12.54,
+        "totalResponseSeconds": 20.63
       },
       {
-        "rank": 6,
+        "rank": 5,
         "model": "Claude Opus 4.8 (max)",
         "company": "Anthropic",
         "contextWindow": "1M",
         "intelligence": 56,
-        "priceUsdPerMillion": 3.85,
-        "outputTokensPerSecond": 57,
-        "latencySeconds": 28.87,
-        "totalResponseSeconds": 37.69
+        "priceUsdPerMillion": 1.8,
+        "outputTokensPerSecond": 60,
+        "latencySeconds": 21.51,
+        "totalResponseSeconds": 29.85
       },
       {
-        "rank": 7,
+        "rank": 6,
         "model": "GPT-5.6 Terra (max)",
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 55,
-        "priceUsdPerMillion": 2.17,
-        "outputTokensPerSecond": 136,
-        "latencySeconds": 137.48,
-        "totalResponseSeconds": 141.17
+        "priceUsdPerMillion": 0.82,
+        "outputTokensPerSecond": 148,
+        "latencySeconds": 139.96,
+        "totalResponseSeconds": 143.35
       },
       {
-        "rank": 8,
+        "rank": 7,
         "model": "GPT-5.5 (xhigh)",
         "company": "OpenAI",
         "contextWindow": "922k",
         "intelligence": 55,
-        "priceUsdPerMillion": 4.35,
-        "outputTokensPerSecond": 69,
-        "latencySeconds": 80.39,
-        "totalResponseSeconds": 87.69
+        "priceUsdPerMillion": 0.99,
+        "outputTokensPerSecond": 79,
+        "latencySeconds": 78,
+        "totalResponseSeconds": 84.32
       },
       {
-        "rank": 9,
+        "rank": 8,
         "model": "Grok 4.5 (high)",
         "company": "SpaceXAI",
         "contextWindow": "500k",
         "intelligence": 54,
-        "priceUsdPerMillion": 1.35,
-        "outputTokensPerSecond": 73,
-        "latencySeconds": 12.72,
-        "totalResponseSeconds": 19.54
+        "priceUsdPerMillion": 0.31,
+        "outputTokensPerSecond": 79,
+        "latencySeconds": 11.6,
+        "totalResponseSeconds": 17.93
       },
       {
-        "rank": 10,
+        "rank": 9,
         "model": "GPT-5.6 Sol (medium)",
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 54,
-        "priceUsdPerMillion": 4.35,
-        "outputTokensPerSecond": 50,
-        "latencySeconds": 7.28,
-        "totalResponseSeconds": 17.23
+        "priceUsdPerMillion": 0.31,
+        "outputTokensPerSecond": 58,
+        "latencySeconds": 6.91,
+        "totalResponseSeconds": 15.46
       },
       {
-        "rank": 11,
+        "rank": 10,
         "model": "Claude Opus 4.7 (max)",
         "company": "Anthropic",
         "contextWindow": "1M",
         "intelligence": 54,
-        "priceUsdPerMillion": 3.85,
-        "outputTokensPerSecond": 48,
-        "latencySeconds": 25.11,
-        "totalResponseSeconds": 35.44
+        "priceUsdPerMillion": 1.97,
+        "outputTokensPerSecond": 53,
+        "latencySeconds": 21.73,
+        "totalResponseSeconds": 31.13
       },
       {
-        "rank": 12,
+        "rank": 11,
         "model": "Claude Sonnet 5 (max)",
         "company": "Anthropic",
         "contextWindow": "1M",
         "intelligence": 53,
-        "priceUsdPerMillion": 1.54,
-        "outputTokensPerSecond": 83,
-        "latencySeconds": 208.53,
-        "totalResponseSeconds": 214.57
+        "priceUsdPerMillion": 1.53,
+        "outputTokensPerSecond": 84,
+        "latencySeconds": 182.27,
+        "totalResponseSeconds": 188.19
       },
       {
-        "rank": 13,
+        "rank": 12,
         "model": "GPT-5.5 (high)",
         "company": "OpenAI",
         "contextWindow": "922k",
         "intelligence": 53,
-        "priceUsdPerMillion": 4.35,
-        "outputTokensPerSecond": 68,
-        "latencySeconds": 37.57,
-        "totalResponseSeconds": 44.97
+        "priceUsdPerMillion": 0.67,
+        "outputTokensPerSecond": 79,
+        "latencySeconds": 26.54,
+        "totalResponseSeconds": 32.91
       },
       {
-        "rank": 14,
+        "rank": 13,
         "model": "GPT-5.6 Terra (xhigh)",
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 52,
-        "priceUsdPerMillion": 2.17,
-        "outputTokensPerSecond": 121,
-        "latencySeconds": 15.75,
-        "totalResponseSeconds": 19.89
+        "priceUsdPerMillion": 0.48,
+        "outputTokensPerSecond": 138,
+        "latencySeconds": 10.11,
+        "totalResponseSeconds": 13.74
       },
       {
-        "rank": 15,
+        "rank": 14,
         "model": "GPT-5.6 Luna (max)",
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 51,
-        "priceUsdPerMillion": 0.87,
-        "outputTokensPerSecond": 187,
-        "latencySeconds": 94.07,
-        "totalResponseSeconds": 96.74
+        "priceUsdPerMillion": 0.21,
+        "outputTokensPerSecond": 197,
+        "latencySeconds": 94.14,
+        "totalResponseSeconds": 96.67
       },
       {
-        "rank": 16,
+        "rank": 15,
         "model": "GLM-5.2 (max)",
         "company": "Z AI",
         "contextWindow": "1M",
         "intelligence": 51,
-        "priceUsdPerMillion": 0.9,
-        "outputTokensPerSecond": 183,
-        "latencySeconds": 1.45,
-        "totalResponseSeconds": 15.11
+        "priceUsdPerMillion": 0.47,
+        "outputTokensPerSecond": 200,
+        "latencySeconds": 1.38,
+        "totalResponseSeconds": 13.89
       },
       {
-        "rank": 17,
+        "rank": 16,
         "model": "Muse Spark 1.1 (xhigh)",
         "company": "Meta",
         "contextWindow": "1.05M",
         "intelligence": 51,
-        "priceUsdPerMillion": 0.78,
-        "outputTokensPerSecond": 116,
+        "priceUsdPerMillion": 0.26,
+        "outputTokensPerSecond": 124,
         "latencySeconds": 1.27,
-        "totalResponseSeconds": 22.91
+        "totalResponseSeconds": 21.35
       },
       {
-        "rank": 18,
+        "rank": 17,
         "model": "GPT-5.5 (medium)",
         "company": "OpenAI",
         "contextWindow": "922k",
         "intelligence": 50,
-        "priceUsdPerMillion": 4.35,
-        "outputTokensPerSecond": 69,
-        "latencySeconds": 7.05,
-        "totalResponseSeconds": 14.33
+        "priceUsdPerMillion": 0.41,
+        "outputTokensPerSecond": 78,
+        "latencySeconds": 4.94,
+        "totalResponseSeconds": 11.34
       },
       {
-        "rank": 19,
+        "rank": 18,
         "model": "Gemini 3.5 Flash",
         "company": "Google",
         "contextWindow": "1M",
         "intelligence": 50,
-        "priceUsdPerMillion": 1.31,
-        "outputTokensPerSecond": 156,
-        "latencySeconds": 22.68,
-        "totalResponseSeconds": 25.88
+        "priceUsdPerMillion": 0.59,
+        "outputTokensPerSecond": 169,
+        "latencySeconds": 19.67,
+        "totalResponseSeconds": 22.63
       },
       {
-        "rank": 20,
+        "rank": 19,
         "model": "GPT-5.6 Sol (low)",
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 49,
-        "priceUsdPerMillion": 4.35,
-        "outputTokensPerSecond": 52,
-        "latencySeconds": 3.56,
-        "totalResponseSeconds": 13.23
+        "priceUsdPerMillion": 0.2,
+        "outputTokensPerSecond": 58,
+        "latencySeconds": 3.15,
+        "totalResponseSeconds": 11.78
+      },
+      {
+        "rank": 20,
+        "model": "GPT-5.6 Luna (xhigh)",
+        "company": "OpenAI",
+        "contextWindow": "1M",
+        "intelligence": 49,
+        "priceUsdPerMillion": 0.14,
+        "outputTokensPerSecond": 209,
+        "latencySeconds": 30.82,
+        "totalResponseSeconds": 33.22
       }
     ]
   },
@@ -498,6 +498,20 @@
       "after": {
         "currency": "USD",
         "value": 3.5
+      },
+      "sourceUrl": "https://www.gamsgo.com/details/gemini"
+    },
+    {
+      "changedAt": "2026-07-20T11:09:09.192Z",
+      "type": "gamsgo-price",
+      "slug": "gemini",
+      "before": {
+        "currency": "USD",
+        "value": 3.5
+      },
+      "after": {
+        "currency": "USD",
+        "value": 2.25
       },
       "sourceUrl": "https://www.gamsgo.com/details/gemini"
     }

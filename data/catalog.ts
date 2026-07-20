@@ -1,4 +1,5 @@
 import autoSync from "./auto-sync.json";
+import subscriptionPricing from "./subscription-pricing.json";
 
 export type Platform = "Web" | "Windows" | "macOS" | "Android" | "iOS";
 export type VerificationStatus = "verified" | "automatic" | "pending" | "error" | "paused";
@@ -93,7 +94,9 @@ export interface SubscriptionOffer {
   affiliateUrl: string;
   purchaseOptions?: {
     label: string;
-    price: string;
+    usd: number;
+    monthlyUsd?: number;
+    suffix?: string;
     note: string;
     url: string;
   }[];
@@ -131,6 +134,24 @@ export interface AppProfile {
 }
 
 const checkedAt = "2026-07-13";
+
+export const USD_CNY_RATE = subscriptionPricing.usdCnyRate;
+export const USD_CNY_RATE_UPDATED_AT = subscriptionPricing.rateUpdatedAt;
+
+export function formatUsdPrice(usd: number, suffix = "") {
+  return `$${usd.toFixed(2)}${suffix}`;
+}
+
+export function formatCnyPrice(usd: number, suffix = "") {
+  return `¥${(usd * USD_CNY_RATE).toFixed(2)}人民币${suffix.replace(" / ", "/")}`;
+}
+
+export function formatPurchaseOptionNote(option: NonNullable<SubscriptionOffer["purchaseOptions"]>[number]) {
+  const monthly = option.monthlyUsd
+    ? `${formatUsdPrice(option.monthlyUsd)}/月 · ${formatCnyPrice(option.monthlyUsd)}/月`
+    : "";
+  return [monthly, option.note].filter(Boolean).join(" · ");
+}
 
 export const aiProducts: ProductProfile[] = [
   {
@@ -445,13 +466,8 @@ const baseSubscriptionOffers: SubscriptionOffer[] = [
     whySelected: "通用能力覆盖最广，适合作为多数人的第一款AI，也最容易遇到官方支付与账号地区问题。", freeAdvice: "第一次使用先体验免费版；只有经常上传文件、生成图片或遇到用量限制时再考虑Plus。",
     officialPrice: "US$20 / 月", officialCny: "约 ¥135.49", gamsgoPrice: "US$5.77 起", gamsgoCny: "共享、独享与本人账号充值价格不同", priceNote: "三种方式的账号归属与使用方式不同；最终价格、周期和库存以GamsGo购买页为准。",
     officialUrl: "https://chatgpt.com/pricing/",
-    deliveryType: "多种方式", risk: "medium", riskLabel: "", ownership: "可能是独立账号交付，不一定是本人原账号。选择充值方式时，会员开通在自己的账号上。", privacy: "不同购买方式的记录与隐私范围不同，请按商品说明选择", renewal: "按所选周期续费，具体规则以订单页为准", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay、银联、支付宝等；以GamsGo结算页为准", paymentNote: "共享订阅3个月、6个月均支持支付宝付款；1个月订阅暂不支持支付宝。", region: "",
+    deliveryType: "多种方式", risk: "medium", riskLabel: "", ownership: "可能是独立账号交付，不一定是本人原账号。选择充值方式时，会员开通在自己的账号上。", privacy: "不同购买方式的记录与隐私范围不同，请按商品说明选择", renewal: "按所选周期续费，具体规则以订单页为准", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay、银联、支付宝等；以GamsGo结算页为准", paymentNote: "共享订阅：1个月订阅暂不支持支付宝，3个月、6个月均支持支付宝付款。页面显示会随访问网络变化：使用中国大陆网络直接访问时通常只显示1个月；使用境外网络（需要连接机场或VPN）时可能显示1个月、3个月和6个月。请以打开购买页后实际显示为准。", region: "",
     sourceUrl: "https://www.gamsgo.com/details/chatgpt", affiliateUrl: "https://www.gamsgo.com/details/chatgpt/partner/BTzCM",
-    purchaseOptions: [
-      { label: "共享使用", price: "$5.77", note: "适合预算优先、轻量使用", url: "https://www.gamsgo.com/details/chatgpt/partner/BTzCM" },
-      { label: "独享账号", price: "$8.99", note: "平台提供独立账号", url: "https://www.gamsgo.com/details/chatgpt/partner/BTzCM" },
-      { label: "本人账号充值", price: "$24.49", note: "会员充值到自己的账号", url: "https://www.gamsgo.com/details/chatgpt-recharge/partner/BTzCM" },
-    ],
     purchaseQrCodes: [
       { label: "共享 / 独享账号", image: "/qr/gamsgo-chatgpt-account.png", url: "https://www.gamsgo.com/details/chatgpt/partner/BTzCM" },
       { label: "本人账号充值", image: "/qr/gamsgo-chatgpt-recharge.png", url: "https://www.gamsgo.com/details/chatgpt-recharge/partner/BTzCM" },
@@ -465,10 +481,6 @@ const baseSubscriptionOffers: SubscriptionOffer[] = [
     officialUrl: "https://www.anthropic.com/pricing",
     deliveryType: "多种方式", risk: "high", riskLabel: "", ownership: "官方商品页的Max 5x与Max 20x均为平台提供的独享账号；市场中心以具体卖家说明为准", privacy: "交付账号不要存放公司机密或个人敏感资料；收到账号后检查恢复方式、二次验证和密码权限", renewal: "确认到期后账号能否继续使用，以及卖家保障期覆盖多久", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay、银联、支付宝等；以GamsGo结算页为准", region: "Claude本身有支持地区限制",
     sourceUrl: "https://www.gamsgo.com/zh/details/claude", affiliateUrl: "https://www.gamsgo.com/zh/details/claude/partner/BTzCM",
-    purchaseOptions: [
-      { label: "Max 5x · 独享", price: "$89.99", note: "官方提供账号", url: "https://www.gamsgo.com/zh/details/claude/partner/BTzCM" },
-      { label: "Max 20x · 独享", price: "$171.99", note: "官方提供账号", url: "https://www.gamsgo.com/zh/details/claude/partner/BTzCM" },
-    ],
     purchaseChannels: [
       { label: "GamsGo 官方商品页", title: "购买 Max 5x / Max 20x", note: "平台直接提供的独享账号方案", url: "https://www.gamsgo.com/zh/details/claude/partner/BTzCM" },
       { label: "GamsGo 市场中心", title: "比较不同卖家方案", note: "查看商品类型、卖家评分、发货速度与保障期", url: "https://www.gamsgo.com/zh/accounts/claude/partner/BTzCM" },
@@ -483,11 +495,6 @@ const baseSubscriptionOffers: SubscriptionOffer[] = [
     officialUrl: "https://one.google.com/about/google-ai-plans/",
     deliveryType: "多种方式", risk: "high", riskLabel: "", ownership: "3个月和18个月充值到本人账号；12个月由平台提供账号", privacy: "本人账号充值更适合保留个人资料；平台提供的账号不要存放私人Gmail、照片或云盘文件", renewal: "确认云存储和订阅到期后的数据处理", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay、银联、支付宝等；以GamsGo结算页为准", region: "权益和存储容量随地区与产品变化",
     sourceUrl: "https://www.gamsgo.com/zh/details/gemini", affiliateUrl: "https://www.gamsgo.com/zh/details/gemini/partner/BTzCM",
-    purchaseOptions: [
-      { label: "PRO · 3个月", price: "$10.49", note: "$3.50 / 月 · 充值到自己的账号", url: "https://www.gamsgo.com/zh/details/gemini/partner/BTzCM" },
-      { label: "PRO · 12个月", price: "$27.99", note: "$2.34 / 月 · 官方提供账号", url: "https://www.gamsgo.com/zh/details/gemini/partner/BTzCM" },
-      { label: "PRO · 18个月", price: "$45.99", note: "$2.56 / 月 · 充值到自己的账号", url: "https://www.gamsgo.com/zh/details/gemini/partner/BTzCM" },
-    ],
     priceVerifiedAt: "2026-07-18", verifiedAt: checkedAt,
   },
   {
@@ -497,9 +504,6 @@ const baseSubscriptionOffers: SubscriptionOffer[] = [
     officialUrl: "https://x.ai/pricing",
     deliveryType: "本人账号充值", risk: "medium", riskLabel: "", ownership: "会员充值到购买者自己的账号", privacy: "不要把X账号密码交给不明页面", renewal: "确认SuperGrok与X Premium不是同一订阅", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay、银联、支付宝等；以GamsGo结算页为准", region: "Grok与商店可用性随地区变化",
     sourceUrl: "https://www.gamsgo.com/details/grok", affiliateUrl: "https://www.gamsgo.com/details/grok/partner/BTzCM",
-    purchaseOptions: [
-      { label: "SuperGrok · 月付", price: "$17.99 / 月", note: "充值到自己的账号", url: "https://www.gamsgo.com/details/grok/partner/BTzCM" },
-    ],
     priceVerifiedAt: "2026-07-18", verifiedAt: checkedAt,
   },
   {
@@ -509,11 +513,6 @@ const baseSubscriptionOffers: SubscriptionOffer[] = [
     officialUrl: "https://www.perplexity.ai/pro",
     deliveryType: "本人账号充值", risk: "high", riskLabel: "", ownership: "会员充值到购买者自己的Perplexity账号", privacy: "充值前确认订单页面不要求提供账号密码或其他敏感信息", renewal: "确认到期后历史记录能否导出", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay、银联、支付宝等；以GamsGo结算页为准", region: "模型和用量随地区、套餐变化",
     sourceUrl: "https://www.gamsgo.com/zh/details/perplexity_ai", affiliateUrl: "https://www.gamsgo.com/zh/details/perplexity_ai/partner/BTzCM",
-    purchaseOptions: [
-      { label: "PRO · 3个月", price: "$34.99", note: "$11.67 / 月 · 充值到自己的账号", url: "https://www.gamsgo.com/zh/details/perplexity_ai/partner/BTzCM" },
-      { label: "PRO · 6个月", price: "$58.99", note: "$9.84 / 月 · 充值到自己的账号", url: "https://www.gamsgo.com/zh/details/perplexity_ai/partner/BTzCM" },
-      { label: "PRO · 12个月", price: "$98.99", note: "$8.25 / 月 · 充值到自己的账号", url: "https://www.gamsgo.com/zh/details/perplexity_ai/partner/BTzCM" },
-    ],
     priceVerifiedAt: "2026-07-18", verifiedAt: checkedAt,
   },
   {
@@ -528,17 +527,30 @@ const baseSubscriptionOffers: SubscriptionOffer[] = [
 
 function syncedSubscriptionOffer(offer: SubscriptionOffer): SubscriptionOffer {
   const synced = autoSync.gamsgo.find((item) => item.slug === offer.slug);
-  const usdMatch = offer.officialPrice.match(/US\$(\d+(?:\.\d+)?)/);
-  const officialCny = usdMatch && autoSync.exchange.state === "ok"
-    ? `约 ¥${(Number(usdMatch[1]) * autoSync.exchange.rates.CNY).toFixed(2)}`
+  const pricing = (subscriptionPricing.offers as Record<string, {
+    officialUsd?: number;
+    verifiedAt: string;
+    options?: NonNullable<SubscriptionOffer["purchaseOptions"]>;
+  }>)[offer.slug];
+  const purchaseOptions = pricing?.options?.map((option) => ({ ...option }));
+  const firstOption = purchaseOptions?.[0];
+  const officialCny = pricing?.officialUsd !== undefined
+    ? formatCnyPrice(pricing.officialUsd)
     : offer.officialCny;
-  const offerWithCurrentExchange = { ...offer, officialCny };
-  if (offer.purchaseOptions?.length) return offerWithCurrentExchange;
-  if (!synced) return offerWithCurrentExchange;
+  const offerWithCurrentPricing: SubscriptionOffer = {
+    ...offer,
+    officialCny,
+    purchaseOptions,
+    priceVerifiedAt: pricing?.verifiedAt || offer.priceVerifiedAt,
+    gamsgoPrice: firstOption ? `${formatUsdPrice(firstOption.usd, firstOption.suffix)} 起` : offer.gamsgoPrice,
+    gamsgoCny: firstOption ? `${formatCnyPrice(firstOption.usd, firstOption.suffix)} 起` : offer.gamsgoCny,
+  };
+  if (purchaseOptions?.length) return offerWithCurrentPricing;
+  if (!synced) return offerWithCurrentPricing;
 
   if (!["ok", "price-changed"].includes(synced.state) || !synced.published) {
     return {
-      ...offerWithCurrentExchange,
+      ...offerWithCurrentPricing,
       gamsgoPrice: "暂时无法核验",
       gamsgoCny: "以购买页实时显示为准",
       priceNote: synced.state === "price-change-pending"
@@ -552,7 +564,7 @@ function syncedSubscriptionOffer(offer: SubscriptionOffer): SubscriptionOffer {
 
   const currencyLabel = synced.published.currency === "SGD" ? "S$" : synced.published.currency === "USD" ? "US$" : synced.published.currency;
   return {
-    ...offerWithCurrentExchange,
+    ...offerWithCurrentPricing,
     gamsgoPrice: `${currencyLabel}${synced.published.value.toFixed(2)} / 月公开起价`,
     gamsgoCny: synced.cny ? `约 ¥${synced.cny.toFixed(2)}` : "人民币参考价待核验",
     priceNote: `${synced.note}${synced.state === "price-changed" ? "；价格明显变动，已连续两次读取一致" : ""}。`,

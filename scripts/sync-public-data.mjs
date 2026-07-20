@@ -68,6 +68,18 @@ async function loadCatalogOfficialLinks() {
     .map((url, index) => ({ id: `catalog-official-${index + 1}`, url, kind: "download-source" }));
 }
 
+async function loadSubscriptionPurchaseLinks() {
+  const pricing = JSON.parse(await readFile(new URL("../data/subscription-pricing.json", import.meta.url), "utf8"));
+  const items = Object.entries(pricing.offers || {}).flatMap(([slug, offer]) =>
+    (offer.options || []).map((option, index) => ({
+      id: `subscription-${slug}-${index + 1}`,
+      url: option.url,
+      kind: "subscription-purchase",
+    })),
+  );
+  return [...new Map(items.map((item) => [item.url, item])).values()];
+}
+
 async function curlText(args, maxBuffer = 5 * 1024 * 1024) {
   const { stdout } = await execFileAsync(curl, args, { encoding: "utf8", timeout: 35_000, maxBuffer });
   return stdout;
@@ -184,7 +196,8 @@ try {
 
 const exchange = await readExchange(previousAutoSync.exchange);
 const catalogOfficialLinks = await loadCatalogOfficialLinks();
-const allLinks = [...new Map([...links, ...catalogOfficialLinks].map((item) => [item.url, item])).values()];
+const subscriptionPurchaseLinks = await loadSubscriptionPurchaseLinks();
+const allLinks = [...new Map([...links, ...catalogOfficialLinks, ...subscriptionPurchaseLinks].map((item) => [item.url, item])).values()];
 const [linkResults, clientResults, gamsgoResults, artificialAnalysisLeaderboard] = await Promise.all([
   Promise.all(allLinks.map(checkLink)),
   Promise.all(repositories.map((repository) => checkRelease(repository, previousSyncStatus.clients?.find((client) => client.repository === repository)))),

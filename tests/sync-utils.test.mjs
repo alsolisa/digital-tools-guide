@@ -1,6 +1,33 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readFile } from "node:fs/promises";
 import { decidePublishedPrice, isAllowedOfficialDownload, parseArtificialAnalysisLeaderboard, parseGamsgoPrice } from "../scripts/sync-utils.mjs";
+
+test("订阅价格只维护一份数据并覆盖全部购买链接", async () => {
+  const pricing = JSON.parse(await readFile(new URL("../data/subscription-pricing.json", import.meta.url), "utf8"));
+  assert.equal(pricing.usdCnyRate, 6.823);
+  const offers = Object.values(pricing.offers);
+  const options = offers.flatMap((offer) => offer.options || []);
+  assert.ok(options.length >= 12);
+  for (const option of options) {
+    assert.ok(option.usd > 0);
+    assert.equal(new URL(option.url).hostname, "www.gamsgo.com");
+    assert.match(option.url, /partner\/(?:BTzCM|2MGZTK)/);
+  }
+  const syncSource = await readFile(new URL("../scripts/sync-public-data.mjs", import.meta.url), "utf8");
+  assert.match(syncSource, /loadSubscriptionPurchaseLinks/);
+  assert.match(syncSource, /subscription-purchase/);
+});
+
+test("手机端AI与应用卡片的最终规则保持单列", async () => {
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  const desktopRule = css.lastIndexOf(".ai-card-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }");
+  const mobileRule = css.lastIndexOf(".ai-card-grid,.app-card-grid,.common-app-feature-grid");
+  assert.ok(desktopRule >= 0);
+  assert.ok(mobileRule > desktopRule, "手机单列规则必须位于最后的桌面三列规则之后");
+  assert.match(css.slice(mobileRule), /grid-template-columns:\s*minmax\(0,1fr\)\s*!important/);
+  assert.match(css.slice(mobileRule), /word-break:\s*normal/);
+});
 
 test("Artificial Analysis 榜单解析会同时读取能力、成本、速度和延迟", () => {
   const html = `<table><tbody>

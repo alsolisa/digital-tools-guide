@@ -1,0 +1,127 @@
+{
+  "usdCnyRate": 6.823,
+  "rateUpdatedAt": "2026-07-20",
+  "offers": {
+    "chatgpt-recharge": {
+      "officialUsd": 20,
+      "verifiedAt": "2026-07-18",
+      "options": [
+        {
+          "label": "共享使用",
+          "usd": 5.77,
+          "note": "适合预算优先、轻量使用",
+          "url": "https://www.gamsgo.com/details/chatgpt/partner/BTzCM"
+        },
+        {
+          "label": "独享账号",
+          "usd": 8.99,
+          "note": "平台提供独立账号",
+          "url": "https://www.gamsgo.com/details/chatgpt/partner/BTzCM"
+        },
+        {
+          "label": "本人账号充值",
+          "usd": 24.49,
+          "note": "会员充值到自己的账号",
+          "url": "https://www.gamsgo.com/details/chatgpt-recharge/partner/BTzCM"
+        }
+      ]
+    },
+    "claude": {
+      "officialUsd": 20,
+      "verifiedAt": "2026-07-18",
+      "options": [
+        {
+          "label": "Max 5x · 独享",
+          "usd": 89.99,
+          "note": "官方提供账号",
+          "url": "https://www.gamsgo.com/zh/details/claude/partner/BTzCM"
+        },
+        {
+          "label": "Max 20x · 独享",
+          "usd": 171.99,
+          "note": "官方提供账号",
+          "url": "https://www.gamsgo.com/zh/details/claude/partner/BTzCM"
+        }
+      ]
+    },
+    "gemini": {
+      "officialUsd": 19.99,
+      "verifiedAt": "2026-07-18",
+      "options": [
+        {
+          "label": "PRO · 3个月",
+          "usd": 10.49,
+          "monthlyUsd": 3.5,
+          "note": "充值到自己的账号",
+          "url": "https://www.gamsgo.com/zh/details/gemini/partner/BTzCM"
+        },
+        {
+          "label": "PRO · 12个月",
+          "usd": 27.99,
+          "monthlyUsd": 2.34,
+          "note": "官方提供账号",
+          "url": "https://www.gamsgo.com/zh/details/gemini/partner/BTzCM"
+        },
+        {
+          "label": "PRO · 18个月",
+          "usd": 45.99,
+          "monthlyUsd": 2.56,
+          "note": "充值到自己的账号",
+          "url": "https://www.gamsgo.com/zh/details/gemini/partner/BTzCM"
+        }
+      ]
+    },
+    "grok": {
+      "officialUsd": 30,
+      "verifiedAt": "2026-07-18",
+      "options": [
+        {
+          "label": "SuperGrok · 月付",
+          "usd": 17.99,
+          "suffix": " / 月",
+          "note": "充值到自己的账号",
+          "url": "https://www.gamsgo.com/details/grok/partner/BTzCM"
+        }
+      ]
+    },
+    "perplexity": {
+      "officialUsd": 17,
+      "verifiedAt": "2026-07-18",
+      "options": [
+        {
+          "label": "PRO · 3个月",
+          "usd": 34.99,
+          "monthlyUsd": 11.67,
+          "note": "充值到自己的账号",
+          "url": "https://www.gamsgo.com/zh/details/perplexity_ai/partner/BTzCM"
+        },
+        {
+          "label": "PRO · 6个月",
+          "usd": 58.99,
+          "monthlyUsd": 9.84,
+          "note": "充值到自己的账号",
+          "url": "https://www.gamsgo.com/zh/details/perplexity_ai/partner/BTzCM"
+        },
+        {
+          "label": "PRO · 12个月",
+          "usd": 98.99,
+          "monthlyUsd": 8.25,
+          "note": "充值到自己的账号",
+          "url": "https://www.gamsgo.com/zh/details/perplexity_ai/partner/BTzCM"
+        }
+      ]
+    },
+    "midjourney": {
+      "verifiedAt": "2026-07-18",
+      "options": [
+        {
+          "label": "Midjourney 当前方案",
+          "usd": 24.99,
+          "suffix": " / 月",
+          "note": "具体交付方式以购买页为准",
+          "url": "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK"
+        }
+      ]
+    }
+  }
+}
