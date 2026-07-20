@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-20T11:15:16.931Z",
+  "checkedAt": "2026-07-20T12:00:48.804Z",
   "exchange": {
     "state": "ok",
     "date": "2026-07-17",
@@ -21,7 +21,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-20T11:15:16.121Z",
+      "checkedAt": "2026-07-20T12:00:40.058Z",
       "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error",
       "officialObserved": {
@@ -37,31 +37,28 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-20T11:15:16.531Z",
+      "checkedAt": "2026-07-20T12:00:40.730Z",
       "note": "公开页未稳定展示可校验的月付价格",
       "error": "Error"
     },
     {
       "slug": "gemini",
       "url": "https://www.gamsgo.com/details/gemini",
-      "state": "price-change-pending",
+      "state": "price-changed",
       "published": {
-        "currency": "USD",
-        "value": 2.25
-      },
-      "candidate": {
         "currency": "USD",
         "value": 3.5
       },
-      "candidateSeenCount": 1,
-      "checkedAt": "2026-07-20T11:15:16.448Z",
+      "candidate": null,
+      "candidateSeenCount": 0,
+      "checkedAt": "2026-07-20T12:00:40.601Z",
       "officialObserved": {
         "currency": "USD",
         "value": 20
       },
       "period": "month",
-      "cny": 15.25,
-      "note": "价格变化超过50%，等待下一次读取一致后发布"
+      "cny": 23.72,
+      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
     },
     {
       "slug": "grok",
@@ -70,7 +67,7 @@
       "published": null,
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-20T11:15:16.845Z",
+      "checkedAt": "2026-07-20T12:00:40.478Z",
       "observedValues": [
         10,
         30,
@@ -90,7 +87,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-20T11:15:16.771Z",
+      "checkedAt": "2026-07-20T12:00:41.028Z",
       "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准",
       "officialObserved": {
         "currency": "USD",
@@ -110,7 +107,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-20T11:15:16.931Z",
+      "checkedAt": "2026-07-20T12:00:41.433Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
@@ -126,21 +123,21 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-07-20T11:15:16.931Z"
+      "checkedAt": "2026-07-20T12:00:48.804Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/leaderboards/models",
       "state": "ok",
-      "checkedAt": "2026-07-20T11:15:16.931Z"
+      "checkedAt": "2026-07-20T12:00:48.804Z"
     }
   ],
   "artificialAnalysisLeaderboard": {
     "source": "Artificial Analysis",
     "url": "https://artificialanalysis.ai/leaderboards/models",
     "state": "ok",
-    "checkedAt": "2026-07-20T11:15:15.966Z",
-    "lastSuccessfulAt": "2026-07-20T11:15:15.966Z",
+    "checkedAt": "2026-07-20T12:00:39.878Z",
+    "lastSuccessfulAt": "2026-07-20T12:00:39.878Z",
     "methodologyVersion": "Intelligence Index v4.1",
     "rows": [
       {
@@ -515,6 +512,20 @@
       "after": {
         "currency": "USD",
         "value": 2.25
+      },
+      "sourceUrl": "https://www.gamsgo.com/details/gemini"
+    },
+    {
+      "changedAt": "2026-07-20T12:00:48.804Z",
+      "type": "gamsgo-price",
+      "slug": "gemini",
+      "before": {
+        "currency": "USD",
+        "value": 2.25
+      },
+      "after": {
+        "currency": "USD",
+        "value": 3.5
       },
       "sourceUrl": "https://www.gamsgo.com/details/gemini"
     }
