@@ -29,7 +29,7 @@ const services = [
     status: "购买页已核验",
     statusTone: "verified",
     verifiedAt: "2026-07-16",
-    payment: "易支付、USDT-TRC20",
+    payment: "易支付（支付宝）、USDT-TRC20",
     monthly: "有月付 · 当前可订购",
     ownClient: "未发现明确自研客户端，以第三方客户端为主",
     description: "Silver ¥20/200GiB、Platinum ¥40/400GiB，最高500Mbps；Diamond ¥60/600GiB，最高1000Mbps；Ultimate ¥80/800GiB，最高2000Mbps。",

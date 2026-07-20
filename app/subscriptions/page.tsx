@@ -82,7 +82,7 @@ export default function SubscriptionsPage() {
       </section>
 
       <section className="content-section soft-section gamsgo-benefit-section">
-        <SectionHeading index="01" title="为什么有人通过 GamsGo 订阅？" lead="对普通用户来说，主要价值不是复杂的技术功能，而是价格更低、付款更方便、套餐写得清楚，并且出现问题时有人可以联系。" />
+        <SectionHeading index="01" title="为什么要通过 GamsGo 订阅？" lead="对普通用户来说，主要价值不是复杂的技术功能，而是价格更低、付款更方便、套餐写得清楚，并且出现问题时有人可以联系。" />
         <div className="gamsgo-benefit-grid">
           <article><span>01 · 售后保障</span><h2>7×24 小时在线客服</h2><p>遇到账号、交付或订单问题，可以从订单页联系 GamsGo 客服处理，不需要自己寻找产品供应方。</p></article>
           <article><span>02 · 价格优势</span><h2>多项 AI 方案处于较低价位</h2><p>共享、独享账号和本人账号充值分别定价，你可以按预算选择，不必只看官方原价。</p></article>
@@ -153,8 +153,14 @@ export default function SubscriptionsPage() {
             <CopyCodeButton code="RWSY8" />
           </div>
           <div className="coupon-proof-grid">
-            <figure><a href={`${assetBase}/guides/subscriptions/gamsgo-coupon-entry.png`} target="_blank" rel="noopener noreferrer" aria-label="打开优惠券入口大图"><Image src={`${assetBase}/guides/subscriptions/gamsgo-coupon-entry.png`} width={1711} height={947} unoptimized alt="GamsGo首页右下角的优惠券入口" /></a><figcaption><span><b>第1步</b> 点击首页右下角的优惠券图标</span><em>点击查看大图 ↗</em></figcaption></figure>
-            <figure><a href={`${assetBase}/guides/subscriptions/gamsgo-coupon-checkout.png`} target="_blank" rel="noopener noreferrer" aria-label="打开结算页优惠码大图"><Image src={`${assetBase}/guides/subscriptions/gamsgo-coupon-checkout.png`} width={1356} height={570} unoptimized alt="GamsGo结算页中的促销码和优惠券输入区域" /></a><figcaption><span><b>第2步</b> 在结算页选择优惠券或填写优惠码</span><em>点击查看大图 ↗</em></figcaption></figure>
+            <figure>
+              <a href={`${assetBase}/guides/subscriptions/gamsgo-coupon-entry.png`} target="_blank" rel="noopener noreferrer" aria-label="打开优惠券入口大图"><Image src={`${assetBase}/guides/subscriptions/gamsgo-coupon-entry.png`} width={1711} height={947} unoptimized alt="GamsGo首页右下角的优惠券入口" /></a>
+              <figcaption><span><b>第1步</b> 点击首页右下角的优惠券图标</span><a className="figure-zoom-link" href={`${assetBase}/guides/subscriptions/gamsgo-coupon-entry.png`} target="_blank" rel="noopener noreferrer">点击查看大图 ↗</a></figcaption>
+            </figure>
+            <figure>
+              <a href={`${assetBase}/guides/subscriptions/gamsgo-coupon-checkout.png`} target="_blank" rel="noopener noreferrer" aria-label="打开结算页优惠码大图"><Image src={`${assetBase}/guides/subscriptions/gamsgo-coupon-checkout.png`} width={1356} height={570} unoptimized alt="GamsGo结算页中的促销码和优惠券输入区域" /></a>
+              <figcaption><span><b>第2步</b> 在结算页选择优惠券或填写优惠码</span><a className="figure-zoom-link" href={`${assetBase}/guides/subscriptions/gamsgo-coupon-checkout.png`} target="_blank" rel="noopener noreferrer">点击查看大图 ↗</a></figcaption>
+            </figure>
           </div>
         </div>
 
@@ -168,7 +174,10 @@ export default function SubscriptionsPage() {
             {firstLoginSteps.map((step) => (
               <li key={step.number}>
                 <div className="login-step-copy"><span>{step.number}</span><div><h3>{step.title}</h3><p>{step.body}</p></div></div>
-                {step.image && <figure><a href={`${assetBase}${step.image.src}`} target="_blank" rel="noopener noreferrer" aria-label={`打开${step.title}大图`}><Image src={`${assetBase}${step.image.src}`} width={step.image.width} height={step.image.height} unoptimized alt={step.image.alt} /></a><figcaption><span>示例截图中的账号、密码和验证码均已隐藏</span><em>点击查看大图 ↗</em></figcaption></figure>}
+                {step.image && <figure>
+                  <a href={`${assetBase}${step.image.src}`} target="_blank" rel="noopener noreferrer" aria-label={`打开${step.title}大图`}><Image src={`${assetBase}${step.image.src}`} width={step.image.width} height={step.image.height} unoptimized alt={step.image.alt} /></a>
+                  <figcaption><span>示例截图中的账号、密码和验证码均已隐藏</span><a className="figure-zoom-link" href={`${assetBase}${step.image.src}`} target="_blank" rel="noopener noreferrer">点击查看大图 ↗</a></figcaption>
+                </figure>}
               </li>
             ))}
           </ol>

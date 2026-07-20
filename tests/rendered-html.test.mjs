@@ -64,6 +64,7 @@ test("机场指南按已核验月付排序并清楚分开非月付方案", async
   assert.doesNotMatch(html, /当前计划页仅直接展示年付、半年付、季付/);
   assert.doesNotMatch(html, /截图用来证明|\/guides\/nodes\/tag-shop\.png|\/guides\/nodes\/youtu-client-proof\.png/);
   assert.match(html, /服务仅限中国大陆，海外及新疆不可用/);
+  assert.match(html, /易支付（支付宝）、USDT-TRC20/);
 });
 
 test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入口", async () => {
@@ -108,6 +109,14 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   }
   for (const image of ["gamsgo-coupon-entry.png", "gamsgo-coupon-checkout.png", "gamsgo-get-code.png", "chatgpt-email-login.png", "chatgpt-password.png", "chatgpt-verification.png", "gamsgo-hidden-code.png"]) {
     assert.match(html, new RegExp(`/guides/subscriptions/${image.replace(".", "\\.")}`));
+  }
+  assert.match(html, /为什么要通过 GamsGo 订阅？/);
+  assert.doesNotMatch(html, /为什么有人通过 GamsGo 订阅？/);
+  const zoomLinks = html.match(/<a[^>]+class="figure-zoom-link"[^>]+>点击查看大图 ↗<\/a>/g) || [];
+  assert.equal(zoomLinks.length, 7);
+  for (const link of zoomLinks) {
+    assert.match(link, /href="[^\"]*\/guides\/subscriptions\/[^\"]+\.png"/);
+    assert.match(link, /target="_blank"/);
   }
   assert.doesNotMatch(html, /class="official-action" href="https:\/\/grok\.com\/"/);
   assert.doesNotMatch(html, /<h2>Midjourney<\/h2>|中风险 · 涉及访问密钥|高风险 ·|先看产品教程|<dt>地区<\/dt>|下单前必须确认|未作独立审计|<small class="inline-disclosure">|三种交付方式，使用体验不同|付款前一分钟检查|安全购买流程/);

@@ -15,7 +15,7 @@
       ],
       "halfYearPricesCny": [110, 220, 330, 440],
       "annualPricesCny": [200, 400, 600, 800],
-      "paymentMethods": ["易支付", "USDT-TRC20"],
+      "paymentMethods": ["易支付（支付宝）", "USDT-TRC20"],
       "notes": ["仅限个人使用", "暂不支持退款", "中国大陆 BGP 多线接入", "国际 IPLC 传输线路"]
     },
     "悠兔 Youtu": { "status": "pending-authenticated-purchase-page" },
