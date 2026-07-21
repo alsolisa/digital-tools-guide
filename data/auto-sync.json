@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-21T03:45:18.457Z",
+  "checkedAt": "2026-07-21T08:44:52.227Z",
   "exchange": {
     "state": "ok",
     "date": "2026-07-20",
@@ -21,7 +21,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-21T03:45:17.641Z",
+      "checkedAt": "2026-07-21T08:44:51.638Z",
       "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error",
       "officialObserved": {
@@ -37,7 +37,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-21T03:45:18.047Z",
+      "checkedAt": "2026-07-21T08:44:52.063Z",
       "note": "公开页未稳定展示可校验的月付价格",
       "error": "Error"
     },
@@ -51,7 +51,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-21T03:45:18.382Z",
+      "checkedAt": "2026-07-21T08:44:51.840Z",
       "officialObserved": {
         "currency": "USD",
         "value": 20
@@ -67,7 +67,7 @@
       "published": null,
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-21T03:45:18.291Z",
+      "checkedAt": "2026-07-21T08:44:52.027Z",
       "observedValues": [
         10,
         30,
@@ -87,7 +87,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-21T03:45:18.432Z",
+      "checkedAt": "2026-07-21T08:44:52.227Z",
       "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准",
       "officialObserved": {
         "currency": "USD",
@@ -107,7 +107,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-21T03:45:18.186Z",
+      "checkedAt": "2026-07-21T08:44:52.126Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
@@ -123,21 +123,21 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-07-21T03:45:18.457Z"
+      "checkedAt": "2026-07-21T08:44:52.227Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/leaderboards/models",
       "state": "ok",
-      "checkedAt": "2026-07-21T03:45:18.457Z"
+      "checkedAt": "2026-07-21T08:44:52.227Z"
     }
   ],
   "artificialAnalysisLeaderboard": {
     "source": "Artificial Analysis",
     "url": "https://artificialanalysis.ai/leaderboards/models",
     "state": "ok",
-    "checkedAt": "2026-07-21T03:45:17.459Z",
-    "lastSuccessfulAt": "2026-07-21T03:45:17.459Z",
+    "checkedAt": "2026-07-21T08:44:51.436Z",
+    "lastSuccessfulAt": "2026-07-21T08:44:51.436Z",
     "methodologyVersion": "Intelligence Index v4.1",
     "rows": [
       {
@@ -148,8 +148,8 @@
         "intelligence": 60,
         "priceUsdPerMillion": 2.75,
         "outputTokensPerSecond": 68,
-        "latencySeconds": 116.24,
-        "totalResponseSeconds": 123.56
+        "latencySeconds": 111.29,
+        "totalResponseSeconds": 118.61
       },
       {
         "rank": 2,
@@ -180,9 +180,9 @@
         "contextWindow": "1.05M",
         "intelligence": 57,
         "priceUsdPerMillion": 0.95,
-        "outputTokensPerSecond": 42,
-        "latencySeconds": 3.75,
-        "totalResponseSeconds": 63.23
+        "outputTokensPerSecond": 39,
+        "latencySeconds": 4.23,
+        "totalResponseSeconds": 67.53
       },
       {
         "rank": 5,
@@ -192,8 +192,8 @@
         "intelligence": 56,
         "priceUsdPerMillion": 0.45,
         "outputTokensPerSecond": 59,
-        "latencySeconds": 11.7,
-        "totalResponseSeconds": 20.22
+        "latencySeconds": 11.42,
+        "totalResponseSeconds": 19.94
       },
       {
         "rank": 6,
@@ -203,8 +203,8 @@
         "intelligence": 56,
         "priceUsdPerMillion": 1.8,
         "outputTokensPerSecond": 60,
-        "latencySeconds": 30.89,
-        "totalResponseSeconds": 39.25
+        "latencySeconds": 23.38,
+        "totalResponseSeconds": 31.77
       },
       {
         "rank": 7,
@@ -214,8 +214,8 @@
         "intelligence": 55,
         "priceUsdPerMillion": 0.82,
         "outputTokensPerSecond": 153,
-        "latencySeconds": 136.65,
-        "totalResponseSeconds": 139.91
+        "latencySeconds": 130.83,
+        "totalResponseSeconds": 134.09
       },
       {
         "rank": 8,
@@ -225,8 +225,8 @@
         "intelligence": 54,
         "priceUsdPerMillion": 0.31,
         "outputTokensPerSecond": 70,
-        "latencySeconds": 10.27,
-        "totalResponseSeconds": 17.43
+        "latencySeconds": 9.95,
+        "totalResponseSeconds": 17.11
       },
       {
         "rank": 9,
@@ -236,8 +236,8 @@
         "intelligence": 54,
         "priceUsdPerMillion": 0.31,
         "outputTokensPerSecond": 57,
-        "latencySeconds": 9.93,
-        "totalResponseSeconds": 18.68
+        "latencySeconds": 8.89,
+        "totalResponseSeconds": 17.65
       },
       {
         "rank": 10,
@@ -247,8 +247,8 @@
         "intelligence": 53,
         "priceUsdPerMillion": 1.53,
         "outputTokensPerSecond": 84,
-        "latencySeconds": 157.99,
-        "totalResponseSeconds": 163.95
+        "latencySeconds": 179.03,
+        "totalResponseSeconds": 184.99
       },
       {
         "rank": 11,
@@ -269,8 +269,8 @@
         "intelligence": 51,
         "priceUsdPerMillion": 0.21,
         "outputTokensPerSecond": 199,
-        "latencySeconds": 78.97,
-        "totalResponseSeconds": 81.48
+        "latencySeconds": 82.7,
+        "totalResponseSeconds": 85.2
       },
       {
         "rank": 13,
@@ -279,9 +279,9 @@
         "contextWindow": "1M",
         "intelligence": 51,
         "priceUsdPerMillion": 0.47,
-        "outputTokensPerSecond": 199,
-        "latencySeconds": 1.36,
-        "totalResponseSeconds": 13.95
+        "outputTokensPerSecond": 193,
+        "latencySeconds": 1.35,
+        "totalResponseSeconds": 14.33
       },
       {
         "rank": 14,
@@ -302,8 +302,8 @@
         "intelligence": 50,
         "priceUsdPerMillion": 0.59,
         "outputTokensPerSecond": 165,
-        "latencySeconds": 20.31,
-        "totalResponseSeconds": 23.33
+        "latencySeconds": 19.1,
+        "totalResponseSeconds": 22.12
       },
       {
         "rank": 16,
@@ -323,9 +323,9 @@
         "contextWindow": "1M",
         "intelligence": 49,
         "priceUsdPerMillion": 0.14,
-        "outputTokensPerSecond": 208,
+        "outputTokensPerSecond": 200,
         "latencySeconds": 31.49,
-        "totalResponseSeconds": 33.9
+        "totalResponseSeconds": 33.99
       },
       {
         "rank": 18,
@@ -346,8 +346,8 @@
         "intelligence": 46,
         "priceUsdPerMillion": 0.29,
         "outputTokensPerSecond": 129,
-        "latencySeconds": 33.44,
-        "totalResponseSeconds": 37.31
+        "latencySeconds": 31.75,
+        "totalResponseSeconds": 35.62
       },
       {
         "rank": 20,
@@ -357,8 +357,8 @@
         "intelligence": 46,
         "priceUsdPerMillion": 0.09,
         "outputTokensPerSecond": 193,
-        "latencySeconds": 7.89,
-        "totalResponseSeconds": 10.48
+        "latencySeconds": 7.43,
+        "totalResponseSeconds": 10.02
       }
     ]
   },
