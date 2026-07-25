@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-25T14:03:04.838Z",
+  "checkedAt": "2026-07-25T19:34:57.200Z",
   "exchange": {
     "state": "ok",
     "date": "2026-07-24",
@@ -21,7 +21,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-25T14:02:52.089Z",
+      "checkedAt": "2026-07-25T19:34:55.660Z",
       "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error",
       "officialObserved": {
@@ -37,7 +37,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-25T14:02:53.868Z",
+      "checkedAt": "2026-07-25T19:34:56.749Z",
       "note": "公开页未稳定展示可校验的月付价格",
       "error": "Error"
     },
@@ -51,7 +51,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-25T14:02:54.022Z",
+      "checkedAt": "2026-07-25T19:34:57.065Z",
       "officialObserved": {
         "currency": "USD",
         "value": 20
@@ -67,7 +67,7 @@
       "published": null,
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-25T14:02:54.488Z",
+      "checkedAt": "2026-07-25T19:34:57.200Z",
       "observedValues": [
         10,
         30,
@@ -87,7 +87,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-25T14:02:54.437Z",
+      "checkedAt": "2026-07-25T19:34:57.128Z",
       "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准",
       "officialObserved": {
         "currency": "USD",
@@ -107,7 +107,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-25T14:02:54.047Z",
+      "checkedAt": "2026-07-25T19:34:57.163Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
@@ -123,21 +123,21 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-07-25T14:03:04.838Z"
+      "checkedAt": "2026-07-25T19:34:57.200Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/leaderboards/models",
       "state": "ok",
-      "checkedAt": "2026-07-25T14:03:04.838Z"
+      "checkedAt": "2026-07-25T19:34:57.200Z"
     }
   ],
   "artificialAnalysisLeaderboard": {
     "source": "Artificial Analysis",
     "url": "https://artificialanalysis.ai/leaderboards/models",
     "state": "ok",
-    "checkedAt": "2026-07-25T14:02:51.835Z",
-    "lastSuccessfulAt": "2026-07-25T14:02:51.835Z",
+    "checkedAt": "2026-07-25T19:34:55.489Z",
+    "lastSuccessfulAt": "2026-07-25T19:34:55.489Z",
     "methodologyVersion": "Intelligence Index v4.1",
     "rows": [
       {
