@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-31T03:50:18.768Z",
+  "checkedAt": "2026-07-31T09:17:31.127Z",
   "exchange": {
     "state": "ok",
     "date": "2026-07-30",
@@ -21,7 +21,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-31T03:50:17.012Z",
+      "checkedAt": "2026-07-31T09:17:19.028Z",
       "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error",
       "officialObserved": {
@@ -37,7 +37,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-31T03:50:18.360Z",
+      "checkedAt": "2026-07-31T09:17:21.964Z",
       "note": "公开页未稳定展示可校验的月付价格",
       "error": "Error"
     },
@@ -51,7 +51,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-31T03:50:18.260Z",
+      "checkedAt": "2026-07-31T09:17:21.643Z",
       "officialObserved": {
         "currency": "USD",
         "value": 20
@@ -67,7 +67,7 @@
       "published": null,
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-31T03:50:18.210Z",
+      "checkedAt": "2026-07-31T09:17:21.814Z",
       "observedValues": [
         10,
         30,
@@ -87,7 +87,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-31T03:50:18.294Z",
+      "checkedAt": "2026-07-31T09:17:21.863Z",
       "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准",
       "officialObserved": {
         "currency": "USD",
@@ -107,7 +107,7 @@
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-07-31T03:50:18.314Z",
+      "checkedAt": "2026-07-31T09:17:21.093Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
@@ -123,21 +123,21 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-07-31T03:50:18.768Z"
+      "checkedAt": "2026-07-31T09:17:31.127Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/leaderboards/models",
       "state": "ok",
-      "checkedAt": "2026-07-31T03:50:18.768Z"
+      "checkedAt": "2026-07-31T09:17:31.127Z"
     }
   ],
   "artificialAnalysisLeaderboard": {
     "source": "Artificial Analysis",
     "url": "https://artificialanalysis.ai/leaderboards/models",
     "state": "ok",
-    "checkedAt": "2026-07-31T03:50:16.782Z",
-    "lastSuccessfulAt": "2026-07-31T03:50:16.782Z",
+    "checkedAt": "2026-07-31T09:17:18.855Z",
+    "lastSuccessfulAt": "2026-07-31T09:17:18.855Z",
     "methodologyVersion": "Intelligence Index v4.1",
     "rows": [
       {
@@ -146,7 +146,7 @@
         "company": "Anthropic",
         "contextWindow": "1M",
         "intelligence": 61,
-        "priceUsdPerMillion": 2.03,
+        "priceUsdPerMillion": 2.34,
         "outputTokensPerSecond": 54,
         "latencySeconds": 80.24,
         "totalResponseSeconds": 89.53
@@ -157,10 +157,10 @@
         "company": "Anthropic",
         "contextWindow": "1M",
         "intelligence": 60,
-        "priceUsdPerMillion": 1.56,
+        "priceUsdPerMillion": 1.8,
         "outputTokensPerSecond": 54,
-        "latencySeconds": 28.81,
-        "totalResponseSeconds": 38.12
+        "latencySeconds": 24.63,
+        "totalResponseSeconds": 33.94
       },
       {
         "rank": 3,
@@ -168,7 +168,7 @@
         "company": "Anthropic",
         "contextWindow": "1M",
         "intelligence": 60,
-        "priceUsdPerMillion": 2.75,
+        "priceUsdPerMillion": 3.15,
         "outputTokensPerSecond": 64,
         "latencySeconds": 90.02,
         "totalResponseSeconds": 97.79
@@ -179,7 +179,7 @@
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 59,
-        "priceUsdPerMillion": 1.54,
+        "priceUsdPerMillion": 1.86,
         "outputTokensPerSecond": 66,
         "latencySeconds": 147.3,
         "totalResponseSeconds": 154.93
@@ -190,10 +190,10 @@
         "company": "Anthropic",
         "contextWindow": "1M",
         "intelligence": 59,
-        "priceUsdPerMillion": 1.06,
+        "priceUsdPerMillion": 1.23,
         "outputTokensPerSecond": 53,
         "latencySeconds": 15.22,
-        "totalResponseSeconds": 24.58
+        "totalResponseSeconds": 24.6
       },
       {
         "rank": 6,
@@ -201,18 +201,18 @@
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 58,
-        "priceUsdPerMillion": 0.94,
+        "priceUsdPerMillion": 1.17,
         "outputTokensPerSecond": 61,
         "latencySeconds": 44.96,
         "totalResponseSeconds": 53.19
       },
       {
         "rank": 7,
-        "model": "Kimi K3",
+        "model": "Kimi K3 (max)",
         "company": "Kimi",
         "contextWindow": "1.05M",
         "intelligence": 57,
-        "priceUsdPerMillion": 0.72,
+        "priceUsdPerMillion": 0.86,
         "outputTokensPerSecond": 35,
         "latencySeconds": 3.94,
         "totalResponseSeconds": 76.03
@@ -223,7 +223,7 @@
         "company": "Anthropic",
         "contextWindow": "1M",
         "intelligence": 56,
-        "priceUsdPerMillion": 0.62,
+        "priceUsdPerMillion": 0.72,
         "outputTokensPerSecond": 53,
         "latencySeconds": 6.13,
         "totalResponseSeconds": 15.58
@@ -234,7 +234,7 @@
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 56,
-        "priceUsdPerMillion": 0.62,
+        "priceUsdPerMillion": 0.77,
         "outputTokensPerSecond": 60,
         "latencySeconds": 13.25,
         "totalResponseSeconds": 21.53
@@ -245,7 +245,7 @@
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 55,
-        "priceUsdPerMillion": 0.62,
+        "priceUsdPerMillion": 0.73,
         "outputTokensPerSecond": 132,
         "latencySeconds": 143.74,
         "totalResponseSeconds": 147.54
@@ -256,10 +256,10 @@
         "company": "SpaceXAI",
         "contextWindow": "500k",
         "intelligence": 54,
-        "priceUsdPerMillion": 0.35,
+        "priceUsdPerMillion": 0.44,
         "outputTokensPerSecond": 58,
-        "latencySeconds": 8.01,
-        "totalResponseSeconds": 16.65
+        "latencySeconds": 7.25,
+        "totalResponseSeconds": 15.89
       },
       {
         "rank": 12,
@@ -267,7 +267,7 @@
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 54,
-        "priceUsdPerMillion": 0.41,
+        "priceUsdPerMillion": 0.51,
         "outputTokensPerSecond": 55,
         "latencySeconds": 4.31,
         "totalResponseSeconds": 13.46
@@ -278,7 +278,7 @@
         "company": "Anthropic",
         "contextWindow": "1M",
         "intelligence": 53,
-        "priceUsdPerMillion": 1.53,
+        "priceUsdPerMillion": 1.72,
         "outputTokensPerSecond": 75,
         "latencySeconds": 155.55,
         "totalResponseSeconds": 162.24
@@ -289,10 +289,10 @@
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 52,
-        "priceUsdPerMillion": 0.36,
+        "priceUsdPerMillion": 0.43,
         "outputTokensPerSecond": 113,
-        "latencySeconds": 12.9,
-        "totalResponseSeconds": 17.32
+        "latencySeconds": 11.84,
+        "totalResponseSeconds": 16.26
       },
       {
         "rank": 15,
@@ -300,10 +300,10 @@
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 51,
-        "priceUsdPerMillion": 0.06,
-        "outputTokensPerSecond": 189,
+        "priceUsdPerMillion": 0.07,
+        "outputTokensPerSecond": 184,
         "latencySeconds": 116.5,
-        "totalResponseSeconds": 119.14
+        "totalResponseSeconds": 119.21
       },
       {
         "rank": 16,
@@ -311,10 +311,10 @@
         "company": "Z AI",
         "contextWindow": "1M",
         "intelligence": 51,
-        "priceUsdPerMillion": 0.27,
-        "outputTokensPerSecond": 120,
+        "priceUsdPerMillion": 0.29,
+        "outputTokensPerSecond": 116,
         "latencySeconds": 1.43,
-        "totalResponseSeconds": 22.26
+        "totalResponseSeconds": 23.02
       },
       {
         "rank": 17,
@@ -322,7 +322,7 @@
         "company": "Meta",
         "contextWindow": "1.05M",
         "intelligence": 51,
-        "priceUsdPerMillion": 0.26,
+        "priceUsdPerMillion": 0.29,
         "outputTokensPerSecond": 127,
         "latencySeconds": 2.47,
         "totalResponseSeconds": 22.1
@@ -333,7 +333,7 @@
         "company": "Anthropic",
         "contextWindow": "1M",
         "intelligence": 51,
-        "priceUsdPerMillion": 0.36,
+        "priceUsdPerMillion": 0.43,
         "outputTokensPerSecond": 54,
         "latencySeconds": 2.94,
         "totalResponseSeconds": 12.21
@@ -344,7 +344,7 @@
         "company": "Google",
         "contextWindow": "1M",
         "intelligence": 50,
-        "priceUsdPerMillion": 0.59,
+        "priceUsdPerMillion": 0.69,
         "outputTokensPerSecond": 170,
         "latencySeconds": 22.42,
         "totalResponseSeconds": 25.37
@@ -355,7 +355,7 @@
         "company": "Google",
         "contextWindow": "1M",
         "intelligence": 50,
-        "priceUsdPerMillion": 0.5,
+        "priceUsdPerMillion": 0.56,
         "outputTokensPerSecond": 215,
         "latencySeconds": 14.74,
         "totalResponseSeconds": 17.06
