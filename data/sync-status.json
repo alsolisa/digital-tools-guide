@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-30T19:52:40.085Z",
+  "checkedAt": "2026-07-31T03:50:18.768Z",
   "policy": {
     "publicLinks": "automatic-6h",
     "clientReleases": "automatic-6h",
@@ -663,7 +663,7 @@
       "kind": "download-source",
       "state": "ok",
       "status": 200,
-      "finalUrl": "https://github.com/2dust/v2rayN/releases/tag/7.23.4"
+      "finalUrl": "https://github.com/2dust/v2rayN/releases/tag/7.24.4"
     },
     {
       "id": "catalog-official-72",
@@ -772,8 +772,8 @@
     {
       "repository": "2dust/v2rayN",
       "state": "ok",
-      "version": "7.23.4",
-      "releaseUrl": "https://github.com/2dust/v2rayN/releases/tag/7.23.4"
+      "version": "7.24.4",
+      "releaseUrl": "https://github.com/2dust/v2rayN/releases/tag/7.24.4"
     },
     {
       "repository": "chen08209/FlClash",
