@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-01T13:55:47.142Z",
+  "checkedAt": "2026-08-01T19:34:20.638Z",
   "policy": {
     "publicLinks": "automatic-6h",
     "clientReleases": "automatic-6h",
@@ -285,10 +285,9 @@
       "id": "catalog-official-22",
       "url": "https://support.google.com/gemini/",
       "kind": "download-source",
-      "state": "error",
-      "status": null,
-      "finalUrl": null,
-      "error": "Error"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://support.google.com/gemini/"
     },
     {
       "id": "catalog-official-23",
@@ -534,10 +533,9 @@
       "id": "catalog-official-55",
       "url": "https://support.google.com/youtube/answer/16475192",
       "kind": "download-source",
-      "state": "error",
-      "status": null,
-      "finalUrl": null,
-      "error": "Error"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://support.google.com/youtube/answer/16475192"
     },
     {
       "id": "catalog-official-56",
