@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-05T09:05:50.263Z",
+  "checkedAt": "2026-08-05T14:34:11.825Z",
   "policy": {
     "publicLinks": "automatic-6h",
     "clientReleases": "automatic-6h",
@@ -77,9 +77,10 @@
       "id": "gamsgo",
       "url": "https://www.gamsgo.com/partner/BTzCM",
       "kind": "affiliate",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://www.gamsgo.com/?promote=BTzCM"
+      "state": "error",
+      "status": null,
+      "finalUrl": null,
+      "error": "Error"
     },
     {
       "id": "arena",
@@ -709,87 +710,90 @@
       "id": "subscription-chatgpt-recharge-2",
       "url": "https://www.gamsgo.com/details/chatgpt/partner/BTzCM",
       "kind": "subscription-purchase",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://www.gamsgo.com/details/chatgpt?promote=BTzCM"
+      "state": "error",
+      "status": null,
+      "finalUrl": null,
+      "error": "Error"
     },
     {
       "id": "subscription-chatgpt-recharge-3",
       "url": "https://www.gamsgo.com/details/chatgpt-recharge/partner/BTzCM",
       "kind": "subscription-purchase",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://www.gamsgo.com/details/chatgpt-recharge?promote=BTzCM"
+      "state": "error",
+      "status": null,
+      "finalUrl": null,
+      "error": "Error"
     },
     {
       "id": "subscription-claude-2",
       "url": "https://www.gamsgo.com/zh/details/claude/partner/BTzCM",
       "kind": "subscription-purchase",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://www.gamsgo.com/zh/details/claude?promote=BTzCM"
+      "state": "error",
+      "status": null,
+      "finalUrl": null,
+      "error": "Error"
     },
     {
       "id": "subscription-gemini-3",
       "url": "https://www.gamsgo.com/zh/details/gemini/partner/BTzCM",
       "kind": "subscription-purchase",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://www.gamsgo.com/zh/details/gemini?promote=BTzCM"
+      "state": "error",
+      "status": null,
+      "finalUrl": null,
+      "error": "Error"
     },
     {
       "id": "subscription-grok-1",
       "url": "https://www.gamsgo.com/details/grok/partner/BTzCM",
       "kind": "subscription-purchase",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://www.gamsgo.com/details/grok?promote=BTzCM"
+      "state": "error",
+      "status": null,
+      "finalUrl": null,
+      "error": "Error"
     },
     {
       "id": "subscription-perplexity-3",
       "url": "https://www.gamsgo.com/zh/details/perplexity_ai/partner/BTzCM",
       "kind": "subscription-purchase",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://www.gamsgo.com/zh/details/perplexity_ai?promote=BTzCM"
+      "state": "error",
+      "status": null,
+      "finalUrl": null,
+      "error": "Error"
     },
     {
       "id": "subscription-midjourney-1",
       "url": "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK",
       "kind": "subscription-purchase",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://www.gamsgo.com/details/midjourney_official?promote=2MGZTK"
+      "state": "error",
+      "status": null,
+      "finalUrl": null,
+      "error": "Error"
     }
   ],
   "clients": [
     {
       "repository": "clash-verge-rev/clash-verge-rev",
-      "state": "stale",
+      "state": "ok",
       "version": "v2.5.2",
-      "releaseUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.2",
-      "error": "Error"
+      "releaseUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.2"
     },
     {
       "repository": "2dust/v2rayN",
-      "state": "stale",
+      "state": "ok",
       "version": "7.24.4",
-      "releaseUrl": "https://github.com/2dust/v2rayN/releases/tag/7.24.4",
-      "error": "Error"
+      "releaseUrl": "https://github.com/2dust/v2rayN/releases/tag/7.24.4"
     },
     {
       "repository": "chen08209/FlClash",
-      "state": "stale",
+      "state": "ok",
       "version": "v0.8.94",
-      "releaseUrl": "https://github.com/chen08209/FlClash/releases/tag/v0.8.94",
-      "error": "Error"
+      "releaseUrl": "https://github.com/chen08209/FlClash/releases/tag/v0.8.94"
     },
     {
       "repository": "hiddify/hiddify-app",
-      "state": "stale",
+      "state": "ok",
       "version": "v4.1.1",
-      "releaseUrl": "https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1",
-      "error": "Error"
+      "releaseUrl": "https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1"
     }
   ]
 }
