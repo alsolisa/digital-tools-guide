@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-05T03:32:53.072Z",
+  "checkedAt": "2026-08-05T09:05:50.263Z",
   "policy": {
     "publicLinks": "automatic-6h",
     "clientReleases": "automatic-6h",
@@ -229,8 +229,8 @@
       "id": "catalog-official-14",
       "url": "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684",
       "kind": "download-source",
-      "state": "protected",
-      "status": 429,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684"
     },
     {
@@ -277,8 +277,8 @@
       "id": "catalog-official-21",
       "url": "https://apps.apple.com/us/app/google-gemini/id6477489729",
       "kind": "download-source",
-      "state": "protected",
-      "status": 429,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://apps.apple.com/us/app/google-gemini/id6477489729"
     },
     {
@@ -341,8 +341,8 @@
       "id": "catalog-official-30",
       "url": "https://apps.apple.com/us/app/grok-ai/id6670324846",
       "kind": "download-source",
-      "state": "protected",
-      "status": 429,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://apps.apple.com/us/app/grok-ai/id6670324846"
     },
     {
@@ -517,8 +517,8 @@
       "id": "catalog-official-53",
       "url": "https://apps.apple.com/us/app/youtube/id544007664",
       "kind": "download-source",
-      "state": "protected",
-      "status": 429,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://apps.apple.com/us/app/youtube/id544007664"
     },
     {
@@ -629,9 +629,9 @@
       "id": "catalog-official-67",
       "url": "https://apps.apple.com/us/app/tiktok/id835599320",
       "kind": "download-source",
-      "state": "protected",
-      "status": 429,
-      "finalUrl": "https://apps.apple.com/us/app/tiktok/id835599320"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://apps.apple.com/us/app/tiktok-videos-shop-live/id835599320"
     },
     {
       "id": "catalog-official-68",
@@ -685,24 +685,24 @@
       "id": "catalog-official-74",
       "url": "https://apps.apple.com/us/app/shadowrocket/id932747118",
       "kind": "download-source",
-      "state": "protected",
-      "status": 429,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://apps.apple.com/us/app/shadowrocket/id932747118"
     },
     {
       "id": "catalog-official-75",
       "url": "https://apps.apple.com/us/app/quantumult-x/id1443988620",
       "kind": "download-source",
-      "state": "protected",
-      "status": 429,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://apps.apple.com/us/app/quantumult-x/id1443988620"
     },
     {
       "id": "catalog-official-76",
       "url": "https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349",
       "kind": "download-source",
-      "state": "protected",
-      "status": 429,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349"
     },
     {
@@ -765,27 +765,31 @@
   "clients": [
     {
       "repository": "clash-verge-rev/clash-verge-rev",
-      "state": "ok",
+      "state": "stale",
       "version": "v2.5.2",
-      "releaseUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.2"
+      "releaseUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.2",
+      "error": "Error"
     },
     {
       "repository": "2dust/v2rayN",
-      "state": "ok",
+      "state": "stale",
       "version": "7.24.4",
-      "releaseUrl": "https://github.com/2dust/v2rayN/releases/tag/7.24.4"
+      "releaseUrl": "https://github.com/2dust/v2rayN/releases/tag/7.24.4",
+      "error": "Error"
     },
     {
       "repository": "chen08209/FlClash",
-      "state": "ok",
+      "state": "stale",
       "version": "v0.8.94",
-      "releaseUrl": "https://github.com/chen08209/FlClash/releases/tag/v0.8.94"
+      "releaseUrl": "https://github.com/chen08209/FlClash/releases/tag/v0.8.94",
+      "error": "Error"
     },
     {
       "repository": "hiddify/hiddify-app",
-      "state": "ok",
+      "state": "stale",
       "version": "v4.1.1",
-      "releaseUrl": "https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1"
+      "releaseUrl": "https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1",
+      "error": "Error"
     }
   ]
 }
