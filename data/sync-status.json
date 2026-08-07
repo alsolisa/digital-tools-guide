@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-07T03:18:31.232Z",
+  "checkedAt": "2026-08-07T07:41:43.843Z",
   "policy": {
     "publicLinks": "automatic-6h",
     "clientReleases": "automatic-6h",
@@ -77,9 +77,9 @@
       "id": "gamsgo",
       "url": "https://www.gamsgo.com/partner/BTzCM",
       "kind": "affiliate",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://www.gamsgo.com/?promote=BTzCM"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://www.gamsgo.com/partner/BTzCM"
     },
     {
       "id": "arena",
@@ -117,9 +117,10 @@
       "id": "catalog-official-19",
       "url": "https://gemini.google.com/",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://gemini.google.com/"
+      "state": "error",
+      "status": null,
+      "finalUrl": null,
+      "error": "Error"
     },
     {
       "id": "catalog-official-28",
@@ -709,49 +710,49 @@
       "id": "subscription-chatgpt-recharge-2",
       "url": "https://www.gamsgo.com/details/chatgpt/partner/BTzCM",
       "kind": "subscription-purchase",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://www.gamsgo.com/details/chatgpt?promote=BTzCM"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://www.gamsgo.com/details/chatgpt/partner/BTzCM"
     },
     {
       "id": "subscription-chatgpt-recharge-3",
       "url": "https://www.gamsgo.com/details/chatgpt-recharge/partner/BTzCM",
       "kind": "subscription-purchase",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://www.gamsgo.com/details/chatgpt-recharge?promote=BTzCM"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://www.gamsgo.com/details/chatgpt-recharge/partner/BTzCM"
     },
     {
       "id": "subscription-claude-2",
       "url": "https://www.gamsgo.com/zh/details/claude/partner/BTzCM",
       "kind": "subscription-purchase",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://www.gamsgo.com/zh/details/claude?promote=BTzCM"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://www.gamsgo.com/zh/details/claude/partner/BTzCM"
     },
     {
       "id": "subscription-gemini-3",
       "url": "https://www.gamsgo.com/zh/details/gemini/partner/BTzCM",
       "kind": "subscription-purchase",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://www.gamsgo.com/zh/details/gemini?promote=BTzCM"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://www.gamsgo.com/zh/details/gemini/partner/BTzCM"
     },
     {
       "id": "subscription-grok-1",
       "url": "https://www.gamsgo.com/details/grok/partner/BTzCM",
       "kind": "subscription-purchase",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://www.gamsgo.com/details/grok?promote=BTzCM"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://www.gamsgo.com/details/grok/partner/BTzCM"
     },
     {
       "id": "subscription-perplexity-3",
       "url": "https://www.gamsgo.com/zh/details/perplexity_ai/partner/BTzCM",
       "kind": "subscription-purchase",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://www.gamsgo.com/zh/details/perplexity_ai?promote=BTzCM"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://www.gamsgo.com/zh/details/perplexity_ai/partner/BTzCM"
     },
     {
       "id": "subscription-midjourney-1",
