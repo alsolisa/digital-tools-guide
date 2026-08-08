@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-08T13:13:06.261Z",
+  "checkedAt": "2026-08-08T18:58:30.537Z",
   "policy": {
     "publicLinks": "automatic-6h",
     "clientReleases": "automatic-6h",
@@ -117,10 +117,9 @@
       "id": "catalog-official-19",
       "url": "https://gemini.google.com/",
       "kind": "download-source",
-      "state": "error",
-      "status": null,
-      "finalUrl": null,
-      "error": "Error"
+      "state": "ok",
+      "status": 200,
+      "finalUrl": "https://gemini.google.com/"
     },
     {
       "id": "catalog-official-28",
