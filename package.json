@@ -13,6 +13,8 @@
     "test": "npm run build && node --test tests/rendered-html.test.mjs tests/sync-utils.test.mjs",
     "test:pages": "node --test tests/static-export.test.mjs",
     "sync": "node scripts/sync-public-data.mjs",
+    "preflight": "node scripts/preflight-publication.mjs",
+    "verify:publish": "npm run sync && npm run preflight && npm run lint && npm test && npm run build:pages && npm run test:pages",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
   },

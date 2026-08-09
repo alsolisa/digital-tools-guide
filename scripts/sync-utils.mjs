@@ -76,11 +76,31 @@ export function parseArtificialAnalysisLeaderboard(html) {
 
 export function parseGamsgoPrice(html, options = {}) {
   const text = normalizePageText(html);
+  let result = null;
+
+  if (options.embeddedProduct) {
+    const embeddedProduct = html.match(
+      /"service_ids":\d+\}[\s\S]{0,260}?"([0-9]+(?:[.,][0-9]+)?)","([0-9]+(?:[.,][0-9]+)?)","([0-9]+(?:[.,][0-9]+)?)","\$","USD\(\$\)"/i,
+    );
+    if (embeddedProduct) {
+      const specialValue = Number(embeddedProduct[1].replace(",", "."));
+      const officialTotal = Number(embeddedProduct[2].replace(",", "."));
+      const durationMonths = Number(embeddedProduct[3].replace(",", "."));
+      if (specialValue > 0 && officialTotal > 0 && Number.isInteger(durationMonths) && durationMonths > 0 && durationMonths <= 36) {
+        result = {
+          official: { currency: "USD", value: Math.round((officialTotal / durationMonths) * 100) / 100 },
+          special: { currency: "USD", value: specialValue },
+          period: "month",
+          offerDurationMonths: durationMonths,
+        };
+      }
+    }
+  }
+
   const match = text.match(
     /Official Price\s*(US\$|S\$|\$|€|£)?\s*([0-9]+(?:[.,][0-9]+)?)\s*\/\s*month\s*vs\s*GamsGo Special\s*(US\$|S\$|\$|€|£)?\s*([0-9]+(?:[.,][0-9]+)?)\s*\/\s*month/i,
   );
-  let result = null;
-  if (match) {
+  if (!result && match) {
     const officialValue = Number(match[2].replace(",", "."));
     const specialValue = Number(match[4].replace(",", "."));
     if (Number.isFinite(officialValue) && Number.isFinite(specialValue) && officialValue > 0 && specialValue > 0) {
@@ -106,11 +126,28 @@ export function parseGamsgoPrice(html, options = {}) {
     }
   }
 
+  if (!result) {
+    const chineseComparison = text.match(
+      /对比官网价格\s*(US\$|S\$|\$|€|£)?\s*([0-9]+(?:[.,][0-9]+)?)\s*\/\s*月[，,\s]*GamsGo特价\s*(US\$|S\$|\$|€|£)?\s*([0-9]+(?:[.,][0-9]+)?)\s*\/\s*月/i,
+    );
+    if (chineseComparison) {
+      const officialValue = Number(chineseComparison[2].replace(",", "."));
+      const specialValue = Number(chineseComparison[4].replace(",", "."));
+      if (officialValue > 0 && specialValue > 0) {
+        result = {
+          official: { currency: CURRENCY_MARKS[chineseComparison[1] || "$"] || "USD", value: officialValue },
+          special: { currency: CURRENCY_MARKS[chineseComparison[3] || "$"] || "USD", value: specialValue },
+          period: "month",
+        };
+      }
+    }
+  }
+
   if (!result) return null;
 
-  const observed = (options.conflictPatterns || []).flatMap((pattern) =>
+  const observed = [result.special.value, ...(options.conflictPatterns || []).flatMap((pattern) =>
     [...text.matchAll(pattern)].map((item) => Number(item[1]?.replace(",", "."))).filter((value) => Number.isFinite(value) && value > 0),
-  );
+  )];
   const distinctObserved = [...new Set(observed.map((value) => value.toFixed(2)))];
   if (distinctObserved.length > 1) {
     return { ...result, conflict: true, observedValues: distinctObserved.map(Number) };
@@ -177,6 +214,29 @@ export function parseLatestReleaseUrl(url, repository) {
   } catch {
     return null;
   }
+}
+
+export function hasCompleteReleaseAsset(client, repository = client?.repository) {
+  if (!client || !repository || client.repository !== repository || !client.version) return false;
+  if (!client.assetName || !Number.isFinite(client.assetSize) || client.assetSize <= 0) return false;
+  if (!/^[A-F0-9]{64}$/.test(client.assetSha256 || "")) return false;
+  return client.assetUrl?.startsWith(`https://github.com/${repository}/releases/download/`) === true;
+}
+
+export function retainReleaseSnapshot(previous, { repository, version = null, releaseUrl = null, error = "release metadata unavailable" }) {
+  if (!hasCompleteReleaseAsset(previous, repository)) {
+    return { repository, state: "error", version, releaseUrl, error };
+  }
+
+  const sameVersion = Boolean(version && previous.version === version);
+  return {
+    ...previous,
+    repository,
+    state: sameVersion ? "stale" : "error",
+    ...(sameVersion && releaseUrl ? { releaseUrl } : {}),
+    detectedVersion: version,
+    error,
+  };
 }
 
 export async function mapWithConcurrency(items, limit, mapper) {

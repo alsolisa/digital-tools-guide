@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { cnyValue, decidePublishedPrice, isAllowedOfficialDownload, mapWithConcurrency, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl, validatePublicPrice } from "./sync-utils.mjs";
+import { cnyValue, decidePublishedPrice, isAllowedOfficialDownload, mapWithConcurrency, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl, retainReleaseSnapshot, validatePublicPrice } from "./sync-utils.mjs";
 
 const execFileAsync = promisify(execFile);
 const curl = process.platform === "win32" ? "curl.exe" : "curl";
@@ -9,17 +9,13 @@ const nullDevice = process.platform === "win32" ? "NUL" : "/dev/null";
 const dataDirectory = new URL("../data/", import.meta.url);
 const autoSyncPath = new URL("../data/auto-sync.json", import.meta.url);
 const syncStatusPath = new URL("../data/sync-status.json", import.meta.url);
+const promotionManifest = JSON.parse(await readFile(new URL("../data/promotion-links.json", import.meta.url), "utf8"));
+const promotionLinks = promotionManifest.links;
 
-const links = [
-  { id: "westdata", url: "https://wd-gold.net/aff.php?aff=15433", kind: "affiliate" },
+const staticLinks = [
   { id: "youtu-client", url: "https://d.yoututz.top/ph/youtu", kind: "client" },
-  { id: "youtu", url: "https://777.youtu6.shop/register?code=2tr1tmSh", kind: "affiliate" },
-  { id: "boostnet", url: "https://999.boostnet1.com/register?code=3QtbFZIf", kind: "affiliate" },
   { id: "wgetcloud", url: "https://wgetcloud.ltd/", kind: "official" },
-  { id: "nexitally", url: "https://nxonearth.com/Main.aspx", kind: "official" },
-  { id: "tag", url: "https://tagss.pro/", kind: "official" },
   { id: "surge", url: "https://nssurge.com/", kind: "client" },
-  { id: "gamsgo", url: "https://www.gamsgo.com/partner/BTzCM", kind: "affiliate" },
   { id: "arena", url: "https://arena.ai/leaderboard/text", kind: "benchmark" },
   { id: "artificial-analysis", url: "https://artificialanalysis.ai/leaderboards/models", kind: "benchmark" },
   { id: "chatgpt-download", url: "https://chatgpt.com/download/", kind: "download" },
@@ -32,33 +28,40 @@ const links = [
 const gamsgoOffers = [
   {
     slug: "chatgpt-recharge",
-    url: "https://www.gamsgo.com/details/chatgpt-recharge",
+    url: "https://www.gamsgo.com/details/chatgpt",
     parseOptions: {
-      specialPattern: /ChatGPT Plus(?: subscription| plan)?\s*(?:on GamsGo\s*)?(?:for just|costs just|costs)?\s*(US\$|S\$|\$|€|£)?\s*([0-9]+(?:[.,][0-9]+)?)\s*(?:per month|\/\s*month)/i,
+      embeddedProduct: true,
       official: { currency: "USD", value: 20 },
     },
   },
-  { slug: "claude", url: "https://www.gamsgo.com/details/claude" },
-  { slug: "gemini", url: "https://www.gamsgo.com/details/gemini" },
+  { slug: "claude", url: "https://www.gamsgo.com/details/claude", parseOptions: { embeddedProduct: true } },
+  { slug: "gemini", url: "https://www.gamsgo.com/details/gemini", parseOptions: { embeddedProduct: true } },
   {
     slug: "grok",
     url: "https://www.gamsgo.com/details/grok",
     parseOptions: {
-      conflictPatterns: [/(?:GamsGo|SuperGrok)[^$]{0,90}\$\s*([0-9]+(?:[.,][0-9]+)?)\s*(?:per month|\/\s*month)/gi],
+      embeddedProduct: true,
+      conflictPatterns: [/GamsGo SuperGrok\s*\$\s*([0-9]+(?:[.,][0-9]+)?)\s*\/\s*月/gi, /GamsGo 购买的价格为\s*([0-9]+(?:[.,][0-9]+)?)\s*美元\s*\/\s*月/gi],
     },
   },
   {
     slug: "perplexity",
     url: "https://www.gamsgo.com/details/Perplexity_AI",
     parseOptions: {
+      embeddedProduct: true,
       specialPattern: /(?:in\s+)?GamsGo(?:\s+only)?\s*(US\$|S\$|\$|€|£)?\s*([0-9]+(?:[.,][0-9]+)?)\s*(?:per month|\/\s*month)/i,
       official: { currency: "USD", value: 16.66 },
     },
   },
-  { slug: "midjourney", url: "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK" },
+  { slug: "midjourney", url: "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK", parseOptions: { embeddedProduct: true } },
 ];
 
-const repositories = ["clash-verge-rev/clash-verge-rev", "2dust/v2rayN", "chen08209/FlClash", "hiddify/hiddify-app"];
+const repositories = [
+  { repository: "clash-verge-rev/clash-verge-rev", assetPattern: "^Clash\\.Verge_[0-9.]+_x64-setup\\.exe$" },
+  { repository: "2dust/v2rayN", assetPattern: "^v2rayN-windows-64-desktop\\.zip$" },
+  { repository: "chen08209/FlClash", assetPattern: "^FlClash-[0-9.]+-android-arm64-v8a\\.apk$" },
+  { repository: "hiddify/hiddify-app", assetPattern: "^Hiddify-Windows-Setup-x64(?:-v?[0-9.]+)?\\.exe$" },
+];
 
 async function loadCatalogOfficialLinks() {
   const source = await readFile(new URL("../data/catalog.ts", import.meta.url), "utf8");
@@ -89,12 +92,24 @@ async function checkLink(item) {
   let lastError;
   for (let attempt = 0; attempt < 2; attempt += 1) {
     try {
-      const result = await curlText(["-L", "--connect-timeout", "8", "--max-time", "30", "-A", "DigitalToolsGuide-LinkMonitor/1.0", "-o", nullDevice, "-sS", "-w", "%{http_code}\t%{url_effective}", item.url]);
+      const result = await curlText(["-L", "--connect-timeout", "8", "--max-time", "30", "-A", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140.0.0.0 Safari/537.36", "-H", "Accept-Language: zh-CN,zh;q=0.9,en;q=0.7", "-o", nullDevice, "-sS", "-w", "%{http_code}\t%{url_effective}", item.url]);
       const [statusText, finalUrl] = result.trim().split("\t");
       const status = Number(statusText);
       if (status >= 500 && attempt === 0) continue;
       const protectedPage = [401, 403, 429].includes(status);
-      return { ...item, state: status >= 200 && status < 400 ? "ok" : protectedPage ? "protected" : "error", status, finalUrl };
+      const state = status >= 200 && status < 400 ? "ok" : protectedPage ? "protected" : "error";
+      let trackingState;
+      if (item.tracking) {
+        const sourceUrl = new URL(item.url);
+        const sourceCodePresent = item.tracking.sourceParameter
+          ? sourceUrl.searchParams.get(item.tracking.sourceParameter) === item.tracking.value
+          : sourceUrl.pathname.includes(`/partner/${item.tracking.sourcePathCode}`);
+        const final = finalUrl ? new URL(finalUrl) : null;
+        const finalCodePresent = !item.tracking.requireOnFinalUrl
+          || (final && final.searchParams.get(item.tracking.finalParameter || item.tracking.sourceParameter) === item.tracking.value);
+        trackingState = sourceCodePresent && finalCodePresent ? "verified" : sourceCodePresent && state === "protected" ? "source-only" : "error";
+      }
+      return { ...item, state, status, finalUrl, ...(trackingState ? { trackingState } : {}) };
     } catch (error) {
       lastError = error;
     }
@@ -102,7 +117,8 @@ async function checkLink(item) {
   return { ...item, state: "error", status: null, finalUrl: null, error: lastError?.name || "Error" };
 }
 
-async function checkRelease(repository, previous) {
+async function checkRelease(config, previous) {
+  const { repository, assetPattern } = config;
   const releaseApiUrl = `https://api.github.com/repos/${repository}/releases/latest`;
   const latestReleaseUrl = `https://github.com/${repository}/releases/latest`;
   const headers = ["-H", "Accept: application/vnd.github+json"];
@@ -111,18 +127,35 @@ async function checkRelease(repository, previous) {
   try {
     const body = await curlText(["-fLsS", "--connect-timeout", "8", "--max-time", "30", "-A", "DigitalToolsGuide-ReleaseMonitor/1.0", ...headers, releaseApiUrl]);
     const release = JSON.parse(body);
-    return { repository, state: "ok", version: release.tag_name, releaseUrl: release.html_url };
+    const asset = release.assets?.find((item) => new RegExp(assetPattern, "i").test(item.name));
+    if (!asset?.browser_download_url || !asset?.size || !asset?.digest?.startsWith("sha256:")) throw new Error("required release asset missing");
+    return {
+      repository,
+      state: "ok",
+      version: release.tag_name,
+      releaseUrl: release.html_url,
+      assetName: asset.name,
+      assetSize: asset.size,
+      assetUrl: asset.browser_download_url,
+      assetSha256: asset.digest.slice("sha256:".length).toUpperCase(),
+      assetVerifiedAt: new Date().toISOString(),
+    };
   } catch (error) {
+    let version = null;
+    let releaseUrl = null;
     try {
       const result = await curlText(["-L", "--connect-timeout", "8", "--max-time", "30", "-A", "DigitalToolsGuide-ReleaseMonitor/1.0", "-o", nullDevice, "-sS", "-w", "%{http_code}\t%{url_effective}", latestReleaseUrl]);
       const [statusText, finalUrl] = result.trim().split("\t");
       const status = Number(statusText);
-      const version = parseLatestReleaseUrl(finalUrl, repository);
-      if (status >= 200 && status < 400 && version) return { repository, state: "ok", version, releaseUrl: finalUrl };
+      version = parseLatestReleaseUrl(finalUrl, repository);
+      releaseUrl = status >= 200 && status < 400 ? finalUrl : null;
     } catch {}
-    return previous?.version
-      ? { repository, state: "stale", version: previous.version, releaseUrl: previous.releaseUrl, error: error.name }
-      : { repository, state: "error", error: error.name };
+    return retainReleaseSnapshot(previous, {
+      repository,
+      version,
+      releaseUrl,
+      error: `${error.name || "Error"}: official release asset metadata unavailable`,
+    });
   }
 }
 
@@ -144,7 +177,7 @@ async function readGamsgoOffer(item, previous, exchange) {
   const previousPublic = { ...(previous || {}) };
   delete previousPublic.parseOptions;
   try {
-    const html = await curlText(["-fLsS", "--compressed", "--connect-timeout", "8", "--max-time", "30", "-A", "Mozilla/5.0 DigitalToolsGuide-PriceMonitor/1.0", item.url], 15 * 1024 * 1024);
+    const html = await curlText(["-fLsS", "--compressed", "--connect-timeout", "8", "--max-time", "30", "-A", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140.0.0.0 Safari/537.36", "-H", "Accept-Language: zh-CN,zh;q=0.9,en;q=0.7", item.url], 15 * 1024 * 1024);
     const parsed = parseGamsgoPrice(html, parseOptions);
     if (parsed?.conflict) {
       return {
@@ -169,8 +202,9 @@ async function readGamsgoOffer(item, previous, exchange) {
       checkedAt: new Date().toISOString(),
       officialObserved: parsed.official || undefined,
       period: parsed.period,
+      offerDurationMonths: parsed.offerDurationMonths || 1,
       cny: decision.published ? cnyValue(decision.published, exchange) : null,
-      note: decision.state === "price-change-pending" ? "价格变化超过50%，等待下一次读取一致后发布" : "公开购买页月付起价；具体交付方式与结算价以下单页为准",
+      note: decision.state === "price-change-pending" ? "价格变化超过50%，等待下一次读取一致后发布" : `公开购买页${parsed.offerDurationMonths > 1 ? `${parsed.offerDurationMonths}个月方案折算的` : ""}月付起价；具体交付方式与结算价以下单页为准`,
     };
   } catch (error) {
     return { ...publicItem, ...decidePublishedPrice(previousPublic, null), checkedAt: new Date().toISOString(), error: error.name, note: "页面读取失败，隐藏具体数字并提示以购买页为准" };
@@ -214,10 +248,10 @@ try {
 const exchange = await readExchange(previousAutoSync.exchange);
 const catalogOfficialLinks = await loadCatalogOfficialLinks();
 const subscriptionPurchaseLinks = await loadSubscriptionPurchaseLinks();
-const allLinks = [...new Map([...links, ...catalogOfficialLinks, ...subscriptionPurchaseLinks].map((item) => [item.url, item])).values()];
+const allLinks = [...new Map([...staticLinks, ...catalogOfficialLinks, ...subscriptionPurchaseLinks, ...promotionLinks].map((item) => [item.url, item])).values()];
 const [linkResults, clientResults, gamsgoResults, artificialAnalysisLeaderboard] = await Promise.all([
   mapWithConcurrency(allLinks, 12, checkLink),
-  Promise.all(repositories.map((repository) => checkRelease(repository, previousSyncStatus.clients?.find((client) => client.repository === repository)))),
+  Promise.all(repositories.map((config) => checkRelease(config, previousSyncStatus.clients?.find((client) => client.repository === config.repository)))),
   Promise.all(gamsgoOffers.map((item) => readGamsgoOffer(item, previousAutoSync.gamsgo?.find((offer) => offer.slug === item.slug), exchange))),
   readArtificialAnalysisLeaderboard(previousAutoSync.artificialAnalysisLeaderboard),
 ]);
@@ -244,7 +278,7 @@ const benchmarkResults = linkResults
 const autoOutput = { checkedAt, exchange, gamsgo: gamsgoResults, benchmarks: benchmarkResults, artificialAnalysisLeaderboard, history: history.slice(-100) };
 const statusOutput = {
   checkedAt,
-  policy: { publicLinks: "automatic-6h", clientReleases: "automatic-6h", publicPrices: "automatic-6h-with-guardrails", benchmarkLeaderboard: "automatic-6h-with-last-good-snapshot", exchange: "automatic-6h", loginRequiredPrices: "manual-review" },
+  policy: { publicLinks: "automatic-6h", promotionTracking: "automatic-before-publish", clientReleases: "automatic-6h-with-direct-assets", publicPrices: "automatic-6h-with-guardrails", benchmarkLeaderboard: "automatic-6h-with-last-good-snapshot", exchange: "automatic-6h", loginRequiredPrices: "manual-review" },
   links: linkResults,
   clients: clientResults,
 };

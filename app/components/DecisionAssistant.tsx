@@ -184,7 +184,7 @@ function aiResult(need: string, device: Device): Result {
 
 function subscriptionResult(need: string, priority: string): Result {
   if (need === "unsure" || priority === "cost") return {
-    title: "先不买：免费版连续试 3—7 天", reason: "只有经常碰到用量、模型或功能限制，会员才可能真正节省时间。", caution: "低价如果来自交付账号或共享网页，不能与本人官方订阅直接比较。", href: "/subscriptions#before-buy", action: "做购买前判断", alternative: "记录一周使用次数，再用页面里的价值计算器判断。", whyNot: "省下 100% 不需要的会员费，比买到低价会员更划算。", steps: ["选一个真实任务连续使用免费版", "记录碰到限制的次数和节省的时间", "只在价值明显高于月费时购买最短周期"], evidence: "官方价格与第三方交付方式分栏，价格冲突时自动隐藏",
+    title: "先不买：免费版连续试 3—7 天", reason: "只有经常碰到用量、模型或功能限制，会员才可能真正节省时间。", caution: "低价如果来自交付账号或共享网页，不能与本人官方订阅直接比较。", href: "/subscriptions#offers", action: "查看订阅方式与风险", alternative: "记录一周使用次数，再决定是否确实需要付费。", whyNot: "省下 100% 不需要的会员费，比买到低价会员更划算。", steps: ["选一个真实任务连续使用免费版", "记录碰到限制的次数和节省的时间", "只在确实需要时购买最短周期"], evidence: "官方价格与第三方交付方式分栏，价格冲突时自动隐藏",
   };
   if (need === "official" || priority === "safe") return {
     title: "优先本人账号与官方订阅", reason: "账号、聊天记录、续费、找回和售后关系最直接。", caution: "付款前仍要检查地区、币种、税费、自动续费和取消入口。", href: "/subscriptions#offers", action: "比较官方与第三方", alternative: "官方付款确实无法完成时，再看本人账号充值，并核对授权方式。", whyNot: "第三方多一层账号、隐私与售后关系，不适合保存敏感或长期资料。", steps: ["先确认免费版不够用", "打开官方结算页核对最终金额", "付款后立即检查续费和取消入口"], evidence: "官方价、第三方公开价、人民币参考价和账号风险分别记录",

@@ -1,4 +1,5 @@
 import syncStatus from "../data/sync-status.json";
+import promotionManifest from "../data/promotion-links.json";
 import Link from "next/link";
 import Image from "next/image";
 import { BrandIcon, BrandNotice, PageShell, SiteFooter, SiteHeader } from "./components/SiteChrome";
@@ -8,13 +9,19 @@ import BeginnerTroubleshooter from "./components/BeginnerTroubleshooter";
 import { networkPlaybook } from "../data/beginner-playbooks";
 
 const releaseVersions: Record<string, string | null> = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, "version" in client && typeof client.version === "string" ? client.version : null]));
-const releaseStates: Record<string, string> = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, client.state]));
+const releaseChecks: Record<string, (typeof syncStatus.clients)[number]> = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, client]));
+const linkChecks: Record<string, (typeof syncStatus.links)[number]> = Object.fromEntries(syncStatus.links.map((link) => [link.id, link]));
+const promotionUrls = Object.fromEntries(promotionManifest.links.map((link) => [link.id, link.url])) as Record<string, string>;
 const syncTime = syncStatus.checkedAt
   ? new Intl.DateTimeFormat("zh-CN", { timeZone: "Asia/Shanghai", dateStyle: "medium", timeStyle: "short", hour12: false }).format(new Date(syncStatus.checkedAt))
   : "等待首次公开数据同步";
 
 const basePath = process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : "";
 const publicSiteUrl = process.env.GITHUB_PAGES === "true" ? "https://alsolisa.github.io/digital-tools-guide" : "http://localhost:3000";
+
+function formatFileSize(size: number) {
+  return size >= 1024 * 1024 ? `${(size / 1024 / 1024).toFixed(1)} MB` : `${Math.ceil(size / 1024)} KB`;
+}
 
 export const metadata = { alternates: { canonical: `${basePath}/` } };
 
@@ -37,7 +44,8 @@ const services = [
     description: "Silver ¥20/200GiB、Platinum ¥40/400GiB，最高500Mbps；Diamond ¥60/600GiB，最高1000Mbps；Ultimate ¥80/800GiB，最高2000Mbps。",
     caution: "购买页写明仅限个人使用、暂不支持退款；低价不等于适合所有人。",
     bestFor: "低预算、备用线路",
-    href: "https://wd-gold.net/aff.php?aff=15433",
+    linkId: "westdata",
+    href: promotionUrls.westdata,
     linkLabel: "打开推广入口",
   },
   {
@@ -59,7 +67,8 @@ const services = [
     description: "提供 Windows、Android、iOS 与 macOS 自有客户端，也支持 Clash、ClashMeta 一键导入及 v2rayN 手动导入。当前主要提供季付、半年付和年付方案。",
     caution: "月付是否恢复暂未明确；购买前请打开当前套餐页确认周期、流量和最终价格。",
     bestFor: "希望安装步骤简单",
-    href: "https://777.youtu6.shop/register?code=2tr1tmSh",
+    linkId: "youtu",
+    href: promotionUrls.youtu,
     linkLabel: "打开推广入口",
   },
   {
@@ -81,7 +90,8 @@ const services = [
     description: "当前提供季付、半年付和年付方案，可按预算与所需流量选择；购买前以计划页显示的周期和结算价格为准。",
     caution: "月付是否恢复暂未明确；如果只想短期试用，请先确认自己能接受当前最短购买周期。",
     bestFor: "多平台、重视性价比",
-    href: "https://999.boostnet1.com/register?code=3QtbFZIf",
+    linkId: "boostnet",
+    href: promotionUrls.boostnet,
     linkLabel: "打开推广入口",
   },
   {
@@ -122,7 +132,8 @@ const services = [
     ownClient: "以第三方客户端为主，官方文档提供教程",
     description: "Air ¥74.55/200G；Smart Access ¥123.33/500G，均为31天、2台设备、最高2000Mbps。",
     bestFor: "重视稳定与长期使用",
-    href: "https://nxonearth.com/Main.aspx",
+    linkId: "nexitally",
+    href: promotionUrls.nexitally,
     linkLabel: "打开官方入口",
   },
   {
@@ -143,7 +154,8 @@ const services = [
     description: "Silver ¥114/500G；Gold ¥219/999G；Team ¥658/3000G，均为月付。另有 Bronze ¥185/季与 Special ¥162/年，不混入月付排名。",
     caution: "商店写明服务仅限中国大陆，海外及新疆不可用；不保证 TikTok 可用。覆盖与解锁描述属于商家说明。",
     bestFor: "多国家/地区节点需求",
-    href: "https://tagss.pro/",
+    linkId: "tag",
+    href: promotionUrls.tag,
     linkLabel: "打开当前入口",
   },
 ];
@@ -167,12 +179,12 @@ const clients = [
     platform: "Windows / macOS / Linux",
     app: "Clash Verge Rev",
     repository: "clash-verge-rev/clash-verge-rev",
-    version: releaseVersions["clash-verge-rev/clash-verge-rev"] || "v2.5.1",
+    version: releaseVersions["clash-verge-rev/clash-verge-rev"] || "v2.5.2",
     note: "新手首选。Windows 普通电脑通常选 x64；Mac 要区分 Apple 芯片与 Intel。",
     tone: "blue",
     download: "https://github.com/clash-verge-rev/clash-verge-rev/releases/latest",
-    localFile: "Clash.Verge_2.5.1_x64-setup.exe",
-    localVersion: "v2.5.1",
+    localFile: "Clash.Verge_2.5.2_x64-setup.exe",
+    localVersion: "v2.5.2",
     localLabel: "本地下载 · Windows x64",
     tutorial: "https://nexitally-1.gitbook.io/nexitally-wen-dang-zhong-xin/nexitally-wen-dang-dao-hang/clash-verge",
   },
@@ -181,7 +193,7 @@ const clients = [
     platform: "Windows",
     app: "v2rayN",
     repository: "2dust/v2rayN",
-    version: releaseVersions["2dust/v2rayN"] || "v7.23.4",
+    version: releaseVersions["2dust/v2rayN"] || "7.24.4",
     note: "功能较多，适合需要更多协议的人。旧版存在安全风险，请只用当前正式版。",
     tone: "purple",
     download: "https://github.com/2dust/v2rayN/releases/latest",
@@ -265,8 +277,12 @@ const clients = [
 function ServiceCard({ service, index, prefix = "月付" }: { service: (typeof services)[number]; index: number; prefix?: string }) {
   const stalePrice = !hasFreshPriceEvidence(service);
   const isMonthly = service.sortGroup === 0;
+  const linkId = "linkId" in service && typeof service.linkId === "string" ? service.linkId : null;
+  const entryCheck = linkId ? linkChecks[linkId] : null;
+  const entryTone = entryCheck?.state === "ok" ? "verified" : entryCheck?.state === "protected" ? "review" : "error";
+  const entryLabel = entryCheck?.state === "ok" ? "入口已自动核验" : entryCheck?.state === "protected" ? "入口受防护 · 可手动打开" : "入口检查异常";
   return <article className="service-card">
-    <div className="service-topline"><span className="service-tag">{prefix} {index + 1} · {service.tag}</span><span className={`status-pill ${stalePrice ? "pending" : service.statusTone}`}><i />{stalePrice ? "人工核验已超过14天" : service.status}</span></div>
+    <div className="service-topline"><span className="service-tag">{prefix} {index + 1} · {service.tag}</span><span className={`status-pill ${entryTone}`}><i />{entryLabel}</span></div>
     <div className="service-title"><h3>{service.name}</h3><span>{service.alias}</span></div>
     {stalePrice && <p className="service-stale-note">以下内容是截至 {service.verifiedAt || "上次核验"} 的历史记录；其中“当前”“可购买”等表述只代表当次页面状态。</p>}
     <p className="service-description">{service.description}</p>
@@ -286,7 +302,7 @@ function ServiceComparison({ sectionIndex = "02 / 机场推荐" }: { sectionInde
     <section className="section services-section" id="services">
       <div className="section-heading">
         <div><span className="section-index">{sectionIndex}</span><h2>先看核验状态，再按预算和购买周期缩小范围</h2></div>
-        <p>价格、流量与周期都可能变化。超过 14 天没有新证据的方案会退出“当前价格排序”，只保留为待复核记录。</p>
+        <p>入口状态由发布程序自动检查；价格、流量与周期仍需人工读取。超过 14 天没有新价格证据的方案会退出“当前价格排序”，但可打开的入口仍会明确显示。</p>
       </div>
       <div className="selection-disclosure service-choice-intro">
         <strong>为什么提供这几家？</strong>
@@ -355,32 +371,40 @@ export function NodeGuidePage() {
       <section className="section downloads-section" id="downloads">
         <div className="section-heading compact">
           <div><span className="section-index">04 / 客户端下载</span><h2>按设备选，按钮可以直接用</h2></div>
-          <p>开源软件进入 GitHub 的 Latest Release；苹果付费软件进入 App Store；不提供来历不明的安装包或 IPA。</p>
+          <p>开源软件同时提供“官方发布页”和匹配当前版本的官方文件直链；小文件另有本站已校验备份。苹果付费软件仍进入 App Store。</p>
         </div>
         <BrandNotice />
         <DeviceChooser context="network" />
         <div className="client-grid">
           {clients.map((client) => {
             const repository = "repository" in client ? client.repository : undefined;
+            const release = repository ? releaseChecks[repository] : undefined;
+            const directAssetUrl = release && "assetUrl" in release && typeof release.assetUrl === "string" ? release.assetUrl : null;
+            const directAssetName = release && "assetName" in release && typeof release.assetName === "string" ? release.assetName : null;
+            const directAssetSize = release && "assetSize" in release && typeof release.assetSize === "number" ? release.assetSize : null;
+            const directAssetSha256 = release && "assetSha256" in release && typeof release.assetSha256 === "string" ? release.assetSha256 : null;
+            const releaseSnapshotIsCurrent = release?.state === "ok" || (release?.state === "stale" && "detectedVersion" in release && release.detectedVersion === releaseVersions[repository || ""]);
             const localMirrorIsCurrent = Boolean(
               "localFile" in client
               && client.localFile
               && "localVersion" in client
               && client.localVersion
               && repository
-              && releaseStates[repository] === "ok"
+              && releaseSnapshotIsCurrent
               && releaseVersions[repository]?.replace(/^v/i, "").toLowerCase() === client.localVersion.replace(/^v/i, "").toLowerCase(),
             );
             return <article className="client-card" key={`${client.platform}-${client.app}`}>
               <BrandIcon slug={client.slug} name={client.app} size="large" /><div className="client-platform">{client.platform}</div><h3>{client.app}</h3>
-              <div className="version-row"><span>{client.version}</span><small>{"repository" in client && client.repository ? (releaseStates[client.repository] === "ok" ? `${syncTime} 自动核验` : "上次核验版本 · 本轮读取失败") : "进入官方商店或官网确认"}</small></div><p>{client.note}</p>
+              <div className="version-row"><span>{client.version}</span><small>{"repository" in client && client.repository ? (releaseSnapshotIsCurrent ? `${syncTime} ${release?.state === "stale" ? "最近可信校验" : "自动核验"}` : "上次核验版本 · 本轮读取失败") : "进入官方商店或官网确认"}</small></div><p>{client.note}</p>
               <div className="client-actions">
-                <a href={client.download} target="_blank" rel="noopener noreferrer">官方下载 <span>↗</span></a>
+                <a href={client.download} target="_blank" rel="noopener noreferrer">查看官方发布页 <span>↗</span></a>
+                {directAssetUrl && <a className="official-direct-action" href={directAssetUrl}>直接下载官方文件{directAssetSize ? ` · ${formatFileSize(directAssetSize)}` : ""} <span>↓</span></a>}
+                {directAssetName && <small className="client-file-meta" title={directAssetSha256 ? `SHA-256：${directAssetSha256}` : undefined}>{directAssetName}{directAssetSha256 ? ` · SHA-256 ${directAssetSha256.slice(0, 12)}…` : ""}</small>}
                 {"localFile" in client && client.localFile
                   ? localMirrorIsCurrent
-                    ? <a className="local-action" href={`${basePath}/mirror/${client.localFile}`} download>{client.localLabel || "本地下载"} <span>↓</span></a>
+                    ? <a className="local-action" href={`${basePath}/mirror/${client.localFile}`} download>本站已校验备用文件 · {client.localLabel?.replace("本地下载 · ", "") || "当前设备"} <span>↓</span></a>
                     : <span className="local-action unavailable">新版本已发布或核验失败 · 本地旧版已暂停</span>
-                  : <span className="local-action unavailable">{"localUnavailable" in client ? client.localUnavailable : "本地下载暂不提供"}</span>}
+                  : !directAssetUrl && <span className="local-action unavailable">{"localUnavailable" in client ? client.localUnavailable : "本地下载暂不提供"}</span>}
                 <a className="muted-action" href={client.tutorial} target="_blank" rel="noopener noreferrer">使用教程 <span>↗</span></a>
               </div>
             </article>;

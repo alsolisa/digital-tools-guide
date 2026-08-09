@@ -46,7 +46,7 @@ test("全站按零基础用户顺序先解释再比较", async () => {
   assert.match(subscriptions, /先认识 GamsGo，再选择适合自己的 AI 订阅/);
   for (const text of ["最高可节省 85%", "7×24 小时在线客服", "1000 万+", "支付宝", "先看清套餐，再决定购买"]) assert.match(subscriptions, new RegExp(text));
   for (const removed of ["先判断要不要买，再决定去哪里买", "GamsGo是什么？为什么有人会选择它？", "为什么首批选择这六项？"]) assert.doesNotMatch(subscriptions, new RegExp(removed.replace(/[?？]/g, ".")));
-  assert.match(subscriptions, /这个会员对你真的值得吗/);
+  assert.doesNotMatch(subscriptions, /付款前先算价值|这个会员对你真的值得吗|id="before-buy"/);
   const ai = await (await render("/ai")).text();
   assert.match(ai, /第一次使用AI，不需要先懂模型/);
   assert.doesNotMatch(ai, /先免费体验，再决定付费|只想先选一款|按你的任务选择，不按广告口号选择/);
@@ -76,6 +76,9 @@ test("机场指南按证据新鲜度分开月付价格与非月付方案", async
     assert.match(html, /不会被误写成已经停止月付/);
   }
   assert.match(html, /先看核验状态，再按预算和购买周期缩小范围/);
+  assert.match(html, /入口已自动核验/);
+  assert.match(html, /入口受防护 · 可手动打开/);
+  assert.doesNotMatch(html, /人工核验已超过14天/);
   assert.match(html, /悠兔与 BoostNet 的最近记录为季付、半年付和年付/);
   assert.match(html, /不能据此断言今天仍然暂停月付/);
   assert.match(html, /其中“当前”“可购买”等表述只代表当次页面状态/);
@@ -103,6 +106,9 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   assert.match(html, /使用境外网络（需要连接机场或VPN）时可能显示1个月、3个月和6个月/);
   assert.match(html, /联系客服处理 · 7×24小时/);
   assert.match(html, /可能是独立账号交付，不一定是本人原账号/);
+  assert.match(html, /打开我的推广购买页/);
+  assert.match(html, /推广入口已自动核验/);
+  assert.match(html, /推广码已保留/);
   assert.match(html, new RegExp(`1 USD = ¥<!-- -->${expectedUsdCnyRate.toFixed(3).replace(".", "\\.")}`));
   for (const [slug, offer] of Object.entries(subscriptionPricing.offers)) {
     if (slug === "midjourney") continue;
@@ -142,9 +148,7 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   }
   assert.match(html, /为什么有人会考虑通过 GamsGo 订阅？/);
   assert.doesNotMatch(html, /为什么有人通过 GamsGo 订阅？/);
-  assert.match(html, /id="before-buy"/);
-  assert.match(html, /下单前逐项确认/);
-  assert.match(html, /勾选只保存在这台设备的浏览器中，不会上传/);
+  assert.doesNotMatch(html, /id="before-buy"|付款前先算价值|下单前逐项确认|这个会员对你真的值得吗/);
   const zoomLinks = html.match(/<a[^>]+class="figure-zoom-link"[^>]+>点击查看大图 ↗<\/a>/g) || [];
   assert.equal(zoomLinks.length, 7);
   for (const link of zoomLinks) {
@@ -298,10 +302,12 @@ test("应用教程分开显示Google Play与Apple App Store", async () => {
   }
 });
 
-test("下载中心提供带版本和SHA-256的开源备用文件", async () => {
+test("下载中心提供官方文件直链和带SHA-256的开源备用文件", async () => {
   const html = await (await render("/downloads")).text();
-  assert.match(html, /本站提供三项开源客户端备用文件/);
-  assert.match(html, /Clash\.Verge_2\.5\.1_x64-setup\.exe/);
+  assert.match(html, /当前版开源客户端，直接给出对应的官方文件/);
+  assert.match(html, /Clash\.Verge_2\.5\.2_x64-setup\.exe/);
+  assert.match(html, /v2rayN-windows-64-desktop\.zip/);
+  assert.match(html, /https:\/\/github\.com\/2dust\/v2rayN\/releases\/download\/7\.24\.4\/v2rayN-windows-64-desktop\.zip/);
   assert.match(html, /FlClash-0\.8\.94-android-arm64-v8a\.apk/);
   assert.match(html, /Hiddify-Windows-Setup-x64-v4\.1\.1\.exe/);
   assert.match(html, /SHA-256/);
@@ -313,12 +319,15 @@ test("机场页面直接从基础概念进入服务推荐并提供三类下载�
   assert.match(nodes, /五个词，第一次看到也能懂/);
   assert.match(nodes, /<h1[^>]*>五个词，第一次看到也能懂<\/h1>/);
   assert.ok(nodes.indexOf("五个词，第一次看到也能懂") < nodes.indexOf("先看核验状态，再按预算和购买周期缩小范围"));
-  assert.match(nodes, /本地下载 · Windows x64/);
+  assert.match(nodes, /本站已校验备用文件/);
+  assert.match(nodes, /v2rayN-windows-64-desktop\.zip/);
+  assert.match(nodes, /直接下载官方文件/);
+  assert.match(nodes, /126\.3 MB/);
   assert.match(nodes, /使用教程/);
   assert.match(nodes, /id="troubleshoot"/);
   assert.match(nodes, /导入、连接或入口异常时，按症状逐步检查/);
-  assert.doesNotMatch(nodes, /href="\/mirror\/Clash\.Verge_2\.5\.1_x64-setup\.exe"/);
-  assert.match(nodes, /新版本已发布或核验失败 · 本地旧版已暂停/);
+  assert.match(nodes, /href="\/mirror\/Clash\.Verge_2\.5\.2_x64-setup\.exe"/);
+  assert.doesNotMatch(nodes, /本地下载暂不提供 · 官方文件超过托管限制/);
   for (const removed of ["它可能帮助你", "第一次购买与连接清单", "先看症状，再决定要不要重装", "先看需求，不要先看广告词", "页面证据", "地址状态", "把“证据”放在推荐前面", "GamsGo 内容独立整理"]) {
     assert.doesNotMatch(nodes, new RegExp(removed));
   }

@@ -1,0 +1,100 @@
+{
+  "links": [
+    {
+      "id": "westdata",
+      "label": "WestData 推广入口",
+      "url": "https://wd-gold.net/aff.php?aff=15433",
+      "kind": "affiliate",
+      "tracking": { "sourceParameter": "aff", "value": "15433", "requireOnFinalUrl": false }
+    },
+    {
+      "id": "youtu",
+      "label": "悠兔推广注册",
+      "url": "https://777.youtu6.shop/register?code=2tr1tmSh",
+      "kind": "affiliate",
+      "tracking": { "sourceParameter": "code", "value": "2tr1tmSh", "requireOnFinalUrl": true }
+    },
+    {
+      "id": "boostnet",
+      "label": "BoostNet 推广注册",
+      "url": "https://999.boostnet1.com/register?code=3QtbFZIf",
+      "kind": "affiliate",
+      "tracking": { "sourceParameter": "code", "value": "3QtbFZIf", "requireOnFinalUrl": true }
+    },
+    {
+      "id": "nexitally",
+      "label": "Nexitally 官方入口",
+      "url": "https://nxonearth.com/Main.aspx",
+      "kind": "official"
+    },
+    {
+      "id": "tag",
+      "label": "TAG 当前入口",
+      "url": "https://tagss.pro/",
+      "kind": "official"
+    },
+    {
+      "id": "gamsgo",
+      "label": "GamsGo 首页推广入口",
+      "url": "https://www.gamsgo.com/partner/BTzCM",
+      "kind": "affiliate",
+      "tracking": { "sourcePathCode": "BTzCM", "finalParameter": "promote", "value": "BTzCM", "requireOnFinalUrl": true }
+    },
+    {
+      "id": "gamsgo-chatgpt",
+      "label": "ChatGPT 共享与独享账号推广页",
+      "url": "https://www.gamsgo.com/details/chatgpt/partner/BTzCM",
+      "kind": "subscription-purchase",
+      "tracking": { "sourcePathCode": "BTzCM", "finalParameter": "promote", "value": "BTzCM", "requireOnFinalUrl": true }
+    },
+    {
+      "id": "gamsgo-chatgpt-recharge",
+      "label": "ChatGPT 本人账号充值推广页",
+      "url": "https://www.gamsgo.com/details/chatgpt-recharge/partner/BTzCM",
+      "kind": "subscription-purchase",
+      "tracking": { "sourcePathCode": "BTzCM", "finalParameter": "promote", "value": "BTzCM", "requireOnFinalUrl": true }
+    },
+    {
+      "id": "gamsgo-claude",
+      "label": "Claude 商品推广页",
+      "url": "https://www.gamsgo.com/zh/details/claude/partner/BTzCM",
+      "kind": "subscription-purchase",
+      "tracking": { "sourcePathCode": "BTzCM", "finalParameter": "promote", "value": "BTzCM", "requireOnFinalUrl": true }
+    },
+    {
+      "id": "gamsgo-claude-market",
+      "label": "Claude 市场中心推广页",
+      "url": "https://www.gamsgo.com/zh/accounts/claude/partner/BTzCM",
+      "kind": "subscription-purchase",
+      "tracking": { "sourcePathCode": "BTzCM", "finalParameter": "promote", "value": "BTzCM", "requireOnFinalUrl": true }
+    },
+    {
+      "id": "gamsgo-gemini",
+      "label": "Gemini 商品推广页",
+      "url": "https://www.gamsgo.com/zh/details/gemini/partner/BTzCM",
+      "kind": "subscription-purchase",
+      "tracking": { "sourcePathCode": "BTzCM", "finalParameter": "promote", "value": "BTzCM", "requireOnFinalUrl": true }
+    },
+    {
+      "id": "gamsgo-grok",
+      "label": "Grok 商品推广页",
+      "url": "https://www.gamsgo.com/details/grok/partner/BTzCM",
+      "kind": "subscription-purchase",
+      "tracking": { "sourcePathCode": "BTzCM", "finalParameter": "promote", "value": "BTzCM", "requireOnFinalUrl": true }
+    },
+    {
+      "id": "gamsgo-perplexity",
+      "label": "Perplexity 商品推广页",
+      "url": "https://www.gamsgo.com/zh/details/perplexity_ai/partner/BTzCM",
+      "kind": "subscription-purchase",
+      "tracking": { "sourcePathCode": "BTzCM", "finalParameter": "promote", "value": "BTzCM", "requireOnFinalUrl": true }
+    },
+    {
+      "id": "gamsgo-midjourney",
+      "label": "Midjourney 商品推广页",
+      "url": "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK",
+      "kind": "subscription-purchase",
+      "tracking": { "sourcePathCode": "2MGZTK", "finalParameter": "promote", "value": "2MGZTK", "requireOnFinalUrl": true }
+    }
+  ]
+}

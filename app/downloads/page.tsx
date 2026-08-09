@@ -1,4 +1,5 @@
 import { allDownloads, type Platform } from "../../data/catalog";
+import localMirrors from "../../data/local-mirrors.json";
 import syncStatus from "../../data/sync-status.json";
 import Link from "next/link";
 import { BrandIcon, BrandNotice, PageIntro, PageShell, QuickSummary, SectionHeading, VerificationChip } from "../components/SiteChrome";
@@ -7,23 +8,17 @@ import DeviceChooser from "../components/DeviceChooser";
 const platforms: Platform[] = ["Windows", "macOS", "Android", "iOS", "Web"];
 const releaseChecks: Record<string, (typeof syncStatus.clients)[number]> = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, client]));
 
-const mirrorDownloads = [
-  {
-    product: "Clash Verge Rev", platform: "Windows普通电脑", version: "v2.5.1", repository: "clash-verge-rev/clash-verge-rev",
-    file: "Clash.Verge_2.5.1_x64-setup.exe", size: "44.9 MB", sha256: "203BF29F7A5F0DC5FBC5E42772DE6A474501603A19120C2F1259BB27C067DF51",
-    project: "https://github.com/clash-verge-rev/clash-verge-rev", official: "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.1", license: "https://github.com/clash-verge-rev/clash-verge-rev/blob/dev/LICENSE",
-  },
-  {
-    product: "FlClash", platform: "多数近年Android手机", version: "v0.8.94", repository: "chen08209/FlClash",
-    file: "FlClash-0.8.94-android-arm64-v8a.apk", size: "51.6 MB", sha256: "2B0F058A79BD584FDE8BBB46452F3539E92563CBF5070C2626C3BE3C900E807B",
-    project: "https://github.com/chen08209/FlClash", official: "https://github.com/chen08209/FlClash/releases/tag/v0.8.94", license: "https://github.com/chen08209/FlClash/blob/main/LICENSE",
-  },
-  {
-    product: "Hiddify", platform: "Windows普通电脑", version: "v4.1.1", repository: "hiddify/hiddify-app",
-    file: "Hiddify-Windows-Setup-x64-v4.1.1.exe", size: "34.8 MB", sha256: "3F6182B610168C0BB386FFEA1FC7F68318D3DF23C15840C8B13A3BE51B080A96",
-    project: "https://github.com/hiddify/hiddify-app", official: "https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1", license: "https://github.com/hiddify/hiddify-app/blob/main/LICENSE.md",
-  },
-];
+const mirrorDownloads = localMirrors;
+const clientLabels: Record<string, { product: string; platform: string }> = {
+  "clash-verge-rev/clash-verge-rev": { product: "Clash Verge Rev", platform: "Windows x64" },
+  "2dust/v2rayN": { product: "v2rayN", platform: "Windows x64 桌面版" },
+  "chen08209/FlClash": { product: "FlClash", platform: "Android ARM64" },
+  "hiddify/hiddify-app": { product: "Hiddify", platform: "Windows x64" },
+};
+
+function formatFileSize(size: number) {
+  return size >= 1024 * 1024 ? `${(size / 1024 / 1024).toFixed(1)} MB` : `${Math.ceil(size / 1024)} KB`;
+}
 
 export const metadata = {
   title: "官方下载中心",
@@ -36,19 +31,30 @@ export default function DownloadsPage() {
   return (
     <PageShell>
       <PageIntro eyebrow="下载中心 · 不需要先看懂文件名" title="先选设备，再去官方页面下载" lead="这里同时整理AI、常用应用和网络客户端。本站不保存闭源安装包，按钮只连接官网、官方项目、Microsoft Store、Google Play或Apple App Store。" artwork={{ src: "/illustrations/official-downloads-v2.webp", alt: "官方来源经过核验后分流到笔记本、台式电脑、平板和手机的原创纸艺插画", caption: "原创插画 · 先核验来源，再选择与你设备对应的版本" }} />
-      <QuickSummary title="下载前只记住三条" points={["先选自己的系统，不要凭文件名猜", "核对官网域名、开发者名称和版本", "商店搜不到时先看地区教程，不下载破解版", "本站为三项常用开源客户端提供本地备用文件和校验值"]} action={{ label: "看应用商店地区教程", href: "/stores" }} />
+      <QuickSummary title="下载前只记住三条" points={["先选自己的系统，不要凭文件名猜", "核对官网域名、开发者名称和版本", "商店搜不到时先看地区教程，不下载破解版", "四项开源客户端都有官方文件直链；其中三项另有本站校验备份"]} action={{ label: "看应用商店地区教程", href: "/stores" }} />
       <div className="download-brand-note"><BrandNotice /></div>
       <section className="content-section device-section"><DeviceChooser /></section>
       <section className="content-section mirror-section" id="mirror">
-        <SectionHeading index="本地下载" title="官方页面打不开时，本站提供三项开源客户端备用文件" lead="文件直接取自项目官方Release，未修改；同时保留版本、大小、源码、许可证和SHA-256校验值。闭源应用不做私自镜像。" />
-        <div className="mirror-safety-note"><strong>为什么不是所有软件都有本地下载？</strong><p>只收录允许再分发、文件低于托管限制、并且能明确指出设备架构的版本。v2rayN当前常用Windows文件超过本站单文件限制；苹果商店软件、ChatGPT、YouTube等闭源产品仍必须通过官方入口安装。</p></div>
+        <SectionHeading index="直接下载" title="当前版开源客户端，直接给出对应的官方文件" lead="发布程序会从每个项目的官方Release自动选中指定设备文件，并核对版本、大小与SHA-256。无需先进入GitHub页面寻找文件。" />
+        <div className="official-file-grid">{syncStatus.clients.map((release) => {
+          const label = clientLabels[release.repository];
+          const assetUrl = "assetUrl" in release && typeof release.assetUrl === "string" ? release.assetUrl : null;
+          const assetName = "assetName" in release && typeof release.assetName === "string" ? release.assetName : null;
+          const assetSize = "assetSize" in release && typeof release.assetSize === "number" ? release.assetSize : null;
+          const assetSha256 = "assetSha256" in release && typeof release.assetSha256 === "string" ? release.assetSha256 : null;
+          if (!label || !assetUrl || !assetName || !assetSize || !assetSha256) return null;
+          return <article key={release.repository}><div><span>{label.platform}</span><strong>官方文件已自动核验</strong></div><h2>{label.product}</h2><p>{assetName}</p><dl><div><dt>当前版本</dt><dd>{"version" in release ? release.version : "已核验"}</dd></div><div><dt>文件大小</dt><dd>{formatFileSize(assetSize)}</dd></div><div><dt>SHA-256</dt><dd><code>{assetSha256}</code></dd></div></dl><a href={assetUrl}>直接下载官方文件 ↓</a></article>;
+        })}</div>
+        <div className="mirror-safety-note"><strong>本站备用文件是什么？</strong><p>下方三项文件同样取自项目官方Release，并保存在本站，适合GitHub下载不稳定时使用。v2rayN的Windows文件超过本站单文件限制，所以提供上方的官方ZIP直链；苹果商店软件、ChatGPT、YouTube等闭源产品仍必须通过官方入口安装。</p></div>
+        <SectionHeading index="本站备用" title="GitHub下载不稳定时，使用本站三项已校验备份" lead="只有备份版本与本轮官方当前版本完全一致时，下载按钮才会显示。新版发布、读取失败或文件校验不一致都会自动阻止发布。" />
         <div className="mirror-grid">{mirrorDownloads.map((item) => {
           const release = releaseChecks[item.repository];
           const observedVersion = release && "version" in release && typeof release.version === "string" ? release.version : null;
-          const currentVersion = release?.state === "ok" ? observedVersion : null;
+          const sameVersionSnapshot = release?.state === "ok" || (release?.state === "stale" && "detectedVersion" in release && release.detectedVersion === observedVersion);
+          const currentVersion = sameVersionSnapshot ? observedVersion : null;
           const fresh = Boolean(currentVersion) && currentVersion === item.version;
-          const versionState = release?.state !== "ok" ? "本轮官方版本检查失败，备用文件暂停" : fresh ? "版本已核对" : "新版已发布，备用文件暂停";
-          return <article key={item.product} className={!fresh ? "mirror-stale" : ""}><div className="mirror-head"><span>{item.platform}</span><strong>{versionState}</strong></div><h2>{item.product}</h2><p className="mirror-file">{item.file}</p><dl><div><dt>本站文件</dt><dd>{item.version} · {item.size}</dd></div><div><dt>官方当前版</dt><dd>{currentVersion || (observedVersion ? `${observedVersion}（上次核验）` : "本轮未读取成功")}</dd></div><div><dt>SHA-256</dt><dd><code>{item.sha256}</code></dd></div></dl>{fresh ? <a className="mirror-download" href={`${basePath}/mirror/${item.file}`} download>从本站下载已校验文件 ↓</a> : <p className="mirror-paused">为避免提供无法确认是否最新的文件，本站下载已自动隐藏。请先使用官方发布页。</p>}<div className="mirror-links"><a href={item.official} target="_blank" rel="noopener noreferrer">官方发布页 ↗</a><a href={item.project} target="_blank" rel="noopener noreferrer">源码 ↗</a><a href={item.license} target="_blank" rel="noopener noreferrer">许可证 ↗</a></div></article>;
+          const versionState = !sameVersionSnapshot ? "本轮官方版本检查失败，备用文件暂停" : fresh ? (release?.state === "stale" ? "版本一致 · 使用最近可信校验" : "版本已核对") : "新版已发布，备用文件暂停";
+          return <article key={item.product} className={!fresh ? "mirror-stale" : ""}><div className="mirror-head"><span>{item.platform}</span><strong>{versionState}</strong></div><h2>{item.product}</h2><p className="mirror-file">{item.file}</p><dl><div><dt>本站文件</dt><dd>{item.version} · {formatFileSize(item.sizeBytes)}</dd></div><div><dt>官方当前版</dt><dd>{currentVersion || (observedVersion ? `${observedVersion}（上次核验）` : "本轮未读取成功")}</dd></div><div><dt>SHA-256</dt><dd><code>{item.sha256}</code></dd></div></dl>{fresh ? <a className="mirror-download" href={`${basePath}/mirror/${item.file}`} download>从本站下载已校验文件 ↓</a> : <p className="mirror-paused">为避免提供无法确认是否最新的文件，本站下载已自动隐藏。请先使用官方发布页。</p>}<div className="mirror-links"><a href={item.official} target="_blank" rel="noopener noreferrer">官方发布页 ↗</a><a href={item.project} target="_blank" rel="noopener noreferrer">源码 ↗</a><a href={item.license} target="_blank" rel="noopener noreferrer">许可证 ↗</a></div></article>;
         })}</div>
         <div className="checksum-help"><strong>SHA-256是什么？</strong><div><p>它像文件的“指纹”。下载后计算出的字符串与页面完全一致，说明文件在传输中没有发生变化；它不能代替杀毒扫描，也不代表软件绝对没有风险。</p><details className="checksum-steps"><summary>Windows小白：展开查看校验步骤</summary><ol><li>打开下载文件所在的文件夹。</li><li>在文件夹地址栏输入 <code>powershell</code> 并按回车。</li><li>输入 <code>Get-FileHash &quot;.\文件名.exe&quot; -Algorithm SHA256</code>，把“文件名”换成实际名称。</li><li>把出现的Hash与本页SHA-256逐字比较；不一致就删除文件，不要安装。</li></ol></details><p className="android-check-note"><strong>Android：</strong>如果不会在手机上校验，优先从官方项目页直接下载，并在安装前让系统安全检查；不要为了安装而关闭所有安全保护。</p></div></div>
       </section>

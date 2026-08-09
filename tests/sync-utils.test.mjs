@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { readFile } from "node:fs/promises";
-import { decidePublishedPrice, isAllowedOfficialDownload, mapWithConcurrency, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl } from "../scripts/sync-utils.mjs";
+import { decidePublishedPrice, hasCompleteReleaseAsset, isAllowedOfficialDownload, mapWithConcurrency, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl, retainReleaseSnapshot } from "../scripts/sync-utils.mjs";
 
 test("订阅美元价格只维护一份数据，人民币换算使用同步汇率并覆盖全部购买链接", async () => {
   const pricing = JSON.parse(await readFile(new URL("../data/subscription-pricing.json", import.meta.url), "utf8"));
@@ -55,12 +55,29 @@ test("价格解析同时校验币种、周期与正数", () => {
 });
 
 test("同一商家页面出现多个互相冲突的月付价时停止自动发布", () => {
-  const html = "<div>Official Price $30 /month vs GamsGo Special $6.17 /month</div><p>SuperGrok on GamsGo $18.99 per month</p><p>GamsGo SuperGrok $17.99/month</p>";
+  const html = '<script>"service_ids":1247},86,"Grok","grok","image.webp","15.00","90.00","3.00","$","USD($)"</script><p>GamsGo SuperGrok $18.99/月</p><p>GamsGo 购买的价格为 18.99 美元/月</p>';
   const parsed = parseGamsgoPrice(html, {
-    conflictPatterns: [/(?:GamsGo|SuperGrok)[^$]{0,90}\$\s*([0-9]+(?:[.,][0-9]+)?)\s*(?:per month|\/\s*month)/gi],
+    embeddedProduct: true,
+    conflictPatterns: [/GamsGo SuperGrok\s*\$\s*([0-9]+(?:[.,][0-9]+)?)\s*\/\s*月/gi, /GamsGo 购买的价格为\s*([0-9]+(?:[.,][0-9]+)?)\s*美元\s*\/\s*月/gi],
   });
   assert.equal(parsed.conflict, true);
-  assert.deepEqual(parsed.observedValues, [6.17, 18.99, 17.99]);
+  assert.deepEqual(parsed.observedValues, [15, 18.99]);
+});
+
+test("嵌入商品数据优先读取月价、官方总价与套餐月数", () => {
+  const samples = [
+    ['"service_ids":1244},"5.00","60.00","3.00","$","USD($)"', 5, 20, 3],
+    ['"service_ids":1177},"claude","87.99","120.00","1.00","$","USD($)"', 87.99, 120, 1],
+    ['"service_ids":1238},145,"gemini","image.webp","2.25","79.99","12.00","$","USD($)"', 2.25, 6.67, 12],
+  ];
+  for (const [html, special, official, months] of samples) {
+    assert.deepEqual(parseGamsgoPrice(html, { embeddedProduct: true }), {
+      official: { currency: "USD", value: official },
+      special: { currency: "USD", value: special },
+      period: "month",
+      offerDurationMonths: months,
+    });
+  }
 });
 
 test("可用产品专用语句读取公开月付价", () => {
@@ -101,6 +118,50 @@ test("GitHub发布接口受限时可从官方Latest跳转恢复版本", () => {
   assert.equal(parseLatestReleaseUrl("https://github.com/2dust/v2rayN/releases/tag/7.24.4", "2dust/v2rayN"), "7.24.4");
   assert.equal(parseLatestReleaseUrl("https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1", "hiddify/hiddify-app"), "v4.1.1");
   assert.equal(parseLatestReleaseUrl("https://example.com/2dust/v2rayN/releases/tag/7.24.4", "2dust/v2rayN"), null);
+});
+
+test("GitHub接口临时受限时保留同版本最近一次可信文件", () => {
+  const previous = {
+    repository: "owner/project",
+    state: "ok",
+    version: "v1.2.3",
+    releaseUrl: "https://github.com/owner/project/releases/tag/v1.2.3",
+    assetName: "project.exe",
+    assetSize: 123,
+    assetUrl: "https://github.com/owner/project/releases/download/v1.2.3/project.exe",
+    assetSha256: "A".repeat(64),
+    assetVerifiedAt: "2026-08-09T00:00:00.000Z",
+  };
+  assert.equal(hasCompleteReleaseAsset(previous), true);
+  const retained = retainReleaseSnapshot(previous, {
+    repository: "owner/project",
+    version: "v1.2.3",
+    releaseUrl: previous.releaseUrl,
+    error: "API rate limited",
+  });
+  assert.equal(retained.state, "stale");
+  assert.equal(retained.assetUrl, previous.assetUrl);
+  assert.equal(retained.assetSha256, previous.assetSha256);
+});
+
+test("检测到新版本但拿不到文件元数据时阻止沿用旧版本发布", () => {
+  const previous = {
+    repository: "owner/project",
+    state: "ok",
+    version: "v1.2.3",
+    assetName: "project.exe",
+    assetSize: 123,
+    assetUrl: "https://github.com/owner/project/releases/download/v1.2.3/project.exe",
+    assetSha256: "B".repeat(64),
+  };
+  const retained = retainReleaseSnapshot(previous, {
+    repository: "owner/project",
+    version: "v1.2.4",
+    releaseUrl: "https://github.com/owner/project/releases/tag/v1.2.4",
+  });
+  assert.equal(retained.state, "error");
+  assert.equal(retained.version, "v1.2.3");
+  assert.equal(retained.detectedVersion, "v1.2.4");
 });
 
 test("批量链接检查限制并发并保持原顺序", async () => {
