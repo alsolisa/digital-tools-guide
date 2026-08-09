@@ -1,3 +1,4 @@
+import "../content-styles";
 import { NodeGuidePage } from "../page";
 
 export const metadata = {

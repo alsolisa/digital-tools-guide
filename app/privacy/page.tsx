@@ -1,3 +1,4 @@
+import "../content-styles";
 import { PageIntro, PageShell, SectionHeading } from "../components/SiteChrome";
 
 export const metadata = { title: "隐私说明", description: "数字工具指南的数据收集边界、第三方链接、自动核验和用户安全说明。", alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/privacy/` } };

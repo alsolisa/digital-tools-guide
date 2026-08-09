@@ -1,3 +1,4 @@
+import "../content-styles";
 import syncStatus from "../../data/sync-status.json";
 import autoSync from "../../data/auto-sync.json";
 import { aiProducts, allDownloads, commonApps, subscriptionOffers } from "../../data/catalog";

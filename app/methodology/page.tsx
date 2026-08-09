@@ -1,3 +1,4 @@
+import "../content-styles";
 import syncStatus from "../../data/sync-status.json";
 import { PageIntro, PageShell, SectionHeading } from "../components/SiteChrome";
 

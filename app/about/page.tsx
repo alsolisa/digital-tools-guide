@@ -1,3 +1,4 @@
+import "../content-styles";
 import { PageIntro, PageShell, QuickSummary, SectionHeading } from "../components/SiteChrome";
 
 export const metadata = {

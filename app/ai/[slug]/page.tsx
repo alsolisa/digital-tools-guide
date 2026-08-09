@@ -1,3 +1,4 @@
+import "../../content-styles";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { aiProducts, getAiProduct, subscriptionOffers } from "../../../data/catalog";

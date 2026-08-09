@@ -1,5 +1,7 @@
 import syncStatus from "../data/sync-status.json";
+import "./award-system.css";
 import promotionManifest from "../data/promotion-links.json";
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { BrandIcon, BrandNotice, PageShell, SiteFooter, SiteHeader } from "./components/SiteChrome";
@@ -343,11 +345,11 @@ export function NodeGuidePage() {
         <div className="section-heading"><div><span className="section-index">01 / 先认识概念</span><h1>五个词，第一次看到也能懂</h1></div><p>这些词不是一回事。先分清它们，后面的购买和安装才不会混乱。</p></div>
         <figure className="section-artwork-wide node-section-art"><Image src={`${basePath}/illustrations/network-journey-v2.webp`} alt="家庭设备通过多条网络路径和不同节点到达已核验服务的原创纸艺插画" width={1536} height={1024} sizes="(max-width: 700px) 100vw, 1280px" priority unoptimized /><figcaption>原创插画 · 从设备出发，经由节点到达目标服务</figcaption></figure>
         <div className="plain-term-grid">
-          <article><span>VPN</span><h3>一种建立网络连接的技术或服务</h3><p>通常通过加密通道把设备的网络流量发送到另一台服务器。商业VPN一般提供自己的App，具体隐私和可用范围取决于服务商。</p></article>
-          <article><span>机场</span><h3>中文互联网中的非正式叫法</h3><p>通常指提供多个代理服务器“节点”和订阅链接的服务商。它不等同于所有VPN，也不是航空机场。</p></article>
-          <article><span>节点</span><h3>连接出去时经过的服务器</h3><p>节点常按国家或地区区分。不同节点的出口、速度和可访问服务可能不同，但不能保证解锁所有平台。</p></article>
-          <article><span>客户端</span><h3>安装在手机或电脑上的连接软件</h3><p>Clash Verge、v2rayN、Shadowrocket等属于客户端。它们负责读取订阅并建立连接，本身通常不包含可用套餐。</p></article>
-          <article><span>订阅链接</span><h3>把套餐和节点导入客户端的个人钥匙</h3><p>购买后由服务商提供。不要发给别人、公开截图或提交给陌生网站，否则可能造成流量被盗用。</p></article>
+          <article><span>VPN</span><h2>一种建立网络连接的技术或服务</h2><p>通常通过加密通道把设备的网络流量发送到另一台服务器。商业VPN一般提供自己的App，具体隐私和可用范围取决于服务商。</p></article>
+          <article><span>机场</span><h2>中文互联网中的非正式叫法</h2><p>通常指提供多个代理服务器“节点”和订阅链接的服务商。它不等同于所有VPN，也不是航空机场。</p></article>
+          <article><span>节点</span><h2>连接出去时经过的服务器</h2><p>节点常按国家或地区区分。不同节点的出口、速度和可访问服务可能不同，但不能保证解锁所有平台。</p></article>
+          <article><span>客户端</span><h2>安装在手机或电脑上的连接软件</h2><p>Clash Verge、v2rayN、Shadowrocket等属于客户端。它们负责读取订阅并建立连接，本身通常不包含可用套餐。</p></article>
+          <article><span>订阅链接</span><h2>把套餐和节点导入客户端的个人钥匙</h2><p>购买后由服务商提供。不要发给别人、公开截图或提交给陌生网站，否则可能造成流量被盗用。</p></article>
         </div>
         <div className="connection-diagram" aria-label="机场服务使用流程"><div><small>第1步</small><strong>购买服务</strong><p>获得自己的订阅链接</p></div><i>→</i><div><small>第2步</small><strong>安装客户端</strong><p>只从官方来源下载</p></div><i>→</i><div><small>第3步</small><strong>导入订阅</strong><p>客户端读取节点列表</p></div><i>→</i><div><small>第4步</small><strong>选择节点</strong><p>建立网络连接</p></div></div>
       </section>
@@ -439,28 +441,57 @@ export default function Home() {
     ],
   };
   return (
-    <PageShell>
+    <PageShell staticNavigation>
       <StructuredData data={routeListJsonLd} />
-      <section className="project-overview" id="projects">
-        <div className="project-overview-hero">
-          <div className="project-overview-copy">
-            <figure className="project-master-art" aria-hidden="true"><Image src={`${basePath}/editorial/digital-atlas-v1.webp`} width="1536" height="1024" alt="" priority unoptimized /></figure>
-            <div className="project-overview-copy-content"><span className="eyebrow">三个独立指南 · 需要哪个就看哪个</span><h1>机场怎么选、AI怎么用、<br />模型谁更强？</h1><p>第一次进来，只要先选你现在想解决的问题。三个项目彼此独立，不需要按顺序看，也不需要先懂专业名词。</p></div>
+      <section className="home-hero" aria-labelledby="home-title">
+        <figure className="home-hero-art" aria-hidden="true" style={{ "--hero-image": `url("${basePath}/editorial/digital-atlas-home-v2.webp")` } as CSSProperties} />
+        <div className="home-hero-inner">
+          <div className="home-hero-copy">
+            <span className="home-kicker"><i />数字生活 · 逐项核对</span>
+            <h1 id="home-title"><span>复杂的数字工具，</span><br /><em>先看懂，再决定。</em></h1>
+            <p>从网络服务、AI产品到模型评测，把入口、价格、风险和证据整理成普通人能直接行动的中文指南。</p>
+            <div className="home-hero-actions"><Link className="home-action-primary" href="#projects">按我的问题开始 <span>↓</span></Link><Link className="home-action-secondary" href="/search" prefetch={false}>搜索一个工具 <span>⌕</span></Link></div>
+            <dl className="home-proof-row">
+              <div><dt>公开来源</dt><dd>逐项标注</dd></div>
+              <div><dt>重要入口</dt><dd>自动检查</dd></div>
+              <div><dt>表达方式</dt><dd>新手优先</dd></div>
+            </dl>
           </div>
-          <aside className="project-route-map" aria-label="三个项目分别解决什么问题">
-            <span>先按你的问题选择</span>
-            <ol>
-              <li><Link href="/nodes"><b>01</b><div><strong>需要网络服务</strong><small>从机场和客户端开始</small></div></Link></li>
-              <li><Link href="/ai"><b>02</b><div><strong>想学习或订阅 AI</strong><small>从用途和产品开始</small></div></Link></li>
-              <li><Link href="/benchmarks"><b>03</b><div><strong>想了解模型水平</strong><small>从两套评测开始</small></div></Link></li>
-            </ol>
+          <aside className="home-route-panel" aria-label="三个项目分别解决什么问题">
+            <header><span>Start with a question</span><strong>你现在想解决什么？</strong></header>
+            <nav>
+              <Link href="/nodes" prefetch={false}><b>01</b><span><strong>需要网络服务</strong><small>看懂机场、节点和客户端</small></span><i>↗</i></Link>
+              <Link href="/ai" prefetch={false}><b>02</b><span><strong>想学习或订阅 AI</strong><small>从用途、产品和购买方式开始</small></span><i>↗</i></Link>
+              <Link href="/benchmarks" prefetch={false}><b>03</b><span><strong>想了解模型水平</strong><small>分清能力、速度和成本</small></span><i>↗</i></Link>
+            </nav>
+            <p><i /> 内容会持续核验；无法确认的数字会明确隐藏。</p>
           </aside>
         </div>
+        <a className="home-scroll-cue" href="#projects"><span>向下探索</span><i /></a>
+      </section>
+
+      <section className="home-promise" aria-label="本站的三个设计与编辑原则">
+        <p><span>01</span> 少一点术语，<strong>多一点判断依据。</strong></p>
+        <p><span>02</span> 少一点推荐，<strong>多一点适用边界。</strong></p>
+        <p><span>03</span> 少一点炫技，<strong>多一点真实速度。</strong></p>
+      </section>
+
+      <section className="project-overview" id="projects">
+        <header className="home-section-heading"><div><span>Three clear paths</span><h2>三个独立指南，<br />需要哪个就看哪个。</h2></div><p>不需要按顺序阅读，也不用先懂专业名词。每个项目都从“这是什么”开始，到“下一步怎么做”结束。</p></header>
         <div className="project-overview-grid">
-          <article className="project-card project-card-network"><span>项目 01 · 网络服务</span><div className="project-card-visual network-visual" aria-hidden="true"><i /><i /><i /><b>服务</b><b>客户端</b><b>节点</b></div><h2>看懂机场，选择服务并安装客户端</h2><p>适合不知道“机场、节点、订阅链接”是什么的人。这里会比较五家服务，并按 Windows、Mac、Android 和 iPhone 提供下载与使用教程。</p><small className="project-card-outcome">看完可以：理解术语 · 比较服务 · 安装客户端</small><Link href="/nodes">进入机场指南 →</Link></article>
-          <article className="project-card project-card-ai"><span>项目 02 · AI与应用</span><div className="project-card-visual ai-visual" aria-hidden="true"><i /><i /><i /><b>问</b><b>整</b><b>创</b></div><h2>先选AI，再决定是否订阅或安装</h2><p>想知道 ChatGPT、Claude、Gemini 分别适合什么，去哪里下载，或者怎样通过 GamsGo 购买会员，都从这里进入。YouTube、TikTok、X 也放在同一项目内。</p><small className="project-card-outcome">看完可以：选择 AI · 比较订阅 · 找到下载</small><div><Link href="/ai">AI介绍</Link><Link href="/subscriptions">AI订阅</Link><Link href="/apps">常用应用</Link><Link href="/downloads">下载中心</Link></div></article>
-          <article className="project-card project-card-benchmark"><span>项目 03 · 模型评测</span><div className="project-card-visual benchmark-visual" aria-hidden="true"><i /><i /><i /><i /><i /><b>能力</b><b>速度</b><b>成本</b></div><h2>看懂当前主流模型和评测结果</h2><p>适合想知道“现在有哪些主流模型、谁的效果更好”的人。这里把 Arena 真人评价与 Artificial Analysis 能力、速度和成本数据分开解释。</p><small className="project-card-outcome">看完可以：分清榜单 · 认识模型 · 看懂差异</small><Link href="/benchmarks">查看模型评测 →</Link></article>
+          <article className="project-card project-card-network"><Link className="project-card-media" href="/nodes" prefetch={false} aria-label="01 进入机场指南"><Image src={`${basePath}/illustrations/network-journey-home-v2.webp`} width="832" height="555" alt="从设备、客户端到网络服务的纸艺路线插画" unoptimized /><span aria-hidden="true">01</span></Link><div className="project-card-body"><span>项目 01 · 网络服务</span><h3>看懂机场，选择服务并安装客户端</h3><p>适合不知道“机场、节点、订阅链接”是什么的人。按设备给出下载、安装与排错路径。</p><small className="project-card-outcome">理解术语 · 比较服务 · 安装客户端</small><Link className="project-card-primary" href="/nodes" prefetch={false}>进入机场指南 <i>↗</i></Link></div></article>
+          <article className="project-card project-card-ai"><Link className="project-card-media" href="/ai" prefetch={false} aria-label="02 进入AI与应用指南"><Image src={`${basePath}/illustrations/ai-assistant-home-v2.webp`} width="832" height="555" alt="围绕对话、文件、语音、图片和搜索的AI助手纸艺插画" unoptimized /><span aria-hidden="true">02</span></Link><div className="project-card-body"><span>项目 02 · AI与应用</span><h3>先选 AI，再决定是否订阅或安装</h3><p>比较 ChatGPT、Claude、Gemini 等产品的用途、下载入口、订阅方式与账号风险。</p><small className="project-card-outcome">选择 AI · 比较订阅 · 找到下载</small><nav className="project-card-links" aria-label="AI与应用子栏目"><Link href="/ai" prefetch={false}>AI介绍</Link><Link href="/subscriptions" prefetch={false}>AI订阅</Link><Link href="/apps" prefetch={false}>常用应用</Link><Link href="/downloads" prefetch={false}>下载中心</Link></nav></div></article>
+          <article className="project-card project-card-benchmark"><Link className="project-card-media" href="/benchmarks" prefetch={false} aria-label="03 进入模型评测"><Image src={`${basePath}/illustrations/model-benchmarks-home-v2.webp`} width="832" height="555" alt="展示真人评价、能力、速度与成本的模型评测纸艺插画" unoptimized /><span aria-hidden="true">03</span></Link><div className="project-card-body"><span>项目 03 · 模型评测</span><h3>看懂当前主流模型和评测结果</h3><p>把 Arena 真人评价与 Artificial Analysis 的能力、速度和成本数据分开解释，避免只看一个总分。</p><small className="project-card-outcome">分清榜单 · 认识模型 · 看懂差异</small><Link className="project-card-primary" href="/benchmarks" prefetch={false}>查看模型评测 <i>↗</i></Link></div></article>
         </div>
+      </section>
+
+      <section className="home-standard">
+        <div><span>Built for trust</span><h2>好看只是开始。<br />可信、清楚、快速，才是完成。</h2><p>我们把设计用在理解上：让重要信息先出现，让风险和来源不躲在小字里，让手机端也能舒服阅读。</p><Link href="/standards">查看本站编辑标准 <i>↗</i></Link></div>
+        <ol>
+          <li><span>01</span><div><strong>来源在推荐前面</strong><p>关键结论尽量回到官方页面、公开数据或可重复检查的证据。</p></div></li>
+          <li><span>02</span><div><strong>不确定性直接写明</strong><p>读取失败、价格冲突和人工资料过期时，不拿旧数字冒充现在。</p></div></li>
+          <li><span>03</span><div><strong>性能也是设计</strong><p>不依赖沉重3D和自动播放视频，动效只使用高性能属性并支持减少动态效果。</p></div></li>
+        </ol>
       </section>
     </PageShell>
   );

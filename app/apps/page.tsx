@@ -1,3 +1,4 @@
+import "../content-styles";
 import { commonApps } from "../../data/catalog";
 import { getAppEditorialGuide } from "../../data/editorial-guides";
 import Link from "next/link";

@@ -1,3 +1,4 @@
+import "../content-styles";
 import { allDownloads, type Platform } from "../../data/catalog";
 import localMirrors from "../../data/local-mirrors.json";
 import syncStatus from "../../data/sync-status.json";

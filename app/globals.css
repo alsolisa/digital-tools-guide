@@ -1,5 +1,3 @@
-@import "tailwindcss";
-
 :root {
   --ink: #12253b;
   --ink-soft: #4e5d6c;
@@ -26,7 +24,7 @@ body {
   background:
     radial-gradient(circle at 12% 4%, rgba(193, 173, 119, 0.12), transparent 24rem),
     var(--paper);
-  font-family: "Noto Sans SC Variable", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   text-rendering: optimizeLegibility;
 }
 a { color: inherit; text-decoration: none; }
@@ -1430,8 +1428,8 @@ body { font-size: 16px; line-height: 1.65; }
   --gold: #8a5a16;
   --blue: #2f7fae;
   --line: #d5cec0;
-  --display: "Noto Serif SC Variable", "STSong", "Songti SC", Georgia, serif;
-  --body: "Noto Sans SC Variable", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --display: "Songti SC", "STSong", "SimSun", Georgia, serif;
+  --body: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   --mono: ui-monospace, "SFMono-Regular", Consolas, monospace;
 }
 

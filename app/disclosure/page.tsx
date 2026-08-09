@@ -1,3 +1,4 @@
+import "../content-styles";
 import { PageIntro, PageShell, SectionHeading } from "../components/SiteChrome";
 
 export const metadata = { title: "推广关系说明", description: "数字工具指南的推广链接、排序、佣金、核验和购买责任说明。", alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/disclosure/` } };

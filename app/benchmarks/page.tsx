@@ -1,3 +1,4 @@
+import "../content-styles";
 import autoSync from "../../data/auto-sync.json";
 import { PageIntro, PageShell, QuickSummary, SectionHeading } from "../components/SiteChrome";
 import StructuredData from "../components/StructuredData";

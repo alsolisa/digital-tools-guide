@@ -93,7 +93,15 @@ test("脚本、样式、图片资源均使用正确子目录", async () => {
   const resources = [...home.matchAll(/(?:src|href)=["'](\/[^"']+)["']/g)].map((match) => match[1]);
   assert.ok(resources.length > 0);
   for (const resource of resources) assert.equal(resource.startsWith(basePath), true, `资源地址缺少${basePath}：${resource}`);
-  assert.match(home, /https:\/\/alsolisa\.github\.io\/digital-tools-guide\/og-v11\.png/);
+  assert.match(home, /https:\/\/alsolisa\.github\.io\/digital-tools-guide\/og-award-v2\.jpg/);
+  assert.match(home, /<meta property="og:image:width" content="1200"\/>/);
+  assert.match(home, /<meta property="og:image:height" content="630"\/>/);
+  assert.equal(await exists(path.join(root, "og-award-v2.jpg")), true, "新版社交分享图没有进入静态发布包");
+  assert.match(home, /hydration-free static homepage/);
+  assert.doesNotMatch(home, /<script[^>]+src=|self\.__next_f/, "纯静态首页不应下载无用的React运行时");
+  assert.equal((home.match(/type="application\/ld\+json"/g) || []).length >= 2, true, "移除首页运行时后仍须保留结构化数据");
+  assert.equal((home.match(/rel="stylesheet"/g) || []).length, 1, "首页只能加载一份经过拆分的关键样式");
+  assert.match(home, /<details class="static-mobile-menu">[\s\S]*?<summary class="mobile-menu-button">/, "无脚本首页必须保留可键盘操作的移动菜单");
 
   const subscriptions = await readFile(path.join(root, "subscriptions", "index.html"), "utf8");
   assert.equal((subscriptions.match(/>打开购买页面<\/a>/g) || []).length, 5, "订阅页的五个购买按钮文案必须统一");

@@ -1,3 +1,4 @@
+import "./award-system.css";
 import Link from "next/link";
 import { PageShell } from "./components/SiteChrome";
 

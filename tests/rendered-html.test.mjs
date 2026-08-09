@@ -36,8 +36,9 @@ test("全部公开页面与详情页都能正常打开", async () => {
 
 test("全站按零基础用户顺序先解释再比较", async () => {
   const home = await (await render("/")).text();
-  assert.match(home, /机场怎么选、AI怎么用/);
-  for (const text of ["看懂机场，选择服务并安装客户端", "先选AI，再决定是否订阅或安装", "看懂当前主流模型和评测结果"]) assert.match(home, new RegExp(text));
+  assert.match(home, /复杂的数字工具/);
+  assert.match(home, /先看懂，再决定/);
+  for (const text of ["看懂机场，选择服务并安装客户端", "先选 AI，再决定是否订阅或安装", "看懂当前主流模型和评测结果"]) assert.match(home, new RegExp(text));
   assert.doesNotMatch(home, /先看懂五个词，再选择服务|按预算直接选/);
   const nodes = await (await render("/nodes")).text();
   for (const term of ["VPN", "机场", "节点", "客户端", "订阅链接"]) assert.match(nodes, new RegExp(term));
@@ -268,7 +269,7 @@ test("AI与应用对照表下方提供三项常用应用的完整介绍卡片", 
 
 test("新手决策、商店地区、状态与反馈功能都能解释边界", async () => {
   const home = await (await render("/")).text();
-  for (const text of ["看懂机场，选择服务并安装客户端", "先选AI，再决定是否订阅或安装", "看懂当前主流模型和评测结果"]) assert.match(home, new RegExp(text));
+  for (const text of ["看懂机场，选择服务并安装客户端", "先选 AI，再决定是否订阅或安装", "看懂当前主流模型和评测结果"]) assert.match(home, new RegExp(text));
   const stores = await (await render("/stores")).text();
   assert.match(stores, /至少要等待90天/);
   assert.match(stores, /不要购买陌生共享Apple ID/);

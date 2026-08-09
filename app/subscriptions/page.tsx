@@ -1,3 +1,4 @@
+import "../content-styles";
 import {
   formatCnyPrice,
   formatPurchaseOptionNote,

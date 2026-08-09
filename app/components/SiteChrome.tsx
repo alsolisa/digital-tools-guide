@@ -36,14 +36,33 @@ const navItems = [
   ["模型评测", "/benchmarks"],
 ] as const;
 
-export function SiteHeader() {
+function StaticPrimaryNavigation() {
+  return <>
+    <nav className="global-nav" aria-label="全站导航">
+      {navItems.map(([label, href]) => <Link href={href} key={href} prefetch={false} aria-current={href === "/" ? "page" : undefined}>{label}</Link>)}
+    </nav>
+    <details className="static-mobile-menu">
+      <summary className="mobile-menu-button"><span aria-hidden="true">☰</span> 菜单</summary>
+      <div className="mobile-menu-panel">
+        <header><div><span>数字工具指南</span><strong>你想先解决什么？</strong></div></header>
+        <nav aria-label="手机端全站导航">
+          {navItems.map(([label, href], index) => <Link href={href} key={href} prefetch={false} aria-current={href === "/" ? "page" : undefined}><span>{String(index + 1).padStart(2, "0")}</span>{label}<i aria-hidden="true">→</i></Link>)}
+        </nav>
+        <p>再次点击菜单按钮即可收起。本站不会在菜单中收集任何信息。</p>
+      </div>
+    </details>
+  </>;
+}
+
+export function SiteHeader({ staticNavigation = false }: { staticNavigation?: boolean } = {}) {
   return (
     <><a className="skip-link" href="#main-content">跳到主要内容</a><header className="global-header">
-      <Link className="global-brand" href="/">
+      <Link className="global-brand" href="/" prefetch={false}>
         <span className="global-mark">数</span>
-        <span><strong>数字工具指南</strong><small>逐项核对 · 第一次也能懂</small></span>
+        <span><strong>数字工具指南</strong><small>来源清楚 · 第一次也能懂</small></span>
       </Link>
-      <PrimaryNavigation items={navItems} />
+      {staticNavigation ? <StaticPrimaryNavigation /> : <PrimaryNavigation items={navItems} />}
+      <Link className="global-search-link" href="/search" prefetch={false} aria-label="搜索本站内容"><i aria-hidden="true" /><span>搜索</span></Link>
     </header></>
   );
 }
@@ -51,6 +70,11 @@ export function SiteHeader() {
 export function SiteFooter() {
   return (
     <footer className="global-footer">
+      <div className="footer-statement">
+        <span>Digital tools, clearly explained.</span>
+        <strong>把复杂工具，<br />变成清楚选择。</strong>
+        <Link href="/search">搜索你正在使用的工具 <i>↗</i></Link>
+      </div>
       <div className="footer-intro">
         <div className="global-brand footer-brand">
           <span className="global-mark">数</span>
@@ -70,8 +94,8 @@ export function SiteFooter() {
   );
 }
 
-export function PageShell({ children }: { children: ReactNode }) {
-  return <><SiteHeader /><main className="page-main" id="main-content">{children}</main><SiteFooter /></>;
+export function PageShell({ children, staticNavigation = false }: { children: ReactNode; staticNavigation?: boolean }) {
+  return <><SiteHeader staticNavigation={staticNavigation} /><main className="page-main" id="main-content">{children}</main><SiteFooter /></>;
 }
 
 export function Breadcrumbs({ items }: { items: { label: string; href?: string }[] }) {

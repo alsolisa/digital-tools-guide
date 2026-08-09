@@ -1,3 +1,4 @@
+import "../content-styles";
 import { aiProducts, commonApps } from "../../data/catalog";
 import { getAiEditorialGuide, getAppEditorialGuide } from "../../data/editorial-guides";
 import Link from "next/link";

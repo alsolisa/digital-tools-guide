@@ -1,3 +1,4 @@
+import "../../content-styles";
 import { notFound } from "next/navigation";
 import { commonApps, getCommonApp } from "../../../data/catalog";
 import { getAppEditorialGuide } from "../../../data/editorial-guides";

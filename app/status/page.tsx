@@ -1,3 +1,4 @@
+import "../content-styles";
 import autoSync from "../../data/auto-sync.json";
 import syncStatus from "../../data/sync-status.json";
 import manualNetworkTests from "../../data/manual-network-tests.json";

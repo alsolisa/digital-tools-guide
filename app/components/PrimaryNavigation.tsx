@@ -38,7 +38,7 @@ export default function PrimaryNavigation({ items }: { items: readonly Navigatio
     <>
       <nav className="global-nav" aria-label="全站导航">
         {items.map(([label, href, matchers]) => (
-          <Link href={href} key={href} aria-current={isCurrentPath(pathname, href, matchers) ? "page" : undefined}>
+          <Link href={href} key={href} prefetch={false} aria-current={isCurrentPath(pathname, href, matchers) ? "page" : undefined}>
             {label}
           </Link>
         ))}
@@ -57,7 +57,7 @@ export default function PrimaryNavigation({ items }: { items: readonly Navigatio
           </header>
           <nav aria-label="手机端全站导航">
             {items.map(([label, href, matchers], index) => (
-              <Link href={href} key={href} aria-current={isCurrentPath(pathname, href, matchers) ? "page" : undefined}>
+              <Link href={href} key={href} prefetch={false} aria-current={isCurrentPath(pathname, href, matchers) ? "page" : undefined}>
                 <span>{String(index + 1).padStart(2, "0")}</span>{label}<i aria-hidden="true">→</i>
               </Link>
             ))}
@@ -70,7 +70,7 @@ export default function PrimaryNavigation({ items }: { items: readonly Navigatio
         <nav className="ai-channel-nav" aria-label="AI与应用项目导航">
           <strong>项目 02</strong>
           {aiChannelItems.map(([label, href]) => (
-            <Link href={href} key={href} aria-current={pathMatches(pathname, href) ? "page" : undefined}>{label}</Link>
+            <Link href={href} key={href} prefetch={false} aria-current={pathMatches(pathname, href) ? "page" : undefined}>{label}</Link>
           ))}
         </nav>
       )}

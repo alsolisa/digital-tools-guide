@@ -1,3 +1,4 @@
+import "../content-styles";
 import { searchEntries } from "../../data/search-index";
 import SiteSearch from "../components/SiteSearch";
 import { PageIntro, PageShell } from "../components/SiteChrome";
