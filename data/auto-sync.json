@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-09T10:59:45.196Z",
+  "checkedAt": "2026-08-09T11:04:45.461Z",
   "exchange": {
     "state": "ok",
     "date": "2026-08-07",
@@ -14,14 +14,14 @@
     {
       "slug": "chatgpt-recharge",
       "url": "https://www.gamsgo.com/details/chatgpt",
-      "state": "ok",
+      "state": "unreadable",
       "published": {
         "currency": "USD",
         "value": 5
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T10:59:34.419Z",
+      "checkedAt": "2026-08-09T11:04:30.649Z",
       "officialObserved": {
         "currency": "USD",
         "value": 20
@@ -29,19 +29,20 @@
       "period": "month",
       "offerDurationMonths": 3,
       "cny": 33.74,
-      "note": "公开购买页3个月方案折算的月付起价；具体交付方式与结算价以下单页为准"
+      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
+      "error": "Error"
     },
     {
       "slug": "claude",
       "url": "https://www.gamsgo.com/details/claude",
-      "state": "ok",
+      "state": "unreadable",
       "published": {
         "currency": "USD",
         "value": 87.99
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T10:59:33.899Z",
+      "checkedAt": "2026-08-09T11:04:30.654Z",
       "officialObserved": {
         "currency": "USD",
         "value": 120
@@ -49,55 +50,57 @@
       "period": "month",
       "offerDurationMonths": 1,
       "cny": 593.72,
-      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
+      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
+      "error": "Error"
     },
     {
       "slug": "gemini",
       "url": "https://www.gamsgo.com/details/gemini",
-      "state": "ok",
+      "state": "unreadable",
       "published": {
         "currency": "USD",
         "value": 2.25
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T10:59:34.095Z",
+      "checkedAt": "2026-08-09T11:04:30.650Z",
       "officialObserved": {
         "currency": "USD",
         "value": 6.67
       },
       "period": "month",
       "cny": 15.18,
-      "note": "公开购买页12个月方案折算的月付起价；具体交付方式与结算价以下单页为准",
+      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error",
       "offerDurationMonths": 12
     },
     {
       "slug": "grok",
       "url": "https://www.gamsgo.com/details/grok",
-      "state": "conflict",
+      "state": "unreadable",
       "published": null,
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T10:59:34.793Z",
+      "checkedAt": "2026-08-09T11:04:30.650Z",
       "observedValues": [
         15,
         18.99
       ],
-      "note": "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核"
+      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
+      "error": "Error"
     },
     {
       "slug": "perplexity",
       "url": "https://www.gamsgo.com/details/Perplexity_AI",
-      "state": "ok",
+      "state": "unreadable",
       "published": {
         "currency": "USD",
         "value": 4.09
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T10:59:34.087Z",
-      "note": "公开购买页12个月方案折算的月付起价；具体交付方式与结算价以下单页为准",
+      "checkedAt": "2026-08-09T11:04:30.651Z",
+      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "officialObserved": {
         "currency": "USD",
         "value": 16.67
@@ -110,21 +113,21 @@
     {
       "slug": "midjourney",
       "url": "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK",
-      "state": "ok",
+      "state": "unreadable",
       "published": {
         "currency": "USD",
         "value": 24.99
       },
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T10:59:34.417Z",
+      "checkedAt": "2026-08-09T11:04:30.649Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
       },
       "period": "month",
       "cny": 168.62,
-      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准",
+      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
       "error": "Error",
       "offerDurationMonths": 1
     }
@@ -134,21 +137,21 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-08-09T10:59:45.196Z"
+      "checkedAt": "2026-08-09T11:04:45.461Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/leaderboards/models",
       "state": "ok",
-      "checkedAt": "2026-08-09T10:59:45.196Z"
+      "checkedAt": "2026-08-09T11:04:45.461Z"
     }
   ],
   "artificialAnalysisLeaderboard": {
     "source": "Artificial Analysis",
     "url": "https://artificialanalysis.ai/leaderboards/models",
     "state": "ok",
-    "checkedAt": "2026-08-09T10:59:30.715Z",
-    "lastSuccessfulAt": "2026-08-09T10:59:30.715Z",
+    "checkedAt": "2026-08-09T11:04:30.357Z",
+    "lastSuccessfulAt": "2026-08-09T11:04:30.357Z",
     "methodologyVersion": "Intelligence Index v4.1",
     "rows": [
       {
