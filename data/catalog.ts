@@ -133,10 +133,12 @@ export interface AppProfile {
   verifiedAt: string;
 }
 
-const checkedAt = "2026-07-13";
+const checkedAt = "2026-08-09";
+const syncedUsdCnyRate = Number(autoSync.exchange?.rates?.CNY);
+const hasSyncedUsdCnyRate = Number.isFinite(syncedUsdCnyRate) && syncedUsdCnyRate > 0;
 
-export const USD_CNY_RATE = subscriptionPricing.usdCnyRate;
-export const USD_CNY_RATE_UPDATED_AT = subscriptionPricing.rateUpdatedAt;
+export const USD_CNY_RATE = hasSyncedUsdCnyRate ? syncedUsdCnyRate : subscriptionPricing.usdCnyRate;
+export const USD_CNY_RATE_UPDATED_AT = hasSyncedUsdCnyRate ? autoSync.exchange.date : subscriptionPricing.rateUpdatedAt;
 
 export function formatUsdPrice(usd: number, suffix = "") {
   return `$${usd.toFixed(2)}${suffix}`;
@@ -168,9 +170,8 @@ export const aiProducts: ProductProfile[] = [
     limitations: ["功能和用量会随套餐变化", "重要事实仍需核对来源", "部分地区的注册、付款和下载可能受限制"],
     capabilities: ["联网搜索", "文件上传", "图片理解与生成", "语音对话", "数据分析", "自定义 GPT", "深度研究", "编程"],
     models: [
-      { name: "GPT-5.5 Instant", availability: "ChatGPT 默认快速模式；具体限额随套餐变化", context: "官方未给个人套餐统一固定值", inputs: ["文本", "图片", "音频"], note: "适合日常问答；复杂任务可能自动切换到更高推理档位。" },
-      { name: "GPT-5.6 Sol", availability: "Plus：Medium / High；Pro 等套餐可用更多档位", context: "官方未给个人套餐统一固定值", inputs: ["文本", "图片", "文件"], note: "面向复杂推理、研究、编程和多步骤工作；仍在分批开放时应以账号内模型选择器为准。" },
-      { name: "GPT-5.6 Sol Pro", availability: "Pro、Business、Enterprise 等符合条件的套餐", context: "官方未给个人套餐统一固定值", inputs: ["文本", "图片", "文件"], note: "面向困难任务和更长时间的复杂工作；Plus 标准对话不包含 Pro 档位。" },
+      { name: "ChatGPT Instant（动态更新）", availability: "ChatGPT 当前默认快速模式；底层模型快照会持续更新", context: "官方未给个人套餐统一固定值", inputs: ["文本", "图片", "音频"], note: "适合日常问答。不要把某次看到的底层快照名称长期写死，当前名称与限额以产品界面为准。" },
+      { name: "GPT-5.6 Sol", availability: "OpenAI API 的旗舰 GPT-5.6 模型；ChatGPT 中的入口与档位以账号界面为准", context: "API 模型卡与 ChatGPT 套餐是两层信息", inputs: ["文本", "图片", "文件"], note: "适合复杂推理、研究、编程和多步骤工作；本站不再推断 Plus、Pro 等套餐与推理档位的固定对应关系。" },
     ],
     downloads: [
       { platform: "Web", label: "打开 ChatGPT 网页版", url: "https://chatgpt.com/", source: "official", status: "verified", verifiedAt: checkedAt },
@@ -188,9 +189,10 @@ export const aiProducts: ProductProfile[] = [
       { label: "ChatGPT 官方新手说明", url: "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq" },
       { label: "ChatGPT 官方下载", url: "https://chatgpt.com/download/" },
       { label: "ChatGPT 套餐与模型", url: "https://chatgpt.com/pricing/" },
-      { label: "Canvas 官方说明", url: "https://help.openai.com/en/articles/9930697-what-is-the-canvas-feature-in-chatgpt-and-how-do-i-use-i" },
       { label: "ChatGPT Plus 官方说明", url: "https://help.openai.com/en/articles/6950777-what-is-chatgpt" },
       { label: "GPT-5.6 在 ChatGPT 中的使用说明", url: "https://help.openai.com/en/articles/20001354-gpt-56-in-chatgpt" },
+      { label: "ChatGPT Instant 官方模型说明", url: "https://developers.openai.com/api/docs/models/chat-latest" },
+      { label: "GPT-5.6 Sol 官方模型卡", url: "https://developers.openai.com/api/docs/models/gpt-5.6-sol" },
       { label: "ChatGPT 数据控制官方说明", url: "https://help.openai.com/en/articles/7730893-datacontrols-faq" },
     ],
     benchmarks: [
@@ -223,9 +225,10 @@ export const aiProducts: ProductProfile[] = [
     limitations: ["免费和付费用量均有限制", "不同型号和功能随套餐变化", "部分国家与地区不可用"],
     capabilities: ["网页搜索", "文件与图片分析", "长文档", "语音输入", "代码", "Google 服务连接", "桌面扩展"],
     models: [
-      { name: "Claude Sonnet 5", availability: "Claude 各套餐按用量和开放范围提供", context: "以产品内显示为准", inputs: ["文本", "图片", "文件"], note: "当前 Sonnet 主力型号，适合推理、工具使用、编程和知识工作。" },
-      { name: "Claude Opus 4.8", availability: "高阶套餐与部分功能", context: "以产品内显示为准", inputs: ["文本", "图片", "文件"], note: "适合高难度推理与复杂任务；用量和开放范围随套餐变化。" },
-      { name: "Claude Haiku 4.5", availability: "部分产品入口", context: "以产品内显示为准", inputs: ["文本", "图片"], note: "偏向快速和轻量任务。" },
+      { name: "Claude Fable 5", availability: "Anthropic 当前 API 型号；Claude 产品中的开放范围以账号为准", context: "API 型号与消费者套餐分开核对", inputs: ["文本", "图片", "文件"], note: "当前高阶型号之一；实际可选入口、用量和功能以 Claude 产品界面为准。" },
+      { name: "Claude Opus 5", availability: "Anthropic 当前 API 型号；高阶使用场景", context: "API 型号与消费者套餐分开核对", inputs: ["文本", "图片", "文件"], note: "适合高难度推理与复杂任务；旧型号名称不再作为当前推荐依据。" },
+      { name: "Claude Sonnet 5", availability: "Anthropic 当前 API 型号；Claude 产品中的开放范围以账号为准", context: "以产品内显示为准", inputs: ["文本", "图片", "文件"], note: "当前 Sonnet 主力型号，适合推理、工具使用、编程和知识工作。" },
+      { name: "Claude Haiku 4.5", availability: "Anthropic 当前轻量型号；产品入口可能不同", context: "以产品内显示为准", inputs: ["文本", "图片"], note: "偏向快速和轻量任务。" },
     ],
     downloads: [
       { platform: "Web", label: "打开 Claude 网页版", url: "https://claude.ai/", source: "official", status: "verified", verifiedAt: checkedAt },
@@ -243,6 +246,8 @@ export const aiProducts: ProductProfile[] = [
       { label: "Claude 官方产品与功能介绍", url: "https://www.anthropic.com/claude" },
       { label: "Claude 支持的使用平台", url: "https://support.anthropic.com/en/articles/8114487-what-interfaces-can-i-use-to-access-claude" },
       { label: "Claude 套餐选择", url: "https://support.claude.com/en/articles/11049762-choose-a-claude-plan" },
+      { label: "Claude 当前模型总览", url: "https://platform.claude.com/docs/en/about-claude/models/overview" },
+      { label: "Claude 当前套餐与价格", url: "https://claude.com/pricing" },
       { label: "Claude 官方更新记录", url: "https://support.claude.com/en/articles/12138966-release-notes" },
     ],
     benchmarks: [
@@ -377,7 +382,9 @@ export const aiProducts: ProductProfile[] = [
     capabilities: ["实时搜索", "引用来源", "文件上传", "Research", "多模型", "图片和视频", "Create files and apps", "Comet"],
     models: [
       { name: "Sonar 2", availability: "Perplexity 自有搜索模型", context: "消费者产品未公开统一单一值", inputs: ["文本", "网页"], note: "偏向联网搜索与带来源回答。" },
-      { name: "Claude Sonnet / Gemini Pro 等", availability: "Pro/Max 可选范围会更新", context: "取决于被调用模型和产品限制", inputs: ["文本", "图片", "文件"], note: "同一订阅可访问多家模型，但额度并非无限。" },
+      { name: "GPT-5.6 Terra / Sol", availability: "列入 Perplexity 高级模型；具体由 Pro、Max 和模型选择器决定", context: "取决于被调用模型和产品限制", inputs: ["文本", "图片", "文件"], note: "同一订阅中的可用额度并非无限，当前入口以账号内模型选择器为准。" },
+      { name: "Gemini 3.1 Pro", availability: "列入 Perplexity 高级模型；套餐开放范围会更新", context: "取决于被调用模型和产品限制", inputs: ["文本", "图片", "文件"], note: "Perplexity 的搜索、引用和文件处理仍是产品层能力，不能只按底层模型评价。" },
+      { name: "Claude Sonnet 5 / Opus 5", availability: "列入 Perplexity 高级模型；Opus 等高阶入口可能受 Max 套餐限制", context: "取决于被调用模型和产品限制", inputs: ["文本", "图片", "文件"], note: "可选范围会调整；购买前应打开官方帮助页与自己的模型选择器复核。" },
     ],
     downloads: [
       { platform: "Web", label: "打开 Perplexity 网页版", url: "https://www.perplexity.ai/", source: "official", status: "verified", verifiedAt: checkedAt },
@@ -396,6 +403,7 @@ export const aiProducts: ProductProfile[] = [
       { label: "Research 模式官方说明", url: "https://www.perplexity.ai/help-center/en/articles/10738684-what-is-research-mode" },
       { label: "Comet 官方帮助中心", url: "https://www.perplexity.ai/help-center/en/collections/18799298-comet" },
       { label: "Perplexity Pro 说明", url: "https://www.perplexity.ai/help-center/en/articles/9385876-what-is-perplexity-pro" },
+      { label: "Perplexity 当前高级模型列表", url: "https://www.perplexity.ai/help-center/en/articles/10354919-what-advanced-ai-models-are-included-in-my-subscription" },
       { label: "Perplexity Pro 套餐", url: "https://www.perplexity.ai/pro" },
     ],
     benchmarks: [
@@ -428,18 +436,19 @@ export const aiProducts: ProductProfile[] = [
     limitations: ["官方当前需要订阅才能开始主要创作", "作品和素材的可见范围需要主动检查", "Fast、Relax、Stealth等权益随套餐变化"],
     capabilities: ["文字生成图片", "图片提示", "Style Reference", "Omni Reference", "局部重绘", "扩图与缩放", "个性化", "Moodboards", "图片转视频", "素材整理"],
     models: [
-      { name: "Midjourney V8.1", availability: "Midjourney网页与Discord；具体开放以账号内设置为准", context: "官方未公开模型参数量或统一上下文窗口", inputs: ["文本", "图片参考"], note: "当前官方文档展示的主力图像版本，支持更高分辨率与新的提示、Describe等能力；具体兼容功能以Version文档为准。" },
+      { name: "Midjourney V8.2", availability: "自 2026-07-24 起为 Midjourney 默认版本；网页与 Discord 均以账号设置为准", context: "官方未公开模型参数量或统一上下文窗口", inputs: ["文本", "图片参考"], note: "V8.2 已取代 V8.1 成为默认版本；具体兼容功能与旧版选择方式以 Version 文档为准。" },
     ],
     downloads: [
-      { platform: "Web", label: "打开Midjourney官方网页", url: "https://www.midjourney.com/", source: "official", status: "verified", verifiedAt: "2026-07-16" },
+      { platform: "Web", label: "打开Midjourney官方网页", url: "https://www.midjourney.com/", source: "official", status: "verified", verifiedAt: checkedAt },
     ],
     screenshots: [
-      { src: "/guides/midjourney/official-1.png", title: "Imagine输入栏", caption: "在Create页面顶部输入想要的画面；这不是搜索框，而是生成图片的提示词入口。", alt: "Midjourney官方文档截图，展示Imagine提示词输入栏", focus: ["先写主体，再补场景、构图和风格", "右侧设置用于调整默认生成选项", "第一次不要堆太多参数，先看基础结果"], sourceLabel: "Midjourney Docs", sourceUrl: "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide", verifiedAt: "2026-07-16" },
-      { src: "/guides/midjourney/official-2.png", title: "Create生成结果", caption: "提交提示词后会得到一组结果，可以继续选择、变化、放大或进入编辑。", alt: "Midjourney官方文档截图，展示Create页面的生成结果", focus: ["先比较构图，再决定是否继续消耗生成时间", "查看结果对应的提示词与设置", "重要项目要保存原图和提示词版本"], sourceLabel: "Midjourney Docs", sourceUrl: "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide", verifiedAt: "2026-07-16" },
-      { src: "/guides/midjourney/official-3.webp", title: "继续修改与变化", caption: "选中图片后可以创建变化、缩放、扩展画布或进入Editor继续处理。", alt: "Midjourney官方文档截图，展示图片修改与变化工具", focus: ["Vary用于探索相近版本", "Pan和Zoom Out用于扩展画面", "Editor可局部重绘；导出前检查细节和授权"], sourceLabel: "Midjourney Docs", sourceUrl: "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide", verifiedAt: "2026-07-16" },
+      { src: "/guides/midjourney/official-1.png", title: "Imagine输入栏", caption: "在Create页面顶部输入想要的画面；这不是搜索框，而是生成图片的提示词入口。", alt: "Midjourney官方文档截图，展示Imagine提示词输入栏", focus: ["先写主体，再补场景、构图和风格", "右侧设置用于调整默认生成选项", "第一次不要堆太多参数，先看基础结果"], sourceLabel: "Midjourney Docs", sourceUrl: "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide", verifiedAt: checkedAt },
+      { src: "/guides/midjourney/official-2.png", title: "Create生成结果", caption: "提交提示词后会得到一组结果，可以继续选择、变化、放大或进入编辑。", alt: "Midjourney官方文档截图，展示Create页面的生成结果", focus: ["先比较构图，再决定是否继续消耗生成时间", "查看结果对应的提示词与设置", "重要项目要保存原图和提示词版本"], sourceLabel: "Midjourney Docs", sourceUrl: "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide", verifiedAt: checkedAt },
+      { src: "/guides/midjourney/official-3.webp", title: "继续修改与变化", caption: "选中图片后可以创建变化、缩放、扩展画布或进入Editor继续处理。", alt: "Midjourney官方文档截图，展示图片修改与变化工具", focus: ["Vary用于探索相近版本", "Pan和Zoom Out用于扩展画面", "Editor可局部重绘；导出前检查细节和授权"], sourceLabel: "Midjourney Docs", sourceUrl: "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide", verifiedAt: checkedAt },
     ],
     officialSources: [
       { label: "Midjourney官方入门指南", url: "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide" },
+      { label: "Midjourney当前版本说明", url: "https://docs.midjourney.com/hc/en-us/articles/32199405667853-Version" },
       { label: "Midjourney网页功能总览", url: "https://docs.midjourney.com/hc/en-us/articles/33329460426765-Website-Overview" },
       { label: "Midjourney Editor官方说明", url: "https://docs.midjourney.com/hc/en-us/articles/32764383466893-Editor" },
       { label: "Midjourney套餐对比", url: "https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans" },
@@ -456,7 +465,7 @@ export const aiProducts: ProductProfile[] = [
     ],
     privacy: ["Midjourney社区以公开分享为重要特征，敏感素材上传前先检查可见范围。", "不要上传客户机密、未授权人物照片、证件或未公开产品。", "Stealth只在特定高阶套餐提供，不能把普通套餐默认当作私密。", "商业使用前阅读最新服务条款；品牌、肖像与素材授权仍由使用者负责。"],
     regionNote: "官方主要通过网页和Discord提供服务。注册、订阅、付款与访问能力会受所在地区、网络和付款方式影响；本站不提供第三方客户端或修改版安装包。",
-    verifiedAt: "2026-07-16",
+    verifiedAt: checkedAt,
   },
 ];
 
@@ -532,7 +541,22 @@ function syncedSubscriptionOffer(offer: SubscriptionOffer): SubscriptionOffer {
     verifiedAt: string;
     options?: NonNullable<SubscriptionOffer["purchaseOptions"]>;
   }>)[offer.slug];
-  const purchaseOptions = pricing?.options?.map((option) => ({ ...option }));
+  const referenceTime = new Date(autoSync.checkedAt).getTime();
+  const manualVerifiedTime = pricing?.verifiedAt
+    ? new Date(`${pricing.verifiedAt}T23:59:59+08:00`).getTime()
+    : Number.NaN;
+  const manualPricingIsFresh = Number.isFinite(referenceTime)
+    && Number.isFinite(manualVerifiedTime)
+    && referenceTime >= manualVerifiedTime
+    && referenceTime - manualVerifiedTime <= 14 * 24 * 60 * 60 * 1000;
+  const syncedPricingIsSafe = Boolean(
+    synced
+    && ["ok", "price-changed"].includes(synced.state)
+    && synced.published,
+  );
+  const purchaseOptions = manualPricingIsFresh && syncedPricingIsSafe
+    ? pricing?.options?.map((option) => ({ ...option }))
+    : undefined;
   const firstOption = purchaseOptions?.[0];
   const officialCny = pricing?.officialUsd !== undefined
     ? formatCnyPrice(pricing.officialUsd)
@@ -541,24 +565,24 @@ function syncedSubscriptionOffer(offer: SubscriptionOffer): SubscriptionOffer {
     ...offer,
     officialCny,
     purchaseOptions,
-    priceVerifiedAt: pricing?.verifiedAt || offer.priceVerifiedAt,
+    priceVerifiedAt: purchaseOptions?.length ? pricing?.verifiedAt : synced?.checkedAt.slice(0, 10),
     gamsgoPrice: firstOption ? `${formatUsdPrice(firstOption.usd, firstOption.suffix)} 起` : offer.gamsgoPrice,
     gamsgoCny: firstOption ? `${formatCnyPrice(firstOption.usd, firstOption.suffix)} 起` : offer.gamsgoCny,
   };
   if (purchaseOptions?.length) return offerWithCurrentPricing;
-  if (!synced) return offerWithCurrentPricing;
 
-  if (!["ok", "price-changed"].includes(synced.state) || !synced.published) {
+  if (!synced || !syncedPricingIsSafe || !synced.published) {
     return {
       ...offerWithCurrentPricing,
+      purchaseOptions: undefined,
       gamsgoPrice: "暂时无法核验",
       gamsgoCny: "以购买页实时显示为准",
-      priceNote: synced.state === "price-change-pending"
+      priceNote: synced?.state === "price-change-pending"
         ? "读取到价格明显变化，正在等待第二次一致结果；为避免误导，暂时隐藏具体数字。"
-        : synced.state === "conflict"
+        : synced?.state === "conflict"
           ? "同一公开页面出现多个互相冲突的月付价格；本站已隐藏数字，等待商家页面统一或人工复核。"
           : "公开页面暂时无法稳定读取月付价格；不要把旧价格当作当前价格。",
-      verifiedAt: autoSync.checkedAt.slice(0, 10),
+      priceVerifiedAt: synced?.checkedAt.slice(0, 10) || autoSync.checkedAt.slice(0, 10),
     };
   }
 
@@ -568,7 +592,8 @@ function syncedSubscriptionOffer(offer: SubscriptionOffer): SubscriptionOffer {
     gamsgoPrice: `${currencyLabel}${synced.published.value.toFixed(2)} / 月公开起价`,
     gamsgoCny: synced.cny ? `约 ¥${synced.cny.toFixed(2)}` : "人民币参考价待核验",
     priceNote: `${synced.note}${synced.state === "price-changed" ? "；价格明显变动，已连续两次读取一致" : ""}。`,
-    verifiedAt: synced.checkedAt.slice(0, 10),
+    purchaseOptions: undefined,
+    priceVerifiedAt: synced.checkedAt.slice(0, 10),
   };
 }
 

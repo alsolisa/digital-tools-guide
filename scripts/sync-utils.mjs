@@ -165,3 +165,32 @@ export function isAllowedOfficialDownload(url) {
     "midjourney.com", "nssurge.com",
   ].some((domain) => hostname === domain || hostname.endsWith(`.${domain}`));
 }
+
+export function parseLatestReleaseUrl(url, repository) {
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname.toLowerCase() !== "github.com") return null;
+    const prefix = `/${repository}/releases/tag/`;
+    if (!parsed.pathname.toLowerCase().startsWith(prefix.toLowerCase())) return null;
+    const encodedVersion = parsed.pathname.slice(prefix.length);
+    return encodedVersion ? decodeURIComponent(encodedVersion) : null;
+  } catch {
+    return null;
+  }
+}
+
+export async function mapWithConcurrency(items, limit, mapper) {
+  const results = new Array(items.length);
+  let nextIndex = 0;
+  const workerCount = Math.max(1, Math.min(items.length, Math.floor(limit) || 1));
+
+  async function worker() {
+    while (nextIndex < items.length) {
+      const index = nextIndex++;
+      results[index] = await mapper(items[index], index);
+    }
+  }
+
+  await Promise.all(Array.from({ length: workerCount }, () => worker()));
+  return results;
+}

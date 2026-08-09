@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { cnyValue, decidePublishedPrice, isAllowedOfficialDownload, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, validatePublicPrice } from "./sync-utils.mjs";
+import { cnyValue, decidePublishedPrice, isAllowedOfficialDownload, mapWithConcurrency, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl, validatePublicPrice } from "./sync-utils.mjs";
 
 const execFileAsync = promisify(execFile);
 const curl = process.platform === "win32" ? "curl.exe" : "curl";
@@ -86,23 +86,40 @@ async function curlText(args, maxBuffer = 5 * 1024 * 1024) {
 }
 
 async function checkLink(item) {
-  try {
-    const result = await curlText(["-L", "--connect-timeout", "8", "--max-time", "30", "-A", "DigitalToolsGuide-LinkMonitor/1.0", "-o", nullDevice, "-sS", "-w", "%{http_code}\t%{url_effective}", item.url]);
-    const [statusText, finalUrl] = result.trim().split("\t");
-    const status = Number(statusText);
-    const protectedPage = [401, 403, 429].includes(status);
-    return { ...item, state: status >= 200 && status < 400 ? "ok" : protectedPage ? "protected" : "error", status, finalUrl };
-  } catch (error) {
-    return { ...item, state: "error", status: null, finalUrl: null, error: error.name };
+  let lastError;
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    try {
+      const result = await curlText(["-L", "--connect-timeout", "8", "--max-time", "30", "-A", "DigitalToolsGuide-LinkMonitor/1.0", "-o", nullDevice, "-sS", "-w", "%{http_code}\t%{url_effective}", item.url]);
+      const [statusText, finalUrl] = result.trim().split("\t");
+      const status = Number(statusText);
+      if (status >= 500 && attempt === 0) continue;
+      const protectedPage = [401, 403, 429].includes(status);
+      return { ...item, state: status >= 200 && status < 400 ? "ok" : protectedPage ? "protected" : "error", status, finalUrl };
+    } catch (error) {
+      lastError = error;
+    }
   }
+  return { ...item, state: "error", status: null, finalUrl: null, error: lastError?.name || "Error" };
 }
 
 async function checkRelease(repository, previous) {
+  const releaseApiUrl = `https://api.github.com/repos/${repository}/releases/latest`;
+  const latestReleaseUrl = `https://github.com/${repository}/releases/latest`;
+  const headers = ["-H", "Accept: application/vnd.github+json"];
+  const githubToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
+  if (githubToken) headers.push("-H", `Authorization: Bearer ${githubToken}`);
   try {
-    const body = await curlText(["-fLsS", "--connect-timeout", "8", "--max-time", "30", "-A", "DigitalToolsGuide-ReleaseMonitor/1.0", "-H", "Accept: application/vnd.github+json", `https://api.github.com/repos/${repository}/releases/latest`]);
+    const body = await curlText(["-fLsS", "--connect-timeout", "8", "--max-time", "30", "-A", "DigitalToolsGuide-ReleaseMonitor/1.0", ...headers, releaseApiUrl]);
     const release = JSON.parse(body);
     return { repository, state: "ok", version: release.tag_name, releaseUrl: release.html_url };
   } catch (error) {
+    try {
+      const result = await curlText(["-L", "--connect-timeout", "8", "--max-time", "30", "-A", "DigitalToolsGuide-ReleaseMonitor/1.0", "-o", nullDevice, "-sS", "-w", "%{http_code}\t%{url_effective}", latestReleaseUrl]);
+      const [statusText, finalUrl] = result.trim().split("\t");
+      const status = Number(statusText);
+      const version = parseLatestReleaseUrl(finalUrl, repository);
+      if (status >= 200 && status < 400 && version) return { repository, state: "ok", version, releaseUrl: finalUrl };
+    } catch {}
     return previous?.version
       ? { repository, state: "stale", version: previous.version, releaseUrl: previous.releaseUrl, error: error.name }
       : { repository, state: "error", error: error.name };
@@ -199,7 +216,7 @@ const catalogOfficialLinks = await loadCatalogOfficialLinks();
 const subscriptionPurchaseLinks = await loadSubscriptionPurchaseLinks();
 const allLinks = [...new Map([...links, ...catalogOfficialLinks, ...subscriptionPurchaseLinks].map((item) => [item.url, item])).values()];
 const [linkResults, clientResults, gamsgoResults, artificialAnalysisLeaderboard] = await Promise.all([
-  Promise.all(allLinks.map(checkLink)),
+  mapWithConcurrency(allLinks, 12, checkLink),
   Promise.all(repositories.map((repository) => checkRelease(repository, previousSyncStatus.clients?.find((client) => client.repository === repository)))),
   Promise.all(gamsgoOffers.map((item) => readGamsgoOffer(item, previousAutoSync.gamsgo?.find((offer) => offer.slug === item.slug), exchange))),
   readArtificialAnalysisLeaderboard(previousAutoSync.artificialAnalysisLeaderboard),

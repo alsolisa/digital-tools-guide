@@ -2,6 +2,15 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { readFile } from "node:fs/promises";
 
+const subscriptionPricing = JSON.parse(await readFile(new URL("../data/subscription-pricing.json", import.meta.url), "utf8"));
+const autoSync = JSON.parse(await readFile(new URL("../data/auto-sync.json", import.meta.url), "utf8"));
+const syncedUsdCnyRate = Number(autoSync.exchange?.rates?.CNY);
+const expectedUsdCnyRate = Number.isFinite(syncedUsdCnyRate) && syncedUsdCnyRate > 0 ? syncedUsdCnyRate : subscriptionPricing.usdCnyRate;
+
+function expectedCny(usd, suffix = "") {
+  return `¥${(usd * expectedUsdCnyRate).toFixed(2)}人民币${suffix.replace(" / ", "/")}`;
+}
+
 async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-${Math.random()}`);
@@ -36,7 +45,8 @@ test("全站按零基础用户顺序先解释再比较", async () => {
   const subscriptions = await (await render("/subscriptions")).text();
   assert.match(subscriptions, /先认识 GamsGo，再选择适合自己的 AI 订阅/);
   for (const text of ["最高可节省 85%", "7×24 小时在线客服", "1000 万+", "支付宝", "先看清套餐，再决定购买"]) assert.match(subscriptions, new RegExp(text));
-  for (const removed of ["先判断要不要买，再决定去哪里买", "这个会员对你真的值得吗", "GamsGo是什么？为什么有人会选择它？", "为什么首批选择这六项？"]) assert.doesNotMatch(subscriptions, new RegExp(removed.replace(/[?？]/g, ".")));
+  for (const removed of ["先判断要不要买，再决定去哪里买", "GamsGo是什么？为什么有人会选择它？", "为什么首批选择这六项？"]) assert.doesNotMatch(subscriptions, new RegExp(removed.replace(/[?？]/g, ".")));
+  assert.match(subscriptions, /这个会员对你真的值得吗/);
   const ai = await (await render("/ai")).text();
   assert.match(ai, /第一次使用AI，不需要先懂模型/);
   assert.doesNotMatch(ai, /先免费体验，再决定付费|只想先选一款|按你的任务选择，不按广告口号选择/);
@@ -46,19 +56,29 @@ test("全站按零基础用户顺序先解释再比较", async () => {
   assert.match(methodology, /目前不称为实时同步/);
 });
 
-test("机场指南按已核验月付排序并清楚分开非月付方案", async () => {
+test("机场指南按证据新鲜度分开月付价格与非月付方案", async () => {
   const html = await (await render("/nodes")).text();
   const names = ["WestData", "Nexitally", "TAG", "悠兔 Youtu", "BoostNet"];
   assert.match(html, /https:\/\/nxonearth\.com\/Main\.aspx/);
   assert.match(html, /打开官方入口/);
-  let previous = -1;
   for (const name of names) {
-    const position = html.indexOf(`<h3>${name}</h3>`);
-    assert.ok(position > previous, `${name} 应按价格顺序出现`);
-    previous = position;
+    assert.equal((html.match(new RegExp(`<h3>${name}</h3>`, "g")) || []).length, 1, `${name} 应且只应出现一次`);
   }
-  assert.match(html, /按预算直接选/);
-  assert.match(html, /悠兔与 BoostNet 暂以季付、半年付和年付为主/);
+  const nonMonthlyHeading = html.indexOf("悠兔与 BoostNet 的最近记录为季付、半年付和年付");
+  assert.ok(nonMonthlyHeading >= 0);
+  for (const name of ["WestData", "Nexitally", "TAG"]) {
+    assert.ok(html.indexOf(`<h3>${name}</h3>`) < nonMonthlyHeading, `${name} 不应被归入非月付分组`);
+  }
+  assert.ok(html.indexOf("<h3>悠兔 Youtu</h3>", nonMonthlyHeading) > nonMonthlyHeading, "悠兔应列在非月付分组");
+  assert.ok(html.indexOf("<h3>BoostNet</h3>", nonMonthlyHeading) > html.indexOf("<h3>悠兔 Youtu</h3>", nonMonthlyHeading), "非月付方案应保持稳定顺序");
+  if (html.includes("人工核验已超过14天")) {
+    assert.match(html, /月付价格待重新核验/);
+    assert.match(html, /不会被误写成已经停止月付/);
+  }
+  assert.match(html, /先看核验状态，再按预算和购买周期缩小范围/);
+  assert.match(html, /悠兔与 BoostNet 的最近记录为季付、半年付和年付/);
+  assert.match(html, /不能据此断言今天仍然暂停月付/);
+  assert.match(html, /其中“当前”“可购买”等表述只代表当次页面状态/);
   assert.match(html, /月付暂停/);
   assert.doesNotMatch(html, /已登录购买页核验；四款均显示可立即订购/);
   assert.doesNotMatch(html, /当前计划页仅直接展示年付、半年付、季付/);
@@ -72,7 +92,6 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   for (const name of ["ChatGPT Plus", "Claude Pro / Max", "Gemini / Google AI Pro", "SuperGrok", "Perplexity Pro"]) {
     assert.match(html, new RegExp(name.replace(/[+\/]/g, "\\$&")));
   }
-  for (const price of ["$5.77", "$8.99", "$24.49"]) assert.match(html, new RegExp(price.replace("$", "\\$")));
   for (const label of ["共享使用", "独享账号", "本人账号充值"]) assert.match(html, new RegExp(label));
   assert.match(html, /https:\/\/www\.gamsgo\.com\/details\/chatgpt\/partner\/BTzCM/);
   assert.match(html, /https:\/\/www\.gamsgo\.com\/details\/chatgpt-recharge\/partner\/BTzCM/);
@@ -84,22 +103,25 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   assert.match(html, /使用境外网络（需要连接机场或VPN）时可能显示1个月、3个月和6个月/);
   assert.match(html, /联系客服处理 · 7×24小时/);
   assert.match(html, /可能是独立账号交付，不一定是本人原账号/);
-  for (const text of ["PRO · 3个月", "$10.49", "$3.50/月 · ¥23.88人民币/月 · 充值到自己的账号", "PRO · 12个月", "$27.99", "$2.34/月 · ¥15.97人民币/月 · 官方提供账号", "PRO · 18个月", "$45.99", "$2.56/月 · ¥17.47人民币/月 · 充值到自己的账号"]) {
-    assert.match(html, new RegExp(text.replace(/[.$]/g, "\\$&")));
+  assert.match(html, new RegExp(`1 USD = ¥<!-- -->${expectedUsdCnyRate.toFixed(3).replace(".", "\\.")}`));
+  for (const [slug, offer] of Object.entries(subscriptionPricing.offers)) {
+    if (slug === "midjourney") continue;
+    if (offer.officialUsd) assert.ok(html.includes(expectedCny(offer.officialUsd)), `官方价格应使用同步汇率换算：${offer.officialUsd}`);
   }
-  for (const text of ["$17.99 / 月", "$34.99", "$11.67/月", "$58.99", "$9.84/月", "$98.99", "$8.25/月"]) {
-    assert.match(html, new RegExp(text.replace(/[.$]/g, "\\$&")));
+  for (const oldPrice of ["$5.77", "$8.99", "$24.49", "$10.49", "$27.99", "$45.99", "$34.99", "$58.99", "$98.99", "$89.99", "$171.99"]) {
+    assert.doesNotMatch(html, new RegExp(oldPrice.replace("$", "\\$")), `过期人工价格不应继续显示：${oldPrice}`);
   }
-  assert.match(html, /1 USD = ¥<!-- -->6\.823/);
-  for (const cny of ["¥136.46人民币", "¥39.37人民币", "¥61.34人民币", "¥167.10人民币", "¥614.00人民币", "¥1173.49人民币", "¥136.39人民币", "¥71.57人民币", "¥190.98人民币", "¥313.79人民币", "¥204.69人民币", "¥122.75人民币\/月", "¥115.99人民币", "¥238.74人民币", "¥402.49人民币", "¥675.41人民币"]) {
-    assert.match(html, new RegExp(cny.replace(/[.¥/]/g, "\\$&")));
+  assert.equal((html.match(/class="price-option-link"/g) || []).length, 0, "超过14天的人工套餐按钮应隐藏");
+  for (const synced of autoSync.gamsgo.filter((item) => ["ok", "price-changed"].includes(item.state) && item.published && item.slug !== "midjourney")) {
+    const currency = synced.published.currency === "USD" ? "US$" : synced.published.currency === "SGD" ? "S$" : synced.published.currency;
+    assert.ok(html.includes(`${currency}${synced.published.value.toFixed(2)} / 月公开起价`), `${synced.slug} 应显示本轮安全读取到的公开起价`);
   }
-  assert.doesNotMatch(html, /约 ¥/);
-  assert.ok((html.match(/class="price-option-link"/g) || []).length >= 11, "每个套餐价格都应能点击购买");
+  assert.match(html, /同一公开页面出现多个互相冲突的月付价格；本站已隐藏数字/);
+  assert.match(html, /公开页面暂时无法稳定读取月付价格；不要把旧价格当作当前价格/);
   assert.match(html, /https:\/\/x\.ai\/pricing/);
   assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/gemini\/partner\/BTzCM/);
   assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/perplexity_ai\/partner\/BTzCM/);
-  for (const text of ["Max 5x · 独享", "$89.99", "Max 20x · 独享", "$171.99", "市场中心是什么？", "市场中心是多卖家交易区", "购买 Max 5x / Max 20x", "比较不同卖家方案"]) {
+  for (const text of ["市场中心是什么？", "市场中心是多卖家交易区", "购买 Max 5x / Max 20x", "比较不同卖家方案"]) {
     assert.match(html, new RegExp(text.replace(/[.$?]/g, "\\$&")));
   }
   assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/claude\/partner\/BTzCM/);
@@ -110,8 +132,11 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   for (const image of ["gamsgo-coupon-entry.png", "gamsgo-coupon-checkout.png", "gamsgo-get-code.png", "chatgpt-email-login.png", "chatgpt-password.png", "chatgpt-verification.png", "gamsgo-hidden-code.png"]) {
     assert.match(html, new RegExp(`/guides/subscriptions/${image.replace(".", "\\.")}`));
   }
-  assert.match(html, /为什么要通过 GamsGo 订阅？/);
+  assert.match(html, /为什么有人会考虑通过 GamsGo 订阅？/);
   assert.doesNotMatch(html, /为什么有人通过 GamsGo 订阅？/);
+  assert.match(html, /id="before-buy"/);
+  assert.match(html, /下单前逐项确认/);
+  assert.match(html, /勾选只保存在这台设备的浏览器中，不会上传/);
   const zoomLinks = html.match(/<a[^>]+class="figure-zoom-link"[^>]+>点击查看大图 ↗<\/a>/g) || [];
   assert.equal(zoomLinks.length, 7);
   for (const link of zoomLinks) {
@@ -134,6 +159,21 @@ test("主要页面提供规范网址与可理解的结构化数据", async () =>
   assert.match(chatgpt, /"@type":"HowTo"/);
   assert.match(chatgpt, /"@type":"SoftwareApplication"/);
   assert.match(chatgpt, /"@type":"BreadcrumbList"/);
+});
+
+test("站点地图使用分页面更新时间，PWA清单包含标准与maskable图标", async () => {
+  const sitemapResponse = await render("/sitemap.xml");
+  assert.equal(sitemapResponse.status, 200);
+  const sitemap = await sitemapResponse.text();
+  const lastModifiedValues = [...sitemap.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((match) => match[1]);
+  assert.ok(lastModifiedValues.length >= 20, "站点地图应为主要页面提供更新时间");
+  assert.ok(new Set(lastModifiedValues).size >= 3, "站点地图不应给所有页面写同一个更新时间");
+
+  const manifestResponse = await render("/manifest.webmanifest");
+  assert.equal(manifestResponse.status, 200);
+  const manifest = await manifestResponse.text();
+  for (const icon of ["icon-192.png", "icon-512.png", "icon-maskable-512.png"]) assert.match(manifest, new RegExp(icon.replace(".", "\\.")));
+  assert.match(manifest, /maskable/);
 });
 
 test("下载中心只链接允许的官方域名且没有空链接", async () => {
@@ -174,6 +214,20 @@ test("AI详情页包含真实场景、高清截图、下载、模型、提示词
   }
   assert.match(midjourney, /\/guides\/midjourney\/official-1\.png/);
   assert.match(midjourney, /\/editorial\/midjourney\.webp/);
+  assert.match(midjourney, /Midjourney V8\.2/);
+  assert.doesNotMatch(midjourney, /Midjourney V8\.1/);
+
+  const chatgpt = await (await render("/ai/chatgpt")).text();
+  assert.match(chatgpt, /ChatGPT Instant（动态更新）/);
+  assert.match(chatgpt, /GPT-5\.6 Sol/);
+  assert.doesNotMatch(chatgpt, /GPT-5\.5 Instant|GPT-5\.6 Sol Pro/);
+
+  const claude = await (await render("/ai/claude")).text();
+  for (const model of ["Claude Fable 5", "Claude Opus 5", "Claude Sonnet 5", "Claude Haiku 4.5"]) assert.match(claude, new RegExp(model.replace(".", "\\.")));
+  assert.doesNotMatch(claude, /Claude Opus 4\.8/);
+
+  const perplexity = await (await render("/ai/perplexity")).text();
+  for (const model of ["GPT-5.6 Terra / Sol", "Gemini 3.1 Pro", "Claude Sonnet 5 / Opus 5"]) assert.match(perplexity, new RegExp(model.replaceAll(".", "\\.")));
 });
 
 test("AI与应用列表按要求移除说明条、Midjourney和后续两个冗余章节", async () => {
@@ -250,9 +304,13 @@ test("机场页面直接从基础概念进入服务推荐并提供三类下载�
   const nodes = await (await render("/nodes")).text();
   assert.match(nodes, /五个词，第一次看到也能懂/);
   assert.match(nodes, /<h1[^>]*>五个词，第一次看到也能懂<\/h1>/);
-  assert.ok(nodes.indexOf("五个词，第一次看到也能懂") < nodes.indexOf("按预算直接选"));
+  assert.ok(nodes.indexOf("五个词，第一次看到也能懂") < nodes.indexOf("先看核验状态，再按预算和购买周期缩小范围"));
   assert.match(nodes, /本地下载 · Windows x64/);
   assert.match(nodes, /使用教程/);
+  assert.match(nodes, /id="troubleshoot"/);
+  assert.match(nodes, /导入、连接或入口异常时，按症状逐步检查/);
+  assert.doesNotMatch(nodes, /href="\/mirror\/Clash\.Verge_2\.5\.1_x64-setup\.exe"/);
+  assert.match(nodes, /新版本已发布或核验失败 · 本地旧版已暂停/);
   for (const removed of ["它可能帮助你", "第一次购买与连接清单", "先看症状，再决定要不要重装", "先看需求，不要先看广告词", "页面证据", "地址状态", "把“证据”放在推荐前面", "GamsGo 内容独立整理"]) {
     assert.doesNotMatch(nodes, new RegExp(removed));
   }

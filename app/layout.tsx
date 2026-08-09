@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "@fontsource-variable/noto-serif-sc/wght.css";
 import "@fontsource-variable/noto-sans-sc/wght.css";
 import "./globals.css";
 import StructuredData from "./components/StructuredData";
+import HashScrollRestorer from "./components/HashScrollRestorer";
 
 const isGitHubPages = process.env.GITHUB_PAGES === "true";
 const publicBasePath = isGitHubPages ? "/digital-tools-guide" : "";
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
     template: "%s｜数字工具指南",
   },
   description: "三个清晰项目：机场介绍与客户端下载、AI订阅与常用应用、主流AI模型评测解读。",
+  referrer: "strict-origin-when-cross-origin",
   manifest: `${publicBasePath}/manifest.webmanifest`,
   openGraph: {
     type: "website",
@@ -30,9 +32,20 @@ export const metadata: Metadata = {
     images: [`${publicBasePath}/og-v11.png`],
   },
   icons: {
-    icon: `${publicBasePath}/favicon.svg`,
+    icon: [
+      { url: `${publicBasePath}/favicon.svg`, type: "image/svg+xml" },
+      { url: `${publicBasePath}/icon-192.png`, type: "image/png", sizes: "192x192" },
+      { url: `${publicBasePath}/icon-512.png`, type: "image/png", sizes: "512x512" },
+    ],
     shortcut: `${publicBasePath}/favicon.svg`,
+    apple: [{ url: `${publicBasePath}/icon-192.png`, type: "image/png", sizes: "192x192" }],
   },
+  appleWebApp: { capable: true, statusBarStyle: "default", title: "数字工具指南" },
+};
+
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#0c5f4b",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -53,7 +66,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   };
   return (
     <html lang="zh-CN">
-      <body><StructuredData data={websiteJsonLd} />{children}</body>
+      <body><StructuredData data={websiteJsonLd} /><HashScrollRestorer />{children}</body>
     </html>
   );
 }

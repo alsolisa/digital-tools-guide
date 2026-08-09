@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { readFile } from "node:fs/promises";
-import { decidePublishedPrice, isAllowedOfficialDownload, parseArtificialAnalysisLeaderboard, parseGamsgoPrice } from "../scripts/sync-utils.mjs";
+import { decidePublishedPrice, isAllowedOfficialDownload, mapWithConcurrency, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl } from "../scripts/sync-utils.mjs";
 
-test("订阅价格只维护一份数据并覆盖全部购买链接", async () => {
+test("订阅美元价格只维护一份数据，人民币换算使用同步汇率并覆盖全部购买链接", async () => {
   const pricing = JSON.parse(await readFile(new URL("../data/subscription-pricing.json", import.meta.url), "utf8"));
   assert.equal(pricing.usdCnyRate, 6.823);
   const offers = Object.values(pricing.offers);
@@ -17,6 +17,9 @@ test("订阅价格只维护一份数据并覆盖全部购买链接", async () =>
   const syncSource = await readFile(new URL("../scripts/sync-public-data.mjs", import.meta.url), "utf8");
   assert.match(syncSource, /loadSubscriptionPurchaseLinks/);
   assert.match(syncSource, /subscription-purchase/);
+  const catalogSource = await readFile(new URL("../data/catalog.ts", import.meta.url), "utf8");
+  assert.match(catalogSource, /autoSync\.exchange\?\.rates\?\.CNY/);
+  assert.match(catalogSource, /subscriptionPricing\.usdCnyRate/);
 });
 
 test("手机端AI与应用卡片的最终规则保持单列", async () => {
@@ -92,4 +95,24 @@ test("官方下载白名单阻止第三方安装包", () => {
   assert.equal(isAllowedOfficialDownload("https://play.google.com/store/apps/details?id=com.openai.chatgpt"), true);
   assert.equal(isAllowedOfficialDownload("https://github.com/clash-verge-rev/clash-verge-rev/releases/latest"), true);
   assert.equal(isAllowedOfficialDownload("https://example-download.invalid/app.apk"), false);
+});
+
+test("GitHub发布接口受限时可从官方Latest跳转恢复版本", () => {
+  assert.equal(parseLatestReleaseUrl("https://github.com/2dust/v2rayN/releases/tag/7.24.4", "2dust/v2rayN"), "7.24.4");
+  assert.equal(parseLatestReleaseUrl("https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1", "hiddify/hiddify-app"), "v4.1.1");
+  assert.equal(parseLatestReleaseUrl("https://example.com/2dust/v2rayN/releases/tag/7.24.4", "2dust/v2rayN"), null);
+});
+
+test("批量链接检查限制并发并保持原顺序", async () => {
+  let active = 0;
+  let maximumActive = 0;
+  const values = await mapWithConcurrency([1, 2, 3, 4, 5], 2, async (value) => {
+    active += 1;
+    maximumActive = Math.max(maximumActive, active);
+    await new Promise((resolve) => setTimeout(resolve, 5));
+    active -= 1;
+    return value * 2;
+  });
+  assert.deepEqual(values, [2, 4, 6, 8, 10]);
+  assert.equal(maximumActive, 2);
 });

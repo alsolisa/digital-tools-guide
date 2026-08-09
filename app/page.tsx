@@ -4,6 +4,8 @@ import Image from "next/image";
 import { BrandIcon, BrandNotice, PageShell, SiteFooter, SiteHeader } from "./components/SiteChrome";
 import DeviceChooser from "./components/DeviceChooser";
 import StructuredData from "./components/StructuredData";
+import BeginnerTroubleshooter from "./components/BeginnerTroubleshooter";
+import { networkPlaybook } from "../data/beginner-playbooks";
 
 const releaseVersions: Record<string, string | null> = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, "version" in client && typeof client.version === "string" ? client.version : null]));
 const releaseStates: Record<string, string> = Object.fromEntries(syncStatus.clients.map((client) => [client.repository, client.state]));
@@ -152,10 +154,12 @@ const priceFreshnessWindow = 14 * 24 * 60 * 60 * 1000;
 function hasFreshPriceEvidence(service: (typeof services)[number]) {
   if (!service.verifiedAt) return false;
   const verifiedTime = new Date(`${service.verifiedAt}T23:59:59+08:00`).getTime();
-  return Number.isFinite(verifiedTime) && priceReferenceTime - verifiedTime <= priceFreshnessWindow;
+  return Number.isFinite(priceReferenceTime) && Number.isFinite(verifiedTime) && priceReferenceTime >= verifiedTime && priceReferenceTime - verifiedTime <= priceFreshnessWindow;
 }
 const rankedMonthlyServices = sortedServices.filter((service) => service.sortGroup === 0 && hasFreshPriceEvidence(service));
-const monthlyCandidates = sortedServices.filter((service) => service.sortGroup !== 0 || !hasFreshPriceEvidence(service));
+const staleMonthlyServices = sortedServices.filter((service) => service.sortGroup === 0 && !hasFreshPriceEvidence(service));
+const currentNonMonthlyServices = sortedServices.filter((service) => service.sortGroup !== 0 && hasFreshPriceEvidence(service));
+const staleNonMonthlyServices = sortedServices.filter((service) => service.sortGroup !== 0 && !hasFreshPriceEvidence(service));
 
 const clients = [
   {
@@ -168,6 +172,7 @@ const clients = [
     tone: "blue",
     download: "https://github.com/clash-verge-rev/clash-verge-rev/releases/latest",
     localFile: "Clash.Verge_2.5.1_x64-setup.exe",
+    localVersion: "v2.5.1",
     localLabel: "本地下载 · Windows x64",
     tutorial: "https://nexitally-1.gitbook.io/nexitally-wen-dang-zhong-xin/nexitally-wen-dang-dao-hang/clash-verge",
   },
@@ -193,6 +198,7 @@ const clients = [
     tone: "green",
     download: "https://github.com/chen08209/FlClash/releases/latest",
     localFile: "FlClash-0.8.94-android-arm64-v8a.apk",
+    localVersion: "v0.8.94",
     localLabel: "本地下载 · Android ARM64",
     tutorial: "https://github.com/chen08209/FlClash#readme",
   },
@@ -206,6 +212,7 @@ const clients = [
     tone: "green",
     download: "https://github.com/hiddify/hiddify-app/releases/latest",
     localFile: "Hiddify-Windows-Setup-x64-v4.1.1.exe",
+    localVersion: "v4.1.1",
     localLabel: "本地下载 · Windows x64",
     tutorial: "https://hiddify.com/app/How-to-use-Hiddify-app/",
   },
@@ -256,15 +263,16 @@ const clients = [
 ];
 
 function ServiceCard({ service, index, prefix = "月付" }: { service: (typeof services)[number]; index: number; prefix?: string }) {
-  const stalePrice = service.sortGroup === 0 && !hasFreshPriceEvidence(service);
+  const stalePrice = !hasFreshPriceEvidence(service);
   const isMonthly = service.sortGroup === 0;
   return <article className="service-card">
     <div className="service-topline"><span className="service-tag">{prefix} {index + 1} · {service.tag}</span><span className={`status-pill ${stalePrice ? "pending" : service.statusTone}`}><i />{stalePrice ? "人工核验已超过14天" : service.status}</span></div>
     <div className="service-title"><h3>{service.name}</h3><span>{service.alias}</span></div>
+    {stalePrice && <p className="service-stale-note">以下内容是截至 {service.verifiedAt || "上次核验"} 的历史记录；其中“当前”“可购买”等表述只代表当次页面状态。</p>}
     <p className="service-description">{service.description}</p>
-    <div className="service-stats"><div><small>{isMonthly ? "可比参考价格" : "当前可选周期"}</small><strong>{service.price}</strong><span>{service.cycle}</span></div><div><small>{isMonthly ? "参考流量" : "月付状态"}</small><strong>{service.traffic}</strong></div></div>
+    <div className="service-stats"><div><small>{stalePrice ? (isMonthly ? "最近核验价格" : "最近记录的可选周期") : (isMonthly ? "可比参考价格" : "当前可选周期")}</small><strong>{service.price}</strong><span>{service.cycle}</span></div><div><small>{stalePrice ? (isMonthly ? "最近核验流量" : "最近记录的月付状态") : (isMonthly ? "参考流量" : "月付状态")}</small><strong>{service.traffic}</strong></div></div>
     {"caution" in service && service.caution && <p className="service-caution"><strong>购买前注意</strong>{service.caution}</p>}
-    <div className="fact-line"><span>月付</span>{service.monthly}</div>
+    <div className="fact-line"><span>{stalePrice ? "月付记录" : "月付"}</span>{service.monthly}</div>
     <div className="fact-line"><span>客户端</span>{service.ownClient}{"clientHref" in service && service.clientHref && <a href={service.clientHref} target="_blank" rel="noopener noreferrer">自有客户端下载 ↗</a>}</div>
     <div className="payment-line"><span>付款</span>{service.payment}</div>
     <div className="best-for"><span>适合</span>{service.bestFor}</div>
@@ -277,19 +285,31 @@ function ServiceComparison({ sectionIndex = "02 / 机场推荐" }: { sectionInde
   return (
     <section className="section services-section" id="services">
       <div className="section-heading">
-        <div><span className="section-index">{sectionIndex}</span><h2>按预算直接选：月付先看三家，长期方案再看两家</h2></div>
-        <p>这几家不是从广告中随便挑选，而是结合实际使用体验、长期观察和购买页面核对后保留下来的代表方案。</p>
+        <div><span className="section-index">{sectionIndex}</span><h2>先看核验状态，再按预算和购买周期缩小范围</h2></div>
+        <p>价格、流量与周期都可能变化。超过 14 天没有新证据的方案会退出“当前价格排序”，只保留为待复核记录。</p>
       </div>
       <div className="selection-disclosure service-choice-intro">
         <strong>为什么提供这几家？</strong>
-        <div><p>选择时主要比较稳定性、延迟、速度、节点覆盖、客户端体验和价格。根据实际使用与评测观察，价格较高的方案通常在线路资源、高峰期稳定性和整体体验上更好；但不同地区、运营商和使用时间仍可能有差异。</p><p>不用把每个专业参数都研究一遍：预算有限或只作备用可先看 WestData；更重视稳定和长期使用可选 Nexitally；需要更多国家和地区节点可看 TAG。根据自己的预算与用途选择即可。</p></div>
+        <div><p>选择时主要比较稳定性、延迟、速度、节点覆盖、客户端体验和价格；不同地区、运营商和使用时间都可能造成明显差异，商家的宣传不能替代自己的短期测试。</p><p>先确定预算、设备与最短可接受周期，再打开服务商页面核对当前价格、流量、退款和限制。待复核卡片里的数字只代表最近一次人工记录，不代表今天仍可购买。</p></div>
       </div>
-      <div className="sort-note"><strong>月付排序</strong><span>当前可单独购买的月付或约31天套餐，按起价从低到高</span><i />已核验</div>
+      {rankedMonthlyServices.length > 0
+        ? <div className="sort-note"><strong>月付排序</strong><span>14 天内已核验、可单独购买的月付或约31天套餐，按起价从低到高</span><i />已核验</div>
+        : <div className="sort-note"><strong>当前排序暂停</strong><span>本轮没有 14 天内的人工价格证据；请在购买页重新核对</span><i />待复核</div>}
       <div className="service-grid">
         {rankedMonthlyServices.map((service, index) => <ServiceCard service={service} index={index} key={service.name} />)}
       </div>
-      <div className="candidate-divider"><span>当前不提供独立月付</span><h3>悠兔与 BoostNet 暂以季付、半年付和年付为主</h3><p>受运营安排影响，这两家目前暂停独立月付，是否以及何时恢复尚未明确。现阶段请在购买页查看季付、半年付或年付方案，并按自己能接受的最短周期选择。</p></div>
-      <div className="service-grid candidate-service-grid">{monthlyCandidates.map((service, index) => <ServiceCard service={service} index={index} prefix="非月付" key={service.name} />)}</div>
+      {staleMonthlyServices.length > 0 && <>
+        <div className="candidate-divider"><span>月付价格待重新核验</span><h3>这些服务仍有月付记录，但具体价格证据已超过 14 天</h3><p>它们不会继续混入当前月付价格排序，也不会被误写成已经停止月付。购买前请打开服务商页面重新确认价格、流量与周期。</p></div>
+        <div className="service-grid candidate-service-grid">{staleMonthlyServices.map((service, index) => <ServiceCard service={service} index={index} prefix="待复核" key={service.name} />)}</div>
+      </>}
+      {currentNonMonthlyServices.length > 0 && <>
+        <div className="candidate-divider"><span>当前非月付方案</span><h3>最近 14 天内已核验为季付、半年付或年付</h3><p>仍请在结算前确认最短购买周期、流量和最终价格。</p></div>
+        <div className="service-grid candidate-service-grid">{currentNonMonthlyServices.map((service, index) => <ServiceCard service={service} index={index} prefix="非月付" key={service.name} />)}</div>
+      </>}
+      {staleNonMonthlyServices.length > 0 && <>
+        <div className="candidate-divider"><span>方案状态待重新核验</span><h3>悠兔与 BoostNet 的最近记录为季付、半年付和年付</h3><p>这些记录已经超过 14 天，不能据此断言今天仍然暂停月付。请打开购买页确认当前是否恢复月付，以及可选周期、流量和最终价格。</p></div>
+        <div className="service-grid candidate-service-grid">{staleNonMonthlyServices.map((service, index) => <ServiceCard service={service} index={index} prefix="待复核" key={service.name} />)}</div>
+      </>}
     </section>
   );
 }
@@ -300,7 +320,7 @@ export function NodeGuidePage() {
       <SiteHeader />
       <main id="main-content">
       <nav className="node-local-nav" aria-label="机场指南本页目录">
-        <strong>本页目录</strong><a href="#basics">先认识概念</a><a href="#services">机场推荐</a><a href="#guide">实际怎么用</a><a href="#downloads">客户端下载</a>
+        <strong>本页目录</strong><a href="#basics">先认识概念</a><a href="#services">机场推荐</a><a href="#guide">实际怎么用</a><a href="#downloads">客户端下载</a><a href="#troubleshoot">问题排查</a>
       </nav>
 
       <section className="section node-basics-section" id="basics">
@@ -340,21 +360,41 @@ export function NodeGuidePage() {
         <BrandNotice />
         <DeviceChooser context="network" />
         <div className="client-grid">
-          {clients.map((client) => (
-            <article className="client-card" key={`${client.platform}-${client.app}`}>
+          {clients.map((client) => {
+            const repository = "repository" in client ? client.repository : undefined;
+            const localMirrorIsCurrent = Boolean(
+              "localFile" in client
+              && client.localFile
+              && "localVersion" in client
+              && client.localVersion
+              && repository
+              && releaseStates[repository] === "ok"
+              && releaseVersions[repository]?.replace(/^v/i, "").toLowerCase() === client.localVersion.replace(/^v/i, "").toLowerCase(),
+            );
+            return <article className="client-card" key={`${client.platform}-${client.app}`}>
               <BrandIcon slug={client.slug} name={client.app} size="large" /><div className="client-platform">{client.platform}</div><h3>{client.app}</h3>
               <div className="version-row"><span>{client.version}</span><small>{"repository" in client && client.repository ? (releaseStates[client.repository] === "ok" ? `${syncTime} 自动核验` : "上次核验版本 · 本轮读取失败") : "进入官方商店或官网确认"}</small></div><p>{client.note}</p>
               <div className="client-actions">
                 <a href={client.download} target="_blank" rel="noopener noreferrer">官方下载 <span>↗</span></a>
                 {"localFile" in client && client.localFile
-                  ? <a className="local-action" href={`${basePath}/mirror/${client.localFile}`} download>{client.localLabel || "本地下载"} <span>↓</span></a>
+                  ? localMirrorIsCurrent
+                    ? <a className="local-action" href={`${basePath}/mirror/${client.localFile}`} download>{client.localLabel || "本地下载"} <span>↓</span></a>
+                    : <span className="local-action unavailable">新版本已发布或核验失败 · 本地旧版已暂停</span>
                   : <span className="local-action unavailable">{"localUnavailable" in client ? client.localUnavailable : "本地下载暂不提供"}</span>}
                 <a className="muted-action" href={client.tutorial} target="_blank" rel="noopener noreferrer">使用教程 <span>↗</span></a>
               </div>
-            </article>
-          ))}
+            </article>;
+          })}
         </div>
         <div className="security-alert"><span className="alert-icon">!</span><div><strong>安全提醒</strong><p>下载页可能同时提供多种系统和芯片版本。看不懂文件名时先不要安装；本站后续会补充逐设备截图教程。</p></div><span className="alert-date">所有入口均为官方来源</span></div>
+      </section>
+
+      <section className="section" id="troubleshoot">
+        <div className="section-heading compact">
+          <div><span className="section-index">05 / 问题排查</span><h2>导入、连接或入口异常时，按症状逐步检查</h2></div>
+          <p>先判断问题出在订阅、客户端、节点还是目标网站；遇到索要验证码、关闭安全软件或安装未知证书时立即停止。</p>
+        </div>
+        <BeginnerTroubleshooter name="机场连接问题" playbook={networkPlaybook} />
       </section>
 
       </main>

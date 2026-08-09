@@ -10,7 +10,7 @@
   --white: #fffdf8;
   --green: #0f7a5a;
   --green-soft: #e1f1ea;
-  --gold: #b87a26;
+  --gold: #8a5a16;
   --gold-soft: #f8ecd5;
   --blue: #3478a8;
   --line: #d7d1c5;
@@ -19,6 +19,7 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+[id] { scroll-margin-top: 120px; }
 body {
   margin: 0;
   color: var(--ink);
@@ -50,7 +51,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 .brand strong, .brand small { display: block; }
 .brand strong { font-family: Georgia, "Songti SC", serif; font-size: 20px; letter-spacing: .05em; }
-.brand small { margin-top: 2px; color: #72808b; font-size: 11px; letter-spacing: .1em; }
+.brand small { margin-top: 2px; color: #58666d; font-size: 11px; letter-spacing: .1em; }
 .site-header nav { display: flex; gap: 30px; font-size: 14px; font-weight: 600; color: #405161; }
 .site-header nav a { position: relative; padding: 10px 0; }
 .site-header nav a::after { content: ""; position: absolute; left: 0; bottom: 3px; width: 0; height: 2px; background: var(--green); transition: width .2s ease; }
@@ -79,7 +80,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .button:hover { transform: translateY(-2px); }
 .button.primary { color: var(--white); background: var(--navy); box-shadow: 0 12px 24px rgba(13, 42, 67, .18); }
 .button.secondary { border: 1px solid #b8b1a5; background: rgba(255,255,255,.36); }
-.hero-footnote { margin-top: 18px; font-size: 12px; color: #7a817f; }
+.hero-footnote { margin-top: 18px; font-size: 12px; color: #58666d; }
 
 .editorial-card { background: var(--white); border: 1px solid #ded8cc; padding: 32px; box-shadow: var(--shadow); position: relative; }
 .editorial-card::before { content: ""; position: absolute; inset: 10px; border: 1px solid rgba(13, 42, 67, .08); pointer-events: none; }
@@ -130,6 +131,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .service-title { margin: 27px 0 0; display: flex; align-items: baseline; gap: 9px; }
 .service-title h3 { margin: 0; font-family: Georgia, "Songti SC", serif; font-size: 25px; }
 .service-title > span { color: #5b6561; font-size: 12px; }
+.service-stale-note { margin: 12px 0 -2px; padding: 10px 12px; color: #684b1e; background: #fff2d9; border-left: 3px solid var(--gold); font-size: 11px; line-height: 1.65; }
 .service-description { min-height: 90px; color: #5f6b74; font-size: 13px; line-height: 1.75; }
 .service-stats { display: grid; grid-template-columns: 1.15fr .85fr; border-top: 1px solid #e4dfd5; border-bottom: 1px solid #e4dfd5; padding: 18px 0; margin-top: 8px; }
 .service-stats > div:last-child { padding-left: 20px; border-left: 1px solid #e4dfd5; }
@@ -914,7 +916,7 @@ footer > div { display: flex; gap: 18px; font-size: 11px; font-weight: 700; }
 .client-version-table strong { font-size: 13px; }.client-version-table span { color: #576a73; font-size: 12px; }.client-version-table a { color: var(--green); font-size: 11px; font-weight: 900; }
 .status-history { border-top: 1px solid var(--line); }
 .status-history article { min-height: 70px; padding: 16px 0; display: grid; grid-template-columns: 180px 1fr 1fr auto; gap: 20px; align-items: center; border-bottom: 1px solid var(--line); }
-.status-history time { color: #718087; font-size: 11px; }.status-history strong { font-family: Georgia,serif; font-size: 17px; }.status-history p { margin: 0; color: #445a64; font-size: 12px; }.status-history p span { margin: 0 9px; color: var(--gold); }.status-history a { color: var(--green); font-size: 11px; font-weight: 900; }
+.status-history time { color: #58666d; font-size: 11px; }.status-history strong { font-family: Georgia,serif; font-size: 17px; }.status-history p { margin: 0; color: #445a64; font-size: 12px; }.status-history p span { margin: 0 9px; color: var(--gold); }.status-history a { color: var(--green); font-size: 11px; font-weight: 900; }
 .screenshot-to-action { margin: 18px 0 12px; padding: 18px 22px; display: grid; grid-template-columns: 260px 1fr; gap: 24px; align-items: center; background: #fff3df; border-left: 4px solid var(--gold); }
 .screenshot-to-action strong { color: #86591d; font-size: 13px; }.screenshot-to-action p { margin: 0; color: #665f54; font-size: 12px; line-height: 1.7; }
 
@@ -981,10 +983,10 @@ footer > div { display: flex; gap: 18px; font-size: 11px; font-weight: 700; }
 .mobile-menu-panel header button { width: 44px; height: 44px; display: grid; place-items: center; color: var(--white); background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.25); cursor: pointer; font: 300 29px/1 Arial,sans-serif; }
 .mobile-menu-panel nav { display: grid; padding: 8px 18px; }
 .mobile-menu-panel nav a { min-height: 54px; padding: 0 4px; display: grid; grid-template-columns: 34px 1fr auto; gap: 8px; align-items: center; color: #344c58; border-bottom: 1px solid var(--line); font-size: 14px; font-weight: 850; }
-.mobile-menu-panel nav a span { color: #839096; font: 11px Georgia,serif; }
+.mobile-menu-panel nav a span { color: #59676d; font: 11px Georgia,serif; }
 .mobile-menu-panel nav a i { color: var(--green); font-style: normal; }
 .mobile-menu-panel nav a[aria-current="page"] { color: var(--green); }
-.mobile-menu-panel > p { margin: 0; padding: 14px 22px 20px; color: #78858a; font-size: 10px; line-height: 1.6; }
+.mobile-menu-panel > p { margin: 0; padding: 14px 22px 20px; color: #58666d; font-size: 10px; line-height: 1.6; }
 
 .decision-question { min-width: 0; margin: 0; border: 0; border-bottom: 1px solid var(--line); }
 .decision-question legend { width: 100%; padding: 0; display: flex; gap: 10px; align-items: center; color: #2c4654; font-size: 14px; font-weight: 900; }
@@ -1353,7 +1355,7 @@ body { font-size: 16px; line-height: 1.65; }
 .benchmark-representative-grid dl div:nth-child(even) { padding-left: 12px; }
 .benchmark-representative-grid article:first-child dl { border-color: rgba(255,255,255,.16); }
 .benchmark-representative-grid article:first-child dl div { border-color: rgba(255,255,255,.16); }
-.benchmark-representative-grid dt { color: #718087; font-size: 10px; font-weight: 800; }
+.benchmark-representative-grid dt { color: #58666d; font-size: 10px; font-weight: 800; }
 .benchmark-representative-grid dd { margin: 4px 0 0; color: var(--navy); font-size: 13px; font-weight: 850; }
 .benchmark-representative-grid article:first-child dt { color: #a8bdc7; }
 .benchmark-representative-grid article:first-child dd { color: var(--white); }
@@ -1435,7 +1437,7 @@ body { font-size: 16px; line-height: 1.65; }
   --navy-light: #16445f;
   --green: #087a5b;
   --green-bright: #45c39b;
-  --gold: #b97820;
+  --gold: #8a5a16;
   --blue: #2f7fae;
   --line: #d5cec0;
   --display: "Noto Serif SC Variable", "STSong", "Songti SC", Georgia, serif;

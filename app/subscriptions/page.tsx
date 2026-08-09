@@ -10,6 +10,8 @@ import {
 import Image from "next/image";
 import { CopyCodeButton } from "../components/CopyCodeButton";
 import { BrandIcon, PageShell, SectionHeading, VerificationChip } from "../components/SiteChrome";
+import ActionChecklist from "../components/ActionChecklist";
+import SubscriptionValueCalculator from "../components/SubscriptionValueCalculator";
 
 const firstLoginSteps = [
   {
@@ -82,10 +84,10 @@ export default function SubscriptionsPage() {
       </section>
 
       <section className="content-section soft-section gamsgo-benefit-section">
-        <SectionHeading index="01" title="为什么要通过 GamsGo 订阅？" lead="对普通用户来说，主要价值不是复杂的技术功能，而是价格更低、付款更方便、套餐写得清楚，并且出现问题时有人可以联系。" />
+        <SectionHeading index="01" title="为什么有人会考虑通过 GamsGo 订阅？" lead="对普通用户来说，主要考虑是付款方式、购买周期、账号交付和售后。价格是否更低必须以同一时间、同一商品和结算页最终金额比较。" />
         <div className="gamsgo-benefit-grid">
           <article><span>01 · 售后保障</span><h2>7×24 小时在线客服</h2><p>遇到账号、交付或订单问题，可以从订单页联系 GamsGo 客服处理，不需要自己寻找产品供应方。</p></article>
-          <article><span>02 · 价格优势</span><h2>多项 AI 方案处于较低价位</h2><p>共享、独享账号和本人账号充值分别定价，你可以按预算选择，不必只看官方原价。</p></article>
+          <article><span>02 · 价格比较</span><h2>公开价格可读时再作参考</h2><p>共享、独享账号和本人账号充值不是同一种商品。本站只在公开页能够稳定读取时显示数字，最终仍以结算页为准。</p></article>
           <article><span>03 · 国内购买</span><h2>商品页可直接访问，付款更方便</h2><p>中国大陆用户可以直接打开购买页；结算时可选择支付宝等方式，实际可用选项以 GamsGo 结算页为准。</p></article>
           <article><span>04 · 信息透明</span><h2>先看清套餐，再决定购买</h2><p>商品页会展示价格、周期和交付方式。下单前可以先确认买到的是共享使用、独享账号还是本人账号充值。</p></article>
         </div>
@@ -96,10 +98,10 @@ export default function SubscriptionsPage() {
       </section>
 
       <section className="content-section" id="offers">
-        <SectionHeading index="02" title="AI订阅方案：先选产品，再选购买方式" lead="每张卡片先列官方参考价，再展示GamsGo当前方案和购买入口。ChatGPT已分成共享、独享账号和本人账号充值三种方式。" />
+        <SectionHeading index="02" title="AI订阅方案：先选产品，再选购买方式" lead="每张卡片先列官方参考价；GamsGo公开页能稳定读取时才显示起价，冲突、读取失败或人工套餐超过14天时会隐藏具体数字。" />
         <aside className="pricing-rate-note" aria-label="人民币价格换算说明">
           <div><span>统一换算</span><strong>1 USD = ¥{USD_CNY_RATE.toFixed(3)}</strong></div>
-          <p>美元和人民币价格由同一份方案数据生成；点击任一价格可直接打开对应购买页。汇率记录日期：{USD_CNY_RATE_UPDATED_AT}。</p>
+          <p>页面中的人民币参考值按同一汇率换算；下单时请以支付渠道的实时汇率、税费和结算页最终金额为准。汇率记录日期：{USD_CNY_RATE_UPDATED_AT}。</p>
         </aside>
         <div className="subscription-grid">
           {subscriptionOffers.filter((offer) => offer.productSlug !== "midjourney").map((offer) => {
@@ -138,8 +140,25 @@ export default function SubscriptionsPage() {
         </div>
       </section>
 
+      <section className="content-section soft-section subscription-value-section" id="before-buy">
+        <SectionHeading index="03" title="付款前先算价值，再检查账号和售后" lead="公开起价只适合帮助你进入购买页，真正下单前还要用结算页最终金额计算，并逐项确认账号归属、隐私、续费与退款。" />
+        <SubscriptionValueCalculator />
+        <ActionChecklist
+          id="subscription-before-buy"
+          title="下单前逐项确认"
+          items={[
+            "已经用免费版完成过真实任务，并明确知道自己遇到的限制",
+            "已经在结算页确认最终价格、币种、购买周期和是否自动续费",
+            "知道买到的是共享使用、平台账号还是本人账号充值",
+            "确认订单不要求提交本人邮箱密码、验证码、Cookie或恢复码",
+            "看过退款条件、售后入口、保障期限和到期后的账号处理方式",
+            "只选择能够承担损失的最短周期，并保存订单与商品说明截图",
+          ]}
+        />
+      </section>
+
       <section className="content-section soft-section subscription-howto" id="subscription-howto">
-        <SectionHeading index="03" title="先领优惠，再完成首次登录" lead="优惠券、下单和登录分成两段操作。先在 GamsGo 结算页确认优惠，再从“我的订阅”取得账号与验证码；跟着下面的顺序做即可。" />
+        <SectionHeading index="04" title="先领优惠，再完成首次登录" lead="优惠券、下单和登录分成两段操作。先在 GamsGo 结算页确认优惠，再从“我的订阅”取得账号与验证码；跟着下面的顺序做即可。" />
 
         <div className="coupon-guide" aria-labelledby="coupon-guide-title">
           <div className="coupon-guide-copy">
