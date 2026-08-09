@@ -8,21 +8,11 @@ import {
   USD_CNY_RATE_UPDATED_AT,
 } from "../../data/catalog";
 import promotionManifest from "../../data/promotion-links.json";
-import syncStatus from "../../data/sync-status.json";
 import Image from "next/image";
 import { CopyCodeButton } from "../components/CopyCodeButton";
 import { BrandIcon, PageShell, SectionHeading, VerificationChip } from "../components/SiteChrome";
 
 const promotionUrls = Object.fromEntries(promotionManifest.links.map((link) => [link.id, link.url])) as Record<string, string>;
-const promotionChecks = Object.fromEntries(syncStatus.links.map((link) => [link.url, link])) as Record<string, (typeof syncStatus.links)[number]>;
-
-function getPromotionStatus(url: string) {
-  const check = promotionChecks[url];
-  if (!check) return { tone: "pending", label: "等待自动核验" };
-  if (check.state === "ok") return { tone: "verified", label: "推广入口已自动核验" };
-  if (check.state === "protected") return { tone: "review", label: "推广入口受防护，可正常手动打开" };
-  return { tone: "error", label: "推广入口检查异常，发布已拦截" };
-}
 
 const firstLoginSteps = [
   {
@@ -116,7 +106,6 @@ export default function SubscriptionsPage() {
         </aside>
         <div className="subscription-grid">
           {subscriptionOffers.filter((offer) => offer.productSlug !== "midjourney").map((offer) => {
-            const promotionStatus = getPromotionStatus(offer.affiliateUrl);
             return (
               <article className={`subscription-card${offer.slug === "chatgpt-recharge" ? " subscription-card-featured" : ""}`} id={`offer-${offer.slug}`} key={offer.slug}>
                 <div className="subscription-card-head">
@@ -126,7 +115,7 @@ export default function SubscriptionsPage() {
                 <div className="why-selected"><span>为什么收录</span><p>{offer.whySelected}</p><strong>付费前建议：{offer.freeAdvice}</strong></div>
                 <div className={`price-comparison${offer.purchaseOptions ? " price-comparison-options" : ""}`}>
                   <div><a className="official-price-link" href={offer.officialUrl} target="_blank" rel="noopener noreferrer"><span>官方参考价</span><strong>{offer.officialPrice}</strong><small>{offer.officialCny}</small><em>打开官方价格页 ↗</em></a></div>
-                  {offer.purchaseOptions ? <div className="price-option-summary"><span>GamsGo 当前方案</span>{offer.purchaseOptions.map((option) => <a className="price-option-link" href={option.url} key={option.label} target="_blank" rel="sponsored noopener"><span className="price-option-label"><b>{option.label}</b><small>{formatPurchaseOptionNote(option)}</small></span><span className="price-option-values"><strong>{formatUsdPrice(option.usd, option.suffix)}</strong><small>{formatCnyPrice(option.usd, option.suffix)}</small></span></a>)}<a className="promotion-price-action" href={offer.affiliateUrl} target="_blank" rel="sponsored noopener">打开我的推广购买页 ↗</a><small className={`promotion-entry-status ${promotionStatus.tone}`}><i />{promotionStatus.label} · 推广码已保留</small></div> : <div><span>GamsGo公开价</span><strong>{offer.gamsgoPrice}</strong><small>{offer.gamsgoCny}</small><VerificationChip status={getOfferPriceStatus(offer.slug)} /><a className="promotion-price-action" href={offer.affiliateUrl} target="_blank" rel="sponsored noopener">打开我的推广购买页 ↗</a><small className={`promotion-entry-status ${promotionStatus.tone}`}><i />{promotionStatus.label} · 推广码已保留</small></div>}
+                  {offer.purchaseOptions ? <div className="price-option-summary"><span>GamsGo 当前方案</span>{offer.purchaseOptions.map((option) => <a className="price-option-link" href={option.url} key={option.label} target="_blank" rel="sponsored noopener"><span className="price-option-label"><b>{option.label}</b><small>{formatPurchaseOptionNote(option)}</small></span><span className="price-option-values"><strong>{formatUsdPrice(option.usd, option.suffix)}</strong><small>{formatCnyPrice(option.usd, option.suffix)}</small></span></a>)}<a className="promotion-price-action" href={offer.affiliateUrl} target="_blank" rel="sponsored noopener">打开购买页面</a></div> : <div><span>GamsGo公开价</span><strong>{offer.gamsgoPrice}</strong><small>{offer.gamsgoCny}</small><VerificationChip status={getOfferPriceStatus(offer.slug)} /><a className="promotion-price-action" href={offer.affiliateUrl} target="_blank" rel="sponsored noopener">打开购买页面</a></div>}
                 </div>
                 <p className="price-note">{offer.priceNote}</p>
                 {offer.marketplaceSummary && <aside className="marketplace-summary"><span>市场中心是什么？</span><p>{offer.marketplaceSummary}</p></aside>}

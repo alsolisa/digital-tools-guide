@@ -167,11 +167,12 @@ export function validatePublicPrice(price, expectedDomain) {
 }
 
 export function decidePublishedPrice(previous = {}, nextPrice) {
-  if (!nextPrice) return { ...previous, state: "unreadable", candidate: null, candidateSeenCount: 0 };
+  const retainedPublished = previous.published ? { published: previous.published } : {};
+  if (!nextPrice) return { ...retainedPublished, state: "unreadable", candidate: null, candidateSeenCount: 0 };
   if (!previous.published) return { state: "ok", published: nextPrice, candidate: null, candidateSeenCount: 0 };
 
   const same = previous.published.currency === nextPrice.currency && previous.published.value === nextPrice.value;
-  if (same) return { ...previous, state: "ok", candidate: null, candidateSeenCount: 0 };
+  if (same) return { ...retainedPublished, state: "ok", candidate: null, candidateSeenCount: 0 };
 
   const changeRatio = Math.abs(nextPrice.value - previous.published.value) / previous.published.value;
   if (changeRatio < 0.5) {
@@ -183,7 +184,7 @@ export function decidePublishedPrice(previous = {}, nextPrice) {
   if (candidateSeenCount >= 2) {
     return { state: "price-changed", published: nextPrice, candidate: null, candidateSeenCount: 0 };
   }
-  return { ...previous, state: "price-change-pending", candidate: nextPrice, candidateSeenCount };
+  return { ...retainedPublished, state: "price-change-pending", candidate: nextPrice, candidateSeenCount };
 }
 
 export function cnyValue(price, exchange) {
@@ -237,6 +238,21 @@ export function retainReleaseSnapshot(previous, { repository, version = null, re
     detectedVersion: version,
     error,
   };
+}
+
+export function describeExecError(error) {
+  const name = typeof error?.name === "string" && error.name ? error.name : "Error";
+  const code = error?.code !== undefined && error?.code !== null ? `code=${String(error.code)}` : null;
+  const signal = typeof error?.signal === "string" && error.signal ? `signal=${error.signal}` : null;
+  const stderr = typeof error?.stderr === "string"
+    ? error.stderr
+      .replace(/Authorization:\s*Bearer\s+\S+/gi, "Authorization: Bearer [redacted]")
+      .replace(/https?:\/\/\S+/gi, "[url]")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 220)
+    : "";
+  return [name, code, signal, stderr || null].filter(Boolean).join("; ");
 }
 
 export async function mapWithConcurrency(items, limit, mapper) {

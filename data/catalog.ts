@@ -587,11 +587,12 @@ function syncedSubscriptionOffer(offer: SubscriptionOffer): SubscriptionOffer {
   }
 
   const currencyLabel = synced.published.currency === "SGD" ? "S$" : synced.published.currency === "USD" ? "US$" : synced.published.currency;
+  const planLabel = offer.slug === "claude" ? "Max方案 " : "";
   return {
     ...offerWithCurrentPricing,
-    gamsgoPrice: `${currencyLabel}${synced.published.value.toFixed(2)} / 月公开起价`,
+    gamsgoPrice: `${planLabel}${currencyLabel}${synced.published.value.toFixed(2)} / 月公开起价`,
     gamsgoCny: synced.cny ? `约 ¥${synced.cny.toFixed(2)}` : "人民币参考价待核验",
-    priceNote: `${synced.note}${synced.state === "price-changed" ? "；价格明显变动，已连续两次读取一致" : ""}。`,
+    priceNote: `${synced.note}${synced.state === "price-changed" ? "；价格明显变动，已连续两次读取一致" : ""}。${offer.priceNote}`,
     purchaseOptions: undefined,
     priceVerifiedAt: synced.checkedAt.slice(0, 10),
   };

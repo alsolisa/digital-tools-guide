@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-09T11:04:45.461Z",
+  "checkedAt": "2026-08-09T11:58:39.837Z",
   "exchange": {
     "state": "ok",
     "date": "2026-08-07",
@@ -14,14 +14,14 @@
     {
       "slug": "chatgpt-recharge",
       "url": "https://www.gamsgo.com/details/chatgpt",
-      "state": "unreadable",
       "published": {
         "currency": "USD",
         "value": 5
       },
+      "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T11:04:30.649Z",
+      "checkedAt": "2026-08-09T11:58:21.916Z",
       "officialObserved": {
         "currency": "USD",
         "value": 20
@@ -29,20 +29,19 @@
       "period": "month",
       "offerDurationMonths": 3,
       "cny": 33.74,
-      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
-      "error": "Error"
+      "note": "公开购买页3个月方案折算的月付起价；具体交付方式与结算价以下单页为准"
     },
     {
       "slug": "claude",
       "url": "https://www.gamsgo.com/details/claude",
-      "state": "unreadable",
       "published": {
         "currency": "USD",
         "value": 87.99
       },
+      "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T11:04:30.654Z",
+      "checkedAt": "2026-08-09T11:58:25.207Z",
       "officialObserved": {
         "currency": "USD",
         "value": 120
@@ -50,86 +49,81 @@
       "period": "month",
       "offerDurationMonths": 1,
       "cny": 593.72,
-      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
-      "error": "Error"
+      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
     },
     {
       "slug": "gemini",
       "url": "https://www.gamsgo.com/details/gemini",
-      "state": "unreadable",
       "published": {
         "currency": "USD",
         "value": 2.25
       },
+      "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T11:04:30.650Z",
+      "checkedAt": "2026-08-09T11:58:28.502Z",
       "officialObserved": {
         "currency": "USD",
         "value": 6.67
       },
       "period": "month",
+      "offerDurationMonths": 12,
       "cny": 15.18,
-      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
-      "error": "Error",
-      "offerDurationMonths": 12
+      "note": "公开购买页12个月方案折算的月付起价；具体交付方式与结算价以下单页为准"
     },
     {
       "slug": "grok",
       "url": "https://www.gamsgo.com/details/grok",
-      "state": "unreadable",
+      "state": "conflict",
       "published": null,
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T11:04:30.650Z",
+      "checkedAt": "2026-08-09T11:58:32.042Z",
       "observedValues": [
         15,
         18.99
       ],
-      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
-      "error": "Error"
+      "note": "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核"
     },
     {
       "slug": "perplexity",
       "url": "https://www.gamsgo.com/details/Perplexity_AI",
-      "state": "unreadable",
       "published": {
         "currency": "USD",
         "value": 4.09
       },
+      "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T11:04:30.651Z",
-      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
+      "checkedAt": "2026-08-09T11:58:35.521Z",
       "officialObserved": {
         "currency": "USD",
         "value": 16.67
       },
       "period": "month",
+      "offerDurationMonths": 12,
       "cny": 27.6,
-      "error": "Error",
-      "offerDurationMonths": 12
+      "note": "公开购买页12个月方案折算的月付起价；具体交付方式与结算价以下单页为准"
     },
     {
       "slug": "midjourney",
       "url": "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK",
-      "state": "unreadable",
       "published": {
         "currency": "USD",
         "value": 24.99
       },
+      "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T11:04:30.649Z",
+      "checkedAt": "2026-08-09T11:58:39.083Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
       },
       "period": "month",
+      "offerDurationMonths": 1,
       "cny": 168.62,
-      "note": "页面读取失败，隐藏具体数字并提示以购买页为准",
-      "error": "Error",
-      "offerDurationMonths": 1
+      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
     }
   ],
   "benchmarks": [
@@ -137,21 +131,21 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-08-09T11:04:45.461Z"
+      "checkedAt": "2026-08-09T11:58:39.837Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/leaderboards/models",
       "state": "ok",
-      "checkedAt": "2026-08-09T11:04:45.461Z"
+      "checkedAt": "2026-08-09T11:58:39.837Z"
     }
   ],
   "artificialAnalysisLeaderboard": {
     "source": "Artificial Analysis",
     "url": "https://artificialanalysis.ai/leaderboards/models",
     "state": "ok",
-    "checkedAt": "2026-08-09T11:04:30.357Z",
-    "lastSuccessfulAt": "2026-08-09T11:04:30.357Z",
+    "checkedAt": "2026-08-09T11:57:52.000Z",
+    "lastSuccessfulAt": "2026-08-09T11:57:52.000Z",
     "methodologyVersion": "Intelligence Index v4.1",
     "rows": [
       {

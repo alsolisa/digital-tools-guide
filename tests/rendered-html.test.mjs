@@ -106,9 +106,10 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   assert.match(html, /使用境外网络（需要连接机场或VPN）时可能显示1个月、3个月和6个月/);
   assert.match(html, /联系客服处理 · 7×24小时/);
   assert.match(html, /可能是独立账号交付，不一定是本人原账号/);
-  assert.match(html, /打开我的推广购买页/);
-  assert.match(html, /推广入口已自动核验/);
-  assert.match(html, /推广码已保留/);
+  assert.equal((html.match(/>打开购买页面<\/a>/g) || []).length, 5, "五张订阅卡片都应提供统一的购买按钮");
+  assert.doesNotMatch(html, /打开我的推广购买页|推广入口已自动核验|推广码已保留/);
+  assert.match(html, /Max方案 US\$[0-9.]+ \/ 月公开起价/);
+  assert.match(html, /右侧为GamsGo官方商品页的独享账号方案/);
   assert.match(html, new RegExp(`1 USD = ¥<!-- -->${expectedUsdCnyRate.toFixed(3).replace(".", "\\.")}`));
   for (const [slug, offer] of Object.entries(subscriptionPricing.offers)) {
     if (slug === "midjourney") continue;

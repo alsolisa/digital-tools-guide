@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { readFile } from "node:fs/promises";
-import { decidePublishedPrice, hasCompleteReleaseAsset, isAllowedOfficialDownload, mapWithConcurrency, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl, retainReleaseSnapshot } from "../scripts/sync-utils.mjs";
+import { decidePublishedPrice, describeExecError, hasCompleteReleaseAsset, isAllowedOfficialDownload, mapWithConcurrency, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl, retainReleaseSnapshot } from "../scripts/sync-utils.mjs";
 
 test("订阅美元价格只维护一份数据，人民币换算使用同步汇率并覆盖全部购买链接", async () => {
   const pricing = JSON.parse(await readFile(new URL("../data/subscription-pricing.json", import.meta.url), "utf8"));
@@ -17,6 +17,9 @@ test("订阅美元价格只维护一份数据，人民币换算使用同步汇�
   const syncSource = await readFile(new URL("../scripts/sync-public-data.mjs", import.meta.url), "utf8");
   assert.match(syncSource, /loadSubscriptionPurchaseLinks/);
   assert.match(syncSource, /subscription-purchase/);
+  assert.match(syncSource, /mapWithConcurrency\(gamsgoLinks, 2/);
+  assert.match(syncSource, /mapWithConcurrency\(gamsgoOffers, 1/);
+  assert.match(syncSource, /--http1\.1/);
   const catalogSource = await readFile(new URL("../data/catalog.ts", import.meta.url), "utf8");
   assert.match(catalogSource, /autoSync\.exchange\?\.rates\?\.CNY/);
   assert.match(catalogSource, /subscriptionPricing\.usdCnyRate/);
@@ -102,6 +105,23 @@ test("价格暴涨或暴跌必须连续两次一致才发布", () => {
   assert.deepEqual(second.published, { currency: "USD", value: 6 });
 });
 
+test("价格重新读取成功后清除上次失败的诊断字段", () => {
+  const previous = {
+    state: "unreadable",
+    published: { currency: "USD", value: 5 },
+    error: "Error; code=28",
+    note: "页面读取失败",
+    checkedAt: "2026-08-09T00:00:00.000Z",
+  };
+  const next = decidePublishedPrice(previous, { currency: "USD", value: 5 });
+  assert.deepEqual(next, {
+    state: "ok",
+    published: { currency: "USD", value: 5 },
+    candidate: null,
+    candidateSeenCount: 0,
+  });
+});
+
 test("页面失效或字段缺失时标记不可读", () => {
   const previous = { state: "ok", published: { currency: "USD", value: 10 } };
   const next = decidePublishedPrice(previous, null);
@@ -176,4 +196,15 @@ test("批量链接检查限制并发并保持原顺序", async () => {
   });
   assert.deepEqual(values, [2, 4, 6, 8, 10]);
   assert.equal(maximumActive, 2);
+});
+
+test("命令失败会保留可诊断信息并清除敏感地址", () => {
+  const detail = describeExecError({
+    name: "Error",
+    code: 28,
+    signal: "SIGTERM",
+    stderr: "curl: (28) timed out at https://example.com/path?token=secret\n",
+  });
+  assert.match(detail, /Error; code=28; signal=SIGTERM; curl: \(28\) timed out at \[url\]/);
+  assert.doesNotMatch(detail, /secret|example\.com/);
 });

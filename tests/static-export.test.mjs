@@ -62,6 +62,32 @@ test("全部站内链接保留GitHub Pages子目录并指向真实文件", async
   }
 });
 
+test("全部导出页面满足基础SEO、可访问性与外链安全门禁", async () => {
+  for (const file of await htmlFiles()) {
+    const html = await readFile(file, "utf8");
+    const relative = path.relative(root, file);
+    assert.match(html, /<html[^>]*\blang="zh-CN"/i, `${relative} 缺少中文语言标记`);
+    assert.match(html, /<title>[^<]+<\/title>/i, `${relative} 缺少页面标题`);
+    assert.match(html, /<meta[^>]*\bname="description"[^>]*\bcontent="[^"]+"/i, `${relative} 缺少页面说明`);
+    assert.equal((html.match(/<h1\b/gi) || []).length, 1, `${relative} 必须且只能有一个H1`);
+
+    const ids = [...html.matchAll(/\bid="([^"]+)"/gi)].map((match) => match[1]);
+    assert.equal(new Set(ids).size, ids.length, `${relative} 存在重复ID`);
+
+    for (const image of html.match(/<img\b[^>]*>/gi) || []) {
+      assert.match(image, /\balt="[^"]*"/i, `${relative} 的图片缺少替代文字：${image.slice(0, 120)}`);
+    }
+    for (const anchor of html.match(/<a\b[^>]*\btarget="_blank"[^>]*>/gi) || []) {
+      const rel = anchor.match(/\brel="([^"]+)"/i)?.[1] || "";
+      assert.match(rel, /(?:^|\s)noopener(?:\s|$)/i, `${relative} 的新窗口链接缺少noopener`);
+    }
+
+    if (!["404.html", path.join("404", "index.html"), path.join("_not-found", "index.html")].includes(relative)) {
+      assert.match(html, /<link[^>]*\brel="canonical"[^>]*\bhref="https:\/\/alsolisa\.github\.io\/digital-tools-guide\//i, `${relative} 缺少正式站规范网址`);
+    }
+  }
+});
+
 test("脚本、样式、图片资源均使用正确子目录", async () => {
   const home = await readFile(path.join(root, "index.html"), "utf8");
   const resources = [...home.matchAll(/(?:src|href)=["'](\/[^"']+)["']/g)].map((match) => match[1]);
@@ -70,6 +96,8 @@ test("脚本、样式、图片资源均使用正确子目录", async () => {
   assert.match(home, /https:\/\/alsolisa\.github\.io\/digital-tools-guide\/og-v11\.png/);
 
   const subscriptions = await readFile(path.join(root, "subscriptions", "index.html"), "utf8");
+  assert.equal((subscriptions.match(/>打开购买页面<\/a>/g) || []).length, 5, "订阅页的五个购买按钮文案必须统一");
+  assert.doesNotMatch(subscriptions, /打开我的推广购买页|推广入口已自动核验|推广码已保留/);
   for (const qr of ["gamsgo-chatgpt-account.png", "gamsgo-chatgpt-recharge.png"]) {
     assert.match(subscriptions, new RegExp(`${basePath}/qr/${qr.replace(".", "\\.")}`), `${qr} 缺少GitHub Pages子目录`);
     assert.equal(await exists(path.join(root, "qr", qr)), true, `缺少二维码文件 ${qr}`);

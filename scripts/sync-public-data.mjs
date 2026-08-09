@@ -1,11 +1,13 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { cnyValue, decidePublishedPrice, isAllowedOfficialDownload, mapWithConcurrency, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl, retainReleaseSnapshot, validatePublicPrice } from "./sync-utils.mjs";
+import { cnyValue, decidePublishedPrice, describeExecError, isAllowedOfficialDownload, mapWithConcurrency, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl, retainReleaseSnapshot, validatePublicPrice } from "./sync-utils.mjs";
 
 const execFileAsync = promisify(execFile);
 const curl = process.platform === "win32" ? "curl.exe" : "curl";
 const nullDevice = process.platform === "win32" ? "NUL" : "/dev/null";
+const GAMSGO_HOST = "www.gamsgo.com";
+const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 const dataDirectory = new URL("../data/", import.meta.url);
 const autoSyncPath = new URL("../data/auto-sync.json", import.meta.url);
 const syncStatusPath = new URL("../data/sync-status.json", import.meta.url);
@@ -83,19 +85,22 @@ async function loadSubscriptionPurchaseLinks() {
   return [...new Map(items.map((item) => [item.url, item])).values()];
 }
 
-async function curlText(args, maxBuffer = 5 * 1024 * 1024) {
-  const { stdout } = await execFileAsync(curl, args, { encoding: "utf8", timeout: 35_000, maxBuffer });
+async function curlText(args, maxBuffer = 5 * 1024 * 1024, timeout = 55_000) {
+  const { stdout } = await execFileAsync(curl, args, { encoding: "utf8", timeout, maxBuffer });
   return stdout;
 }
 
 async function checkLink(item) {
   let lastError;
-  for (let attempt = 0; attempt < 2; attempt += 1) {
+  for (let attempt = 0; attempt < 3; attempt += 1) {
     try {
       const result = await curlText(["-L", "--connect-timeout", "8", "--max-time", "30", "-A", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140.0.0.0 Safari/537.36", "-H", "Accept-Language: zh-CN,zh;q=0.9,en;q=0.7", "-o", nullDevice, "-sS", "-w", "%{http_code}\t%{url_effective}", item.url]);
       const [statusText, finalUrl] = result.trim().split("\t");
       const status = Number(statusText);
-      if (status >= 500 && attempt === 0) continue;
+      if ((status === 429 || status >= 500) && attempt < 2) {
+        await wait(750 * (2 ** attempt));
+        continue;
+      }
       const protectedPage = [401, 403, 429].includes(status);
       const state = status >= 200 && status < 400 ? "ok" : protectedPage ? "protected" : "error";
       let trackingState;
@@ -112,9 +117,10 @@ async function checkLink(item) {
       return { ...item, state, status, finalUrl, ...(trackingState ? { trackingState } : {}) };
     } catch (error) {
       lastError = error;
+      if (attempt < 2) await wait(750 * (2 ** attempt));
     }
   }
-  return { ...item, state: "error", status: null, finalUrl: null, error: lastError?.name || "Error" };
+  return { ...item, state: "error", status: null, finalUrl: null, error: describeExecError(lastError) };
 }
 
 async function checkRelease(config, previous) {
@@ -172,12 +178,34 @@ async function readExchange(previousExchange) {
   }
 }
 
+async function fetchGamsgoPage(url) {
+  let lastError;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      return await curlText([
+        "-fLsS",
+        "--compressed",
+        "--http1.1",
+        "--connect-timeout", "10",
+        "--max-time", "45",
+        "-A", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140.0.0.0 Safari/537.36",
+        "-H", "Accept-Language: zh-CN,zh;q=0.9,en;q=0.7",
+        url,
+      ], 15 * 1024 * 1024, 55_000);
+    } catch (error) {
+      lastError = error;
+      if (attempt < 2) await wait(1_500 * (2 ** attempt));
+    }
+  }
+  throw lastError || new Error("GamsGo page fetch failed");
+}
+
 async function readGamsgoOffer(item, previous, exchange) {
   const { parseOptions, ...publicItem } = item;
   const previousPublic = { ...(previous || {}) };
   delete previousPublic.parseOptions;
   try {
-    const html = await curlText(["-fLsS", "--compressed", "--connect-timeout", "8", "--max-time", "30", "-A", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140.0.0.0 Safari/537.36", "-H", "Accept-Language: zh-CN,zh;q=0.9,en;q=0.7", item.url], 15 * 1024 * 1024);
+    const html = await fetchGamsgoPage(item.url);
     const parsed = parseGamsgoPrice(html, parseOptions);
     if (parsed?.conflict) {
       return {
@@ -207,7 +235,7 @@ async function readGamsgoOffer(item, previous, exchange) {
       note: decision.state === "price-change-pending" ? "价格变化超过50%，等待下一次读取一致后发布" : `公开购买页${parsed.offerDurationMonths > 1 ? `${parsed.offerDurationMonths}个月方案折算的` : ""}月付起价；具体交付方式与结算价以下单页为准`,
     };
   } catch (error) {
-    return { ...publicItem, ...decidePublishedPrice(previousPublic, null), checkedAt: new Date().toISOString(), error: error.name, note: "页面读取失败，隐藏具体数字并提示以购买页为准" };
+    return { ...publicItem, ...decidePublishedPrice(previousPublic, null), checkedAt: new Date().toISOString(), error: describeExecError(error), note: "页面读取失败，隐藏具体数字并提示以购买页为准" };
   }
 }
 
@@ -249,12 +277,26 @@ const exchange = await readExchange(previousAutoSync.exchange);
 const catalogOfficialLinks = await loadCatalogOfficialLinks();
 const subscriptionPurchaseLinks = await loadSubscriptionPurchaseLinks();
 const allLinks = [...new Map([...staticLinks, ...catalogOfficialLinks, ...subscriptionPurchaseLinks, ...promotionLinks].map((item) => [item.url, item])).values()];
-const [linkResults, clientResults, gamsgoResults, artificialAnalysisLeaderboard] = await Promise.all([
-  mapWithConcurrency(allLinks, 12, checkLink),
+const gamsgoLinks = allLinks.filter((item) => new URL(item.url).hostname.toLowerCase() === GAMSGO_HOST);
+const otherLinks = allLinks.filter((item) => new URL(item.url).hostname.toLowerCase() !== GAMSGO_HOST);
+const [otherLinkResults, clientResults, artificialAnalysisLeaderboard] = await Promise.all([
+  mapWithConcurrency(otherLinks, 12, checkLink),
   Promise.all(repositories.map((config) => checkRelease(config, previousSyncStatus.clients?.find((client) => client.repository === config.repository)))),
-  Promise.all(gamsgoOffers.map((item) => readGamsgoOffer(item, previousAutoSync.gamsgo?.find((offer) => offer.slug === item.slug), exchange))),
   readArtificialAnalysisLeaderboard(previousAutoSync.artificialAnalysisLeaderboard),
 ]);
+const gamsgoLinkResults = await mapWithConcurrency(gamsgoLinks, 2, async (item) => {
+  const result = await checkLink(item);
+  await wait(350);
+  return result;
+});
+const linkResultByUrl = new Map([...otherLinkResults, ...gamsgoLinkResults].map((item) => [item.url, item]));
+const linkResults = allLinks.map((item) => linkResultByUrl.get(item.url));
+await wait(1_000);
+const gamsgoResults = await mapWithConcurrency(gamsgoOffers, 1, async (item) => {
+  const result = await readGamsgoOffer(item, previousAutoSync.gamsgo?.find((offer) => offer.slug === item.slug), exchange);
+  await wait(750);
+  return result;
+});
 
 const checkedAt = new Date().toISOString();
 const history = [...(previousAutoSync.history || [])];
@@ -278,7 +320,7 @@ const benchmarkResults = linkResults
 const autoOutput = { checkedAt, exchange, gamsgo: gamsgoResults, benchmarks: benchmarkResults, artificialAnalysisLeaderboard, history: history.slice(-100) };
 const statusOutput = {
   checkedAt,
-  policy: { publicLinks: "automatic-6h", promotionTracking: "automatic-before-publish", clientReleases: "automatic-6h-with-direct-assets", publicPrices: "automatic-6h-with-guardrails", benchmarkLeaderboard: "automatic-6h-with-last-good-snapshot", exchange: "automatic-6h", loginRequiredPrices: "manual-review" },
+  policy: { publicLinks: "automatic-6h-host-aware-throttling", promotionTracking: "automatic-before-publish", clientReleases: "automatic-6h-with-direct-assets", publicPrices: "automatic-6h-sequential-retry-with-guardrails", benchmarkLeaderboard: "automatic-6h-with-last-good-snapshot", exchange: "automatic-6h", loginRequiredPrices: "manual-review" },
   links: linkResults,
   clients: clientResults,
 };
