@@ -116,8 +116,16 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
     const currency = synced.published.currency === "USD" ? "US$" : synced.published.currency === "SGD" ? "S$" : synced.published.currency;
     assert.ok(html.includes(`${currency}${synced.published.value.toFixed(2)} / 月公开起价`), `${synced.slug} 应显示本轮安全读取到的公开起价`);
   }
-  assert.match(html, /同一公开页面出现多个互相冲突的月付价格；本站已隐藏数字/);
-  assert.match(html, /公开页面暂时无法稳定读取月付价格；不要把旧价格当作当前价格/);
+  const visibleSyncedOffers = autoSync.gamsgo.filter((item) => item.slug !== "midjourney");
+  const stateMessages = [
+    ["conflict", /同一公开页面出现多个互相冲突的月付价格；本站已隐藏数字/],
+    ["unreadable", /公开页面暂时无法稳定读取月付价格；不要把旧价格当作当前价格/],
+    ["price-change-pending", /读取到价格明显变化，正在等待第二次一致结果；为避免误导，暂时隐藏具体数字/],
+  ];
+  for (const [state, message] of stateMessages) {
+    if (visibleSyncedOffers.some((item) => item.state === state)) assert.match(html, message);
+    else assert.doesNotMatch(html, message);
+  }
   assert.match(html, /https:\/\/x\.ai\/pricing/);
   assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/gemini\/partner\/BTzCM/);
   assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/perplexity_ai\/partner\/BTzCM/);
