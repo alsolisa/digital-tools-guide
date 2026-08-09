@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { cnyValue, decidePublishedPrice, describeExecError, isAllowedOfficialDownload, mapWithConcurrency, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl, retainReleaseSnapshot, validatePublicPrice } from "./sync-utils.mjs";
+import { cnyValue, decidePublishedPrice, describeExecError, isAllowedOfficialDownload, mapWithConcurrency, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl, retainGamsgoSnapshot, retainReleaseSnapshot, validatePublicPrice } from "./sync-utils.mjs";
 
 const execFileAsync = promisify(execFile);
 const curl = process.platform === "win32" ? "curl.exe" : "curl";
@@ -203,6 +203,7 @@ async function fetchGamsgoPage(url) {
 async function readGamsgoOffer(item, previous, exchange) {
   const { parseOptions, ...publicItem } = item;
   const previousPublic = { ...(previous || {}) };
+  const checkedAt = new Date().toISOString();
   delete previousPublic.parseOptions;
   try {
     const html = await fetchGamsgoPage(item.url);
@@ -214,20 +215,23 @@ async function readGamsgoOffer(item, previous, exchange) {
         published: null,
         candidate: null,
         candidateSeenCount: 0,
-        checkedAt: new Date().toISOString(),
+        checkedAt,
         observedValues: parsed.observedValues,
         note: "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核",
       };
     }
     if (!parsed || !validatePublicPrice(parsed.special, new URL(item.url).hostname)) {
-      return { ...publicItem, ...decidePublishedPrice(previousPublic, null), checkedAt: new Date().toISOString(), note: "公开页未稳定展示可校验的月付价格" };
+      return { ...publicItem, ...decidePublishedPrice(previousPublic, null), checkedAt, note: "公开页未稳定展示可校验的月付价格" };
     }
 
     const decision = decidePublishedPrice(previousPublic, parsed.special);
     return {
       ...publicItem,
       ...decision,
-      checkedAt: new Date().toISOString(),
+      checkedAt,
+      lastSuccessfulAt: decision.state === "price-change-pending"
+        ? (previousPublic.lastSuccessfulAt || previousPublic.checkedAt)
+        : checkedAt,
       officialObserved: parsed.official || undefined,
       period: parsed.period,
       offerDurationMonths: parsed.offerDurationMonths || 1,
@@ -235,7 +239,7 @@ async function readGamsgoOffer(item, previous, exchange) {
       note: decision.state === "price-change-pending" ? "价格变化超过50%，等待下一次读取一致后发布" : `公开购买页${parsed.offerDurationMonths > 1 ? `${parsed.offerDurationMonths}个月方案折算的` : ""}月付起价；具体交付方式与结算价以下单页为准`,
     };
   } catch (error) {
-    return { ...publicItem, ...decidePublishedPrice(previousPublic, null), checkedAt: new Date().toISOString(), error: describeExecError(error), note: "页面读取失败，隐藏具体数字并提示以购买页为准" };
+    return { ...publicItem, ...decidePublishedPrice(previousPublic, null), checkedAt, error: describeExecError(error), note: "页面读取失败，隐藏具体数字并提示以购买页为准" };
   }
 }
 
@@ -292,11 +296,24 @@ const gamsgoLinkResults = await mapWithConcurrency(gamsgoLinks, 2, async (item) 
 const linkResultByUrl = new Map([...otherLinkResults, ...gamsgoLinkResults].map((item) => [item.url, item]));
 const linkResults = allLinks.map((item) => linkResultByUrl.get(item.url));
 await wait(1_000);
-const gamsgoResults = await mapWithConcurrency(gamsgoOffers, 1, async (item) => {
+const rawGamsgoResults = await mapWithConcurrency(gamsgoOffers, 1, async (item) => {
   const result = await readGamsgoOffer(item, previousAutoSync.gamsgo?.find((offer) => offer.slug === item.slug), exchange);
   await wait(750);
   return result;
 });
+const gamsgoWasSystemicallyBlocked = rawGamsgoResults.every((item) => item.state === "unreadable" && item.error);
+const snapshotTime = Date.now();
+const gamsgoResults = gamsgoWasSystemicallyBlocked
+  ? rawGamsgoResults.map((item) => retainGamsgoSnapshot(
+    previousAutoSync.gamsgo?.find((offer) => offer.slug === item.slug),
+    item,
+    snapshotTime,
+  ))
+  : rawGamsgoResults;
+if (gamsgoWasSystemicallyBlocked) {
+  console.warn("GamsGo商品页在本轮运行环境中全部读取失败；最多保留7天内最近一次可信价格，并在页面明确标记。");
+  for (const result of rawGamsgoResults) console.warn(`- ${result.slug}: ${result.error}`);
+}
 
 const checkedAt = new Date().toISOString();
 const history = [...(previousAutoSync.history || [])];
@@ -320,7 +337,7 @@ const benchmarkResults = linkResults
 const autoOutput = { checkedAt, exchange, gamsgo: gamsgoResults, benchmarks: benchmarkResults, artificialAnalysisLeaderboard, history: history.slice(-100) };
 const statusOutput = {
   checkedAt,
-  policy: { publicLinks: "automatic-6h-host-aware-throttling", promotionTracking: "automatic-before-publish", clientReleases: "automatic-6h-with-direct-assets", publicPrices: "automatic-6h-sequential-retry-with-guardrails", benchmarkLeaderboard: "automatic-6h-with-last-good-snapshot", exchange: "automatic-6h", loginRequiredPrices: "manual-review" },
+  policy: { publicLinks: "automatic-6h-host-aware-throttling", promotionTracking: "automatic-before-publish", clientReleases: "automatic-6h-with-direct-assets", publicPrices: "automatic-6h-sequential-retry-with-7d-last-good-snapshot", benchmarkLeaderboard: "automatic-6h-with-last-good-snapshot", exchange: "automatic-6h", loginRequiredPrices: "manual-review" },
   links: linkResults,
   clients: clientResults,
 };
@@ -332,6 +349,6 @@ await Promise.all([
 ]);
 
 const hardFailures = linkResults.filter((item) => item.state === "error").length + clientResults.filter((item) => item.state === "error").length;
-const readablePrices = gamsgoResults.filter((item) => item.state === "ok" || item.state === "price-changed").length;
+const readablePrices = gamsgoResults.filter((item) => ["ok", "price-changed", "stale"].includes(item.state) && item.published).length;
 console.log(`同步完成：${linkResults.length} 个公开入口，${clientResults.length} 个客户端项目，${readablePrices}/${gamsgoResults.length} 项公开月付价格可核验，Artificial Analysis 读取 ${artificialAnalysisLeaderboard.rows?.length || 0} 个模型。`);
 if (hardFailures > 0) console.warn(`${hardFailures} 个入口或客户端版本检查失败，页面会保留异常标记。`);

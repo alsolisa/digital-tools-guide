@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { readFile } from "node:fs/promises";
-import { decidePublishedPrice, describeExecError, hasCompleteReleaseAsset, isAllowedOfficialDownload, mapWithConcurrency, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl, retainReleaseSnapshot } from "../scripts/sync-utils.mjs";
+import { decidePublishedPrice, describeExecError, hasCompleteReleaseAsset, isAllowedOfficialDownload, mapWithConcurrency, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl, retainGamsgoSnapshot, retainReleaseSnapshot } from "../scripts/sync-utils.mjs";
 
 test("订阅美元价格只维护一份数据，人民币换算使用同步汇率并覆盖全部购买链接", async () => {
   const pricing = JSON.parse(await readFile(new URL("../data/subscription-pricing.json", import.meta.url), "utf8"));
@@ -207,4 +207,31 @@ test("命令失败会保留可诊断信息并清除敏感地址", () => {
   });
   assert.match(detail, /Error; code=28; signal=SIGTERM; curl: \(28\) timed out at \[url\]/);
   assert.doesNotMatch(detail, /secret|example\.com/);
+});
+
+test("商家整批拦截时最多保留7天内最近可信价格", () => {
+  const previous = {
+    slug: "chatgpt-recharge",
+    state: "ok",
+    published: { currency: "USD", value: 5 },
+    cny: 33.74,
+    checkedAt: "2026-08-09T10:00:00.000Z",
+    period: "month",
+    offerDurationMonths: 3,
+  };
+  const failed = {
+    slug: "chatgpt-recharge",
+    state: "unreadable",
+    published: previous.published,
+    checkedAt: "2026-08-09T12:00:00.000Z",
+    error: "Error; code=22; curl: (22) HTTP 403",
+  };
+  const retained = retainGamsgoSnapshot(previous, failed, Date.parse(failed.checkedAt));
+  assert.equal(retained.state, "stale");
+  assert.equal(retained.lastSuccessfulAt, previous.checkedAt);
+  assert.deepEqual(retained.published, previous.published);
+  assert.match(retained.note, /最近一次成功核验/);
+
+  const expired = retainGamsgoSnapshot(previous, failed, Date.parse(previous.checkedAt) + 8 * 24 * 60 * 60 * 1000);
+  assert.equal(expired.state, "unreadable");
 });

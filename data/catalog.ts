@@ -2,7 +2,7 @@ import autoSync from "./auto-sync.json";
 import subscriptionPricing from "./subscription-pricing.json";
 
 export type Platform = "Web" | "Windows" | "macOS" | "Android" | "iOS";
-export type VerificationStatus = "verified" | "automatic" | "pending" | "error" | "paused";
+export type VerificationStatus = "verified" | "automatic" | "stale" | "pending" | "error" | "paused";
 export type RiskLevel = "low" | "medium" | "high";
 
 export interface DownloadLink {
@@ -549,9 +549,16 @@ function syncedSubscriptionOffer(offer: SubscriptionOffer): SubscriptionOffer {
     && Number.isFinite(manualVerifiedTime)
     && referenceTime >= manualVerifiedTime
     && referenceTime - manualVerifiedTime <= 14 * 24 * 60 * 60 * 1000;
+  const syncedEvidenceTime = synced?.lastSuccessfulAt || synced?.checkedAt;
+  const syncedEvidenceTimestamp = syncedEvidenceTime ? new Date(syncedEvidenceTime).getTime() : Number.NaN;
+  const staleSnapshotIsFresh = synced?.state === "stale"
+    && Number.isFinite(referenceTime)
+    && Number.isFinite(syncedEvidenceTimestamp)
+    && referenceTime >= syncedEvidenceTimestamp
+    && referenceTime - syncedEvidenceTimestamp <= 7 * 24 * 60 * 60 * 1000;
   const syncedPricingIsSafe = Boolean(
     synced
-    && ["ok", "price-changed"].includes(synced.state)
+    && (["ok", "price-changed"].includes(synced.state) || staleSnapshotIsFresh)
     && synced.published,
   );
   const purchaseOptions = manualPricingIsFresh && syncedPricingIsSafe
@@ -565,7 +572,7 @@ function syncedSubscriptionOffer(offer: SubscriptionOffer): SubscriptionOffer {
     ...offer,
     officialCny,
     purchaseOptions,
-    priceVerifiedAt: purchaseOptions?.length ? pricing?.verifiedAt : synced?.checkedAt.slice(0, 10),
+    priceVerifiedAt: purchaseOptions?.length ? pricing?.verifiedAt : (synced?.lastSuccessfulAt || synced?.checkedAt)?.slice(0, 10),
     gamsgoPrice: firstOption ? `${formatUsdPrice(firstOption.usd, firstOption.suffix)} 起` : offer.gamsgoPrice,
     gamsgoCny: firstOption ? `${formatCnyPrice(firstOption.usd, firstOption.suffix)} 起` : offer.gamsgoCny,
   };
@@ -594,7 +601,7 @@ function syncedSubscriptionOffer(offer: SubscriptionOffer): SubscriptionOffer {
     gamsgoCny: synced.cny ? `约 ¥${synced.cny.toFixed(2)}` : "人民币参考价待核验",
     priceNote: `${synced.note}${synced.state === "price-changed" ? "；价格明显变动，已连续两次读取一致" : ""}。${offer.priceNote}`,
     purchaseOptions: undefined,
-    priceVerifiedAt: synced.checkedAt.slice(0, 10),
+    priceVerifiedAt: (synced.lastSuccessfulAt || synced.checkedAt).slice(0, 10),
   };
 }
 
@@ -702,6 +709,7 @@ export function getOfferPriceStatus(slug: string): VerificationStatus {
   const synced = autoSync.gamsgo.find((item) => item.slug === slug);
   if (!synced) return "pending";
   if (synced.state === "ok" || synced.state === "price-changed") return "automatic";
+  if (synced.state === "stale") return "stale";
   if (synced.state === "price-change-pending") return "pending";
   return "error";
 }

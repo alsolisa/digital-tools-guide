@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-09T11:58:39.837Z",
+  "checkedAt": "2026-08-09T12:08:09.704Z",
   "exchange": {
     "state": "ok",
     "date": "2026-08-07",
@@ -21,7 +21,8 @@
       "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T11:58:21.916Z",
+      "checkedAt": "2026-08-09T12:07:48.049Z",
+      "lastSuccessfulAt": "2026-08-09T12:07:48.049Z",
       "officialObserved": {
         "currency": "USD",
         "value": 20
@@ -41,7 +42,8 @@
       "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T11:58:25.207Z",
+      "checkedAt": "2026-08-09T12:07:51.553Z",
+      "lastSuccessfulAt": "2026-08-09T12:07:51.553Z",
       "officialObserved": {
         "currency": "USD",
         "value": 120
@@ -61,7 +63,8 @@
       "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T11:58:28.502Z",
+      "checkedAt": "2026-08-09T12:07:55.214Z",
+      "lastSuccessfulAt": "2026-08-09T12:07:55.214Z",
       "officialObserved": {
         "currency": "USD",
         "value": 6.67
@@ -78,7 +81,7 @@
       "published": null,
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T11:58:32.042Z",
+      "checkedAt": "2026-08-09T12:07:58.606Z",
       "observedValues": [
         15,
         18.99
@@ -95,7 +98,8 @@
       "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T11:58:35.521Z",
+      "checkedAt": "2026-08-09T12:08:01.779Z",
+      "lastSuccessfulAt": "2026-08-09T12:08:01.779Z",
       "officialObserved": {
         "currency": "USD",
         "value": 16.67
@@ -115,7 +119,8 @@
       "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T11:58:39.083Z",
+      "checkedAt": "2026-08-09T12:08:05.912Z",
+      "lastSuccessfulAt": "2026-08-09T12:08:05.912Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
@@ -131,21 +136,21 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-08-09T11:58:39.837Z"
+      "checkedAt": "2026-08-09T12:08:09.704Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/leaderboards/models",
       "state": "ok",
-      "checkedAt": "2026-08-09T11:58:39.837Z"
+      "checkedAt": "2026-08-09T12:08:09.704Z"
     }
   ],
   "artificialAnalysisLeaderboard": {
     "source": "Artificial Analysis",
     "url": "https://artificialanalysis.ai/leaderboards/models",
     "state": "ok",
-    "checkedAt": "2026-08-09T11:57:52.000Z",
-    "lastSuccessfulAt": "2026-08-09T11:57:52.000Z",
+    "checkedAt": "2026-08-09T12:07:20.064Z",
+    "lastSuccessfulAt": "2026-08-09T12:07:20.064Z",
     "methodologyVersion": "Intelligence Index v4.1",
     "rows": [
       {

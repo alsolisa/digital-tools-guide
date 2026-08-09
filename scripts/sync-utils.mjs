@@ -255,6 +255,36 @@ export function describeExecError(error) {
   return [name, code, signal, stderr || null].filter(Boolean).join("; ");
 }
 
+export function retainGamsgoSnapshot(previous, current, nowMs = Date.now(), maxAgeMs = 7 * 24 * 60 * 60 * 1000) {
+  if (!current || current.state !== "unreadable" || !current.error) return current;
+  const evidenceAt = previous?.lastSuccessfulAt || previous?.checkedAt;
+  const evidenceTime = evidenceAt ? Date.parse(evidenceAt) : Number.NaN;
+  const evidenceIsFresh = Number.isFinite(evidenceTime) && nowMs >= evidenceTime && nowMs - evidenceTime <= maxAgeMs;
+  if (!evidenceIsFresh) return current;
+
+  if (previous?.state === "conflict" && Array.isArray(previous.observedValues) && previous.observedValues.length > 1) {
+    return {
+      ...previous,
+      lastAttemptedAt: current.checkedAt,
+      error: current.error,
+      note: `${previous.note}；本轮自动运行环境未能读取商家页，保留最近一次冲突证据`,
+    };
+  }
+
+  if (!["ok", "price-changed", "stale"].includes(previous?.state) || !previous?.published) return current;
+  return {
+    ...current,
+    state: "stale",
+    published: previous.published,
+    cny: previous.cny ?? null,
+    officialObserved: previous.officialObserved,
+    period: previous.period,
+    offerDurationMonths: previous.offerDurationMonths,
+    lastSuccessfulAt: evidenceAt,
+    note: `本轮自动运行环境未能读取商家页；展示 ${evidenceAt.slice(0, 10)} 最近一次成功核验的价格，结算前请打开购买页确认`,
+  };
+}
+
 export async function mapWithConcurrency(items, limit, mapper) {
   const results = new Array(items.length);
   let nextIndex = 0;

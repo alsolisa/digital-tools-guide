@@ -26,8 +26,9 @@ async function remoteAssetIsReachable(url) {
 }
 
 const root = new URL("../", import.meta.url);
-const [syncStatus, promotionManifest, localMirrors, subscriptionPricing, catalogSource] = await Promise.all([
+const [syncStatus, autoSync, promotionManifest, localMirrors, subscriptionPricing, catalogSource] = await Promise.all([
   readFile(new URL("data/sync-status.json", root), "utf8").then(JSON.parse),
+  readFile(new URL("data/auto-sync.json", root), "utf8").then(JSON.parse),
   readFile(new URL("data/promotion-links.json", root), "utf8").then(JSON.parse),
   readFile(new URL("data/local-mirrors.json", root), "utf8").then(JSON.parse),
   readFile(new URL("data/subscription-pricing.json", root), "utf8").then(JSON.parse),
@@ -35,6 +36,29 @@ const [syncStatus, promotionManifest, localMirrors, subscriptionPricing, catalog
 ]);
 
 const failures = [];
+const syncTime = Date.parse(autoSync.checkedAt);
+if (!Number.isFinite(syncTime) || Math.abs(Date.now() - syncTime) > 12 * 60 * 60 * 1000) {
+  failures.push("自动核验数据不是最近12小时内生成，禁止发布");
+}
+
+let trustedPriceCount = 0;
+for (const offer of autoSync.gamsgo || []) {
+  if (["ok", "price-changed"].includes(offer.state) && offer.published) {
+    trustedPriceCount += 1;
+    continue;
+  }
+  if (offer.state === "stale" && offer.published) {
+    const evidenceTime = Date.parse(offer.lastSuccessfulAt);
+    if (!Number.isFinite(evidenceTime) || syncTime < evidenceTime || syncTime - evidenceTime > 7 * 24 * 60 * 60 * 1000) {
+      failures.push(`${offer.slug} 的最近可信价格已超过7天`);
+    } else {
+      trustedPriceCount += 1;
+    }
+  }
+}
+if ((autoSync.gamsgo || []).length < 6) failures.push("订阅价格核验结果不完整");
+if (trustedPriceCount < 4) failures.push(`仅 ${trustedPriceCount} 项订阅价格具有当前或7天内最近可信证据`);
+
 const linkById = new Map(syncStatus.links.map((item) => [item.id, item]));
 const promotionUrls = new Set(promotionManifest.links.map((item) => item.url));
 
@@ -107,4 +131,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`发布前检查通过：${promotionManifest.links.length} 个推广/关键入口、${syncStatus.clients.length} 个官方直链、${localMirrors.length} 个本站备用文件均已核对。`);
+console.log(`发布前检查通过：${promotionManifest.links.length} 个推广/关键入口、${syncStatus.clients.length} 个官方直链、${localMirrors.length} 个本站备用文件、${trustedPriceCount} 项当前或最近可信订阅价格均已核对。`);

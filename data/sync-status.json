@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-08-09T11:58:39.837Z",
+  "checkedAt": "2026-08-09T12:08:09.704Z",
   "policy": {
     "publicLinks": "automatic-6h-host-aware-throttling",
     "promotionTracking": "automatic-before-publish",
     "clientReleases": "automatic-6h-with-direct-assets",
-    "publicPrices": "automatic-6h-sequential-retry-with-guardrails",
+    "publicPrices": "automatic-6h-sequential-retry-with-7d-last-good-snapshot",
     "benchmarkLeaderboard": "automatic-6h-with-last-good-snapshot",
     "exchange": "automatic-6h",
     "loginRequiredPrices": "manual-review"
@@ -366,32 +366,32 @@
       "id": "catalog-official-40",
       "url": "https://www.perplexity.ai/help-center/en/articles/10738684-what-is-research-mode",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://www.perplexity.ai/help-center/en/articles/10738684-what-is-research-mode"
     },
     {
       "id": "catalog-official-41",
       "url": "https://www.perplexity.ai/help-center/en/collections/18799298-comet",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://www.perplexity.ai/help-center/en/collections/18799298-comet"
     },
     {
       "id": "catalog-official-42",
       "url": "https://www.perplexity.ai/help-center/en/articles/9385876-what-is-perplexity-pro",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://www.perplexity.ai/help-center/en/articles/9385876-what-is-perplexity-pro"
     },
     {
       "id": "catalog-official-43",
       "url": "https://www.perplexity.ai/help-center/en/articles/10354919-what-advanced-ai-models-are-included-in-my-subscription",
       "kind": "download-source",
-      "state": "protected",
-      "status": 403,
+      "state": "ok",
+      "status": 200,
       "finalUrl": "https://www.perplexity.ai/help-center/en/articles/10354919-what-advanced-ai-models-are-included-in-my-subscription"
     },
     {
@@ -893,47 +893,55 @@
   "clients": [
     {
       "repository": "clash-verge-rev/clash-verge-rev",
-      "state": "ok",
+      "state": "stale",
       "version": "v2.5.2",
       "releaseUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.2",
       "assetName": "Clash.Verge_2.5.2_x64-setup.exe",
       "assetSize": 46964366,
       "assetUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.5.2/Clash.Verge_2.5.2_x64-setup.exe",
       "assetSha256": "BA42F00B1082E352352080170FE86AE411BCC854CB13F1B8BEBC9025E8A7CBF4",
-      "assetVerifiedAt": "2026-08-09T11:57:53.011Z"
+      "assetVerifiedAt": "2026-08-09T12:05:54.685Z",
+      "detectedVersion": "v2.5.2",
+      "error": "Error: official release asset metadata unavailable"
     },
     {
       "repository": "2dust/v2rayN",
-      "state": "ok",
+      "state": "stale",
       "version": "7.24.4",
       "releaseUrl": "https://github.com/2dust/v2rayN/releases/tag/7.24.4",
       "assetName": "v2rayN-windows-64-desktop.zip",
       "assetSize": 132445347,
       "assetUrl": "https://github.com/2dust/v2rayN/releases/download/7.24.4/v2rayN-windows-64-desktop.zip",
       "assetSha256": "BA466DCB31F9206B771FC8E96E4FAC91D6AAF41262CE83473BA5B0F4A9981AE0",
-      "assetVerifiedAt": "2026-08-09T11:57:53.124Z"
+      "assetVerifiedAt": "2026-08-09T12:05:55.759Z",
+      "detectedVersion": "7.24.4",
+      "error": "Error: official release asset metadata unavailable"
     },
     {
       "repository": "chen08209/FlClash",
-      "state": "ok",
+      "state": "stale",
       "version": "v0.8.94",
       "releaseUrl": "https://github.com/chen08209/FlClash/releases/tag/v0.8.94",
       "assetName": "FlClash-0.8.94-android-arm64-v8a.apk",
       "assetSize": 54090655,
       "assetUrl": "https://github.com/chen08209/FlClash/releases/download/v0.8.94/FlClash-0.8.94-android-arm64-v8a.apk",
       "assetSha256": "2B0F058A79BD584FDE8BBB46452F3539E92563CBF5070C2626C3BE3C900E807B",
-      "assetVerifiedAt": "2026-08-09T11:57:52.964Z"
+      "assetVerifiedAt": "2026-08-09T12:05:54.624Z",
+      "detectedVersion": "v0.8.94",
+      "error": "Error: official release asset metadata unavailable"
     },
     {
       "repository": "hiddify/hiddify-app",
-      "state": "ok",
+      "state": "stale",
       "version": "v4.1.1",
       "releaseUrl": "https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1",
       "assetName": "Hiddify-Windows-Setup-x64.exe",
       "assetSize": 36486310,
       "assetUrl": "https://github.com/hiddify/hiddify-app/releases/download/v4.1.1/Hiddify-Windows-Setup-x64.exe",
       "assetSha256": "3F6182B610168C0BB386FFEA1FC7F68318D3DF23C15840C8B13A3BE51B080A96",
-      "assetVerifiedAt": "2026-08-09T11:57:53.032Z"
+      "assetVerifiedAt": "2026-08-09T12:05:54.670Z",
+      "detectedVersion": "v4.1.1",
+      "error": "Error: official release asset metadata unavailable"
     }
   ]
 }

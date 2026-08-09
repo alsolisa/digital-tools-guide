@@ -108,8 +108,11 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   assert.match(html, /可能是独立账号交付，不一定是本人原账号/);
   assert.equal((html.match(/>打开购买页面<\/a>/g) || []).length, 5, "五张订阅卡片都应提供统一的购买按钮");
   assert.doesNotMatch(html, /打开我的推广购买页|推广入口已自动核验|推广码已保留/);
-  assert.match(html, /Max方案 US\$[0-9.]+ \/ 月公开起价/);
-  assert.match(html, /右侧为GamsGo官方商品页的独享账号方案/);
+  const claudeSync = autoSync.gamsgo.find((item) => item.slug === "claude");
+  if (["ok", "price-changed", "stale"].includes(claudeSync?.state) && claudeSync?.published) {
+    assert.match(html, /Max方案 US\$[0-9.]+ \/ 月公开起价/);
+    assert.match(html, /右侧为GamsGo官方商品页的独享账号方案/);
+  }
   assert.match(html, new RegExp(`1 USD = ¥<!-- -->${expectedUsdCnyRate.toFixed(3).replace(".", "\\.")}`));
   for (const [slug, offer] of Object.entries(subscriptionPricing.offers)) {
     if (slug === "midjourney") continue;
@@ -119,7 +122,7 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
     assert.doesNotMatch(html, new RegExp(oldPrice.replace("$", "\\$")), `过期人工价格不应继续显示：${oldPrice}`);
   }
   assert.equal((html.match(/class="price-option-link"/g) || []).length, 0, "超过14天的人工套餐按钮应隐藏");
-  for (const synced of autoSync.gamsgo.filter((item) => ["ok", "price-changed"].includes(item.state) && item.published && item.slug !== "midjourney")) {
+  for (const synced of autoSync.gamsgo.filter((item) => ["ok", "price-changed", "stale"].includes(item.state) && item.published && item.slug !== "midjourney")) {
     const currency = synced.published.currency === "USD" ? "US$" : synced.published.currency === "SGD" ? "S$" : synced.published.currency;
     assert.ok(html.includes(`${currency}${synced.published.value.toFixed(2)} / 月公开起价`), `${synced.slug} 应显示本轮安全读取到的公开起价`);
   }
@@ -128,6 +131,7 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
     ["conflict", /同一公开页面出现多个互相冲突的月付价格；本站已隐藏数字/],
     ["unreadable", /公开页面暂时无法稳定读取月付价格；不要把旧价格当作当前价格/],
     ["price-change-pending", /读取到价格明显变化，正在等待第二次一致结果；为避免误导，暂时隐藏具体数字/],
+    ["stale", /本轮自动运行环境未能读取商家页；展示 .+ 最近一次成功核验的价格/],
   ];
   for (const [state, message] of stateMessages) {
     if (visibleSyncedOffers.some((item) => item.state === state)) assert.match(html, message);

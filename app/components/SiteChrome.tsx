@@ -128,6 +128,7 @@ export function EditorialAccountability({ reviewedAt, evidence, scope }: { revie
 const verificationLabels: Record<VerificationStatus, string> = {
   verified: "已核对资料",
   automatic: "自动检查",
+  stale: "最近可信核验",
   pending: "待复核",
   error: "读取异常",
   paused: "已暂停",
