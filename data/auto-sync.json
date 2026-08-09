@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-09T13:10:03.066Z",
+  "checkedAt": "2026-08-09T13:18:15.455Z",
   "exchange": {
     "state": "ok",
     "date": "2026-08-07",
@@ -18,19 +18,20 @@
         "currency": "USD",
         "value": 5
       },
-      "state": "ok",
+      "state": "stale",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T13:09:38.176Z",
-      "lastSuccessfulAt": "2026-08-09T13:09:38.176Z",
+      "checkedAt": "2026-08-09T13:17:43.122Z",
+      "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
+      "note": "本轮自动运行环境未能读取商家页；展示 2026-08-09 最近一次成功核验的价格，结算前请打开购买页确认",
+      "cny": 33.74,
       "officialObserved": {
         "currency": "USD",
         "value": 20
       },
       "period": "month",
       "offerDurationMonths": 3,
-      "cny": 33.74,
-      "note": "公开购买页3个月方案折算的月付起价；具体交付方式与结算价以下单页为准"
+      "lastSuccessfulAt": "2026-08-09T13:09:38.176Z"
     },
     {
       "slug": "claude",
@@ -39,19 +40,20 @@
         "currency": "USD",
         "value": 87.99
       },
-      "state": "ok",
+      "state": "stale",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T13:09:41.613Z",
-      "lastSuccessfulAt": "2026-08-09T13:09:41.613Z",
+      "checkedAt": "2026-08-09T13:17:48.521Z",
+      "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
+      "note": "本轮自动运行环境未能读取商家页；展示 2026-08-09 最近一次成功核验的价格，结算前请打开购买页确认",
+      "cny": 593.72,
       "officialObserved": {
         "currency": "USD",
         "value": 120
       },
       "period": "month",
       "offerDurationMonths": 1,
-      "cny": 593.72,
-      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
+      "lastSuccessfulAt": "2026-08-09T13:09:41.613Z"
     },
     {
       "slug": "gemini",
@@ -60,19 +62,20 @@
         "currency": "USD",
         "value": 2.25
       },
-      "state": "ok",
+      "state": "stale",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T13:09:45.083Z",
-      "lastSuccessfulAt": "2026-08-09T13:09:45.083Z",
+      "checkedAt": "2026-08-09T13:17:53.908Z",
+      "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
+      "note": "本轮自动运行环境未能读取商家页；展示 2026-08-09 最近一次成功核验的价格，结算前请打开购买页确认",
+      "cny": 15.18,
       "officialObserved": {
         "currency": "USD",
         "value": 6.67
       },
       "period": "month",
       "offerDurationMonths": 12,
-      "cny": 15.18,
-      "note": "公开购买页12个月方案折算的月付起价；具体交付方式与结算价以下单页为准"
+      "lastSuccessfulAt": "2026-08-09T13:09:45.083Z"
     },
     {
       "slug": "grok",
@@ -86,7 +89,9 @@
         15,
         18.99
       ],
-      "note": "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核"
+      "note": "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核；本轮自动运行环境未能读取商家页，保留最近一次冲突证据",
+      "lastAttemptedAt": "2026-08-09T13:17:59.300Z",
+      "error": "Error; code=22; curl: (22) The requested URL returned error: 403"
     },
     {
       "slug": "perplexity",
@@ -95,19 +100,20 @@
         "currency": "USD",
         "value": 4.09
       },
-      "state": "ok",
+      "state": "stale",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T13:09:55.274Z",
-      "lastSuccessfulAt": "2026-08-09T13:09:55.274Z",
+      "checkedAt": "2026-08-09T13:18:04.678Z",
+      "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
+      "note": "本轮自动运行环境未能读取商家页；展示 2026-08-09 最近一次成功核验的价格，结算前请打开购买页确认",
+      "cny": 27.6,
       "officialObserved": {
         "currency": "USD",
         "value": 16.67
       },
       "period": "month",
       "offerDurationMonths": 12,
-      "cny": 27.6,
-      "note": "公开购买页12个月方案折算的月付起价；具体交付方式与结算价以下单页为准"
+      "lastSuccessfulAt": "2026-08-09T13:09:55.274Z"
     },
     {
       "slug": "midjourney",
@@ -116,19 +122,20 @@
         "currency": "USD",
         "value": 24.99
       },
-      "state": "ok",
+      "state": "stale",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T13:09:58.894Z",
-      "lastSuccessfulAt": "2026-08-09T13:09:58.894Z",
+      "checkedAt": "2026-08-09T13:18:10.060Z",
+      "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
+      "note": "本轮自动运行环境未能读取商家页；展示 2026-08-09 最近一次成功核验的价格，结算前请打开购买页确认",
+      "cny": 168.62,
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
       },
       "period": "month",
       "offerDurationMonths": 1,
-      "cny": 168.62,
-      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
+      "lastSuccessfulAt": "2026-08-09T13:09:58.894Z"
     }
   ],
   "benchmarks": [
@@ -136,21 +143,21 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-08-09T13:10:03.066Z"
+      "checkedAt": "2026-08-09T13:18:15.455Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/leaderboards/models",
       "state": "ok",
-      "checkedAt": "2026-08-09T13:10:03.066Z"
+      "checkedAt": "2026-08-09T13:18:15.455Z"
     }
   ],
   "artificialAnalysisLeaderboard": {
     "source": "Artificial Analysis",
     "url": "https://artificialanalysis.ai/leaderboards/models",
     "state": "ok",
-    "checkedAt": "2026-08-09T13:08:56.362Z",
-    "lastSuccessfulAt": "2026-08-09T13:08:56.362Z",
+    "checkedAt": "2026-08-09T13:17:33.650Z",
+    "lastSuccessfulAt": "2026-08-09T13:17:33.650Z",
     "methodologyVersion": "Intelligence Index v4.1",
     "rows": [
       {
