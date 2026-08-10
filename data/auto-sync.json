@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-08-10T13:44:57.599Z",
+  "checkedAt": "2026-08-10T19:17:41.865Z",
   "exchange": {
     "state": "ok",
-    "date": "2026-08-07",
+    "date": "2026-08-10",
     "base": "USD",
     "rates": {
-      "CNY": 6.7476,
-      "SGD": 1.2809
+      "CNY": 6.7444,
+      "SGD": 1.2795
     },
     "sourceUrl": "https://api.frankfurter.app/latest?from=USD&to=CNY,SGD"
   },
@@ -21,7 +21,7 @@
       "state": "stale",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-10T13:44:25.284Z",
+      "checkedAt": "2026-08-10T19:17:09.036Z",
       "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
       "note": "本轮自动运行环境未能读取商家页；展示 2026-08-09 最近一次成功核验的价格，结算前请打开购买页确认",
       "cny": 33.74,
@@ -43,7 +43,7 @@
       "state": "stale",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-10T13:44:30.684Z",
+      "checkedAt": "2026-08-10T19:17:14.514Z",
       "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
       "note": "本轮自动运行环境未能读取商家页；展示 2026-08-09 最近一次成功核验的价格，结算前请打开购买页确认",
       "cny": 593.72,
@@ -65,7 +65,7 @@
       "state": "stale",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-10T13:44:36.079Z",
+      "checkedAt": "2026-08-10T19:17:20.038Z",
       "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
       "note": "本轮自动运行环境未能读取商家页；展示 2026-08-09 最近一次成功核验的价格，结算前请打开购买页确认",
       "cny": 15.18,
@@ -89,8 +89,8 @@
         15,
         18.99
       ],
-      "note": "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核；本轮自动运行环境未能读取商家页，保留最近一次冲突证据；本轮自动运行环境未能读取商家页，保留最近一次冲突证据；本轮自动运行环境未能读取商家页，保留最近一次冲突证据；本轮自动运行环境未能读取商家页，保留最近一次冲突证据；本轮自动运行环境未能读取商家页，保留最近一次冲突证据",
-      "lastAttemptedAt": "2026-08-10T13:44:41.457Z",
+      "note": "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核；本轮自动运行环境未能读取商家页，保留最近一次冲突证据；本轮自动运行环境未能读取商家页，保留最近一次冲突证据；本轮自动运行环境未能读取商家页，保留最近一次冲突证据；本轮自动运行环境未能读取商家页，保留最近一次冲突证据；本轮自动运行环境未能读取商家页，保留最近一次冲突证据；本轮自动运行环境未能读取商家页，保留最近一次冲突证据",
+      "lastAttemptedAt": "2026-08-10T19:17:25.505Z",
       "error": "Error; code=22; curl: (22) The requested URL returned error: 403"
     },
     {
@@ -103,7 +103,7 @@
       "state": "stale",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-10T13:44:46.833Z",
+      "checkedAt": "2026-08-10T19:17:30.958Z",
       "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
       "note": "本轮自动运行环境未能读取商家页；展示 2026-08-09 最近一次成功核验的价格，结算前请打开购买页确认",
       "cny": 27.6,
@@ -125,7 +125,7 @@
       "state": "stale",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-10T13:44:52.210Z",
+      "checkedAt": "2026-08-10T19:17:36.407Z",
       "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
       "note": "本轮自动运行环境未能读取商家页；展示 2026-08-09 最近一次成功核验的价格，结算前请打开购买页确认",
       "cny": 168.62,
@@ -143,21 +143,21 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-08-10T13:44:57.599Z"
+      "checkedAt": "2026-08-10T19:17:41.865Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/leaderboards/models",
       "state": "ok",
-      "checkedAt": "2026-08-10T13:44:57.599Z"
+      "checkedAt": "2026-08-10T19:17:41.865Z"
     }
   ],
   "artificialAnalysisLeaderboard": {
     "source": "Artificial Analysis",
     "url": "https://artificialanalysis.ai/leaderboards/models",
     "state": "ok",
-    "checkedAt": "2026-08-10T13:44:13.674Z",
-    "lastSuccessfulAt": "2026-08-10T13:44:13.674Z",
+    "checkedAt": "2026-08-10T19:16:56.517Z",
+    "lastSuccessfulAt": "2026-08-10T19:16:56.517Z",
     "methodologyVersion": "Intelligence Index v4.1",
     "rows": [
       {
@@ -179,8 +179,8 @@
         "intelligence": 63,
         "priceUsdPerMillion": 1.8,
         "outputTokensPerSecond": 58,
-        "latencySeconds": 23.72,
-        "totalResponseSeconds": 32.28
+        "latencySeconds": 21.62,
+        "totalResponseSeconds": 30.18
       },
       {
         "rank": 3,
@@ -201,8 +201,8 @@
         "intelligence": 61,
         "priceUsdPerMillion": 1.23,
         "outputTokensPerSecond": 58,
-        "latencySeconds": 12.73,
-        "totalResponseSeconds": 21.37
+        "latencySeconds": 10.67,
+        "totalResponseSeconds": 19.3
       },
       {
         "rank": 5,
@@ -223,8 +223,8 @@
         "intelligence": 60,
         "priceUsdPerMillion": 0.84,
         "outputTokensPerSecond": 44,
-        "latencySeconds": 2.42,
-        "totalResponseSeconds": 59.21
+        "latencySeconds": 2.65,
+        "totalResponseSeconds": 59.44
       },
       {
         "rank": 7,
@@ -245,8 +245,8 @@
         "intelligence": 59,
         "priceUsdPerMillion": 0.72,
         "outputTokensPerSecond": 57,
-        "latencySeconds": 5.67,
-        "totalResponseSeconds": 14.41
+        "latencySeconds": 5.91,
+        "totalResponseSeconds": 14.65
       },
       {
         "rank": 9,
@@ -277,9 +277,9 @@
         "contextWindow": "1M",
         "intelligence": 57,
         "priceUsdPerMillion": 0.51,
-        "outputTokensPerSecond": 151,
-        "latencySeconds": 167.74,
-        "totalResponseSeconds": 171.06
+        "outputTokensPerSecond": 149,
+        "latencySeconds": 166.66,
+        "totalResponseSeconds": 170.02
       },
       {
         "rank": 12,
@@ -332,9 +332,9 @@
         "contextWindow": "1M",
         "intelligence": 53,
         "priceUsdPerMillion": 0.3,
-        "outputTokensPerSecond": 143,
-        "latencySeconds": 1.4,
-        "totalResponseSeconds": 18.83
+        "outputTokensPerSecond": 141,
+        "latencySeconds": 1.41,
+        "totalResponseSeconds": 19.18
       },
       {
         "rank": 17,
