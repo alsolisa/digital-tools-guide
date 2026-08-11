@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-11T13:43:29.579Z",
+  "checkedAt": "2026-08-11T19:20:56.124Z",
   "policy": {
     "publicLinks": "automatic-6h-host-aware-throttling",
     "promotionTracking": "automatic-before-publish",
@@ -884,7 +884,7 @@
       "assetSize": 46964366,
       "assetUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.5.2/Clash.Verge_2.5.2_x64-setup.exe",
       "assetSha256": "BA42F00B1082E352352080170FE86AE411BCC854CB13F1B8BEBC9025E8A7CBF4",
-      "assetVerifiedAt": "2026-08-11T13:42:48.613Z"
+      "assetVerifiedAt": "2026-08-11T19:20:14.751Z"
     },
     {
       "repository": "2dust/v2rayN",
@@ -895,7 +895,7 @@
       "assetSize": 132445347,
       "assetUrl": "https://github.com/2dust/v2rayN/releases/download/7.24.4/v2rayN-windows-64-desktop.zip",
       "assetSha256": "BA466DCB31F9206B771FC8E96E4FAC91D6AAF41262CE83473BA5B0F4A9981AE0",
-      "assetVerifiedAt": "2026-08-11T13:42:48.626Z"
+      "assetVerifiedAt": "2026-08-11T19:20:14.949Z"
     },
     {
       "repository": "chen08209/FlClash",
@@ -906,7 +906,7 @@
       "assetSize": 54090655,
       "assetUrl": "https://github.com/chen08209/FlClash/releases/download/v0.8.94/FlClash-0.8.94-android-arm64-v8a.apk",
       "assetSha256": "2B0F058A79BD584FDE8BBB46452F3539E92563CBF5070C2626C3BE3C900E807B",
-      "assetVerifiedAt": "2026-08-11T13:42:48.600Z"
+      "assetVerifiedAt": "2026-08-11T19:20:14.853Z"
     },
     {
       "repository": "hiddify/hiddify-app",
@@ -917,7 +917,7 @@
       "assetSize": 36486310,
       "assetUrl": "https://github.com/hiddify/hiddify-app/releases/download/v4.1.1/Hiddify-Windows-Setup-x64.exe",
       "assetSha256": "3F6182B610168C0BB386FFEA1FC7F68318D3DF23C15840C8B13A3BE51B080A96",
-      "assetVerifiedAt": "2026-08-11T13:42:48.613Z"
+      "assetVerifiedAt": "2026-08-11T19:20:14.832Z"
     }
   ]
 }
