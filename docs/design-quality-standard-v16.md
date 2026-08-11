@@ -58,24 +58,24 @@
 
 ## 社交分享图
 
-最终文件：`public/og-evidence-ledger-v17.jpg`，1200×630，约 206KB。使用内置 ImageGen 一次生成，随后只做居中裁切、尺寸标准化与 JPEG 压缩；没有二次生成或局部重绘。
+最终文件：`public/og-evidence-ledger-v17-refined.jpg`，1200×630，约 115KB。使用内置 ImageGen 生成两条候选方向，再对深色候选做一次单点定向重绘；最后只做居中裁切、尺寸标准化与高质量 JPEG 压缩。旧版 `og-evidence-ledger-v17.jpg` 保留作回退，不再由元数据引用。
 
-验收结果：三行中文逐字正确；缩略图仍能识别站名与主命题；档案、索引卡、校验戳和连续路径与 V17“证据档案”一致；没有品牌标志、人物、水印、通用机器人、霓虹或纸艺 3D 图标。
+选择依据：深色候选在小缩略图、深浅色信息流与站外分享中都有更稳定的对比；浅色候选虽接近精美报告封面，但右侧结构更复杂、品牌记忆点较弱。定向重绘只解决右侧模块过于接近通用 SaaS 卡片的问题，把来源、三项检查与决定收进同一件“证据仪器”。
 
-最终提示词：
+验收结果：三行中文逐字正确；1200×630 成品与 320px 缩略图都能识别站名和主命题；来源 → 检查 → 决定的路径连续；没有品牌标志、人物、水印、通用机器人、霓虹、侦探板或纸艺 3D 图标。发布前文案门禁会同时检查文件存在、100–400KB 体积和精确尺寸。
+
+最终定向重绘提示词：
 
 ```text
-Use case: ads-marketing
-Asset type: premium social preview card for a Chinese digital field-guide website, 1200×630 landscape
-Primary request: create a distinctive editorial brand image for “数字工具指南”, built around the idea of checking evidence before choosing digital tools
-Scene/backdrop: deep midnight-navy editorial research desk / evidence archive, flat frontal composition, with precise registration marks, a source ledger, three slim index cards, small verification stamps, file fingerprints, and one continuous mint route line connecting source → check → decision
-Style/medium: world-class editorial art direction; tactile printmaking and technical cartography combined with clean modern interface precision; sophisticated, original, restrained; not 3D papercraft
-Composition/framing: headline zone on the left, evidence archive composition on the right; excellent balance and strong readability at small thumbnail size
-Lighting/mood: calm, trustworthy, human, quietly premium
-Color palette: midnight navy, warm paper ivory, mint green, pale electric blue, one restrained amber accent
-Text (verbatim): “数字工具指南” and “先查清楚，再决定” and “网络服务 · AI 与应用 · 模型评测”
-Typography: render every Chinese character exactly once and verbatim; confident high-contrast Chinese serif for the main line, restrained sans serif for the category line
-Constraints: no extra text, no misspelled Chinese, no logos, no watermark, no Apple/Stripe/Linear imitation, no generic AI robot, no chatbot bubbles, no glowing orb, no neon cyberpunk, no glassmorphism, no paper-cut 3D, no decorative gradients; the visual system must feel proprietary to an evidence-first digital guide
+Use case: precise-object-edit
+Asset type: final premium website Open Graph / social sharing image
+Input images: Image 1 is the selected edit target
+Primary request: refine only the right-side evidence mechanism so it feels like one proprietary precision editorial instrument rather than a set of generic floating SaaS cards
+Targeted change: place the source ledger, the three comparison records, the mint verification route, and the final decision mark into one coherent shallow midnight-navy archival tray with precise registration rules; make the three records slimmer and more document-like; reduce their floating shadows; preserve a clear and logically continuous source → inspect three dimensions → verified decision path
+Invariants: preserve the entire left typography field exactly in wording, hierarchy, placement, color, and spelling; the only readable text must remain exactly “数字工具指南” / “先查清楚，再决定” / “入口 · 价格 · 版本 · 榜单”; preserve the midnight-navy backdrop, warm ivory paper, muted mint route, pale blue accents, restrained amber detail, wide 1.904:1 framing, safe margins, calm studio lighting, subtle linen texture, and overall premium restraint
+Quality bar: impeccable optical spacing; clear at a 320px-wide thumbnail; no visual ambiguity; contemporary editorial craft; original and credible
+Constraints: change only the right-side evidence mechanism; do not add or remove any readable text; no misspelled Chinese; no logos; no watermark; no people; no devices; no imitation of another brand
+Avoid: generic dashboard cards, excessive depth, heavy shadows, visual clutter, grunge, vintage detective imagery, fingerprints, red strings, robots, neural networks, glowing orbs, neon, glassmorphism, glossy 3D icons, paper-cut styling
 ```
 
 ## 严格验收问题

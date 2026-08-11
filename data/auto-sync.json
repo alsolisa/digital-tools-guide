@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-11T13:10:12.042Z",
+  "checkedAt": "2026-08-11T13:28:26.394Z",
   "exchange": {
     "state": "ok",
     "date": "2026-08-10",
@@ -21,8 +21,8 @@
       "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-11T13:09:50.089Z",
-      "lastSuccessfulAt": "2026-08-11T13:09:50.089Z",
+      "checkedAt": "2026-08-11T13:28:03.604Z",
+      "lastSuccessfulAt": "2026-08-11T13:28:03.604Z",
       "officialObserved": {
         "currency": "USD",
         "value": 20
@@ -42,7 +42,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-11T13:09:54.176Z",
+      "checkedAt": "2026-08-11T13:28:07.939Z",
       "note": "公开页未稳定展示可校验的月付价格"
     },
     {
@@ -55,8 +55,8 @@
       "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-11T13:09:57.614Z",
-      "lastSuccessfulAt": "2026-08-11T13:09:57.614Z",
+      "checkedAt": "2026-08-11T13:28:11.329Z",
+      "lastSuccessfulAt": "2026-08-11T13:28:11.329Z",
       "officialObserved": {
         "currency": "USD",
         "value": 6.67
@@ -73,7 +73,7 @@
       "published": null,
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-11T13:10:01.200Z",
+      "checkedAt": "2026-08-11T13:28:15.182Z",
       "observedValues": [
         15,
         18.99
@@ -90,8 +90,8 @@
       "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-11T13:10:04.788Z",
-      "lastSuccessfulAt": "2026-08-11T13:10:04.788Z",
+      "checkedAt": "2026-08-11T13:28:18.805Z",
+      "lastSuccessfulAt": "2026-08-11T13:28:18.805Z",
       "officialObserved": {
         "currency": "USD",
         "value": 16.67
@@ -111,8 +111,8 @@
       "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-11T13:10:08.159Z",
-      "lastSuccessfulAt": "2026-08-11T13:10:08.159Z",
+      "checkedAt": "2026-08-11T13:28:22.307Z",
+      "lastSuccessfulAt": "2026-08-11T13:28:22.307Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
@@ -128,21 +128,21 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-08-11T13:10:12.042Z"
+      "checkedAt": "2026-08-11T13:28:26.394Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/leaderboards/models",
       "state": "ok",
-      "checkedAt": "2026-08-11T13:10:12.042Z"
+      "checkedAt": "2026-08-11T13:28:26.394Z"
     }
   ],
   "artificialAnalysisLeaderboard": {
     "source": "Artificial Analysis",
     "url": "https://artificialanalysis.ai/leaderboards/models",
     "state": "ok",
-    "checkedAt": "2026-08-11T13:09:24.424Z",
-    "lastSuccessfulAt": "2026-08-11T13:09:24.424Z",
+    "checkedAt": "2026-08-11T13:27:37.626Z",
+    "lastSuccessfulAt": "2026-08-11T13:27:37.626Z",
     "methodologyVersion": "Intelligence Index v4.1",
     "rows": [
       {

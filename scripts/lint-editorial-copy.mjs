@@ -23,6 +23,29 @@ const forbidden = [
 
 const failures = [];
 
+function readJpegDimensions(buffer) {
+  if (buffer.length < 4 || buffer[0] !== 0xff || buffer[1] !== 0xd8) return null;
+  let offset = 2;
+  while (offset + 8 < buffer.length) {
+    if (buffer[offset] !== 0xff) {
+      offset += 1;
+      continue;
+    }
+    while (buffer[offset] === 0xff) offset += 1;
+    const marker = buffer[offset];
+    offset += 1;
+    if (marker === 0xd8 || marker === 0xd9) continue;
+    if (offset + 2 > buffer.length) return null;
+    const length = buffer.readUInt16BE(offset);
+    if (length < 2 || offset + length > buffer.length) return null;
+    if ([0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf].includes(marker)) {
+      return { height: buffer.readUInt16BE(offset + 3), width: buffer.readUInt16BE(offset + 5) };
+    }
+    offset += length;
+  }
+  return null;
+}
+
 for (const relative of editorialFiles) {
   const source = await readFile(path.join(root, relative), "utf8");
   for (const rule of forbidden) {
@@ -49,9 +72,18 @@ for (const oldArtwork of ["network-journey-home-v2", "ai-assistant-home-v2", "mo
 if (!home.includes("程序负责盯变化") || !home.includes("每 6 小时")) failures.push("首页没有清楚区分自动检查与人工判断");
 
 const layout = await readFile(path.join(root, "app/layout.tsx"), "utf8");
-if (!layout.includes("og-evidence-ledger-v17.jpg")) failures.push("社交分享元数据没有使用 V17 证据档案图");
-const og = await stat(path.join(root, "public/og-evidence-ledger-v17.jpg")).catch(() => null);
-if (!og || og.size < 100_000) failures.push("V17 社交分享图缺失或文件异常");
+const ogRelative = "public/og-evidence-ledger-v17-refined.jpg";
+if (!layout.includes(path.basename(ogRelative))) failures.push("社交分享元数据没有使用 V17 精修证据档案图");
+const ogPath = path.join(root, ogRelative);
+const og = await stat(ogPath).catch(() => null);
+if (!og || og.size < 100_000 || og.size > 400_000) {
+  failures.push("V17 精修社交分享图缺失或体积不在 100–400KB 门禁内");
+} else {
+  const dimensions = readJpegDimensions(await readFile(ogPath));
+  if (!dimensions || dimensions.width !== 1200 || dimensions.height !== 630) {
+    failures.push(`V17 精修社交分享图必须为 1200×630，当前为 ${dimensions ? `${dimensions.width}×${dimensions.height}` : "无法读取"}`);
+  }
+}
 
 const css = await readFile(path.join(root, "app/award-system.css"), "utf8");
 if (!css.includes("V17 — evidence ledger") || !css.includes("[class] small")) failures.push("V17 视觉系统或小字号保护规则缺失");
