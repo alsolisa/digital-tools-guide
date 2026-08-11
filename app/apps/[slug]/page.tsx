@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { commonApps, getCommonApp } from "../../../data/catalog";
 import { getAppEditorialGuide } from "../../../data/editorial-guides";
 import { appPlaybooks } from "../../../data/beginner-playbooks";
+import { getLiveLinkStatus, liveLinkCheckLabel } from "../../../data/live-verification";
 import { BrandIcon, Breadcrumbs, DownloadButtons, EditorialAccountability, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, QuickSummary, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
 import ActionChecklist from "../../components/ActionChecklist";
 import BeginnerTroubleshooter from "../../components/BeginnerTroubleshooter";
@@ -35,7 +36,7 @@ export default async function AppDetailPage({ params }: { params: Promise<{ slug
       <StructuredData data={[howToJsonLd, softwareJsonLd, articleJsonLd]} />
       <Breadcrumbs items={[{ label: "首页", href: "/" }, { label: "常用应用", href: "/apps" }, { label: app.name }]} />
       <section className="detail-hero detail-hero-with-cover professional-detail-hero app-detail-hero">
-        <div className="detail-hero-copy"><div className="detail-title-row"><BrandIcon slug={app.slug} name={app.name} size="hero" /><div><span className="eyebrow">{app.company} · 从用途到安全设置</span><h1>{app.name}</h1></div></div><p>{guide.verdict}</p><div className="detail-hero-actions">{webEntry && <a className="button primary" href={webEntry.url} target="_blank" rel="noopener noreferrer">先打开网页版 <span>↗</span></a>}<a className="button secondary" href="#screenshots">先看官方界面</a></div><div className="detail-meta"><VerificationChip status="verified" /><span>官方商店入口</span><span>核验 {app.verifiedAt}</span></div></div>
+        <div className="detail-hero-copy"><div className="detail-title-row"><BrandIcon slug={app.slug} name={app.name} size="hero" /><div><span className="eyebrow">{app.company} · 从用途到安全设置</span><h1>{app.name}</h1></div></div><p>{guide.verdict}</p><div className="detail-hero-actions">{webEntry && <a className="button primary" href={webEntry.url} target="_blank" rel="noopener noreferrer">先打开网页版 <span>↗</span></a>}<a className="button secondary" href="#screenshots">先看官方界面</a></div><div className="detail-meta"><VerificationChip status={getLiveLinkStatus(app.downloads)} /><span>入口检查 {liveLinkCheckLabel}</span><span>资料复核 {app.verifiedAt}</span></div></div>
         <EditorialCover slug={app.slug} name={app.name} priority />
       </section>
 

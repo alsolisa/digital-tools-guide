@@ -1,12 +1,13 @@
 import "../content-styles";
 import { aiProducts, commonApps } from "../../data/catalog";
 import { getAiEditorialGuide, getAppEditorialGuide } from "../../data/editorial-guides";
+import { getLiveLinkStatus, liveLinkCheckLabel } from "../../data/live-verification";
 import Link from "next/link";
 import { BrandIcon, PageIntro, PageShell, SectionHeading, VerificationChip } from "../components/SiteChrome";
 
 export const metadata = {
-  title: "主流AI小白教程",
-  description: "比较ChatGPT、Claude、Gemini、Grok与Perplexity，并介绍YouTube、X、TikTok三项常用应用的用途、风险和完整教程。",
+  title: "第一次用AI：从真实任务开始",
+  description: "不先追模型名次。用一件真实任务比较ChatGPT、Claude、Gemini、Grok与Perplexity，再查看官方入口、免费版边界和使用风险。",
   alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/ai/` },
 };
 
@@ -16,10 +17,10 @@ export default function AiIndexPage() {
   return (
     <PageShell>
       <PageIntro
-        eyebrow="AI工具 · 从“它能帮我做什么”开始"
-        title="第一次用 AI，不必先懂模型"
-        lead="你可以先把AI理解成一个能对话、整理资料、写作、搜索和处理文件的助手。它会犯错，也不应该替你做重要决定。"
-        artwork={{ src: "/illustrations/ai-assistant-v2.webp", alt: "AI助手中心连接对话、文档、搜索、图片、语音和文件六类任务的原创纸艺插画", caption: "原创插画 · 一位AI助手，连接六类常用任务" }}
+        eyebrow="AI 工具 · 先拿自己的事试一次"
+        title="第一次用 AI，先别急着研究模型"
+        lead="找一件你本来就要做的事：解释一段难懂的文字、整理一份文件，或者查一组资料。用同一件事试两款产品，比先背参数更容易找到适合自己的。"
+        artwork={{ src: "/illustrations/ai-assistant-v2.webp", alt: "一个AI助手连接对话、文档、搜索、图片、语音和文件六类任务", caption: "同一位助手，可以处理六类常见任务；重要结果仍要自己核对" }}
       />
 
       <nav className="ai-channel-overview" aria-label="AI与应用四个入口">
@@ -38,12 +39,12 @@ export default function AiIndexPage() {
         <div className="ai-card-grid">
           {beginnerAiProducts.map((product) => (
             <article className="ai-card" key={product.slug}>
-              <div className="ai-card-top"><BrandIcon slug={product.slug} name={product.name} size="large" /><VerificationChip status="verified" /></div>
+              <div className="ai-card-top"><BrandIcon slug={product.slug} name={product.name} size="large" /><VerificationChip status={getLiveLinkStatus(product.downloads)} /></div>
               <span className="card-kicker">{product.company}</span><h2>{product.name}</h2><p className="card-tagline">{getAiEditorialGuide(product.slug)?.verdict || product.tagline}</p>
               <div className="tag-row">{product.bestFor.slice(0, 3).map((item) => <span key={item}>{item}</span>)}</div>
               <ul>{product.strengths.map((item) => <li key={item}>{item}</li>)}</ul>
               <p className="ai-card-limit"><strong>不适合：</strong>{product.notFor[0]}</p>
-              <div className="ai-card-foot"><small>核验 {product.verifiedAt}</small><Link href={`/ai/${product.slug}`}>查看完整教程 →</Link></div>
+              <div className="ai-card-foot"><small>入口检查 {liveLinkCheckLabel}</small><Link href={`/ai/${product.slug}`}>查看完整教程 →</Link></div>
             </article>
           ))}
         </div>
@@ -68,14 +69,14 @@ export default function AiIndexPage() {
             const guide = getAppEditorialGuide(app.slug);
             return (
               <article className={`ai-card common-app-feature-card common-app-${app.slug}`} key={app.slug}>
-                <div className="ai-card-top"><BrandIcon slug={app.slug} name={app.name} size="large" /><VerificationChip status="verified" /></div>
+                <div className="ai-card-top"><BrandIcon slug={app.slug} name={app.name} size="large" /><VerificationChip status={getLiveLinkStatus(app.downloads)} /></div>
                 <span className="card-kicker">常用应用 · {app.company}</span>
                 <h2>{app.name}</h2>
                 <p className="card-tagline">{guide?.verdict || app.tagline}</p>
                 <div className="tag-row">{(guide?.whyUse || []).slice(0, 3).map((item) => <span key={item}>{item}</span>)}</div>
                 <ul>{(guide?.coreAreas || []).slice(0, 3).map((area) => <li key={area.name}><strong>{area.name}：</strong>{area.plain}</li>)}</ul>
                 <p className="ai-card-limit"><strong>先注意：</strong>{guide?.notFor[0] || app.regionNote}</p>
-                <div className="ai-card-foot"><small>核验 {app.verifiedAt}</small><Link href={`/apps/${app.slug}`}>查看完整教程 →</Link></div>
+                <div className="ai-card-foot"><small>入口检查 {liveLinkCheckLabel}</small><Link href={`/apps/${app.slug}`}>查看完整教程 →</Link></div>
               </article>
             );
           })}

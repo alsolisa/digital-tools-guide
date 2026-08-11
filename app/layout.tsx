@@ -8,25 +8,25 @@ const publicBasePath = isGitHubPages ? "/digital-tools-guide" : "";
 export const metadata: Metadata = {
   metadataBase: new URL(isGitHubPages ? "https://alsolisa.github.io" : "http://localhost:3000"),
   title: {
-    default: "数字工具指南｜机场、AI与模型评测的零基础教程",
+    default: "数字工具指南｜把来源、变化和下一步说清楚",
     template: "%s｜数字工具指南",
   },
-  description: "三个清晰项目：机场介绍与客户端下载、AI订阅与常用应用、主流AI模型评测解读。",
+  description: "网络服务、AI与常用应用、模型评测：先看原始来源，再确认变化和风险，最后找到可以直接执行的下一步。",
   referrer: "strict-origin-when-cross-origin",
   manifest: `${publicBasePath}/manifest.webmanifest`,
   openGraph: {
     type: "website",
     locale: "zh_CN",
     siteName: "数字工具指南",
-    title: "数字工具指南｜第一次也能看懂",
-    description: "机场、AI订阅与应用、主流模型评测，先解释是什么，再告诉你怎么选。",
-    images: [{ url: `${publicBasePath}/og-evidence-atlas-v16.jpg`, width: 1200, height: 630, alt: "数字工具指南：先找到证据，再做决定" }],
+    title: "数字工具指南｜先查清楚，再决定",
+    description: "不替你喊最好用。把网络服务、AI与应用、模型评测的来源、变化、风险和下一步放在一起说清楚。",
+    images: [{ url: `${publicBasePath}/og-evidence-ledger-v17.jpg`, width: 1200, height: 630, alt: "数字工具指南：先查清楚，再决定" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "数字工具指南",
-    description: "机场介绍与下载、AI订阅与应用、模型评测的零基础指南。",
-    images: [`${publicBasePath}/og-evidence-atlas-v16.jpg`],
+    description: "网络服务、AI与应用、模型评测：来源、变化、风险和下一步都说明白。",
+    images: [`${publicBasePath}/og-evidence-ledger-v17.jpg`],
   },
   icons: {
     icon: [
@@ -53,7 +53,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     name: "数字工具指南",
     url: siteUrl,
     inLanguage: "zh-CN",
-    description: "面向中国大陆新手的机场、AI订阅与应用、主流模型评测指南。",
+    description: "面向第一次接触网络服务、AI与常用应用、模型评测的读者，解释来源、变化、风险和下一步。",
     publisher: { "@type": "Organization", name: "数字工具指南", url: siteUrl },
     potentialAction: {
       "@type": "SearchAction",

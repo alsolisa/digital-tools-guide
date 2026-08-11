@@ -4,6 +4,7 @@ import Link from "next/link";
 import { aiProducts, getAiProduct, subscriptionOffers } from "../../../data/catalog";
 import { getAiEditorialGuide } from "../../../data/editorial-guides";
 import { aiPlaybooks } from "../../../data/beginner-playbooks";
+import { getLiveLinkStatus, liveLinkCheckLabel } from "../../../data/live-verification";
 import { BrandIcon, Breadcrumbs, DownloadButtons, EditorialAccountability, EditorialCover, FeedbackLink, OfficialScreenshotGallery, PageShell, QuickSummary, RegionNotice, SectionHeading, SourceList, TutorialPath, VerificationChip } from "../../components/SiteChrome";
 import ActionChecklist from "../../components/ActionChecklist";
 import BeginnerTroubleshooter from "../../components/BeginnerTroubleshooter";
@@ -42,7 +43,7 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
           <div className="detail-title-row"><BrandIcon slug={product.slug} name={product.name} size="hero" /><div><span className="eyebrow">{product.company} · 从用途到第一次完成任务</span><h1>{product.name}</h1></div></div>
           <p>{guide.verdict}</p>
           <div className="detail-hero-actions">{webEntry && <a className="button primary" href={webEntry.url} target="_blank" rel="noopener noreferrer">先打开网页版试用 <span>↗</span></a>}<a className="button secondary" href="#screenshots">先看官方界面</a></div>
-          <div className="detail-meta"><VerificationChip status="verified" /><span>官方资料优先</span><span>核验 {product.verifiedAt}</span><span>模型参数量：官方未公开</span></div>
+          <div className="detail-meta"><VerificationChip status={getLiveLinkStatus(product.downloads)} /><span>入口检查 {liveLinkCheckLabel}</span><span>资料复核 {product.verifiedAt}</span><span>模型参数量：官方未公开</span></div>
         </div>
         <EditorialCover slug={product.slug} name={product.name} priority />
       </section>

@@ -36,20 +36,25 @@ test("全部公开页面与详情页都能正常打开", async () => {
 
 test("全站按零基础用户顺序先解释再比较", async () => {
   const home = await (await render("/")).text();
-  assert.match(home, /工具很复杂/);
-  assert.match(home, /先找到证据/);
-  for (const text of ["看懂机场、节点与客户端，再选择", "先回答“我要做什么”，再决定订阅谁", "能力、速度和成本要分开看"]) assert.match(home, new RegExp(text));
+  assert.match(home, /先弄清楚/);
+  assert.match(home, /不替你喊“最好用”/);
+  for (const text of ["第一次看到“机场”和“节点”", "拿自己的事试一次", "榜单可以参考"]) assert.match(home, new RegExp(text));
+  for (const text of ["程序负责盯变化", "每 6 小时", "人工编辑"]) assert.match(home, new RegExp(text));
+  for (const removedArtwork of ["network-journey-home-v2", "ai-assistant-home-v2", "model-benchmarks-home-v2"]) assert.doesNotMatch(home, new RegExp(removedArtwork));
   assert.doesNotMatch(home, /先看懂五个词，再选择服务|按预算直接选/);
   const nodes = await (await render("/nodes")).text();
   for (const term of ["VPN", "机场", "节点", "客户端", "订阅链接"]) assert.match(nodes, new RegExp(term));
   assert.match(nodes, /为什么提供这几家/);
   const subscriptions = await (await render("/subscriptions")).text();
-  assert.match(subscriptions, /先认识 GamsGo，再选择 AI 订阅/);
-  for (const text of ["最高可节省 85%", "7×24 小时在线客服", "1000 万+", "支付宝", "先看清套餐，再决定购买"]) assert.match(subscriptions, new RegExp(text));
+  assert.match(subscriptions, /先看清买到什么，再决定在哪儿买/);
+  for (const text of ["下单前，先问清四件事", "什么情况下会考虑第三方购买", "支付宝", "最后一眼看实际金额"]) assert.match(subscriptions, new RegExp(text));
+  assert.doesNotMatch(subscriptions, /最高可节省 85%|1000 万\+/);
   for (const removed of ["先判断要不要买，再决定去哪里买", "GamsGo是什么？为什么有人会选择它？", "为什么首批选择这六项？"]) assert.doesNotMatch(subscriptions, new RegExp(removed.replace(/[?？]/g, ".")));
   assert.doesNotMatch(subscriptions, /付款前先算价值|这个会员对你真的值得吗|id="before-buy"/);
   const ai = await (await render("/ai")).text();
-  assert.match(ai, /第一次用 AI，不必先懂模型/);
+  assert.match(ai, /第一次用 AI，先别急着研究模型/);
+  assert.match(ai, /入口检查/);
+  assert.match(ai, /自动检查/);
   assert.doesNotMatch(ai, /先免费体验，再决定付费|只想先选一款|按你的任务选择，不按广告口号选择/);
   const downloads = await (await render("/downloads")).text();
   assert.match(downloads, /网络客户端不是网络套餐/);
@@ -146,13 +151,13 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   }
   assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/accounts\/claude\/partner\/BTzCM/);
   assert.doesNotMatch(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/claude\/partner\/BTzCM/);
-  for (const text of ["准备一个能够正常接收验证码的邮箱", "Gmail（谷歌邮箱）", "QQ邮箱", "网易163邮箱", "先领优惠，再完成首次登录", "RWSY8", "复制优惠码", "在“我的订阅”找到订单", "选择邮箱登录", "获取链接/代码", "输入验证码，完成登录"]) {
+  for (const text of ["准备一个能够正常接收验证码的邮箱", "用自己能够长期访问的邮箱", "先领优惠，再完成首次登录", "RWSY8", "复制优惠码", "在“我的订阅”找到订单", "选择邮箱登录", "获取链接/代码", "输入验证码，完成登录"]) {
     assert.match(html, new RegExp(text.replace(/[?？]/g, ".")));
   }
   for (const image of ["gamsgo-coupon-entry.png", "gamsgo-coupon-checkout.png", "gamsgo-get-code.png", "chatgpt-email-login.png", "chatgpt-password.png", "chatgpt-verification.png", "gamsgo-hidden-code.png"]) {
     assert.match(html, new RegExp(`/guides/subscriptions/${image.replace(".", "\\.")}`));
   }
-  assert.match(html, /为什么有人会考虑通过 GamsGo 订阅？/);
+  assert.match(html, /什么情况下会考虑第三方购买？/);
   assert.doesNotMatch(html, /为什么有人通过 GamsGo 订阅？/);
   assert.doesNotMatch(html, /id="before-buy"|付款前先算价值|下单前逐项确认|这个会员对你真的值得吗/);
   const zoomLinks = html.match(/<a[^>]+class="figure-zoom-link"[^>]+>点击查看大图 ↗<\/a>/g) || [];
@@ -224,6 +229,8 @@ test("AI详情页包含真实场景、高清截图、下载、模型、提示词
     assert.match(html, /停止条件/);
     assert.match(html, new RegExp(`/editorial/${slug}\\.webp`), `${slug} 缺少轻量编辑封面`);
     assert.match(html, /这页由谁整理，证据能说明到哪里/);
+    assert.match(html, /入口检查/);
+    assert.match(html, /资料复核/);
     assert.match(html, /TechArticle/);
   }
   const midjourney = await (await render("/ai/midjourney")).text();
@@ -269,7 +276,7 @@ test("AI与应用对照表下方提供三项常用应用的完整介绍卡片", 
 
 test("新手决策、商店地区、状态与反馈功能都能解释边界", async () => {
   const home = await (await render("/")).text();
-  for (const text of ["看懂机场、节点与客户端，再选择", "先回答“我要做什么”，再决定订阅谁", "能力、速度和成本要分开看"]) assert.match(home, new RegExp(text));
+  for (const text of ["第一次看到“机场”和“节点”", "拿自己的事试一次", "榜单可以参考"]) assert.match(home, new RegExp(text));
   const stores = await (await render("/stores")).text();
   assert.match(stores, /至少要等待90天/);
   assert.match(stores, /不要购买陌生共享Apple ID/);
@@ -305,6 +312,8 @@ test("应用教程分开显示Google Play与Apple App Store", async () => {
     assert.match(html, new RegExp(`/guides/${slug}/official-1\\.(?:webp|png|jpg)`), `${slug} 缺少高清官方商店截图`);
     assert.match(html, new RegExp(`/editorial/${slug}\\.webp`), `${slug} 缺少轻量编辑封面`);
     assert.match(html, /这页由谁整理，证据能说明到哪里/);
+    assert.match(html, /入口检查/);
+    assert.match(html, /资料复核/);
   }
 });
 
@@ -338,8 +347,8 @@ test("机场页面直接从基础概念进入服务推荐并提供三类下载�
     assert.doesNotMatch(nodes, new RegExp(removed));
   }
   const subscriptions = await (await render("/subscriptions")).text();
-  assert.match(subscriptions, /GamsGo 官方公开介绍/);
-  assert.match(subscriptions, /AI订阅方案：先选产品，再选购买方式/);
+  assert.match(subscriptions, /下单前，先问清四件事/);
+  assert.match(subscriptions, /先选产品，再比较购买方式/);
   for (const removed of ["AI订阅：购买前先看账号归属", "本页编辑责任与复核范围", "为什么首批选择这六项", "AI会员付款前清单", "三种交付方式，使用体验不同", "安全购买流程"]) assert.doesNotMatch(subscriptions, new RegExp(removed.replace(/[/.]/g, "\\$&")));
 });
 

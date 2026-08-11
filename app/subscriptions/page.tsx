@@ -59,8 +59,8 @@ const firstLoginSteps = [
 ];
 
 export const metadata = {
-  title: "GamsGo AI订阅",
-  description: "介绍GamsGo平台、售后与付款方式，并比较ChatGPT、Claude、Gemini、Grok与Perplexity的官方价和购买方案。",
+  title: "AI订阅购买方式与账号归属",
+  description: "分清本人账号充值、独立账号和共享使用，比较五款AI产品的官方方案与第三方购买页，并说明付款、续费和售后要确认什么。",
   alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/subscriptions/` },
   openGraph: { images: [`${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/editorial/subscriptions.webp`] },
 };
@@ -71,36 +71,36 @@ export default function SubscriptionsPage() {
     <PageShell>
       <section className="content-section gamsgo-hero" aria-labelledby="gamsgo-title">
         <div className="gamsgo-hero-copy">
-          <span>AI订阅购买平台 · 第一次也能看懂</span>
-          <h1 id="gamsgo-title">先认识 GamsGo，再选择 AI 订阅</h1>
-          <p>GamsGo 提供 AI、流媒体和游戏等数字订阅服务。按照平台官方公开介绍，部分方案最高可节省 85%；本页把不同产品、价格和购买方式分开说明，让你可以直接比较。</p>
-          <div className="gamsgo-hero-actions"><a className="primary-action" href={promotionUrls.gamsgo} target="_blank" rel="sponsored noopener">打开我的 GamsGo 推广页 ↗</a><a href="#offers">查看 AI 订阅方案 ↓</a></div>
+          <span>AI 订阅 · 先看清交付方式</span>
+          <h1 id="gamsgo-title">先看清买到什么，再决定在哪儿买</h1>
+          <p>同一个产品名，可能指本人账号充值、平台交付的独立账号，也可能是共享使用。它们的价格、隐私和续费方式都不同，不能只看一个“每月多少钱”。</p>
+          <div className="gamsgo-hero-actions"><a className="primary-action" href={promotionUrls.gamsgo} target="_blank" rel="sponsored noopener">打开 GamsGo 购买页 ↗</a><a href="#offers">逐项比较方案 ↓</a></div>
         </div>
         <div className="gamsgo-hero-side">
-          <figure className="gamsgo-hero-art"><Image src={`${assetBase}/illustrations/subscription-choice-v2.webp`} alt="一个购买者分流到共享使用、独享账号和本人账号充值三种方案的原创纸艺插画" width={1536} height={1024} sizes="(max-width: 700px) 100vw, 44vw" priority unoptimized /><figcaption>原创插画 · 三种交付方式，对应不同账号归属</figcaption></figure>
-          <div className="gamsgo-trust-panel" aria-label="GamsGo官方公开数据">
-            <span>GamsGo 官方公开介绍</span>
-            <dl><div><dt>7 年</dt><dd>数字订阅服务经验</dd></div><div><dt>150+</dt><dd>覆盖国家与地区</dd></div><div><dt>1000 万+</dt><dd>平台累计用户</dd></div><div><dt>最高 85%</dt><dd>部分订阅折扣</dd></div></dl>
+          <figure className="gamsgo-hero-art"><Image src={`${assetBase}/illustrations/subscription-choice-v2.webp`} alt="一个购买者在本人账号充值、独立账号和共享使用三种交付方式之间比较" width={1536} height={1024} sizes="(max-width: 700px) 100vw, 44vw" priority unoptimized /><figcaption>先分清账号归属，再比较价格和售后</figcaption></figure>
+          <div className="gamsgo-trust-panel" aria-label="下单前需要确认的四件事">
+            <span>下单前，先问清四件事</span>
+            <dl><div><dt>账号</dt><dd>登录谁的账号</dd></div><div><dt>交付</dt><dd>充值还是给账号</dd></div><div><dt>续费</dt><dd>到期如何处理</dd></div><div><dt>售后</dt><dd>订单异常找谁</dd></div></dl>
           </div>
         </div>
       </section>
 
       <section className="content-section soft-section gamsgo-benefit-section">
-        <SectionHeading index="01" title="为什么有人会考虑通过 GamsGo 订阅？" lead="对普通用户来说，主要考虑是付款方式、购买周期、账号交付和售后。价格是否更低必须以同一时间、同一商品和结算页最终金额比较。" />
+        <SectionHeading index="01" title="什么情况下会考虑第三方购买？" lead="通常不是因为一句“更便宜”，而是官方付款不方便、只想先买较短周期，或需要订单售后。比较时必须把商品类型和周期对齐。" />
         <div className="gamsgo-benefit-grid">
-          <article><span>01 · 售后保障</span><h2>7×24 小时在线客服</h2><p>遇到账号、交付或订单问题，可以从订单页联系 GamsGo 客服处理，不需要自己寻找产品供应方。</p></article>
-          <article><span>02 · 价格比较</span><h2>公开价格可读时再作参考</h2><p>共享、独享账号和本人账号充值不是同一种商品。本站只在公开页能够稳定读取时显示数字，最终仍以结算页为准。</p></article>
-          <article><span>03 · 国内购买</span><h2>商品页可直接访问，付款更方便</h2><p>中国大陆用户可以直接打开购买页；结算时可选择支付宝等方式，实际可用选项以 GamsGo 结算页为准。</p></article>
-          <article><span>04 · 信息透明</span><h2>先看清套餐，再决定购买</h2><p>商品页会展示价格、周期和交付方式。下单前可以先确认买到的是共享使用、独享账号还是本人账号充值。</p></article>
+          <article><span>01 · 付款</span><h2>官方付款方式不合适时</h2><p>购买页可能提供更熟悉的本地付款方式。能否使用会随地区和订单变化，请到结算页再确认。</p></article>
+          <article><span>02 · 商品</span><h2>先把账号类型对齐</h2><p>共享、独立账号和本人账号充值不是同一种商品。只有交付方式、周期都相同，价格比较才有意义。</p></article>
+          <article><span>03 · 售后</span><h2>订单出了问题有入口</h2><p>账号未交付、验证码失效或订单状态异常时，可以从订单页联系平台客服；处理范围以商品说明为准。</p></article>
+          <article><span>04 · 结算</span><h2>最后一眼看实际金额</h2><p>页面价格只是参考。优惠、税费、汇率和可用支付方式，全部以你下单时看到的结算页为准。</p></article>
         </div>
         <aside className="email-preparation" aria-labelledby="email-preparation-title">
           <div><span>注册前准备</span><h2 id="email-preparation-title">准备一个能够正常接收验证码的邮箱</h2></div>
-          <p>注册 GamsGo 或登录 AI 产品时，可以使用 Gmail（谷歌邮箱）、QQ邮箱或网易163邮箱。若几分钟后仍未收到验证码，先检查垃圾邮件，并避免连续多次点击发送；仍然收不到时，可以改用163邮箱重新注册。请使用自己能够长期访问的邮箱，今后登录验证或找回账号还会用到。</p>
+          <p>用自己能够长期访问的邮箱注册，不要临时借别人的地址。验证码没来时先看垃圾邮件，等几分钟再重试；以后登录验证、查看订单或找回账号还会用到这个邮箱。</p>
         </aside>
       </section>
 
       <section className="content-section" id="offers">
-        <SectionHeading index="02" title="AI订阅方案：先选产品，再选购买方式" lead="每张卡片先列官方参考价；GamsGo公开页能稳定读取时才显示起价，冲突、读取失败或人工套餐超过14天时会隐藏具体数字。" />
+        <SectionHeading index="02" title="先选产品，再比较购买方式" lead="左边是官方参考价，右边是第三方购买页。抓取失败、同页价格冲突或人工资料超过有效期时，具体数字会自动隐藏，不拿旧价填空。" />
         <aside className="pricing-rate-note" aria-label="人民币价格换算说明">
           <div><span>统一换算</span><strong>1 USD = ¥{USD_CNY_RATE.toFixed(3)}</strong></div>
           <p>页面中的人民币参考值按同一汇率换算；下单时请以支付渠道的实时汇率、税费和结算页最终金额为准。汇率记录日期：{USD_CNY_RATE_UPDATED_AT}。</p>
@@ -113,10 +113,10 @@ export default function SubscriptionsPage() {
                   <BrandIcon slug={offer.productSlug} name={offer.name} />
                   <div><h2>{offer.name}</h2><p>{offer.useCase}</p></div>
                 </div>
-                <div className="why-selected"><span>为什么收录</span><p>{offer.whySelected}</p><strong>付费前建议：{offer.freeAdvice}</strong></div>
+                <div className="why-selected"><span>这款适合什么情况</span><p>{offer.whySelected}</p><strong>先免费试：{offer.freeAdvice}</strong></div>
                 <div className={`price-comparison${offer.purchaseOptions ? " price-comparison-options" : ""}`}>
                   <div><a className="official-price-link" href={offer.officialUrl} target="_blank" rel="noopener noreferrer"><span>官方参考价</span><strong>{offer.officialPrice}</strong><small>{offer.officialCny}</small><em>打开官方价格页 ↗</em></a></div>
-                  {offer.purchaseOptions ? <div className="price-option-summary"><span>GamsGo 当前方案</span>{offer.purchaseOptions.map((option) => <a className="price-option-link" href={option.url} key={option.label} target="_blank" rel="sponsored noopener"><span className="price-option-label"><b>{option.label}</b><small>{formatPurchaseOptionNote(option)}</small></span><span className="price-option-values"><strong>{formatUsdPrice(option.usd, option.suffix)}</strong><small>{formatCnyPrice(option.usd, option.suffix)}</small></span></a>)}<a className="promotion-price-action" href={offer.affiliateUrl} target="_blank" rel="sponsored noopener">打开购买页面</a></div> : <div><span>GamsGo公开价</span><strong>{offer.gamsgoPrice}</strong><small>{offer.gamsgoCny}</small><VerificationChip status={getOfferPriceStatus(offer.slug)} /><a className="promotion-price-action" href={offer.affiliateUrl} target="_blank" rel="sponsored noopener">打开购买页面</a></div>}
+                  {offer.purchaseOptions ? <div className="price-option-summary"><span>GamsGo 购买页方案</span>{offer.purchaseOptions.map((option) => <a className="price-option-link" href={option.url} key={option.label} target="_blank" rel="sponsored noopener"><span className="price-option-label"><b>{option.label}</b><small>{formatPurchaseOptionNote(option)}</small></span><span className="price-option-values"><strong>{formatUsdPrice(option.usd, option.suffix)}</strong><small>{formatCnyPrice(option.usd, option.suffix)}</small></span></a>)}<a className="promotion-price-action" href={offer.affiliateUrl} target="_blank" rel="sponsored noopener">打开购买页面</a></div> : <div><span>GamsGo 购买页</span><strong>{offer.gamsgoPrice}</strong><small>{offer.gamsgoCny}</small><VerificationChip status={getOfferPriceStatus(offer.slug)} /><a className="promotion-price-action" href={offer.affiliateUrl} target="_blank" rel="sponsored noopener">打开购买页面</a></div>}
                 </div>
                 <p className="price-note">{offer.priceNote}</p>
                 {offer.marketplaceSummary && <aside className="marketplace-summary"><span>市场中心是什么？</span><p>{offer.marketplaceSummary}</p></aside>}
@@ -128,7 +128,7 @@ export default function SubscriptionsPage() {
                   <div><dt>付款</dt><dd>{offer.payment}{offer.paymentNote && <strong className="payment-alert">{offer.paymentNote}</strong>}</dd></div>
                   <div><dt>售后</dt><dd>{offer.support}</dd></div>
                 </dl>
-                <div className="card-source-row"><span>价格核验：{offer.priceVerifiedAt || offer.verifiedAt}</span><a href={offer.affiliateUrl} target="_blank" rel="sponsored noopener">打开推广商品页 ↗</a></div>
+                <div className="card-source-row"><span>购买页检查：{offer.priceVerifiedAt || offer.verifiedAt}</span><a href={offer.affiliateUrl} target="_blank" rel="sponsored noopener">打开购买页 ↗</a></div>
                 <div className="subscription-actions">
                   <a className="official-action" href={offer.officialUrl} target="_blank" rel="noopener noreferrer">查看官方方案 ↗</a>
                 </div>

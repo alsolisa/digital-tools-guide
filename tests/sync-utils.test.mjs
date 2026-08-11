@@ -236,3 +236,14 @@ test("商家整批拦截时最多保留7天内最近可信价格", () => {
   const expired = retainGamsgoSnapshot(previous, failed, Date.parse(previous.checkedAt) + 8 * 24 * 60 * 60 * 1000);
   assert.equal(expired.state, "unreadable");
 });
+
+test("定时发布在构建前执行文案与资料新鲜度门禁", async () => {
+  const workflow = await readFile(new URL("../.github/workflows/deploy-github-pages.yml", import.meta.url), "utf8");
+  const packageJson = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8"));
+  const copyGate = await readFile(new URL("../scripts/lint-editorial-copy.mjs", import.meta.url), "utf8");
+  assert.match(workflow, /cron: "17 \*\/6 \* \* \*"/);
+  assert.ok(workflow.indexOf("npm run lint:copy") < workflow.indexOf("npm run build"));
+  assert.match(packageJson.scripts["verify:publish"], /lint:copy/);
+  assert.match(copyGate, /发布上限为 45 天/);
+  assert.match(copyGate, /推广入口已自动核验/);
+});

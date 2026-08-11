@@ -61,8 +61,8 @@ function representativeLabel(row: LeaderboardRow) {
 }
 
 export const metadata = {
-  title: "主流AI模型评测解读",
-  description: "用普通人能理解的方式区分Arena真人偏好榜与Artificial Analysis能力、速度、延迟和API成本榜，并展示自动更新的主流模型快照。",
+  title: "AI模型榜单怎么读",
+  description: "分清Arena真人偏好与Artificial Analysis的能力、速度、延迟和API成本；保留原榜顺序，并自动更新最近可信快照。",
   alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/benchmarks/` },
 };
 
@@ -89,9 +89,9 @@ export default function BenchmarksPage() {
       <StructuredData data={structuredData} />
       <PageIntro
         eyebrow="项目 03 · 模型评测"
-        title="两个模型榜单，回答的是两件事"
-        lead="如果你想知道哪种回答更受真实用户喜欢，看 Arena；如果你想比较标准测试能力、输出速度、等待时间和API成本，看 Artificial Analysis。两个网站测的不是同一件事，不能把名次直接相加。"
-        artwork={{ src: "/illustrations/model-benchmarks-v2.webp", alt: "左侧匿名回答由真人比较，右侧分别测量能力、速度、延迟与成本的原创纸艺插画", caption: "原创插画 · 真人偏好与量化测试回答不同问题" }}
+        title="两个榜单，其实在回答不同的问题"
+        lead="想知道真人更喜欢哪份回答，看 Arena；想比较能力、输出速度、等待和API成本，看 Artificial Analysis。两边测的不是一回事，名次也不能直接相加。"
+        artwork={{ src: "/illustrations/model-benchmarks-v2.webp", alt: "左侧由真人匿名比较回答，右侧分别测量能力、速度、延迟与成本", caption: "真人偏好与统一测试，回答的是两个问题" }}
       />
       <QuickSummary title="第一次看榜单，先记住四件事" points={["Arena回答“人更喜欢哪份回答”，不是严格的事实准确率考试", "Artificial Analysis把能力、速度、延迟和API成本分开测，不能只看一个数字", "榜单里的API价格是开发者调用模型的成本，不是ChatGPT、Claude等会员月费", "同一品牌会出现多个型号和推理档位；名次对应具体型号，不代表整个品牌永久排名"]} />
 

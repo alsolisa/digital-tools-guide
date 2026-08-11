@@ -2,6 +2,7 @@ import "../content-styles";
 import { allDownloads, type Platform } from "../../data/catalog";
 import localMirrors from "../../data/local-mirrors.json";
 import syncStatus from "../../data/sync-status.json";
+import { getLiveLinkStatus } from "../../data/live-verification";
 import Link from "next/link";
 import { BrandIcon, BrandNotice, PageIntro, PageShell, QuickSummary, SectionHeading, VerificationChip } from "../components/SiteChrome";
 import DeviceChooser from "../components/DeviceChooser";
@@ -22,8 +23,8 @@ function formatFileSize(size: number) {
 }
 
 export const metadata = {
-  title: "官方下载中心",
-  description: "按Windows、macOS、Android、iOS和网页分类的ChatGPT、Claude、Gemini、Grok、Perplexity、YouTube、X与TikTok官方入口。",
+  title: "官方下载与已校验文件",
+  description: "先选设备，再打开官网、应用商店或项目发布页；开源客户端直接列出当前文件、大小和SHA-256，状态随自动检查更新。",
   alternates: { canonical: `${process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : ""}/downloads/` },
 };
 
@@ -31,7 +32,7 @@ export default function DownloadsPage() {
   const basePath = process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : "";
   return (
     <PageShell>
-      <PageIntro eyebrow="下载中心 · 不需要先看懂文件名" title="先选设备，再去官方页面下载" lead="这里同时整理AI、常用应用和网络客户端。本站不保存闭源安装包，按钮只连接官网、官方项目、Microsoft Store、Google Play或Apple App Store。" artwork={{ src: "/illustrations/official-downloads-v2.webp", alt: "官方来源经过核验后分流到笔记本、台式电脑、平板和手机的原创纸艺插画", caption: "原创插画 · 先核验来源，再选择与你设备对应的版本" }} />
+      <PageIntro eyebrow="下载中心 · 先选设备" title="别从文件名猜，直接去正确的官方入口" lead="这里整理AI、常用应用和网络客户端。闭源应用只指向官网或应用商店；开源客户端会直接给出当前官方文件，并标出版本、大小和文件指纹。" artwork={{ src: "/illustrations/official-downloads-v2.webp", alt: "经过来源检查的安装入口分别连接笔记本、台式电脑、平板和手机", caption: "先确认来源，再选择与你设备对应的版本" }} />
       <QuickSummary title="下载前只记住三条" points={["先选自己的系统，不要凭文件名猜", "核对官网域名、开发者名称和版本", "商店搜不到时先看地区教程，不下载破解版", "四项开源客户端都有官方文件直链；其中三项另有本站校验备份"]} action={{ label: "看应用商店地区教程", href: "/stores" }} />
       <div className="download-brand-note"><BrandNotice /></div>
       <section className="content-section device-section"><DeviceChooser /></section>
@@ -67,7 +68,7 @@ export default function DownloadsPage() {
           <section className={`content-section download-platform ${index % 2 ? "soft-section" : ""}`} id={platform.toLowerCase()} key={platform}>
             <SectionHeading index={String(index + 1).padStart(2, "0")} title={platform === "Web" ? "网页版入口" : `${platform} 官方下载`} lead={`${downloads.length} 个已经整理的官方入口`} />
             <div className="download-directory">
-              {downloads.map((download) => <article key={`${download.platform}-${download.product}-${download.url}`}><BrandIcon slug={download.slug} name={download.product} size="small" /><div><span className="directory-category">{download.category}</span><h2>{download.product}</h2><p>{download.label}</p></div><VerificationChip status={download.status} /><a href={download.url} target="_blank" rel="noopener noreferrer">打开官方来源 ↗</a><Link className="guide-link" href={download.category === "AI" ? `/ai/${download.slug}` : download.category === "常用应用" ? `/apps/${download.slug}` : "/nodes#downloads"}>{download.category === "网络客户端" ? "先看使用说明" : "查看教程"}</Link></article>)}
+              {downloads.map((download) => <article key={`${download.platform}-${download.product}-${download.url}`}><BrandIcon slug={download.slug} name={download.product} size="small" /><div><span className="directory-category">{download.category}</span><h2>{download.product}</h2><p>{download.label}</p></div><VerificationChip status={getLiveLinkStatus([download.url])} /><a href={download.url} target="_blank" rel="noopener noreferrer">打开官方来源 ↗</a><Link className="guide-link" href={download.category === "AI" ? `/ai/${download.slug}` : download.category === "常用应用" ? `/apps/${download.slug}` : "/nodes#downloads"}>{download.category === "网络客户端" ? "先看使用说明" : "查看教程"}</Link></article>)}
             </div>
           </section>
         );

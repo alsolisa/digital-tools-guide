@@ -1,4 +1,5 @@
 import syncStatus from "../data/sync-status.json";
+import autoSync from "../data/auto-sync.json";
 import "./award-system.css";
 import promotionManifest from "../data/promotion-links.json";
 import Link from "next/link";
@@ -342,7 +343,7 @@ export function NodeGuidePage() {
 
       <section className="section node-basics-section" id="basics">
         <div className="section-heading"><div><span className="section-index">01 / 先认识概念</span><h1>五个词，第一次看到也能懂</h1></div><p>这些词不是一回事。先分清它们，后面的购买和安装才不会混乱。</p></div>
-        <figure className="section-artwork-wide node-section-art"><Image src={`${basePath}/illustrations/network-journey-v2.webp`} alt="家庭设备通过多条网络路径和不同节点到达已核验服务的原创纸艺插画" width={1536} height={1024} sizes="(max-width: 700px) 100vw, 1280px" priority unoptimized /><figcaption>原创插画 · 从设备出发，经由节点到达目标服务</figcaption></figure>
+        <figure className="section-artwork-wide node-section-art"><Image src={`${basePath}/illustrations/network-journey-v2.webp`} alt="家庭设备通过客户端、订阅和不同节点连接目标服务的路线示意" width={1536} height={1024} sizes="(max-width: 700px) 100vw, 1280px" priority unoptimized /><figcaption>从设备出发：客户端负责连接，订阅提供节点，服务商负责线路</figcaption></figure>
         <div className="plain-term-grid">
           <article><span>VPN</span><h2>一种建立网络连接的技术或服务</h2><p>通常通过加密通道把设备的网络流量发送到另一台服务器。商业VPN一般提供自己的App，具体隐私和可用范围取决于服务商。</p></article>
           <article><span>机场</span><h2>中文互联网中的非正式叫法</h2><p>通常指提供多个代理服务器“节点”和订阅链接的服务商。它不等同于所有VPN，也不是航空机场。</p></article>
@@ -432,6 +433,8 @@ export default function Home() {
   const usableLinks = syncStatus.links.filter((link) => link.state === "ok" || link.state === "protected").length;
   const checkedClients = syncStatus.clients.filter((client) => client.state === "ok" || client.state === "stale").length;
   const directFiles = syncStatus.clients.filter((client) => "assetUrl" in client && typeof client.assetUrl === "string").length;
+  const benchmarkSnapshot = autoSync.artificialAnalysisLeaderboard;
+  const benchmarkModelCount = benchmarkSnapshot?.rows?.length || 0;
   const routeListJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -447,10 +450,10 @@ export default function Home() {
       <StructuredData data={routeListJsonLd} />
       <section className="v16-hero" aria-labelledby="home-title">
         <div className="v16-hero-copy">
-          <span className="v16-kicker"><i />Digital tools · verified clearly</span>
-          <h1 id="home-title"><span>工具很复杂，</span><br /><em>先找到证据，</em><br /><span>再做决定。</span></h1>
-          <p>网络服务、AI产品与模型评测，不靠一句“推荐”替你下结论。先把来源、状态、风险和下一步放在同一张地图上。</p>
-          <div className="v16-hero-actions"><Link className="v16-action-primary" href="#projects">按我的问题开始 <span>↓</span></Link><Link className="v16-action-secondary" href="/search" prefetch={false}>搜索一个工具 <span>⌕</span></Link></div>
+          <span className="v16-kicker"><i />写给第一次接触这些工具的人</span>
+          <h1 id="home-title"><span>先弄清楚，</span><br /><em>再决定用什么。</em></h1>
+          <p>这里不替你喊“最好用”。价格从哪来、版本是不是最新、哪里需要自己确认，我们尽量放在同一处说清楚，让你少绕几步路。</p>
+          <div className="v16-hero-actions"><Link className="v16-action-primary" href="#projects">从我的问题开始 <span>↓</span></Link><Link className="v16-action-secondary" href="/search" prefetch={false}>直接找一个工具 <span>⌕</span></Link></div>
           <nav className="v16-route-strip" aria-label="三个核心项目">
             <Link href="/nodes" prefetch={false}><b>01</b><span>网络服务<small>选择、下载、排错</small></span><i>↗</i></Link>
             <Link href="/ai" prefetch={false}><b>02</b><span>AI与应用<small>用途、订阅、安装</small></span><i>↗</i></Link>
@@ -459,64 +462,77 @@ export default function Home() {
         </div>
 
         <aside className="v16-evidence-map" aria-label="本站公开数据同步概览">
-          <header><span>Live evidence map</span><strong>本轮公开数据已同步</strong><small>{syncTime}</small></header>
+          <header><span>本轮检查结果</span><strong>能自动核对的资料，刚刚查过</strong><small>{syncTime}</small></header>
           <div className="v16-orbit" aria-hidden="true">
             <i className="v16-orbit-ring ring-one" /><i className="v16-orbit-ring ring-two" />
-            <span className="v16-map-node source-node"><b>01</b><small>官方来源</small></span>
-            <span className="v16-map-node check-node"><b>02</b><small>自动校准</small></span>
-            <span className="v16-map-node action-node"><b>03</b><small>清楚行动</small></span>
-            <span className="v16-map-core"><i />证据坐标</span>
+            <span className="v16-map-node source-node"><b>01</b><small>找到来源</small></span>
+            <span className="v16-map-node check-node"><b>02</b><small>检查变化</small></span>
+            <span className="v16-map-node action-node"><b>03</b><small>给出下一步</small></span>
+            <span className="v16-map-core"><i />核对结果</span>
           </div>
           <dl>
             <div><dt>可用入口</dt><dd>{usableLinks}<small> / {syncStatus.links.length}</small></dd></div>
             <div><dt>客户端版本</dt><dd>{checkedClients}<small> 项已检查</small></dd></div>
             <div><dt>官方直链</dt><dd>{directFiles}<small> 个文件</small></dd></div>
           </dl>
-          <p><i /> 读取失败不会伪装成“已核验”，旧数字也不会冒充当前价格。</p>
+          <p><i /> 页面读不到、价格互相冲突或资料过期时，我们会直接写出来，不拿旧数字顶替。</p>
         </aside>
       </section>
 
       <section className="v16-principles" aria-label="本站的三个设计与编辑原则">
-        <p><span>01</span><strong>来源先于推荐</strong><small>关键结论回到官方页面或可重复检查的数据。</small></p>
-        <p><span>02</span><strong>边界与结论同屏</strong><small>不知道、冲突或过期，直接说明，不藏在页脚。</small></p>
-        <p><span>03</span><strong>下一步始终明确</strong><small>看完一段，就知道接下来该比较、下载还是核对。</small></p>
+        <p><span>01</span><strong>先给出处</strong><small>关键数字尽量回到官网、应用商店或原始榜单。</small></p>
+        <p><span>02</span><strong>不知道就直说</strong><small>读取失败、信息冲突或已经过期，不藏在小字里。</small></p>
+        <p><span>03</span><strong>看完能行动</strong><small>每一段都回答：接下来该比较、下载，还是先别买。</small></p>
       </section>
 
       <section className="v16-projects" id="projects">
-        <header className="v16-section-heading"><div><span>Start with your real question</span><h2>不是三个栏目，<br />是三条清楚的行动路线。</h2></div><p>不必从头读到尾。找到自己眼前的问题，进入对应路线；每一条都从普通话解释开始，到可核对的下一步结束。</p></header>
+        <header className="v16-section-heading"><div><span>从眼前的问题开始</span><h2>你现在想解决哪件事？</h2></div><p>不用把整站从头读完。选一条和自己有关的路线：先听懂，再比较，最后去正确的页面操作。</p></header>
 
         <article className="v16-project-chapter chapter-network">
-          <Link className="v16-project-media" href="/nodes" prefetch={false} aria-label="进入机场与网络服务指南"><Image src={`${basePath}/illustrations/network-journey-home-v2.webp`} width="832" height="555" alt="设备、客户端、网络服务和目标站点之间的路线示意" unoptimized /><span>Route 01</span></Link>
-          <div className="v16-project-copy"><span>网络服务 · 从概念到连接</span><h3>看懂机场、节点与客户端，再选择。</h3><p>先分清你买的是什么、软件负责什么，再比较服务、找到适合设备的官方文件，并按症状排查连接问题。</p><ul><li>五个术语用普通话解释</li><li>价格过期自动退出当前排序</li><li>官方文件与本站校验备份分开</li></ul><Link href="/nodes" prefetch={false}>进入机场指南 <i>↗</i></Link></div>
+          <Link className="v16-project-media v17-route-visual v17-network-ledger" href="/nodes" prefetch={false}>
+            <span>路线 01</span>
+            <div className="v17-ledger-head"><small>网络服务检查单</small><strong>{usableLinks}/{syncStatus.links.length}</strong><em>入口本轮可打开</em></div>
+            <ol><li><b>01</b><span>先分清套餐、订阅链接和客户端</span></li><li><b>02</b><span>再看价格证据是否还在有效期内</span></li><li><b>03</b><span>最后按设备下载正确文件</span></li></ol>
+            <footer><span>{checkedClients} 个客户端版本已检查</span><span>{directFiles} 个官方文件可直达</span></footer>
+          </Link>
+          <div className="v16-project-copy"><span>网络服务 · 从概念到连接</span><h3>第一次看到“机场”和“节点”，先别急着买。</h3><p>先弄清套餐卖的是什么、客户端负责什么，再按预算和设备缩小范围。遇到连接问题，也可以从症状往回排查。</p><ul><li>五个常见词，用日常说法解释</li><li>过期价格会自动退出当前排序</li><li>官方文件和本站备份分开标明</li></ul><Link href="/nodes" prefetch={false}>从基础概念开始 <i>↗</i></Link></div>
         </article>
 
         <article className="v16-project-chapter chapter-ai">
-          <Link className="v16-project-media" href="/ai" prefetch={false} aria-label="进入AI与应用指南"><Image src={`${basePath}/illustrations/ai-assistant-home-v2.webp`} width="832" height="555" alt="AI助手连接对话、文件、语音、图片和搜索等任务" unoptimized /><span>Route 02</span></Link>
-          <div className="v16-project-copy"><span>AI与应用 · 从任务到产品</span><h3>先回答“我要做什么”，再决定订阅谁。</h3><p>把产品用途、免费版边界、官方入口、第三方购买方式与账号风险分开说明，不把低价当作唯一答案。</p><nav className="v16-subroutes" aria-label="AI与应用子栏目"><Link href="/ai">AI介绍</Link><Link href="/subscriptions">AI订阅</Link><Link href="/apps">常用应用</Link><Link href="/downloads">下载中心</Link></nav></div>
+          <Link className="v16-project-media v17-route-visual v17-ai-ledger" href="/ai" prefetch={false}>
+            <span>路线 02</span>
+            <div className="v17-ledger-head"><small>先拿真实任务试一遍</small><strong>5</strong><em>款主流 AI 分开讲</em></div>
+            <div className="v17-task-stack"><span>解释一件事</span><span>整理一份文件</span><span>查找带来源的资料</span><span>写作与修改</span><span>图片与语音</span></div>
+            <footer><span>先试免费版</span><span>再比较订阅与账号归属</span></footer>
+          </Link>
+          <div className="v16-project-copy"><span>AI与应用 · 从任务到产品</span><h3>别先问哪款最强，先拿自己的事试一次。</h3><p>我们把每款产品能做什么、免费版够不够、从哪里安装、付费后账号归谁分开写。这样比较，比只盯着一个价格更有用。</p><nav className="v16-subroutes" aria-label="AI与应用子栏目"><Link href="/ai">先认识 AI</Link><Link href="/subscriptions">看订阅方式</Link><Link href="/apps">常用应用</Link><Link href="/downloads">找官方下载</Link></nav></div>
         </article>
 
         <article className="v16-project-chapter chapter-benchmark">
-          <Link className="v16-project-media" href="/benchmarks" prefetch={false} aria-label="进入模型评测"><Image src={`${basePath}/illustrations/model-benchmarks-home-v2.webp`} width="832" height="555" alt="真人偏好、模型能力、输出速度和成本的评测示意" unoptimized /><span>Route 03</span></Link>
-          <div className="v16-project-copy"><span>模型评测 · 从榜单到判断</span><h3>一个总分不够：能力、速度和成本要分开看。</h3><p>把 Arena 的真人偏好与 Artificial Analysis 的统一测试分开解释；保留原始名次，也给新手一份不夸大的普通话读法。</p><ul><li>自动保留最近成功快照</li><li>每家公司先看一个代表模型</li><li>原榜前十完整保留，不重排</li></ul><Link href="/benchmarks" prefetch={false}>查看模型评测 <i>↗</i></Link></div>
+          <Link className="v16-project-media v17-route-visual v17-benchmark-ledger" href="/benchmarks" prefetch={false}>
+            <span>路线 03</span>
+            <div className="v17-ledger-head"><small>最近成功读取的公开快照</small><strong>{benchmarkModelCount}</strong><em>个模型 · 不自制总分</em></div>
+            <div className="v17-benchmark-lines" aria-hidden="true"><i /><i /><i /><i /><i /><i /></div>
+            <dl><div><dt>真人偏好</dt><dd>Arena</dd></div><div><dt>能力 / 速度 / 成本</dt><dd>Artificial Analysis</dd></div></dl>
+            <footer><span>{benchmarkSnapshot?.state === "ok" ? "本轮同步正常" : "显示最近可信快照"}</span><span>保留原榜顺序</span></footer>
+          </Link>
+          <div className="v16-project-copy"><span>模型评测 · 从榜单到判断</span><h3>榜单可以参考，但别把第一名当成唯一答案。</h3><p>Arena 看真人更喜欢哪份回答；Artificial Analysis 分开测能力、速度、等待和 API 成本。我们保留原始名次，再解释这些数字和日常使用有什么关系。</p><ul><li>读取失败时保留最近成功快照</li><li>先看每家公司的代表模型</li><li>原榜前十不合并、不重排</li></ul><Link href="/benchmarks" prefetch={false}>看懂两个榜单 <i>↗</i></Link></div>
         </article>
       </section>
 
       <section className="v16-method" aria-labelledby="v16-method-title">
-        <header><span>How a claim becomes useful</span><h2 id="v16-method-title">一句“当前可用”，<br />要经过三道校准。</h2><p>视觉不是证据。只有来源、检查结果和适用边界能彼此对应，页面才会把它写成可行动的信息。</p></header>
+        <header><span>一句“现在还能用”从哪儿来</span><h2 id="v16-method-title">网页上的结论，<br />先过三道检查。</h2><p>页面好看不代表信息可靠。我们先找出处，再检查有没有变化，最后才把它写成你能直接执行的下一步。</p></header>
         <ol>
-          <li><span>01</span><div><strong>找到原始来源</strong><p>优先官方定价页、发布页、应用商店、公开方法或原始榜单。</p></div><i>Source</i></li>
-          <li><span>02</span><div><strong>自动检查变化</strong><p>同步入口、版本、文件指纹和动态数据；异常会阻止错误状态发布。</p></div><i>Check</i></li>
-          <li><span>03</span><div><strong>翻译成下一步</strong><p>把“适合谁、风险是什么、该点哪里”放在结论旁边。</p></div><i>Decide</i></li>
+          <li><span>01</span><div><strong>先找原始页面</strong><p>价格看定价页，版本看发布页，排名看原榜，不引用来路不明的转述。</p></div><i>来源</i></li>
+          <li><span>02</span><div><strong>能自动查的定时查</strong><p>入口、版本、文件指纹、汇率和动态榜单每 6 小时检查一次；异常不会静默通过。</p></div><i>检查</i></li>
+          <li><span>03</span><div><strong>把边界写在结论旁边</strong><p>适合谁、哪里有风险、还需要自己确认什么，不塞到页面最底部。</p></div><i>说明</i></li>
         </ol>
       </section>
 
-      <section className="home-standard">
-        <div><span>Built for trust</span><h2>好看只是开始。<br />可信、清楚、快速，才是完成。</h2><p>我们把设计用在理解上：让重要信息先出现，让风险和来源不躲在小字里，让手机端也能舒服阅读。</p><Link href="/standards">查看本站编辑标准 <i>↗</i></Link></div>
-        <ol>
-          <li><span>01</span><div><strong>来源在推荐前面</strong><p>关键结论尽量回到官方页面、公开数据或可重复检查的证据。</p></div></li>
-          <li><span>02</span><div><strong>不确定性直接写明</strong><p>读取失败、价格冲突和人工资料过期时，不拿旧数字冒充现在。</p></div></li>
-          <li><span>03</span><div><strong>性能也是设计</strong><p>不依赖沉重3D和自动播放视频，动效只使用高性能属性并支持减少动态效果。</p></div></li>
-        </ol>
+      <section className="v17-maintenance" aria-labelledby="maintenance-title">
+        <div><span>资料怎么维护</span><h2 id="maintenance-title">程序负责盯变化，<br />人负责判断该怎么写。</h2><p>入口、版本、文件、汇率和榜单适合自动检查；用途、风险和购买建议需要结合来源重新阅读。两类工作不会混在一起冒充“全自动”。</p></div>
+        <dl><div><dt>自动检查</dt><dd>每 6 小时</dd><dd className="v17-maintenance-detail">入口、版本、文件指纹、价格候选、汇率与榜单</dd></div><div><dt>发布门禁</dt><dd>异常即停</dd><dd className="v17-maintenance-detail">追踪码丢失、文件不一致、数据过期或测试失败时不发布</dd></div><div><dt>人工编辑</dt><dd>保留判断</dd><dd className="v17-maintenance-detail">解释、风险与购买建议不由抓取结果自动拼成</dd></div></dl>
+        <nav><Link href="/status">查看当前检查状态 ↗</Link><Link href="/standards">查看编辑标准 ↗</Link></nav>
       </section>
     </PageShell>
   );

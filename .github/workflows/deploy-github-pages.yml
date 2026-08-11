@@ -31,6 +31,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
       - run: npm run preflight
       - run: npm run audit:production
+      - run: npm run lint:copy
       - run: npm run lint
       - run: npm run build
       - run: node --test tests/sync-utils.test.mjs

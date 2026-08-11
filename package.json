@@ -15,7 +15,8 @@
     "sync": "node scripts/sync-public-data.mjs",
     "preflight": "node scripts/preflight-publication.mjs",
     "audit:production": "npm audit --omit=dev --audit-level=high --registry=https://registry.npmjs.org",
-    "verify:publish": "npm run sync && npm run preflight && npm run audit:production && npm run lint && npm test && npm run build:pages && npm run test:pages",
+    "lint:copy": "node scripts/lint-editorial-copy.mjs",
+    "verify:publish": "npm run sync && npm run preflight && npm run audit:production && npm run lint:copy && npm run lint && npm test && npm run build:pages && npm run test:pages",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
   },

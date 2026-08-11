@@ -1,12 +1,12 @@
-# V16 设计质量与发布门禁
+# V17 设计质量与发布门禁
 
-更新日期：2026-08-09
+更新日期：2026-08-11
 
 研究依据：[`reference-study-v16.md`](./reference-study-v16.md)
 
 ## 设计命题
 
-数字工具指南 V16 的原创母题是“证据坐标系”：复杂工具像未知区域，官方来源提供坐标，自动检查提供校准点，清楚的下一步把用户带到目的地。
+数字工具指南 V17 的原创母题是“证据档案”：复杂工具的入口、版本、价格和榜单不是装饰数字，而是一份能追溯来源、看见变化、据此行动的公开记录。
 
 这不是 Apple、Stripe、Linear 或任何获奖站的复刻。它把这些参考中与本站任务相符的原则——单一焦点、证据可视化、精准网格、连续叙事——重新组合成面向中文新手的轻量信息系统。
 
@@ -15,7 +15,7 @@
 - 主色仍为深海军蓝、暖纸白和薄荷绿；新增极少量电光蓝用于“动态数据”，琥珀色只表示需要注意。
 - 首页不再以通用 AI 纸艺图作为首屏主视觉；首屏使用真实状态、路径与坐标构成品牌图形。
 - 标题以编辑型宋体负责“命题”，正文以系统无衬线负责“行动”；同一区域最多三个字号层级。
-- 普通正文桌面端不低于 15px，手机端不低于 14px；关键辅助信息不低于 11px。8–10px 仅允许用于非关键装饰序号且必须有更大的同义文本。
+- 普通正文桌面端不低于 15px，手机端不低于 14px；所有可见辅助信息不低于 12px。更小字号只允许用于不承载语义的装饰标记。
 - 圆角只区分容器层级，不给每个元素都加卡片；正文通过留白、分隔线和对齐形成节奏。
 - 任何生成图都必须具有本站独占的坐标、校准、连接与证据隐喻，不使用泛化的机器人、发光大脑或随机 3D 图标。
 
@@ -52,36 +52,30 @@
 - 首页保持静态优先，不为了动效引入客户端运行时或 WebGL。
 - 首屏不自动播放视频；非关键图片延迟加载并提供明确尺寸。
 - 发布前必须运行 `npm run verify:publish`。
-- 发布构建必须通过安全扫描、lint、自动测试、静态导出和 GitHub Pages 页面测试。
+- 发布构建必须通过安全扫描、文案与资料新鲜度门禁、lint、自动测试、静态导出和 GitHub Pages 页面测试。
 - 自动价格、版本、榜单、推广入口和下载文件检查失败时，必须降级为诚实状态；不得将读取失败写成已核验。
 - 实验室 Lighthouse 四项以 95 为最低门禁，但最终报告必须把它与真实 28 天 Core Web Vitals 分开。
 
 ## 社交分享图
 
-最终文件：`public/og-evidence-atlas-v16.jpg`，1200×630，105KB。内置 ImageGen 一次生成，随后只做等比例标准化与 JPEG 压缩；没有二次生成或局部重绘。
+最终文件：`public/og-evidence-ledger-v17.jpg`，1200×630，约 206KB。使用内置 ImageGen 一次生成，随后只做居中裁切、尺寸标准化与 JPEG 压缩；没有二次生成或局部重绘。
 
-验收结果：三行中文正确；缩略图仍能识别站名与主命题；视觉与首页“证据坐标系”一致；没有品牌标志、人物、水印、通用机器人或纸艺图标。
+验收结果：三行中文逐字正确；缩略图仍能识别站名与主命题；档案、索引卡、校验戳和连续路径与 V17“证据档案”一致；没有品牌标志、人物、水印、通用机器人、霓虹或纸艺 3D 图标。
 
 最终提示词：
 
 ```text
-Use case: website social preview / Open Graph image.
-Create one finished premium 1200×630 landscape social card for the Chinese editorial website “数字工具指南”.
-
-Art direction: original “evidence atlas” visual system. Deep midnight navy architectural field, subtle precise coordinate grid, thin calibration axes, three luminous evidence points connected by restrained mint-green and pale electric-blue paths, concentric measurement rings and small verification markers. It should feel like a museum-grade information design artifact: rigorous, calm, intelligent, high-trust, contemporary, distinctive, and clearly related to verification and decision-making. Flat editorial graphic with subtle dimensional light only; no generic paper-cut craft, no clay icons, no robot, no brain, no people, no device mockups, no brand logos.
-
-Composition: generous safe margins. Left 54% is a strong, clean typography zone; right 46% contains the evidence-coordinate visual. Excellent hierarchy at small social-thumbnail size. High contrast and crisp edges. Do not imitate Apple, Stripe, Linear, Vercel, Awwwards winners, or any existing brand layout.
-
-Render exactly these three Chinese text lines and no other visible text:
-“数字工具指南”
-“先找到证据，再做决定”
-“网络服务 · AI与应用 · 模型评测”
-
-Typography: elegant, highly legible Chinese editorial typography; render every Chinese character exactly with correct punctuation; no invented glyphs, no random English, no tiny text. The second line is the dominant headline. Warm off-white typography with the phrase “找到证据” accented in luminous mint.
-
-Palette: midnight navy #071F32, deep ink #10283B, warm paper #F5F3ED, mint #8CE6C9, pale electric blue #7AC4F4; no neon cyberpunk saturation.
-
-Output: complete final social card, no watermark, no border outside the canvas, no extra text, no UI chrome.
+Use case: ads-marketing
+Asset type: premium social preview card for a Chinese digital field-guide website, 1200×630 landscape
+Primary request: create a distinctive editorial brand image for “数字工具指南”, built around the idea of checking evidence before choosing digital tools
+Scene/backdrop: deep midnight-navy editorial research desk / evidence archive, flat frontal composition, with precise registration marks, a source ledger, three slim index cards, small verification stamps, file fingerprints, and one continuous mint route line connecting source → check → decision
+Style/medium: world-class editorial art direction; tactile printmaking and technical cartography combined with clean modern interface precision; sophisticated, original, restrained; not 3D papercraft
+Composition/framing: headline zone on the left, evidence archive composition on the right; excellent balance and strong readability at small thumbnail size
+Lighting/mood: calm, trustworthy, human, quietly premium
+Color palette: midnight navy, warm paper ivory, mint green, pale electric blue, one restrained amber accent
+Text (verbatim): “数字工具指南” and “先查清楚，再决定” and “网络服务 · AI 与应用 · 模型评测”
+Typography: render every Chinese character exactly once and verbatim; confident high-contrast Chinese serif for the main line, restrained sans serif for the category line
+Constraints: no extra text, no misspelled Chinese, no logos, no watermark, no Apple/Stripe/Linear imitation, no generic AI robot, no chatbot bubbles, no glowing orb, no neon cyberpunk, no glassmorphism, no paper-cut 3D, no decorative gradients; the visual system must feel proprietary to an evidence-first digital guide
 ```
 
 ## 严格验收问题
@@ -93,4 +87,4 @@ Output: complete final social card, no watermark, no border outside the canvas, 
 - 动效关闭后是否仍完整、清楚？
 - 每一个“当前”“已核验”“直接下载”是否都有可追溯证据？
 
-只要其中任何一项不能肯定回答，就不能声称达到 V16 最高质量目标。
+只要其中任何一项不能肯定回答，就不能声称达到 V17 当前质量门禁。
