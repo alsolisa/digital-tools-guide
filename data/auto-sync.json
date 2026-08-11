@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-11T13:32:17.730Z",
+  "checkedAt": "2026-08-11T13:43:29.579Z",
   "exchange": {
     "state": "ok",
     "date": "2026-08-10",
@@ -21,7 +21,7 @@
       "state": "stale",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-11T13:31:45.393Z",
+      "checkedAt": "2026-08-11T13:42:56.977Z",
       "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
       "note": "本轮自动运行环境未能读取商家页；展示 2026-08-11 最近一次成功核验的价格，结算前请打开购买页确认",
       "cny": 33.72,
@@ -43,7 +43,7 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-11T13:31:50.791Z",
+      "checkedAt": "2026-08-11T13:43:02.422Z",
       "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
       "note": "页面读取失败，隐藏具体数字并提示以购买页为准"
     },
@@ -57,7 +57,7 @@
       "state": "stale",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-11T13:31:56.187Z",
+      "checkedAt": "2026-08-11T13:43:07.859Z",
       "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
       "note": "本轮自动运行环境未能读取商家页；展示 2026-08-11 最近一次成功核验的价格，结算前请打开购买页确认",
       "cny": 15.17,
@@ -81,8 +81,8 @@
         15,
         18.99
       ],
-      "note": "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核；本轮自动运行环境未能读取商家页，保留最近一次冲突证据",
-      "lastAttemptedAt": "2026-08-11T13:32:01.578Z",
+      "note": "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核；本轮自动运行环境未能读取商家页，保留最近一次冲突证据；本轮自动运行环境未能读取商家页，保留最近一次冲突证据",
+      "lastAttemptedAt": "2026-08-11T13:43:13.278Z",
       "error": "Error; code=22; curl: (22) The requested URL returned error: 403"
     },
     {
@@ -95,7 +95,7 @@
       "state": "stale",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-11T13:32:06.963Z",
+      "checkedAt": "2026-08-11T13:43:18.712Z",
       "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
       "note": "本轮自动运行环境未能读取商家页；展示 2026-08-11 最近一次成功核验的价格，结算前请打开购买页确认",
       "cny": 27.58,
@@ -117,7 +117,7 @@
       "state": "stale",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-11T13:32:12.344Z",
+      "checkedAt": "2026-08-11T13:43:24.131Z",
       "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
       "note": "本轮自动运行环境未能读取商家页；展示 2026-08-11 最近一次成功核验的价格，结算前请打开购买页确认",
       "cny": 168.54,
@@ -135,21 +135,21 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-08-11T13:32:17.730Z"
+      "checkedAt": "2026-08-11T13:43:29.579Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/leaderboards/models",
       "state": "ok",
-      "checkedAt": "2026-08-11T13:32:17.730Z"
+      "checkedAt": "2026-08-11T13:43:29.579Z"
     }
   ],
   "artificialAnalysisLeaderboard": {
     "source": "Artificial Analysis",
     "url": "https://artificialanalysis.ai/leaderboards/models",
     "state": "ok",
-    "checkedAt": "2026-08-11T13:31:22.358Z",
-    "lastSuccessfulAt": "2026-08-11T13:31:22.358Z",
+    "checkedAt": "2026-08-11T13:42:48.289Z",
+    "lastSuccessfulAt": "2026-08-11T13:42:48.289Z",
     "methodologyVersion": "Intelligence Index v4.1",
     "rows": [
       {
