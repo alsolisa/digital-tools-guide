@@ -36,20 +36,20 @@ test("全部公开页面与详情页都能正常打开", async () => {
 
 test("全站按零基础用户顺序先解释再比较", async () => {
   const home = await (await render("/")).text();
-  assert.match(home, /复杂的数字工具/);
-  assert.match(home, /先看懂，再决定/);
-  for (const text of ["看懂机场，选择服务并安装客户端", "先选 AI，再决定是否订阅或安装", "看懂当前主流模型和评测结果"]) assert.match(home, new RegExp(text));
+  assert.match(home, /工具很复杂/);
+  assert.match(home, /先找到证据/);
+  for (const text of ["看懂机场、节点与客户端，再选择", "先回答“我要做什么”，再决定订阅谁", "能力、速度和成本要分开看"]) assert.match(home, new RegExp(text));
   assert.doesNotMatch(home, /先看懂五个词，再选择服务|按预算直接选/);
   const nodes = await (await render("/nodes")).text();
   for (const term of ["VPN", "机场", "节点", "客户端", "订阅链接"]) assert.match(nodes, new RegExp(term));
   assert.match(nodes, /为什么提供这几家/);
   const subscriptions = await (await render("/subscriptions")).text();
-  assert.match(subscriptions, /先认识 GamsGo，再选择适合自己的 AI 订阅/);
+  assert.match(subscriptions, /先认识 GamsGo，再选择 AI 订阅/);
   for (const text of ["最高可节省 85%", "7×24 小时在线客服", "1000 万+", "支付宝", "先看清套餐，再决定购买"]) assert.match(subscriptions, new RegExp(text));
   for (const removed of ["先判断要不要买，再决定去哪里买", "GamsGo是什么？为什么有人会选择它？", "为什么首批选择这六项？"]) assert.doesNotMatch(subscriptions, new RegExp(removed.replace(/[?？]/g, ".")));
   assert.doesNotMatch(subscriptions, /付款前先算价值|这个会员对你真的值得吗|id="before-buy"/);
   const ai = await (await render("/ai")).text();
-  assert.match(ai, /第一次使用AI，不需要先懂模型/);
+  assert.match(ai, /第一次用 AI，不必先懂模型/);
   assert.doesNotMatch(ai, /先免费体验，再决定付费|只想先选一款|按你的任务选择，不按广告口号选择/);
   const downloads = await (await render("/downloads")).text();
   assert.match(downloads, /网络客户端不是网络套餐/);
@@ -112,7 +112,7 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   const claudeSync = autoSync.gamsgo.find((item) => item.slug === "claude");
   if (["ok", "price-changed", "stale"].includes(claudeSync?.state) && claudeSync?.published) {
     assert.match(html, /Max方案 US\$[0-9.]+ \/ 月公开起价/);
-    assert.match(html, /右侧为GamsGo官方商品页的独享账号方案/);
+    assert.match(html, /GamsGo 原 Claude 商品页现已转到市场中心/);
   }
   assert.match(html, new RegExp(`1 USD = ¥<!-- -->${expectedUsdCnyRate.toFixed(3).replace(".", "\\.")}`));
   for (const [slug, offer] of Object.entries(subscriptionPricing.offers)) {
@@ -141,11 +141,11 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   assert.match(html, /https:\/\/x\.ai\/pricing/);
   assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/gemini\/partner\/BTzCM/);
   assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/perplexity_ai\/partner\/BTzCM/);
-  for (const text of ["市场中心是什么？", "市场中心是多卖家交易区", "购买 Max 5x / Max 20x", "比较不同卖家方案"]) {
+  for (const text of ["市场中心是什么？", "市场中心是多卖家交易区", "GamsGo 当前购买页", "比较不同商品与卖家"]) {
     assert.match(html, new RegExp(text.replace(/[.$?]/g, "\\$&")));
   }
-  assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/claude\/partner\/BTzCM/);
   assert.match(html, /https:\/\/www\.gamsgo\.com\/zh\/accounts\/claude\/partner\/BTzCM/);
+  assert.doesNotMatch(html, /https:\/\/www\.gamsgo\.com\/zh\/details\/claude\/partner\/BTzCM/);
   for (const text of ["准备一个能够正常接收验证码的邮箱", "Gmail（谷歌邮箱）", "QQ邮箱", "网易163邮箱", "先领优惠，再完成首次登录", "RWSY8", "复制优惠码", "在“我的订阅”找到订单", "选择邮箱登录", "获取链接/代码", "输入验证码，完成登录"]) {
     assert.match(html, new RegExp(text.replace(/[?？]/g, ".")));
   }
@@ -269,7 +269,7 @@ test("AI与应用对照表下方提供三项常用应用的完整介绍卡片", 
 
 test("新手决策、商店地区、状态与反馈功能都能解释边界", async () => {
   const home = await (await render("/")).text();
-  for (const text of ["看懂机场，选择服务并安装客户端", "先选 AI，再决定是否订阅或安装", "看懂当前主流模型和评测结果"]) assert.match(home, new RegExp(text));
+  for (const text of ["看懂机场、节点与客户端，再选择", "先回答“我要做什么”，再决定订阅谁", "能力、速度和成本要分开看"]) assert.match(home, new RegExp(text));
   const stores = await (await render("/stores")).text();
   assert.match(stores, /至少要等待90天/);
   assert.match(stores, /不要购买陌生共享Apple ID/);

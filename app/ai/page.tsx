@@ -17,7 +17,7 @@ export default function AiIndexPage() {
     <PageShell>
       <PageIntro
         eyebrow="AI工具 · 从“它能帮我做什么”开始"
-        title="第一次使用AI，不需要先懂模型"
+        title="第一次用 AI，不必先懂模型"
         lead="你可以先把AI理解成一个能对话、整理资料、写作、搜索和处理文件的助手。它会犯错，也不应该替你做重要决定。"
         artwork={{ src: "/illustrations/ai-assistant-v2.webp", alt: "AI助手中心连接对话、文档、搜索、图片、语音和文件六类任务的原创纸艺插画", caption: "原创插画 · 一位AI助手，连接六类常用任务" }}
       />

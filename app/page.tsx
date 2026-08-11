@@ -1,7 +1,6 @@
 import syncStatus from "../data/sync-status.json";
 import "./award-system.css";
 import promotionManifest from "../data/promotion-links.json";
-import type { CSSProperties } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { BrandIcon, BrandNotice, PageShell, SiteFooter, SiteHeader } from "./components/SiteChrome";
@@ -430,6 +429,9 @@ export function NodeGuidePage() {
 }
 
 export default function Home() {
+  const usableLinks = syncStatus.links.filter((link) => link.state === "ok" || link.state === "protected").length;
+  const checkedClients = syncStatus.clients.filter((client) => client.state === "ok" || client.state === "stale").length;
+  const directFiles = syncStatus.clients.filter((client) => "assetUrl" in client && typeof client.assetUrl === "string").length;
   const routeListJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -443,46 +445,69 @@ export default function Home() {
   return (
     <PageShell staticNavigation>
       <StructuredData data={routeListJsonLd} />
-      <section className="home-hero" aria-labelledby="home-title">
-        <figure className="home-hero-art" aria-hidden="true" style={{ "--hero-image": `url("${basePath}/editorial/digital-atlas-home-v2.webp")` } as CSSProperties} />
-        <div className="home-hero-inner">
-          <div className="home-hero-copy">
-            <span className="home-kicker"><i />数字生活 · 逐项核对</span>
-            <h1 id="home-title"><span>复杂的数字工具，</span><br /><em>先看懂，再决定。</em></h1>
-            <p>从网络服务、AI产品到模型评测，把入口、价格、风险和证据整理成普通人能直接行动的中文指南。</p>
-            <div className="home-hero-actions"><Link className="home-action-primary" href="#projects">按我的问题开始 <span>↓</span></Link><Link className="home-action-secondary" href="/search" prefetch={false}>搜索一个工具 <span>⌕</span></Link></div>
-            <dl className="home-proof-row">
-              <div><dt>公开来源</dt><dd>逐项标注</dd></div>
-              <div><dt>重要入口</dt><dd>自动检查</dd></div>
-              <div><dt>表达方式</dt><dd>新手优先</dd></div>
-            </dl>
+      <section className="v16-hero" aria-labelledby="home-title">
+        <div className="v16-hero-copy">
+          <span className="v16-kicker"><i />Digital tools · verified clearly</span>
+          <h1 id="home-title"><span>工具很复杂，</span><br /><em>先找到证据，</em><br /><span>再做决定。</span></h1>
+          <p>网络服务、AI产品与模型评测，不靠一句“推荐”替你下结论。先把来源、状态、风险和下一步放在同一张地图上。</p>
+          <div className="v16-hero-actions"><Link className="v16-action-primary" href="#projects">按我的问题开始 <span>↓</span></Link><Link className="v16-action-secondary" href="/search" prefetch={false}>搜索一个工具 <span>⌕</span></Link></div>
+          <nav className="v16-route-strip" aria-label="三个核心项目">
+            <Link href="/nodes" prefetch={false}><b>01</b><span>网络服务<small>选择、下载、排错</small></span><i>↗</i></Link>
+            <Link href="/ai" prefetch={false}><b>02</b><span>AI与应用<small>用途、订阅、安装</small></span><i>↗</i></Link>
+            <Link href="/benchmarks" prefetch={false}><b>03</b><span>模型评测<small>能力、速度、成本</small></span><i>↗</i></Link>
+          </nav>
+        </div>
+
+        <aside className="v16-evidence-map" aria-label="本站公开数据同步概览">
+          <header><span>Live evidence map</span><strong>本轮公开数据已同步</strong><small>{syncTime}</small></header>
+          <div className="v16-orbit" aria-hidden="true">
+            <i className="v16-orbit-ring ring-one" /><i className="v16-orbit-ring ring-two" />
+            <span className="v16-map-node source-node"><b>01</b><small>官方来源</small></span>
+            <span className="v16-map-node check-node"><b>02</b><small>自动校准</small></span>
+            <span className="v16-map-node action-node"><b>03</b><small>清楚行动</small></span>
+            <span className="v16-map-core"><i />证据坐标</span>
           </div>
-          <aside className="home-route-panel" aria-label="三个项目分别解决什么问题">
-            <header><span>Start with a question</span><strong>你现在想解决什么？</strong></header>
-            <nav>
-              <Link href="/nodes" prefetch={false}><b>01</b><span><strong>需要网络服务</strong><small>看懂机场、节点和客户端</small></span><i>↗</i></Link>
-              <Link href="/ai" prefetch={false}><b>02</b><span><strong>想学习或订阅 AI</strong><small>从用途、产品和购买方式开始</small></span><i>↗</i></Link>
-              <Link href="/benchmarks" prefetch={false}><b>03</b><span><strong>想了解模型水平</strong><small>分清能力、速度和成本</small></span><i>↗</i></Link>
-            </nav>
-            <p><i /> 内容会持续核验；无法确认的数字会明确隐藏。</p>
-          </aside>
-        </div>
-        <a className="home-scroll-cue" href="#projects"><span>向下探索</span><i /></a>
+          <dl>
+            <div><dt>可用入口</dt><dd>{usableLinks}<small> / {syncStatus.links.length}</small></dd></div>
+            <div><dt>客户端版本</dt><dd>{checkedClients}<small> 项已检查</small></dd></div>
+            <div><dt>官方直链</dt><dd>{directFiles}<small> 个文件</small></dd></div>
+          </dl>
+          <p><i /> 读取失败不会伪装成“已核验”，旧数字也不会冒充当前价格。</p>
+        </aside>
       </section>
 
-      <section className="home-promise" aria-label="本站的三个设计与编辑原则">
-        <p><span>01</span> 少一点术语，<strong>多一点判断依据。</strong></p>
-        <p><span>02</span> 少一点推荐，<strong>多一点适用边界。</strong></p>
-        <p><span>03</span> 少一点炫技，<strong>多一点真实速度。</strong></p>
+      <section className="v16-principles" aria-label="本站的三个设计与编辑原则">
+        <p><span>01</span><strong>来源先于推荐</strong><small>关键结论回到官方页面或可重复检查的数据。</small></p>
+        <p><span>02</span><strong>边界与结论同屏</strong><small>不知道、冲突或过期，直接说明，不藏在页脚。</small></p>
+        <p><span>03</span><strong>下一步始终明确</strong><small>看完一段，就知道接下来该比较、下载还是核对。</small></p>
       </section>
 
-      <section className="project-overview" id="projects">
-        <header className="home-section-heading"><div><span>Three clear paths</span><h2>三个独立指南，<br />需要哪个就看哪个。</h2></div><p>不需要按顺序阅读，也不用先懂专业名词。每个项目都从“这是什么”开始，到“下一步怎么做”结束。</p></header>
-        <div className="project-overview-grid">
-          <article className="project-card project-card-network"><Link className="project-card-media" href="/nodes" prefetch={false} aria-label="01 进入机场指南"><Image src={`${basePath}/illustrations/network-journey-home-v2.webp`} width="832" height="555" alt="从设备、客户端到网络服务的纸艺路线插画" unoptimized /><span aria-hidden="true">01</span></Link><div className="project-card-body"><span>项目 01 · 网络服务</span><h3>看懂机场，选择服务并安装客户端</h3><p>适合不知道“机场、节点、订阅链接”是什么的人。按设备给出下载、安装与排错路径。</p><small className="project-card-outcome">理解术语 · 比较服务 · 安装客户端</small><Link className="project-card-primary" href="/nodes" prefetch={false}>进入机场指南 <i>↗</i></Link></div></article>
-          <article className="project-card project-card-ai"><Link className="project-card-media" href="/ai" prefetch={false} aria-label="02 进入AI与应用指南"><Image src={`${basePath}/illustrations/ai-assistant-home-v2.webp`} width="832" height="555" alt="围绕对话、文件、语音、图片和搜索的AI助手纸艺插画" unoptimized /><span aria-hidden="true">02</span></Link><div className="project-card-body"><span>项目 02 · AI与应用</span><h3>先选 AI，再决定是否订阅或安装</h3><p>比较 ChatGPT、Claude、Gemini 等产品的用途、下载入口、订阅方式与账号风险。</p><small className="project-card-outcome">选择 AI · 比较订阅 · 找到下载</small><nav className="project-card-links" aria-label="AI与应用子栏目"><Link href="/ai" prefetch={false}>AI介绍</Link><Link href="/subscriptions" prefetch={false}>AI订阅</Link><Link href="/apps" prefetch={false}>常用应用</Link><Link href="/downloads" prefetch={false}>下载中心</Link></nav></div></article>
-          <article className="project-card project-card-benchmark"><Link className="project-card-media" href="/benchmarks" prefetch={false} aria-label="03 进入模型评测"><Image src={`${basePath}/illustrations/model-benchmarks-home-v2.webp`} width="832" height="555" alt="展示真人评价、能力、速度与成本的模型评测纸艺插画" unoptimized /><span aria-hidden="true">03</span></Link><div className="project-card-body"><span>项目 03 · 模型评测</span><h3>看懂当前主流模型和评测结果</h3><p>把 Arena 真人评价与 Artificial Analysis 的能力、速度和成本数据分开解释，避免只看一个总分。</p><small className="project-card-outcome">分清榜单 · 认识模型 · 看懂差异</small><Link className="project-card-primary" href="/benchmarks" prefetch={false}>查看模型评测 <i>↗</i></Link></div></article>
-        </div>
+      <section className="v16-projects" id="projects">
+        <header className="v16-section-heading"><div><span>Start with your real question</span><h2>不是三个栏目，<br />是三条清楚的行动路线。</h2></div><p>不必从头读到尾。找到自己眼前的问题，进入对应路线；每一条都从普通话解释开始，到可核对的下一步结束。</p></header>
+
+        <article className="v16-project-chapter chapter-network">
+          <Link className="v16-project-media" href="/nodes" prefetch={false} aria-label="进入机场与网络服务指南"><Image src={`${basePath}/illustrations/network-journey-home-v2.webp`} width="832" height="555" alt="设备、客户端、网络服务和目标站点之间的路线示意" unoptimized /><span>Route 01</span></Link>
+          <div className="v16-project-copy"><span>网络服务 · 从概念到连接</span><h3>看懂机场、节点与客户端，再选择。</h3><p>先分清你买的是什么、软件负责什么，再比较服务、找到适合设备的官方文件，并按症状排查连接问题。</p><ul><li>五个术语用普通话解释</li><li>价格过期自动退出当前排序</li><li>官方文件与本站校验备份分开</li></ul><Link href="/nodes" prefetch={false}>进入机场指南 <i>↗</i></Link></div>
+        </article>
+
+        <article className="v16-project-chapter chapter-ai">
+          <Link className="v16-project-media" href="/ai" prefetch={false} aria-label="进入AI与应用指南"><Image src={`${basePath}/illustrations/ai-assistant-home-v2.webp`} width="832" height="555" alt="AI助手连接对话、文件、语音、图片和搜索等任务" unoptimized /><span>Route 02</span></Link>
+          <div className="v16-project-copy"><span>AI与应用 · 从任务到产品</span><h3>先回答“我要做什么”，再决定订阅谁。</h3><p>把产品用途、免费版边界、官方入口、第三方购买方式与账号风险分开说明，不把低价当作唯一答案。</p><nav className="v16-subroutes" aria-label="AI与应用子栏目"><Link href="/ai">AI介绍</Link><Link href="/subscriptions">AI订阅</Link><Link href="/apps">常用应用</Link><Link href="/downloads">下载中心</Link></nav></div>
+        </article>
+
+        <article className="v16-project-chapter chapter-benchmark">
+          <Link className="v16-project-media" href="/benchmarks" prefetch={false} aria-label="进入模型评测"><Image src={`${basePath}/illustrations/model-benchmarks-home-v2.webp`} width="832" height="555" alt="真人偏好、模型能力、输出速度和成本的评测示意" unoptimized /><span>Route 03</span></Link>
+          <div className="v16-project-copy"><span>模型评测 · 从榜单到判断</span><h3>一个总分不够：能力、速度和成本要分开看。</h3><p>把 Arena 的真人偏好与 Artificial Analysis 的统一测试分开解释；保留原始名次，也给新手一份不夸大的普通话读法。</p><ul><li>自动保留最近成功快照</li><li>每家公司先看一个代表模型</li><li>原榜前十完整保留，不重排</li></ul><Link href="/benchmarks" prefetch={false}>查看模型评测 <i>↗</i></Link></div>
+        </article>
+      </section>
+
+      <section className="v16-method" aria-labelledby="v16-method-title">
+        <header><span>How a claim becomes useful</span><h2 id="v16-method-title">一句“当前可用”，<br />要经过三道校准。</h2><p>视觉不是证据。只有来源、检查结果和适用边界能彼此对应，页面才会把它写成可行动的信息。</p></header>
+        <ol>
+          <li><span>01</span><div><strong>找到原始来源</strong><p>优先官方定价页、发布页、应用商店、公开方法或原始榜单。</p></div><i>Source</i></li>
+          <li><span>02</span><div><strong>自动检查变化</strong><p>同步入口、版本、文件指纹和动态数据；异常会阻止错误状态发布。</p></div><i>Check</i></li>
+          <li><span>03</span><div><strong>翻译成下一步</strong><p>把“适合谁、风险是什么、该点哪里”放在结论旁边。</p></div><i>Decide</i></li>
+        </ol>
       </section>
 
       <section className="home-standard">

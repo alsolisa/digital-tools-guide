@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-08-09T13:18:15.455Z",
+  "checkedAt": "2026-08-11T12:13:54.333Z",
   "exchange": {
     "state": "ok",
-    "date": "2026-08-07",
+    "date": "2026-08-10",
     "base": "USD",
     "rates": {
-      "CNY": 6.7476,
-      "SGD": 1.2809
+      "CNY": 6.7444,
+      "SGD": 1.2795
     },
     "sourceUrl": "https://api.frankfurter.app/latest?from=USD&to=CNY,SGD"
   },
@@ -18,42 +18,32 @@
         "currency": "USD",
         "value": 5
       },
-      "state": "stale",
+      "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T13:17:43.122Z",
-      "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
-      "note": "本轮自动运行环境未能读取商家页；展示 2026-08-09 最近一次成功核验的价格，结算前请打开购买页确认",
-      "cny": 33.74,
+      "checkedAt": "2026-08-11T12:13:32.929Z",
+      "lastSuccessfulAt": "2026-08-11T12:13:32.929Z",
       "officialObserved": {
         "currency": "USD",
         "value": 20
       },
       "period": "month",
       "offerDurationMonths": 3,
-      "lastSuccessfulAt": "2026-08-09T13:09:38.176Z"
+      "cny": 33.72,
+      "note": "公开购买页3个月方案折算的月付起价；具体交付方式与结算价以下单页为准"
     },
     {
       "slug": "claude",
-      "url": "https://www.gamsgo.com/details/claude",
+      "url": "https://www.gamsgo.com/zh/accounts/claude",
       "published": {
         "currency": "USD",
         "value": 87.99
       },
-      "state": "stale",
+      "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T13:17:48.521Z",
-      "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
-      "note": "本轮自动运行环境未能读取商家页；展示 2026-08-09 最近一次成功核验的价格，结算前请打开购买页确认",
-      "cny": 593.72,
-      "officialObserved": {
-        "currency": "USD",
-        "value": 120
-      },
-      "period": "month",
-      "offerDurationMonths": 1,
-      "lastSuccessfulAt": "2026-08-09T13:09:41.613Z"
+      "checkedAt": "2026-08-11T12:13:36.449Z",
+      "note": "公开页未稳定展示可校验的月付价格"
     },
     {
       "slug": "gemini",
@@ -62,20 +52,19 @@
         "currency": "USD",
         "value": 2.25
       },
-      "state": "stale",
+      "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T13:17:53.908Z",
-      "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
-      "note": "本轮自动运行环境未能读取商家页；展示 2026-08-09 最近一次成功核验的价格，结算前请打开购买页确认",
-      "cny": 15.18,
+      "checkedAt": "2026-08-11T12:13:39.769Z",
+      "lastSuccessfulAt": "2026-08-11T12:13:39.769Z",
       "officialObserved": {
         "currency": "USD",
         "value": 6.67
       },
       "period": "month",
       "offerDurationMonths": 12,
-      "lastSuccessfulAt": "2026-08-09T13:09:45.083Z"
+      "cny": 15.17,
+      "note": "公开购买页12个月方案折算的月付起价；具体交付方式与结算价以下单页为准"
     },
     {
       "slug": "grok",
@@ -84,14 +73,12 @@
       "published": null,
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T13:09:49.103Z",
+      "checkedAt": "2026-08-11T12:13:43.406Z",
       "observedValues": [
         15,
         18.99
       ],
-      "note": "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核；本轮自动运行环境未能读取商家页，保留最近一次冲突证据",
-      "lastAttemptedAt": "2026-08-09T13:17:59.300Z",
-      "error": "Error; code=22; curl: (22) The requested URL returned error: 403"
+      "note": "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核"
     },
     {
       "slug": "perplexity",
@@ -100,20 +87,19 @@
         "currency": "USD",
         "value": 4.09
       },
-      "state": "stale",
+      "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T13:18:04.678Z",
-      "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
-      "note": "本轮自动运行环境未能读取商家页；展示 2026-08-09 最近一次成功核验的价格，结算前请打开购买页确认",
-      "cny": 27.6,
+      "checkedAt": "2026-08-11T12:13:47.343Z",
+      "lastSuccessfulAt": "2026-08-11T12:13:47.343Z",
       "officialObserved": {
         "currency": "USD",
         "value": 16.67
       },
       "period": "month",
       "offerDurationMonths": 12,
-      "lastSuccessfulAt": "2026-08-09T13:09:55.274Z"
+      "cny": 27.58,
+      "note": "公开购买页12个月方案折算的月付起价；具体交付方式与结算价以下单页为准"
     },
     {
       "slug": "midjourney",
@@ -122,20 +108,19 @@
         "currency": "USD",
         "value": 24.99
       },
-      "state": "stale",
+      "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-09T13:18:10.060Z",
-      "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
-      "note": "本轮自动运行环境未能读取商家页；展示 2026-08-09 最近一次成功核验的价格，结算前请打开购买页确认",
-      "cny": 168.62,
+      "checkedAt": "2026-08-11T12:13:50.680Z",
+      "lastSuccessfulAt": "2026-08-11T12:13:50.680Z",
       "officialObserved": {
         "currency": "USD",
         "value": 59.99
       },
       "period": "month",
       "offerDurationMonths": 1,
-      "lastSuccessfulAt": "2026-08-09T13:09:58.894Z"
+      "cny": 168.54,
+      "note": "公开购买页月付起价；具体交付方式与结算价以下单页为准"
     }
   ],
   "benchmarks": [
@@ -143,21 +128,21 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-08-09T13:18:15.455Z"
+      "checkedAt": "2026-08-11T12:13:54.333Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/leaderboards/models",
       "state": "ok",
-      "checkedAt": "2026-08-09T13:18:15.455Z"
+      "checkedAt": "2026-08-11T12:13:54.333Z"
     }
   ],
   "artificialAnalysisLeaderboard": {
     "source": "Artificial Analysis",
     "url": "https://artificialanalysis.ai/leaderboards/models",
     "state": "ok",
-    "checkedAt": "2026-08-09T13:17:33.650Z",
-    "lastSuccessfulAt": "2026-08-09T13:17:33.650Z",
+    "checkedAt": "2026-08-11T12:13:09.135Z",
+    "lastSuccessfulAt": "2026-08-11T12:13:09.135Z",
     "methodologyVersion": "Intelligence Index v4.1",
     "rows": [
       {
@@ -167,9 +152,9 @@
         "contextWindow": "1M",
         "intelligence": 63,
         "priceUsdPerMillion": 2.34,
-        "outputTokensPerSecond": 58,
-        "latencySeconds": 30.61,
-        "totalResponseSeconds": 39.29
+        "outputTokensPerSecond": 54,
+        "latencySeconds": 40.44,
+        "totalResponseSeconds": 49.68
       },
       {
         "rank": 2,
@@ -178,9 +163,9 @@
         "contextWindow": "1M",
         "intelligence": 63,
         "priceUsdPerMillion": 1.8,
-        "outputTokensPerSecond": 61,
-        "latencySeconds": 18.65,
-        "totalResponseSeconds": 26.91
+        "outputTokensPerSecond": 54,
+        "latencySeconds": 19.68,
+        "totalResponseSeconds": 29.03
       },
       {
         "rank": 3,
@@ -189,9 +174,9 @@
         "contextWindow": "1M",
         "intelligence": 62,
         "priceUsdPerMillion": 3.14,
-        "outputTokensPerSecond": 70,
-        "latencySeconds": 124.1,
-        "totalResponseSeconds": 131.28
+        "outputTokensPerSecond": 67,
+        "latencySeconds": 137.86,
+        "totalResponseSeconds": 145.29
       },
       {
         "rank": 4,
@@ -200,9 +185,9 @@
         "contextWindow": "1M",
         "intelligence": 61,
         "priceUsdPerMillion": 1.23,
-        "outputTokensPerSecond": 61,
-        "latencySeconds": 10.3,
-        "totalResponseSeconds": 18.5
+        "outputTokensPerSecond": 54,
+        "latencySeconds": 9.32,
+        "totalResponseSeconds": 18.63
       },
       {
         "rank": 5,
@@ -211,9 +196,9 @@
         "contextWindow": "1M",
         "intelligence": 61,
         "priceUsdPerMillion": 1.23,
-        "outputTokensPerSecond": 69,
-        "latencySeconds": 133.61,
-        "totalResponseSeconds": 140.84
+        "outputTokensPerSecond": 68,
+        "latencySeconds": 145.22,
+        "totalResponseSeconds": 152.58
       },
       {
         "rank": 6,
@@ -223,8 +208,8 @@
         "intelligence": 60,
         "priceUsdPerMillion": 0.84,
         "outputTokensPerSecond": 43,
-        "latencySeconds": 2.37,
-        "totalResponseSeconds": 60.52
+        "latencySeconds": 2.47,
+        "totalResponseSeconds": 60.9
       },
       {
         "rank": 7,
@@ -233,9 +218,9 @@
         "contextWindow": "1M",
         "intelligence": 59,
         "priceUsdPerMillion": 0.81,
-        "outputTokensPerSecond": 71,
-        "latencySeconds": 52.3,
-        "totalResponseSeconds": 59.37
+        "outputTokensPerSecond": 67,
+        "latencySeconds": 42.34,
+        "totalResponseSeconds": 49.79
       },
       {
         "rank": 8,
@@ -244,9 +229,9 @@
         "contextWindow": "1M",
         "intelligence": 59,
         "priceUsdPerMillion": 0.72,
-        "outputTokensPerSecond": 59,
-        "latencySeconds": 6.15,
-        "totalResponseSeconds": 14.58
+        "outputTokensPerSecond": 53,
+        "latencySeconds": 9.53,
+        "totalResponseSeconds": 18.9
       },
       {
         "rank": 9,
@@ -255,9 +240,9 @@
         "contextWindow": "1M",
         "intelligence": 58,
         "priceUsdPerMillion": 1.13,
-        "outputTokensPerSecond": 85,
-        "latencySeconds": 2.9,
-        "totalResponseSeconds": 32.31
+        "outputTokensPerSecond": 77,
+        "latencySeconds": 2.88,
+        "totalResponseSeconds": 35.27
       },
       {
         "rank": 10,
@@ -266,9 +251,9 @@
         "contextWindow": "1M",
         "intelligence": 57,
         "priceUsdPerMillion": 0.55,
-        "outputTokensPerSecond": 68,
-        "latencySeconds": 12.42,
-        "totalResponseSeconds": 19.81
+        "outputTokensPerSecond": 67,
+        "latencySeconds": 11.43,
+        "totalResponseSeconds": 18.87
       },
       {
         "rank": 11,
@@ -277,9 +262,9 @@
         "contextWindow": "1M",
         "intelligence": 57,
         "priceUsdPerMillion": 0.51,
-        "outputTokensPerSecond": 142,
-        "latencySeconds": 166.47,
-        "totalResponseSeconds": 170
+        "outputTokensPerSecond": 149,
+        "latencySeconds": 183.56,
+        "totalResponseSeconds": 186.92
       },
       {
         "rank": 12,
@@ -288,9 +273,9 @@
         "contextWindow": "500k",
         "intelligence": 56,
         "priceUsdPerMillion": 0.36,
-        "outputTokensPerSecond": 60,
-        "latencySeconds": 7.99,
-        "totalResponseSeconds": 16.26
+        "outputTokensPerSecond": 58,
+        "latencySeconds": 9.6,
+        "totalResponseSeconds": 18.22
       },
       {
         "rank": 13,
@@ -299,9 +284,9 @@
         "contextWindow": "1M",
         "intelligence": 56,
         "priceUsdPerMillion": 0.37,
-        "outputTokensPerSecond": 70,
-        "latencySeconds": 4.39,
-        "totalResponseSeconds": 11.55
+        "outputTokensPerSecond": 65,
+        "latencySeconds": 4.53,
+        "totalResponseSeconds": 12.21
       },
       {
         "rank": 14,
@@ -310,9 +295,9 @@
         "contextWindow": "1M",
         "intelligence": 55,
         "priceUsdPerMillion": 1.72,
-        "outputTokensPerSecond": 72,
-        "latencySeconds": 170.85,
-        "totalResponseSeconds": 177.79
+        "outputTokensPerSecond": 74,
+        "latencySeconds": 177.19,
+        "totalResponseSeconds": 183.9
       },
       {
         "rank": 15,
@@ -321,9 +306,9 @@
         "contextWindow": "1M",
         "intelligence": 53,
         "priceUsdPerMillion": 0.31,
-        "outputTokensPerSecond": 129,
-        "latencySeconds": 16.02,
-        "totalResponseSeconds": 19.9
+        "outputTokensPerSecond": 123,
+        "latencySeconds": 23.09,
+        "totalResponseSeconds": 27.14
       },
       {
         "rank": 16,
@@ -332,9 +317,9 @@
         "contextWindow": "1M",
         "intelligence": 53,
         "priceUsdPerMillion": 0.31,
-        "outputTokensPerSecond": 123,
-        "latencySeconds": 1.43,
-        "totalResponseSeconds": 21.82
+        "outputTokensPerSecond": 142,
+        "latencySeconds": 1.46,
+        "totalResponseSeconds": 19.04
       },
       {
         "rank": 17,
@@ -343,9 +328,9 @@
         "contextWindow": "1M",
         "intelligence": 52,
         "priceUsdPerMillion": 0.43,
-        "outputTokensPerSecond": 58,
-        "latencySeconds": 3.27,
-        "totalResponseSeconds": 11.84
+        "outputTokensPerSecond": 53,
+        "latencySeconds": 3.15,
+        "totalResponseSeconds": 12.53
       },
       {
         "rank": 18,
@@ -354,9 +339,9 @@
         "contextWindow": "1M",
         "intelligence": 52,
         "priceUsdPerMillion": 0.05,
-        "outputTokensPerSecond": 196,
-        "latencySeconds": 131.4,
-        "totalResponseSeconds": 133.96
+        "outputTokensPerSecond": 204,
+        "latencySeconds": 136.42,
+        "totalResponseSeconds": 138.87
       },
       {
         "rank": 19,
@@ -365,9 +350,9 @@
         "contextWindow": "1M",
         "intelligence": 52,
         "priceUsdPerMillion": 0.03,
-        "outputTokensPerSecond": 128,
-        "latencySeconds": 1.15,
-        "totalResponseSeconds": 20.71
+        "outputTokensPerSecond": 135,
+        "latencySeconds": 1.52,
+        "totalResponseSeconds": 20.05
       },
       {
         "rank": 20,
@@ -376,9 +361,9 @@
         "contextWindow": "1M",
         "intelligence": 52,
         "priceUsdPerMillion": 0.56,
-        "outputTokensPerSecond": 232,
-        "latencySeconds": 24.13,
-        "totalResponseSeconds": 26.29
+        "outputTokensPerSecond": 235,
+        "latencySeconds": 21.31,
+        "totalResponseSeconds": 23.44
       }
     ]
   },

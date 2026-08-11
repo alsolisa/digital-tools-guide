@@ -72,7 +72,7 @@ export default function SubscriptionsPage() {
       <section className="content-section gamsgo-hero" aria-labelledby="gamsgo-title">
         <div className="gamsgo-hero-copy">
           <span>AI订阅购买平台 · 第一次也能看懂</span>
-          <h1 id="gamsgo-title">先认识 GamsGo，再选择适合自己的 AI 订阅</h1>
+          <h1 id="gamsgo-title">先认识 GamsGo，再选择 AI 订阅</h1>
           <p>GamsGo 提供 AI、流媒体和游戏等数字订阅服务。按照平台官方公开介绍，部分方案最高可节省 85%；本页把不同产品、价格和购买方式分开说明，让你可以直接比较。</p>
           <div className="gamsgo-hero-actions"><a className="primary-action" href={promotionUrls.gamsgo} target="_blank" rel="sponsored noopener">打开我的 GamsGo 推广页 ↗</a><a href="#offers">查看 AI 订阅方案 ↓</a></div>
         </div>

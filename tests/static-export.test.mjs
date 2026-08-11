@@ -93,10 +93,10 @@ test("脚本、样式、图片资源均使用正确子目录", async () => {
   const resources = [...home.matchAll(/(?:src|href)=["'](\/[^"']+)["']/g)].map((match) => match[1]);
   assert.ok(resources.length > 0);
   for (const resource of resources) assert.equal(resource.startsWith(basePath), true, `资源地址缺少${basePath}：${resource}`);
-  assert.match(home, /https:\/\/alsolisa\.github\.io\/digital-tools-guide\/og-award-v2\.jpg/);
+  assert.match(home, /https:\/\/alsolisa\.github\.io\/digital-tools-guide\/og-evidence-atlas-v16\.jpg/);
   assert.match(home, /<meta property="og:image:width" content="1200"\/>/);
   assert.match(home, /<meta property="og:image:height" content="630"\/>/);
-  assert.equal(await exists(path.join(root, "og-award-v2.jpg")), true, "新版社交分享图没有进入静态发布包");
+  assert.equal(await exists(path.join(root, "og-evidence-atlas-v16.jpg")), true, "V16社交分享图没有进入静态发布包");
   assert.match(home, /hydration-free static homepage/);
   assert.doesNotMatch(home, /<script[^>]+src=|self\.__next_f/, "纯静态首页不应下载无用的React运行时");
   assert.equal((home.match(/type="application\/ld\+json"/g) || []).length >= 2, true, "移除首页运行时后仍须保留结构化数据");

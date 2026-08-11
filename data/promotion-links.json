@@ -56,14 +56,7 @@
     },
     {
       "id": "gamsgo-claude",
-      "label": "Claude 商品推广页",
-      "url": "https://www.gamsgo.com/zh/details/claude/partner/BTzCM",
-      "kind": "subscription-purchase",
-      "tracking": { "sourcePathCode": "BTzCM", "finalParameter": "promote", "value": "BTzCM", "requireOnFinalUrl": true }
-    },
-    {
-      "id": "gamsgo-claude-market",
-      "label": "Claude 市场中心推广页",
+      "label": "Claude 当前购买推广页",
       "url": "https://www.gamsgo.com/zh/accounts/claude/partner/BTzCM",
       "kind": "subscription-purchase",
       "tracking": { "sourcePathCode": "BTzCM", "finalParameter": "promote", "value": "BTzCM", "requireOnFinalUrl": true }

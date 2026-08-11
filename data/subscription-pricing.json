@@ -28,21 +28,7 @@
     },
     "claude": {
       "officialUsd": 20,
-      "verifiedAt": "2026-07-18",
-      "options": [
-        {
-          "label": "Max 5x · 独享",
-          "usd": 89.99,
-          "note": "官方提供账号",
-          "url": "https://www.gamsgo.com/zh/details/claude/partner/BTzCM"
-        },
-        {
-          "label": "Max 20x · 独享",
-          "usd": 171.99,
-          "note": "官方提供账号",
-          "url": "https://www.gamsgo.com/zh/details/claude/partner/BTzCM"
-        }
-      ]
+      "verifiedAt": "2026-07-18"
     },
     "gemini": {
       "officialUsd": 19.99,

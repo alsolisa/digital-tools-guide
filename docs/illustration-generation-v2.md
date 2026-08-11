@@ -2,6 +2,8 @@
 
 更新日期：2026-07-18
 
+> 历史说明：这是 V15 纸艺插画的生成与选图记录。自 V16 起，首页和社交分享图改用“证据坐标系”作为主视觉；本组插画仅作为内页辅助解释资产继续保留，不再定义整站品牌方向。当前规则见 [`brand-system.md`](./brand-system.md) 与 [`design-quality-standard-v16.md`](./design-quality-standard-v16.md)。
+
 ## 生成方式
 
 - 使用 Codex 当前内置的 OpenAI 图像生成能力。

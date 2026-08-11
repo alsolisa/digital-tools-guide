@@ -8,7 +8,8 @@ test("订阅美元价格只维护一份数据，人民币换算使用同步汇�
   assert.equal(pricing.usdCnyRate, 6.823);
   const offers = Object.values(pricing.offers);
   const options = offers.flatMap((offer) => offer.options || []);
-  assert.ok(options.length >= 12);
+  assert.equal(pricing.offers.claude.options, undefined, "Claude旧商品页迁移后不得保留过期人工套餐");
+  assert.ok(options.length >= 11);
   for (const option of options) {
     assert.ok(option.usd > 0);
     assert.equal(new URL(option.url).hostname, "www.gamsgo.com");

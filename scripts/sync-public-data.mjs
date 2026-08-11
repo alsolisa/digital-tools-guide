@@ -36,7 +36,7 @@ const gamsgoOffers = [
       official: { currency: "USD", value: 20 },
     },
   },
-  { slug: "claude", url: "https://www.gamsgo.com/details/claude", parseOptions: { embeddedProduct: true } },
+  { slug: "claude", url: "https://www.gamsgo.com/zh/accounts/claude", parseOptions: { embeddedProduct: true } },
   { slug: "gemini", url: "https://www.gamsgo.com/details/gemini", parseOptions: { embeddedProduct: true } },
   {
     slug: "grok",
