@@ -104,8 +104,11 @@ test("脚本、样式、图片资源均使用正确子目录", async () => {
   assert.match(home, /<details class="static-mobile-menu">[\s\S]*?<summary class="mobile-menu-button">/, "无脚本首页必须保留可键盘操作的移动菜单");
 
   const subscriptions = await readFile(path.join(root, "subscriptions", "index.html"), "utf8");
-  assert.equal((subscriptions.match(/>打开购买页面<\/a>/g) || []).length, 5, "订阅页的五个购买按钮文案必须统一");
+  assert.equal((subscriptions.match(/class="promotion-price-action"[^>]*>打开购买页面<\/a>/g) || []).length, 5, "订阅页的五个主购买按钮文案必须统一");
   assert.doesNotMatch(subscriptions, /打开我的推广购买页|推广入口已自动核验|推广码已保留/);
+  assert.equal((subscriptions.match(/class="price-evidence-note/g) || []).length, 5, "五张订阅卡片都应解释自动价格检查状态");
+  assert.match(subscriptions, /页面能打开，价格结构暂未读出|暂时无法自动读取价格|同页价格互相冲突/);
+  for (const code of ["BTzCM"]) assert.match(subscriptions, new RegExp(code), `订阅页缺少推广地址中的 ${code}`);
   for (const qr of ["gamsgo-chatgpt-account.png", "gamsgo-chatgpt-recharge.png"]) {
     assert.match(subscriptions, new RegExp(`${basePath}/qr/${qr.replace(".", "\\.")}`), `${qr} 缺少GitHub Pages子目录`);
     assert.equal(await exists(path.join(root, "qr", qr)), true, `缺少二维码文件 ${qr}`);
@@ -114,4 +117,10 @@ test("脚本、样式、图片资源均使用正确子目录", async () => {
   for (const image of ["gamsgo-coupon-entry.png", "gamsgo-coupon-checkout.png", "gamsgo-get-code.png", "chatgpt-email-login.png", "chatgpt-password.png", "chatgpt-verification.png", "gamsgo-hidden-code.png"]) {
     assert.equal(await exists(path.join(root, "guides", "subscriptions", image)), true, `缺少订阅教程截图：${image}`);
   }
+
+  const downloads = await readFile(path.join(root, "downloads", "index.html"), "utf8");
+  for (const release of ["Clash.Verge_", "v2rayN-windows-64-desktop.zip", "FlClash-", "Hiddify-Windows-Setup-x64"]) {
+    assert.match(downloads, new RegExp(release.replace(/[.]/g, "\\.")), `下载中心缺少官方文件：${release}`);
+  }
+  assert.equal((downloads.match(/class="mirror-download"[^>]*>从本站下载已校验文件/g) || []).length, 3, "下载中心应显示三项本站已校验文件");
 });

@@ -14,7 +14,7 @@ export const metadata = {
 export default function AppsIndexPage() {
   return (
     <PageShell>
-      <PageIntro eyebrow="常用海外应用 · 从用途开始" title="先知道它是做什么的，再决定要不要安装" lead="YouTube、X和TikTok分别偏向长视频与学习、实时公开信息、短视频与创作。收录只代表这里有完整说明，不等于每个人都需要安装。" artwork={{ src: "/illustrations/media-apps-v2.webp", alt: "长视频、公开讨论和竖屏短视频三种内容形态并列展示", caption: "观看、讨论与发现，是三种不同的内容节奏" }} />
+      <PageIntro eyebrow="常用海外应用 · 从用途开始" title="先知道它是做什么的，再决定要不要安装" lead="YouTube、X和TikTok分别偏向长视频与学习、实时公开信息、短视频与创作。收录只代表这里有完整说明，不等于每个人都需要安装。" artwork={{ src: "/illustrations/media-apps-v3.webp", alt: "长视频时间轴、实时公开讨论串和竖屏短视频序列并列展示三种内容节奏", caption: "观看、讨论与发现，是三种不同的内容节奏" }} />
       <section className="content-section app-scope-section">
         <SectionHeading index="01" title="为什么先介绍这三项？" lead="它们使用人数多、地区差异明显，也最容易出现商店搜不到、账号地区不一致和下载到修改版等问题。" />
         <div className="selection-check-grid"><article><span>YouTube</span><h3>长视频、学习和创作者内容</h3><p>适合观看教程、课程、音乐、直播和订阅频道。</p></article><article><span>X</span><h3>实时信息和公开讨论</h3><p>适合关注新闻、趋势、专业账号和社区讨论；公开内容仍需要核实来源。</p></article><article><span>TikTok</span><h3>短视频、娱乐和内容创作</h3><p>适合短视频浏览与发布；它与中国大陆的抖音不是同一产品。</p></article><article><span>收录范围</span><h3>这是第一批，不是完整名单</h3><p>后续是否加入其他应用，要看用户需求、官方入口、地区说明和教程资料是否能够可靠核验。</p></article></div>

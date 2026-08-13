@@ -237,6 +237,49 @@ test("商家整批拦截时最多保留7天内最近可信价格", () => {
   assert.equal(expired.state, "unreadable");
 });
 
+test("页面可以打开但结构变化导致价格解析失败时仍保留7天内最近可信价格", () => {
+  const previous = {
+    slug: "gemini",
+    state: "ok",
+    published: { currency: "USD", value: 2.25 },
+    cny: 15.17,
+    checkedAt: "2026-08-11T10:00:00.000Z",
+    period: "month",
+    offerDurationMonths: 12,
+  };
+  const unreadable = {
+    slug: "gemini",
+    state: "unreadable",
+    published: previous.published,
+    checkedAt: "2026-08-13T10:00:00.000Z",
+    note: "公开页未稳定展示可校验的月付价格",
+  };
+  const retained = retainGamsgoSnapshot(previous, unreadable, Date.parse(unreadable.checkedAt));
+  assert.equal(retained.state, "stale");
+  assert.deepEqual(retained.published, previous.published);
+  assert.equal(retained.lastSuccessfulAt, previous.checkedAt);
+  assert.match(retained.note, /能打开商家页面/);
+});
+
+test("连续读取失败不会重复追加价格冲突说明", () => {
+  const previous = {
+    slug: "grok",
+    state: "conflict",
+    checkedAt: "2026-08-11T10:00:00.000Z",
+    observedValues: [15, 18.99],
+    note: "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核；本轮没有提取出稳定价格，保留最近一次冲突证据；本轮没有提取出稳定价格，保留最近一次冲突证据",
+  };
+  const current = {
+    slug: "grok",
+    state: "unreadable",
+    checkedAt: "2026-08-13T10:00:00.000Z",
+    note: "公开页未稳定展示可校验的月付价格",
+  };
+  const retained = retainGamsgoSnapshot(previous, current, Date.parse(current.checkedAt));
+  assert.equal(retained.state, "conflict");
+  assert.equal((retained.note.match(/本轮没有提取出稳定价格/g) || []).length, 1);
+});
+
 test("定时发布在构建前执行文案与资料新鲜度门禁", async () => {
   const workflow = await readFile(new URL("../.github/workflows/deploy-github-pages.yml", import.meta.url), "utf8");
   const packageJson = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8"));

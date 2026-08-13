@@ -91,7 +91,7 @@ export default function BenchmarksPage() {
         eyebrow="项目 03 · 模型评测"
         title="两个榜单，其实在回答不同的问题"
         lead="想知道真人更喜欢哪份回答，看 Arena；想比较能力、输出速度、等待和API成本，看 Artificial Analysis。两边测的不是一回事，名次也不能直接相加。"
-        artwork={{ src: "/illustrations/model-benchmarks-v2.webp", alt: "左侧由真人匿名比较回答，右侧分别测量能力、速度、延迟与成本", caption: "真人偏好与统一测试，回答的是两个问题" }}
+        artwork={{ src: "/illustrations/model-benchmarks-v3.webp", alt: "左侧匿名比较两份回答，右侧用彼此独立的仪表测量能力、速度、延迟与成本", caption: "真人偏好与统一测试，回答的是两个问题" }}
       />
       <QuickSummary title="第一次看榜单，先记住四件事" points={["Arena回答“人更喜欢哪份回答”，不是严格的事实准确率考试", "Artificial Analysis把能力、速度、延迟和API成本分开测，不能只看一个数字", "榜单里的API价格是开发者调用模型的成本，不是ChatGPT、Claude等会员月费", "同一品牌会出现多个型号和推理档位；名次对应具体型号，不代表整个品牌永久排名"]} />
 

@@ -256,18 +256,20 @@ export function describeExecError(error) {
 }
 
 export function retainGamsgoSnapshot(previous, current, nowMs = Date.now(), maxAgeMs = 7 * 24 * 60 * 60 * 1000) {
-  if (!current || current.state !== "unreadable" || !current.error) return current;
+  if (!current || current.state !== "unreadable") return current;
   const evidenceAt = previous?.lastSuccessfulAt || previous?.checkedAt;
   const evidenceTime = evidenceAt ? Date.parse(evidenceAt) : Number.NaN;
   const evidenceIsFresh = Number.isFinite(evidenceTime) && nowMs >= evidenceTime && nowMs - evidenceTime <= maxAgeMs;
   if (!evidenceIsFresh) return current;
 
   if (previous?.state === "conflict" && Array.isArray(previous.observedValues) && previous.observedValues.length > 1) {
+    const conflictNote = (previous.note || "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核")
+      .replace(/(?:；本轮没有提取出稳定价格，保留最近一次冲突证据)+$/u, "");
     return {
       ...previous,
       lastAttemptedAt: current.checkedAt,
-      error: current.error,
-      note: `${previous.note}；本轮自动运行环境未能读取商家页，保留最近一次冲突证据`,
+      ...(current.error ? { error: current.error } : {}),
+      note: `${conflictNote}；本轮没有提取出稳定价格，保留最近一次冲突证据`,
     };
   }
 
@@ -281,7 +283,7 @@ export function retainGamsgoSnapshot(previous, current, nowMs = Date.now(), maxA
     period: previous.period,
     offerDurationMonths: previous.offerDurationMonths,
     lastSuccessfulAt: evidenceAt,
-    note: `本轮自动运行环境未能读取商家页；展示 ${evidenceAt.slice(0, 10)} 最近一次成功核验的价格，结算前请打开购买页确认`,
+    note: `本轮能打开商家页面，但没有提取出稳定价格；展示 ${evidenceAt.slice(0, 10)} 最近一次成功核验的价格，结算前请打开购买页确认`,
   };
 }
 

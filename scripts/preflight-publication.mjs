@@ -1,11 +1,46 @@
 import { createHash } from "node:crypto";
 import { execFile } from "node:child_process";
 import { readFile, stat } from "node:fs/promises";
+import { extname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
 const curl = process.platform === "win32" ? "curl.exe" : "curl";
 const nullDevice = process.platform === "win32" ? "NUL" : "/dev/null";
+
+const secretPatterns = [
+  { label: "OpenAI API 密钥", pattern: /\bsk-(?:proj-)?[A-Za-z0-9_-]{20,}\b/ },
+  { label: "GitHub 访问令牌", pattern: /\b(?:ghp|github_pat)_[A-Za-z0-9_]{20,}\b/ },
+  { label: "AWS 访问密钥", pattern: /\bAKIA[0-9A-Z]{16}\b/ },
+  { label: "Google API 密钥", pattern: /\bAIza[0-9A-Za-z_-]{30,}\b/ },
+  { label: "私钥", pattern: /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/ },
+  { label: "Bearer 令牌", pattern: /Authorization\s*:\s*Bearer\s+["']?[A-Za-z0-9._-]{20,}/i },
+];
+const scannableExtensions = new Set([".cjs", ".css", ".env", ".html", ".js", ".json", ".jsx", ".md", ".mjs", ".scss", ".svg", ".toml", ".ts", ".tsx", ".txt", ".xml", ".yaml", ".yml"]);
+
+async function scanPublishableTextForSecrets(rootUrl) {
+  const rootPath = fileURLToPath(rootUrl);
+  const { stdout } = await execFileAsync("git", ["ls-files", "-co", "--exclude-standard", "-z"], {
+    cwd: rootPath,
+    encoding: "utf8",
+    maxBuffer: 8 * 1024 * 1024,
+  });
+  const findings = [];
+  for (const relativePath of stdout.split("\0").filter(Boolean)) {
+    const normalized = relativePath.replaceAll("\\", "/");
+    const filename = normalized.split("/").at(-1) || "";
+    if (!scannableExtensions.has(extname(filename).toLowerCase()) && !filename.startsWith(".env")) continue;
+    const fileUrl = new URL(normalized, rootUrl);
+    const fileInfo = await stat(fileUrl);
+    if (fileInfo.size > 2 * 1024 * 1024) continue;
+    const source = await readFile(fileUrl, "utf8");
+    for (const candidate of secretPatterns) {
+      if (candidate.pattern.test(source)) findings.push({ file: normalized, label: candidate.label });
+    }
+  }
+  return findings;
+}
 
 async function remoteAssetIsReachable(url) {
   try {
@@ -26,16 +61,25 @@ async function remoteAssetIsReachable(url) {
 }
 
 const root = new URL("../", import.meta.url);
-const [syncStatus, autoSync, promotionManifest, localMirrors, subscriptionPricing, catalogSource] = await Promise.all([
+const [syncStatus, autoSync, promotionManifest, localMirrors, subscriptionPricing, catalogSource, subscriptionsSource, downloadsSource, nodesSource] = await Promise.all([
   readFile(new URL("data/sync-status.json", root), "utf8").then(JSON.parse),
   readFile(new URL("data/auto-sync.json", root), "utf8").then(JSON.parse),
   readFile(new URL("data/promotion-links.json", root), "utf8").then(JSON.parse),
   readFile(new URL("data/local-mirrors.json", root), "utf8").then(JSON.parse),
   readFile(new URL("data/subscription-pricing.json", root), "utf8").then(JSON.parse),
   readFile(new URL("data/catalog.ts", root), "utf8"),
+  readFile(new URL("app/subscriptions/page.tsx", root), "utf8"),
+  readFile(new URL("app/downloads/page.tsx", root), "utf8"),
+  readFile(new URL("app/page.tsx", root), "utf8"),
 ]);
 
 const failures = [];
+try {
+  const secretFindings = await scanPublishableTextForSecrets(root);
+  for (const finding of secretFindings) failures.push(`${finding.file} 疑似包含${finding.label}，禁止发布`);
+} catch {
+  failures.push("无法完成待发布源码的敏感凭据扫描，禁止发布");
+}
 const syncTime = Date.parse(autoSync.checkedAt);
 if (!Number.isFinite(syncTime) || Math.abs(Date.now() - syncTime) > 12 * 60 * 60 * 1000) {
   failures.push("自动核验数据不是最近12小时内生成，禁止发布");
@@ -83,6 +127,22 @@ for (const offer of Object.values(subscriptionPricing.offers || {})) {
 
 for (const url of catalogSource.match(/https:\/\/www\.gamsgo\.com\/[^"\s]+\/partner\/(?:BTzCM|2MGZTK)/g) || []) {
   if (!promotionUrls.has(url)) failures.push(`商品卡片推广地址未登记到推广清单：${url}`);
+}
+
+if (!subscriptionsSource.includes("promotionManifest") || !subscriptionsSource.includes("href={offer.affiliateUrl}")) {
+  failures.push("AI订阅页没有从推广清单和商品数据渲染购买地址");
+}
+if (!subscriptionsSource.includes("getOfferPriceEvidence") || !subscriptionsSource.includes("price-evidence-note")) {
+  failures.push("AI订阅页没有公开说明价格读取成功、冲突或解析失败的原因");
+}
+if (/打开我的推广购买页|推广入口已自动核验|推广码已保留/.test(subscriptionsSource)) {
+  failures.push("AI订阅页仍包含面向内部的推广核验文案");
+}
+if (!downloadsSource.includes("syncStatus.clients.map") || !downloadsSource.includes("直接下载官方文件") || !downloadsSource.includes("/mirror/${item.file}")) {
+  failures.push("下载中心没有同时渲染官方文件直链和本站已校验备用文件");
+}
+if (!nodesSource.includes("directAssetUrl") || !nodesSource.includes("/mirror/${client.localFile}")) {
+  failures.push("机场指南没有直接提供官方文件和匹配当前版本的本站备用文件");
 }
 
 for (const client of syncStatus.clients) {

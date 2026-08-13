@@ -712,3 +712,22 @@ export function getOfferPriceStatus(slug: string): VerificationStatus {
   if (synced.state === "price-change-pending") return "pending";
   return "error";
 }
+
+export function getOfferPriceEvidence(slug: string) {
+  const synced = autoSync.gamsgo.find((item) => item.slug === slug);
+  const checkedAt = (synced?.checkedAt || autoSync.checkedAt).slice(0, 10);
+  if (!synced) return { status: "pending" as VerificationStatus, title: "尚未取得自动检查结果", detail: "请打开购买页面查看当前价格、周期和交付方式。", checkedAt };
+  if (["ok", "price-changed"].includes(synced.state) && synced.published) {
+    return { status: "automatic" as VerificationStatus, title: "本轮读取成功", detail: synced.note, checkedAt };
+  }
+  if (synced.state === "stale" && synced.published) {
+    return { status: "stale" as VerificationStatus, title: "页面能打开，价格结构暂未读出", detail: synced.note, checkedAt };
+  }
+  if (synced.state === "conflict") {
+    return { status: "pending" as VerificationStatus, title: "同页价格互相冲突", detail: synced.note, checkedAt };
+  }
+  if (synced.state === "price-change-pending") {
+    return { status: "pending" as VerificationStatus, title: "价格变化等待第二次确认", detail: synced.note, checkedAt };
+  }
+  return { status: "error" as VerificationStatus, title: "暂时无法自动读取价格", detail: synced.note || "页面可能依赖登录、地区或浏览器脚本；本站不会把旧价格写成当前价格。", checkedAt };
+}

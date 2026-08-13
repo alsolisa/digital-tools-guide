@@ -112,7 +112,7 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
   assert.match(html, /使用境外网络（需要连接机场或VPN）时可能显示1个月、3个月和6个月/);
   assert.match(html, /联系客服处理 · 7×24小时/);
   assert.match(html, /可能是独立账号交付，不一定是本人原账号/);
-  assert.equal((html.match(/>打开购买页面<\/a>/g) || []).length, 5, "五张订阅卡片都应提供统一的购买按钮");
+  assert.equal((html.match(/class="promotion-price-action"[^>]*>打开购买页面<\/a>/g) || []).length, 5, "五张订阅卡片都应提供统一的主购买按钮");
   assert.doesNotMatch(html, /打开我的推广购买页|推广入口已自动核验|推广码已保留/);
   const claudeSync = autoSync.gamsgo.find((item) => item.slug === "claude");
   if (["ok", "price-changed", "stale"].includes(claudeSync?.state) && claudeSync?.published) {
@@ -137,7 +137,7 @@ test("GamsGo订阅卡片提供清楚价格、付款、售后与推广购买入�
     ["conflict", /同一公开页面出现多个互相冲突的月付价格；本站已隐藏数字/],
     ["unreadable", /公开页面暂时无法稳定读取月付价格；不要把旧价格当作当前价格/],
     ["price-change-pending", /读取到价格明显变化，正在等待第二次一致结果；为避免误导，暂时隐藏具体数字/],
-    ["stale", /本轮自动运行环境未能读取商家页；展示 .+ 最近一次成功核验的价格/],
+    ["stale", /本轮能打开商家页面，但没有提取出稳定价格；展示 .+ 最近一次成功核验的价格/],
   ];
   for (const [state, message] of stateMessages) {
     if (visibleSyncedOffers.some((item) => item.state === state)) assert.match(html, message);

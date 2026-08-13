@@ -301,18 +301,16 @@ const rawGamsgoResults = await mapWithConcurrency(gamsgoOffers, 1, async (item) 
   await wait(750);
   return result;
 });
-const gamsgoWasSystemicallyBlocked = rawGamsgoResults.every((item) => item.state === "unreadable" && item.error);
 const snapshotTime = Date.now();
-const gamsgoResults = gamsgoWasSystemicallyBlocked
-  ? rawGamsgoResults.map((item) => retainGamsgoSnapshot(
-    previousAutoSync.gamsgo?.find((offer) => offer.slug === item.slug),
-    item,
-    snapshotTime,
-  ))
-  : rawGamsgoResults;
-if (gamsgoWasSystemicallyBlocked) {
-  console.warn("GamsGo商品页在本轮运行环境中全部读取失败；最多保留7天内最近一次可信价格，并在页面明确标记。");
-  for (const result of rawGamsgoResults) console.warn(`- ${result.slug}: ${result.error}`);
+const gamsgoResults = rawGamsgoResults.map((item) => retainGamsgoSnapshot(
+  previousAutoSync.gamsgo?.find((offer) => offer.slug === item.slug),
+  item,
+  snapshotTime,
+));
+const unreadableGamsgoResults = rawGamsgoResults.filter((item) => item.state === "unreadable");
+if (unreadableGamsgoResults.length > 0) {
+  console.warn(`${unreadableGamsgoResults.length} 个 GamsGo 商品页没有提取出稳定价格；最多保留7天内最近一次可信价格，并在页面明确标记。`);
+  for (const result of unreadableGamsgoResults) console.warn(`- ${result.slug}: ${result.error || result.note || "price parser returned no result"}`);
 }
 
 const checkedAt = new Date().toISOString();
@@ -350,5 +348,5 @@ await Promise.all([
 
 const hardFailures = linkResults.filter((item) => item.state === "error").length + clientResults.filter((item) => item.state === "error").length;
 const readablePrices = gamsgoResults.filter((item) => ["ok", "price-changed", "stale"].includes(item.state) && item.published).length;
-console.log(`同步完成：${linkResults.length} 个公开入口，${clientResults.length} 个客户端项目，${readablePrices}/${gamsgoResults.length} 项公开月付价格可核验，Artificial Analysis 读取 ${artificialAnalysisLeaderboard.rows?.length || 0} 个模型。`);
+console.log(`同步完成：${linkResults.length} 个公开入口，${clientResults.length} 个客户端项目，${readablePrices}/${gamsgoResults.length} 项保留当前或7日内最近可信价格证据，Artificial Analysis 读取 ${artificialAnalysisLeaderboard.rows?.length || 0} 个模型。`);
 if (hardFailures > 0) console.warn(`${hardFailures} 个入口或客户端版本检查失败，页面会保留异常标记。`);

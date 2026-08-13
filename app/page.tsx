@@ -49,6 +49,7 @@ const services = [
     linkId: "westdata",
     href: promotionUrls.westdata,
     linkLabel: "打开推广入口",
+    currentCheck: "推广入口当前可打开，并跳转到 WestData 新域名；套餐价格仍需登录后重新确认。",
   },
   {
     name: "悠兔 Youtu",
@@ -72,6 +73,7 @@ const services = [
     linkId: "youtu",
     href: promotionUrls.youtu,
     linkLabel: "打开推广入口",
+    currentCheck: "带邀请码的注册页当前可打开；未登录状态只显示注册入口，无法证明套餐和付款信息。",
   },
   {
     name: "BoostNet",
@@ -95,6 +97,7 @@ const services = [
     linkId: "boostnet",
     href: promotionUrls.boostnet,
     linkLabel: "打开推广入口",
+    currentCheck: "带邀请码的注册页当前可打开；未登录状态只显示注册入口，无法证明套餐和付款信息。",
   },
   {
     name: "WgetCloud",
@@ -137,6 +140,7 @@ const services = [
     linkId: "nexitally",
     href: promotionUrls.nexitally,
     linkLabel: "打开官方入口",
+    currentCheck: "入口当前会跳转到邮箱登录页；未登录时不能读取套餐与结算信息。",
   },
   {
     name: "TAG",
@@ -159,6 +163,7 @@ const services = [
     linkId: "tag",
     href: promotionUrls.tag,
     linkLabel: "打开当前入口",
+    currentCheck: "入口当前受浏览器安全验证保护；自动检查不能替代登录后的商店核对。",
   },
 ];
 
@@ -287,6 +292,7 @@ function ServiceCard({ service, index, prefix = "月付" }: { service: (typeof s
     <div className="service-topline"><span className="service-tag">{prefix} {index + 1} · {service.tag}</span><span className={`status-pill ${entryTone}`}><i />{entryLabel}</span></div>
     <div className="service-title"><h3>{service.name}</h3><span>{service.alias}</span></div>
     {stalePrice && <p className="service-stale-note">以下内容是截至 {service.verifiedAt || "上次核验"} 的历史记录；其中“当前”“可购买”等表述只代表当次页面状态。</p>}
+    {"currentCheck" in service && service.currentCheck && <p className="service-current-check"><strong>本轮能确认</strong>{service.currentCheck}</p>}
     <p className="service-description">{service.description}</p>
     <div className="service-stats"><div><small>{stalePrice ? (isMonthly ? "最近核验价格" : "最近记录的可选周期") : (isMonthly ? "可比参考价格" : "当前可选周期")}</small><strong>{service.price}</strong><span>{service.cycle}</span></div><div><small>{stalePrice ? (isMonthly ? "最近核验流量" : "最近记录的月付状态") : (isMonthly ? "参考流量" : "月付状态")}</small><strong>{service.traffic}</strong></div></div>
     {"caution" in service && service.caution && <p className="service-caution"><strong>购买前注意</strong>{service.caution}</p>}
@@ -343,7 +349,7 @@ export function NodeGuidePage() {
 
       <section className="section node-basics-section" id="basics">
         <div className="section-heading"><div><span className="section-index">01 / 先认识概念</span><h1>五个词，第一次看到也能懂</h1></div><p>这些词不是一回事。先分清它们，后面的购买和安装才不会混乱。</p></div>
-        <figure className="section-artwork-wide node-section-art"><Image src={`${basePath}/illustrations/network-journey-v2.webp`} alt="家庭设备通过客户端、订阅和不同节点连接目标服务的路线示意" width={1536} height={1024} sizes="(max-width: 700px) 100vw, 1280px" priority unoptimized /><figcaption>从设备出发：客户端负责连接，订阅提供节点，服务商负责线路</figcaption></figure>
+        <figure className="section-artwork-wide node-section-art"><Image src={`${basePath}/illustrations/network-journey-v3.webp`} alt="家庭设备依次经过客户端、订阅配置和可选节点，再连接目标服务的五段路线示意" width={1536} height={1024} sizes="(max-width: 700px) 100vw, 1280px" priority unoptimized /><figcaption>从设备出发：客户端负责连接，订阅提供节点，服务商负责线路</figcaption></figure>
         <div className="plain-term-grid">
           <article><span>VPN</span><h2>一种建立网络连接的技术或服务</h2><p>通常通过加密通道把设备的网络流量发送到另一台服务器。商业VPN一般提供自己的App，具体隐私和可用范围取决于服务商。</p></article>
           <article><span>机场</span><h2>中文互联网中的非正式叫法</h2><p>通常指提供多个代理服务器“节点”和订阅链接的服务商。它不等同于所有VPN，也不是航空机场。</p></article>
