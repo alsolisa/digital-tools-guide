@@ -348,7 +348,7 @@ export function NodeGuidePage() {
 
       <section className="section node-basics-section" id="basics">
         <div className="section-heading"><div><span className="section-index">01 / 先认识概念</span><h1>五个词，第一次看到也能懂</h1></div><p>这些词不是一回事。先分清它们，后面的购买和安装才不会混乱。</p></div>
-        <figure className="section-artwork-wide node-section-art"><Image src={`${basePath}/illustrations/network-journey-v3.webp`} alt="家庭设备依次经过客户端、订阅配置和可选节点，再连接目标服务的五段路线示意" width={1536} height={1024} sizes="(max-width: 700px) 100vw, 1280px" priority unoptimized /><figcaption>从设备出发：客户端负责连接，订阅提供节点，服务商负责线路</figcaption></figure>
+        <figure className="section-artwork-wide node-section-art"><Image src={`${basePath}/illustrations/network-journey-v4.webp`} alt="一根绿色路线从左下设备出发，经过订阅选择与三个中途节点，最终进入右上目标档案抽屉" width={1536} height={1024} sizes="(max-width: 700px) 100vw, 1280px" priority unoptimized /><figcaption>从设备出发：客户端负责连接，订阅提供节点，服务商负责线路</figcaption></figure>
         <div className="plain-term-grid">
           <article><span>VPN</span><h2>一种建立网络连接的技术或服务</h2><p>通常通过加密通道把设备的网络流量发送到另一台服务器。商业VPN一般提供自己的App，具体隐私和可用范围取决于服务商。</p></article>
           <article><span>机场</span><h2>中文互联网中的非正式叫法</h2><p>通常指提供多个代理服务器“节点”和订阅链接的服务商。它不等同于所有VPN，也不是航空机场。</p></article>

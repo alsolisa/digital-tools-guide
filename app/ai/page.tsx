@@ -20,7 +20,7 @@ export default function AiIndexPage() {
         eyebrow="AI 工具 · 先拿自己的事试一次"
         title="第一次用 AI，先别急着研究模型"
         lead="找一件你本来就要做的事：解释一段难懂的文字、整理一份文件，或者查一组资料。用同一件事试两款产品，比先背参数更容易找到适合自己的。"
-        artwork={{ src: "/illustrations/ai-assistant-v3.webp", alt: "对话、文档、资料检索、写作、图片和音频六类任务汇入同一工作台，输出再经过复核", caption: "同一个入口，可以处理六类常见任务；重要结果仍要自己核对" }}
+        artwork={{ src: "/illustrations/ai-assistant-v4.webp", alt: "折页对话、文档、资料卡、修订稿、图片接触表与录音带六种媒介围绕中央复核台摆放", caption: "同一个入口，可以处理六类常见任务；重要结果仍要自己核对" }}
       />
 
       <nav className="ai-channel-overview" aria-label="AI与应用四个入口">

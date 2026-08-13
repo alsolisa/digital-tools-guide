@@ -98,18 +98,20 @@ for (const oldArtwork of ["network-journey-home-v2", "ai-assistant-home-v2", "mo
 if (!home.includes("程序负责盯变化") || !home.includes("每 6 小时")) failures.push("首页没有清楚区分自动检查与人工判断");
 
 const evidenceArtwork = [
-  ["app/page.tsx", "network-journey-v3.webp", "network-journey-v2.webp"],
-  ["app/subscriptions/page.tsx", "subscription-choice-v3-refined.webp", "subscription-choice-v2.webp"],
-  ["app/ai/page.tsx", "ai-assistant-v3.webp", "ai-assistant-v2.webp"],
-  ["app/apps/page.tsx", "media-apps-v3.webp", "media-apps-v2.webp"],
-  ["app/downloads/page.tsx", "official-downloads-v3.webp", "official-downloads-v2.webp"],
-  ["app/benchmarks/page.tsx", "model-benchmarks-v3.webp", "model-benchmarks-v2.webp"],
+  ["app/page.tsx", "network-journey-v4.webp", ["network-journey-v1.webp", "network-journey-v2.webp", "network-journey-v3.webp"]],
+  ["app/subscriptions/page.tsx", "subscription-choice-v4.webp", ["subscription-choice-v1.webp", "subscription-choice-v2.webp", "subscription-choice-v3.webp", "subscription-choice-v3-refined.webp"]],
+  ["app/ai/page.tsx", "ai-assistant-v4.webp", ["ai-assistant-v1.webp", "ai-assistant-v2.webp", "ai-assistant-v3.webp"]],
+  ["app/apps/page.tsx", "media-apps-v4.webp", ["media-apps-v1.webp", "media-apps-v2.webp", "media-apps-v3.webp"]],
+  ["app/downloads/page.tsx", "official-downloads-v4.webp", ["official-downloads-v1.webp", "official-downloads-v2.webp", "official-downloads-v3.webp"]],
+  ["app/benchmarks/page.tsx", "model-benchmarks-v4.webp", ["model-benchmarks-v1.webp", "model-benchmarks-v2.webp", "model-benchmarks-v3.webp"]],
 ];
 
-for (const [sourceRelative, artworkName, oldArtworkName] of evidenceArtwork) {
+for (const [sourceRelative, artworkName, oldArtworkNames] of evidenceArtwork) {
   const source = await readFile(path.join(root, sourceRelative), "utf8");
-  if (!source.includes(artworkName)) failures.push(`${sourceRelative} 没有引用统一的 V18 证据图谱：${artworkName}`);
-  if (source.includes(oldArtworkName)) failures.push(`${sourceRelative} 仍在引用旧纸艺插图：${oldArtworkName}`);
+  if (!source.includes(artworkName)) failures.push(`${sourceRelative} 没有引用 V20 实体证据主视觉：${artworkName}`);
+  for (const oldArtworkName of oldArtworkNames) {
+    if (source.includes(oldArtworkName)) failures.push(`${sourceRelative} 仍在引用旧版主视觉：${oldArtworkName}`);
+  }
   const artworkPath = path.join(root, "public", "illustrations", artworkName);
   const artwork = await stat(artworkPath).catch(() => null);
   if (!artwork || artwork.size < 60_000 || artwork.size > 180_000) {
@@ -150,4 +152,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`编辑质量门禁通过：检查 ${editorialFiles.length} 个核心内容文件、${evidenceArtwork.length} 张 V18 证据图谱；人工资料复核日 ${manualReviewDate}。`);
+console.log(`编辑质量门禁通过：检查 ${editorialFiles.length} 个核心内容文件、${evidenceArtwork.length} 张 V20 实体证据主视觉；人工资料复核日 ${manualReviewDate}。`);

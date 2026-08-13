@@ -78,7 +78,7 @@ export default function SubscriptionsPage() {
           <div className="gamsgo-hero-actions"><a className="primary-action" href={promotionUrls.gamsgo} target="_blank" rel="sponsored noopener">打开购买页面</a><a href="#offers">逐项比较方案 ↓</a></div>
         </div>
         <div className="gamsgo-hero-side">
-          <figure className="gamsgo-hero-art"><Image src={`${assetBase}/illustrations/subscription-choice-v3-refined.webp`} alt="一份账号凭证分成本人账号充值、独立账号和共享使用三条路径，并分别标出归属与风险" width={1536} height={1024} sizes="(max-width: 700px) 100vw, 44vw" priority unoptimized /><figcaption>先分清账号归属，再比较价格和售后</figcaption></figure>
+          <figure className="gamsgo-hero-art"><Image src={`${assetBase}/illustrations/subscription-choice-v4.webp`} alt="同一档案桌上依次摆放归回旧档案的个人凭证、一份封存档案与唯一存根，以及由一张母带划分出的三个共享席位" width={1536} height={1024} sizes="(max-width: 700px) 100vw, 44vw" priority unoptimized /><figcaption>先分清账号归属，再比较价格和售后</figcaption></figure>
           <div className="gamsgo-trust-panel" aria-label="下单前需要确认的四件事">
             <span>下单前，先问清四件事</span>
             <dl><div><dt>账号</dt><dd>登录谁的账号</dd></div><div><dt>交付</dt><dd>充值还是给账号</dd></div><div><dt>续费</dt><dd>到期如何处理</dd></div><div><dt>售后</dt><dd>订单异常找谁</dd></div></dl>
