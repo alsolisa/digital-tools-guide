@@ -35,7 +35,7 @@ export default function StatusPage() {
   const qualifiedNetworkTests = manualNetworkTests.tests.length;
   return (
     <PageShell>
-      <PageIntro eyebrow="公开状态 · 最近一次自动检查" title="把“能打开”“能读取”和“大陆裸网可用”分开" lead={`最近检查：${timeLabel(syncStatus.checkedAt)}。自动检查从当前服务器网络执行，不等于中国大陆家庭宽带或手机流量实测。`} />
+      <PageIntro eyebrow="公开状态 · 最近一次自动检查" title="把“能打开”“能读取”和“大陆裸网可用”分开" lead={`最近检查：${timeLabel(syncStatus.checkedAt)}。检测由本站服务器自动完成，结果不等于中国大陆家庭宽带或手机流量实测。`} />
       <QuickSummary title="现在应该怎样理解这些状态" points={[`${counts.ok || 0}个公开入口由服务器检查返回正常`, `${counts.protected || 0}个入口有登录、防护或频率限制`, `${counts.error || 0}个入口本轮服务器检查失败`, `${qualifiedNetworkTests}条大陆裸网样本通过人工隐私与完整性复核`, "服务器正常、真人能打开和线路稳定是三种不同证据"]} action={{ label: "提交大陆裸网实测", href: "/feedback?type=大陆裸网实测" }} />
 
       <section className="content-section status-evidence-layers">

@@ -17,7 +17,7 @@
     "audit:production": "npm audit --omit=dev --audit-level=high --registry=https://registry.npmjs.org",
     "lint:copy": "node scripts/lint-editorial-copy.mjs",
     "verify:publish": "npm run sync && npm run preflight && npm run audit:production && npm run lint:copy && npm run lint && npm test && npm run build:pages && npm run test:pages",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern .tmp-*",
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {

@@ -139,7 +139,7 @@ if (!og || og.size < 70_000 || og.size > 300_000) {
 const css = await readFile(path.join(root, "app/award-system.css"), "utf8");
 if (!css.includes("V17 — evidence ledger") || !css.includes("[class] small")) failures.push("V17 视觉系统或小字号保护规则缺失");
 if (!css.includes("V18 — evidence atlas") || !css.includes("grid-template-columns: repeat(4, minmax(0, 1fr))")) failures.push("V18 统一插图系统或手机端 AI 导航修复缺失");
-if (!css.includes("V19 — live proof") || !home.includes("v19-live-proof") || !home.includes("入口可用不等于套餐价格已经确认")) failures.push("V19 首屏真实检查结果或证据边界缺失");
+if (!css.includes("V19 — live proof") || !home.includes("v19-live-proof") || !home.includes("服务器检查正常的入口") || !home.includes("不能算作读取正常")) failures.push("V19 首屏真实检查结果或证据边界缺失");
 if (!layout.includes('import "./site.css"')) failures.push("全站样式没有由根布局统一加载，直接打开内页可能失去版式");
 const siteCss = await readFile(path.join(root, "app/site.css"), "utf8");
 if (!siteCss.includes('@import "./globals.css"') || !siteCss.includes('@import "./award-system.css"')) failures.push("全站样式入口没有按基础样式、设计系统的顺序合并");

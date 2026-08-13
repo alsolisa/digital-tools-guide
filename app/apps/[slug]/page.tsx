@@ -46,7 +46,7 @@ export default async function AppDetailPage({ params }: { params: Promise<{ slug
       <nav className="detail-jump-nav" aria-label={`${app.name}页面目录`}><span>本页顺序</span><a href="#understand">它是什么</a><a href="#features">主要区域</a><a href="#workflows">怎么使用</a><a href="#screenshots">官方截图</a><a href="#start">安装设置</a><a href="#safety">安全检查</a></nav>
 
       <section className="content-section" id="understand">
-        <SectionHeading index="01" title={`先说明白：${app.name}到底是做什么的`} lead="先判断是否符合你的需要，再考虑下载、注册或付费。" />
+        <SectionHeading index="01" title={`先说明白：${app.name}到底是做什么的`} lead="先想清楚你用不用得上它，再决定要不要下载、注册或付费。" />
         <div className="plain-definition"><span>简单理解</span><p>{guide.plainDefinition}</p></div>
         <div className="fit-decision-grid"><article><span className="decision-label good">适合用来</span><h2>它最常见的价值</h2><ul>{guide.whyUse.map((item) => <li key={item}>{item}</li>)}</ul></article><article className="warning-card"><span className="decision-label wait">不要这样用</span><h2>常见误区</h2><ul>{guide.notFor.map((item) => <li key={item}>{item}</li>)}</ul></article></div>
         <div className="editorial-verdict"><strong>编辑结论</strong><p>{guide.decision}</p></div>
@@ -81,7 +81,7 @@ export default async function AppDetailPage({ params }: { params: Promise<{ slug
       </section>
 
       <section className="content-section">
-        <SectionHeading index="07" title="遇到打不开、登录或设置问题怎么办" lead="按症状排查，比反复重装更安全。每种情况都给出停止条件，避免把小问题变成账号风险。" />
+        <SectionHeading index="07" title="遇到打不开、登录或设置问题怎么办" lead="按你看到的现象一步步排查，比反复重装更稳妥。每种情况都写清楚什么时候该停手，别把小问题拖成账号风险。" />
         <BeginnerTroubleshooter name={app.name} playbook={playbook} />
       </section>
 

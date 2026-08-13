@@ -33,7 +33,7 @@ const groups = [
 
 export default function FaqPage() {
   const faqJsonLd = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: groups.flatMap((group) => group.items.map(([question, answer]) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } }))) };
-  return <PageShell><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c") }} /><PageIntro eyebrow="常见问题 · 小白先看" title="把最容易踩坑的地方提前说清楚" lead="这里不使用复杂术语。涉及账号、付款、隐私和地区差异时，先说明风险，再给可执行的下一步。" />
+  return <PageShell><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c") }} /><PageIntro eyebrow="常见问题 · 小白先看" title="把最容易踩坑的地方提前说清楚" lead="这里用大白话回答新手最常问的问题。涉及账号、付款、隐私和地区差异时，先讲清风险，再说具体怎么做。" />
     {groups.map((group, index) => <section className={`content-section ${index % 2 ? "soft-section" : ""}`} key={group.title}><SectionHeading index={String(index + 1).padStart(2, "0")} title={group.title} /><div className="faq-list">{group.items.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div></section>)}
     <section className="content-section"><RegionNotice>网络、账号与付款规则会变化。重要决定请打开对应官方来源，并在付款前再次核对产品名称、周期、交付方式和退款规则。</RegionNotice><FeedbackLink label="没有找到答案？提交问题" /></section>
   </PageShell>;

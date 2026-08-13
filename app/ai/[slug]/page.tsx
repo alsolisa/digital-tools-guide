@@ -56,7 +56,7 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
       </nav>
 
       <section className="content-section" id="understand">
-        <SectionHeading index="01" title={`先用一句普通话讲清楚：${product.name}是什么`} lead="这一部分不讲模型名称，先判断它能不能解决你的实际问题。" />
+        <SectionHeading index="01" title={`先用一句大白话讲清楚：${product.name}是什么`} lead="这一部分不讲模型名称，先判断它能不能解决你的实际问题。" />
         <div className="plain-definition"><span>简单理解</span><p>{guide.plainDefinition}</p></div>
         <div className="fit-decision-grid">
           <article><span className="decision-label good">优先选择</span><h2>这些情况更适合</h2><ul>{guide.chooseIf.map((item) => <li key={item}>{item}</li>)}</ul></article>
@@ -66,7 +66,7 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
       </section>
 
       <section className="content-section soft-section" id="workflows">
-        <SectionHeading index="02" title="它不是只会聊天：三个真实使用场景" lead="每个场景都说明输入、过程、结果和不能忽略的风险。" />
+        <SectionHeading index="02" title="它不是只会聊天：三个真实使用场景" lead="每个场景都写清楚：你给它什么、它怎么做、你能得到什么，以及有哪些不能忽略的风险。" />
         <div className="workflow-grid">
           {guide.workflows.map((workflow, index) => <article key={workflow.title}><span className="workflow-number">0{index + 1}</span><small>真实场景</small><h2>{workflow.title}</h2><p className="workflow-situation">{workflow.situation}</p><ol>{workflow.steps.map((step) => <li key={step}>{step}</li>)}</ol><div className="workflow-result"><strong>你会得到</strong><p>{workflow.result}</p></div><div className="workflow-caution"><strong>别忽略</strong><p>{workflow.caution}</p></div></article>)}
         </div>
@@ -100,7 +100,7 @@ export default async function AiDetailPage({ params }: { params: Promise<{ slug:
       </section>
 
       <section className="content-section">
-        <SectionHeading index="07" title="核心功能，用普通话解释" lead="功能名称会变，但判断方法不变：它能读什么、能做什么、结果要不要核对。" />
+        <SectionHeading index="07" title="核心功能，用大白话讲清楚" lead="功能名称会变，但判断方法不变：它能读什么、能做什么、结果要不要核对。" />
         <div className="feature-explainer-grid">{guide.features.map((feature) => <article key={feature.name}><span>{feature.name}</span><p>{feature.plain}</p><div><small>比如这样用</small><strong>{feature.example}</strong></div></article>)}</div>
         <div className="capability-strip" aria-label="能力关键词">{product.capabilities.map((capability) => <span key={capability}>{capability}</span>)}</div>
       </section>

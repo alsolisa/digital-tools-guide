@@ -32,7 +32,7 @@ export default function DownloadsPage() {
   const basePath = process.env.GITHUB_PAGES === "true" ? "/digital-tools-guide" : "";
   return (
     <PageShell>
-      <PageIntro eyebrow="下载中心 · 先选设备" title="别从文件名猜，直接去正确的官方入口" lead="这里整理AI、常用应用和网络客户端。闭源应用只指向官网或应用商店；开源客户端会直接给出当前官方文件，并标出版本、大小和文件指纹。" artwork={{ src: "/illustrations/official-downloads-v3.webp", alt: "官方来源先经过完整性检查，再分别连接笔记本、台式电脑、平板和手机对应的安装文件", caption: "先确认来源，再选择与你设备对应的版本" }} />
+      <PageIntro eyebrow="下载中心 · 先选设备" title="下载只认官方入口" lead="这里整理 AI、常用应用和网络客户端：闭源应用只指向官网或应用商店；开源客户端直接给出当前官方文件，并标出版本、大小和文件指纹。" artwork={{ src: "/illustrations/official-downloads-v3.webp", alt: "官方来源先经过完整性检查，再分别连接笔记本、台式电脑、平板和手机对应的安装文件", caption: "先确认来源，再选择与你设备对应的版本" }} />
       <QuickSummary title="下载前只记住三条" points={["先选自己的系统，不要凭文件名猜", "核对官网域名、开发者名称和版本", "商店搜不到时先看地区教程，不下载破解版", "四项开源客户端都有官方文件直链；其中三项另有本站校验备份"]} action={{ label: "看应用商店地区教程", href: "/stores" }} />
       <div className="download-brand-note"><BrandNotice /></div>
       <section className="content-section device-section"><DeviceChooser /></section>

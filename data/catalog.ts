@@ -133,7 +133,7 @@ export interface AppProfile {
   verifiedAt: string;
 }
 
-const checkedAt = "2026-08-09";
+const checkedAt = "2026-08-14";
 const syncedUsdCnyRate = Number(autoSync.exchange?.rates?.CNY);
 const hasSyncedUsdCnyRate = Number.isFinite(syncedUsdCnyRate) && syncedUsdCnyRate > 0;
 
@@ -163,15 +163,16 @@ export const aiProducts: ProductProfile[] = [
     mark: "C",
     tone: "green",
     tagline: "覆盖写作、学习、图片、文件和编程的综合型 AI 助手",
-    summary: "适合作为大多数人的第一款 AI。它能解释问题、整理文件、生成图片、进行语音对话，也能处理较复杂的研究和编程任务。",
+    summary: "适合作为大多数人的第一款 AI。它能回答问题、整理文件、生成图片、进行语音对话，也能处理较复杂的研究和编程任务。",
     bestFor: ["日常问答与学习", "写作、翻译和办公", "图片与文件分析", "编程与复杂任务"],
     notFor: ["要求答案绝对正确且无需核实", "把 Plus 会员当作 API 额度", "输入不应上传的机密资料"],
     strengths: ["功能覆盖面广", "网页和多平台客户端完整", "语音、图片、文件与深度研究集中在一个产品"],
     limitations: ["功能和用量会随套餐变化", "重要事实仍需核对来源", "部分地区的注册、付款和下载可能受限制"],
     capabilities: ["联网搜索", "文件上传", "图片理解与生成", "语音对话", "数据分析", "自定义 GPT", "深度研究", "编程"],
     models: [
-      { name: "ChatGPT Instant（动态更新）", availability: "ChatGPT 当前默认快速模式；底层模型快照会持续更新", context: "官方未给个人套餐统一固定值", inputs: ["文本", "图片", "音频"], note: "适合日常问答。不要把某次看到的底层快照名称长期写死，当前名称与限额以产品界面为准。" },
-      { name: "GPT-5.6 Sol", availability: "OpenAI API 的旗舰 GPT-5.6 模型；ChatGPT 中的入口与档位以账号界面为准", context: "API 模型卡与 ChatGPT 套餐是两层信息", inputs: ["文本", "图片", "文件"], note: "适合复杂推理、研究、编程和多步骤工作；本站不再推断 Plus、Pro 等套餐与推理档位的固定对应关系。" },
+      { name: "ChatGPT Instant（按套餐分流）", availability: "符合条件的付费账号由 GPT-5.6 Sol 提供；Free 与 Go 正在切换至 GPT-5.6 Luna", context: "分阶段推出；账号界面和工作区设置是最终依据", inputs: ["文本", "图片", "音频"], note: "适合日常问答。套餐、地区和推出进度会让不同账号看到不同入口；不要把一次看到的模型名称当成长期不变的规则。" },
+      { name: "GPT-5.6 Sol（推理档位）", availability: "Plus 可用 Medium 与 High；Pro、Business 和 Enterprise 还可用 Extra High", context: "Free 与 Go 不提供 Sol；用量和工作区权限会变化", inputs: ["文本", "图片", "文件"], note: "适合复杂推理、研究、编程和多步骤工作。达到推理用量后可能切换到其他可用模型，具体重置时间以产品界面为准。" },
+      { name: "GPT-5.6 Sol Pro（Pro 档位）", availability: "Pro、Business 和 Enterprise 可用；Plus、Free 与 Go 不提供", context: "困难任务和长时间工作流；部分套餐有单独用量", inputs: ["文本", "图片", "文件"], note: "这是 ChatGPT 模型选择器里的 Pro 档位，不是 ChatGPT Pro 套餐本身。可用性仍会受分阶段推出和工作区设置影响。" },
     ],
     downloads: [
       { platform: "Web", label: "打开 ChatGPT 网页版", url: "https://chatgpt.com/", source: "official", status: "verified", verifiedAt: checkedAt },
@@ -190,7 +191,7 @@ export const aiProducts: ProductProfile[] = [
       { label: "ChatGPT 官方下载", url: "https://chatgpt.com/download/" },
       { label: "ChatGPT 套餐与模型", url: "https://chatgpt.com/pricing/" },
       { label: "ChatGPT Plus 官方说明", url: "https://help.openai.com/en/articles/6950777-what-is-chatgpt" },
-      { label: "GPT-5.6 在 ChatGPT 中的使用说明", url: "https://help.openai.com/en/articles/20001354-gpt-56-in-chatgpt" },
+      { label: "GPT-5.6 在 ChatGPT 中的使用说明", url: "https://help.openai.com/en/articles/20001354-gpt-5-6-in-chatgpt" },
       { label: "ChatGPT Instant 官方模型说明", url: "https://developers.openai.com/api/docs/models/chat-latest" },
       { label: "GPT-5.6 Sol 官方模型卡", url: "https://developers.openai.com/api/docs/models/gpt-5.6-sol" },
       { label: "ChatGPT 数据控制官方说明", url: "https://help.openai.com/en/articles/7730893-datacontrols-faq" },
@@ -429,7 +430,7 @@ export const aiProducts: ProductProfile[] = [
     mark: "M",
     tone: "violet",
     tagline: "专注图片、视频、风格探索与视觉编辑的生成式创作工具",
-    summary: "Midjourney适合持续进行图片和视频创作的人。它把文字提示、图片参考、风格控制、局部编辑、放大、素材整理和个性化集中在网页端，也支持Discord工作流。",
+    summary: "Midjourney 适合持续进行图片和视频创作的人。它把文字提示、图片参考、风格控制、局部编辑、放大、素材整理和个性化集中在网页端，也支持 Discord 工作流。",
     bestFor: ["专业图片与概念视觉", "品牌风格与情绪板", "局部重绘和画面扩展", "图片转视频与视觉探索"],
     notFor: ["只偶尔生成一两张图", "要求作品默认完全私密", "尚未确认商业使用与人物素材授权"],
     strengths: ["视觉质量与风格探索成熟", "网页Create、Edit和Organize工作流完整", "支持图片提示、风格参考、个性化与视频"],

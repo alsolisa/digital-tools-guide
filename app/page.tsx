@@ -435,7 +435,8 @@ export function NodeGuidePage() {
 }
 
 export default function Home() {
-  const usableLinks = syncStatus.links.filter((link) => link.state === "ok" || link.state === "protected").length;
+  const verifiedLinks = syncStatus.links.filter((link) => link.state === "ok").length;
+  const protectedLinks = syncStatus.links.filter((link) => link.state === "protected").length;
   const checkedClients = syncStatus.clients.filter((client) => client.state === "ok" || client.state === "stale").length;
   const directFiles = syncStatus.clients.filter((client) => "assetUrl" in client && typeof client.assetUrl === "string").length;
   const benchmarkSnapshot = autoSync.artificialAnalysisLeaderboard;
@@ -456,8 +457,8 @@ export default function Home() {
       <section className="v16-hero" aria-labelledby="home-title">
         <div className="v16-hero-copy">
           <span className="v16-kicker"><i />复杂工具，先弄清楚再选择</span>
-          <h1 id="home-title"><span>先知道买的</span><span>是什么，</span><br /><em>再决定要不要用。</em></h1>
-          <p>网络服务、AI 订阅和模型榜单总在变。这里不替你喊“最好用”，只把来源、更新时间、能确认的部分和仍需你核对的地方放在一起，不用在十几个页面之间来回猜。</p>
+          <h1 id="home-title"><span>先知道买的</span><span>是什么，</span><br /><em><span>再决定要</span><span>不要用。</span></em></h1>
+          <p>网络服务、AI 订阅和模型榜单经常变化。这里不替你喊“最好用”，只把来源、核查时间、已经确认的内容和仍需你自己核对的地方放在一起。</p>
           <div className="v16-hero-actions"><Link className="v16-action-primary" href="#projects">选择我要解决的事 <span>↓</span></Link><Link className="v16-action-secondary" href="/search" prefetch={false}>搜索具体产品 <span>⌕</span></Link></div>
           <nav className="v16-route-strip" aria-label="三个核心项目">
             <Link href="/nodes" prefetch={false}><b>01</b><span>网络服务<small>选择、下载、排错</small></span><i>↗</i></Link>
@@ -468,29 +469,23 @@ export default function Home() {
 
         <aside className="v19-live-proof" aria-label="本轮公开资料检查结果">
           <header><span>本轮公开检查</span><time>{syncTime}</time><strong>这次真正查到了什么</strong><p>下面都是当前同步结果，不是写死的宣传数字。</p></header>
-          <div className="v19-proof-total"><span>可打开的公开入口</span><strong>{usableLinks}<small> / {syncStatus.links.length}</small></strong><i>入口可用不等于套餐价格已经确认</i></div>
+          <div className="v19-proof-total"><span>服务器检查正常的入口</span><strong>{verifiedLinks}<small> / {syncStatus.links.length}</small></strong><i>{protectedLinks ? `${protectedLinks} 个入口受登录或访问保护，不能算作读取正常` : "本轮没有受防护入口"}</i></div>
           <dl>
-            <div><dt><i />客户端版本</dt><dd>{checkedClients}<small> 项已检查</small></dd><p>版本来自官方发布页；读取异常会保留状态，不猜最新版。</p></div>
-            <div><dt><i />官方文件直链</dt><dd>{directFiles}<small> 个文件</small></dd><p>下载按钮直接指向官方发布文件，本站备份另行标注。</p></div>
-            <div><dt><i />公开模型记录</dt><dd>{benchmarkModelCount}<small> 个模型</small></dd><p>{benchmarkSnapshot?.state === "ok" ? "本轮榜单同步正常，并保留原始指标。" : "本轮读取异常，正在显示最近可信快照。"}</p></div>
+            <div><dt><i />客户端版本</dt><dd>{checkedClients}<small> 项已检查</small></dd><dd className="v19-proof-description">版本来自官方发布页；读取异常会保留状态，不猜最新版。</dd></div>
+            <div><dt><i />官方文件直链</dt><dd>{directFiles}<small> 个文件</small></dd><dd className="v19-proof-description">下载按钮直接指向官方发布文件，本站备份另行标注。</dd></div>
+            <div><dt><i />公开模型记录</dt><dd>{benchmarkModelCount}<small> 个模型</small></dd><dd className="v19-proof-description">{benchmarkSnapshot?.state === "ok" ? "本轮榜单同步正常，并保留原始指标。" : "本轮读取异常，正在显示最近可信快照。"}</dd></div>
           </dl>
           <footer><span>我们的原则</span><p>读不到、互相冲突或已经过期，就把限制写在结论旁边，不拿旧数字顶替。</p><Link href="/status">查看完整检查状态 <i>↗</i></Link></footer>
         </aside>
       </section>
 
-      <section className="v16-principles" aria-label="本站的三个设计与编辑原则">
-        <p><span>01</span><strong>先给出处</strong><small>关键数字尽量回到官网、应用商店或原始榜单。</small></p>
-        <p><span>02</span><strong>不知道就直说</strong><small>读取失败、信息冲突或已经过期，不藏在小字里。</small></p>
-        <p><span>03</span><strong>看完能行动</strong><small>每一段都回答：接下来该比较、下载，还是先别买。</small></p>
-      </section>
-
       <section className="v16-projects" id="projects">
-        <header className="v16-section-heading"><div><span>从眼前的问题开始</span><h2>你现在想解决哪件事？</h2></div><p>不用把整站从头读完。选一条和自己有关的路线：先听懂，再比较，最后去正确的页面操作。</p></header>
+        <header className="v16-section-heading"><div><span>从眼前的问题开始</span><h2>你现在想解决哪件事？</h2></div><p>不用从头读完整个网站。选一件你现在要解决的事，我们会把解释、比较和正确入口放在同一条路线里。</p></header>
 
         <article className="v16-project-chapter chapter-network">
           <Link className="v16-project-media v17-route-visual v17-network-ledger" href="/nodes" prefetch={false}>
             <span>路线 01</span>
-            <div className="v17-ledger-head"><small>网络服务检查单</small><strong>{usableLinks}/{syncStatus.links.length}</strong><em>入口本轮可打开</em></div>
+            <div className="v17-ledger-head"><small>网络服务检查单</small><strong>{verifiedLinks}/{syncStatus.links.length}</strong><em>服务器检查返回正常</em></div>
             <ol><li><b>01</b><span>先分清套餐、订阅链接和客户端</span></li><li><b>02</b><span>再看价格证据是否还在有效期内</span></li><li><b>03</b><span>最后按设备下载正确文件</span></li></ol>
             <footer><span>{checkedClients} 个客户端版本已检查</span><span>{directFiles} 个官方文件可直达</span></footer>
           </Link>
@@ -520,7 +515,7 @@ export default function Home() {
       </section>
 
       <section className="v16-method" aria-labelledby="v16-method-title">
-        <header><span>一句“现在还能用”从哪儿来</span><h2 id="v16-method-title">网页上的结论，<br />先过三道检查。</h2><p>页面好看不代表信息可靠。我们先找出处，再检查有没有变化，最后才把它写成你能直接执行的下一步。</p></header>
+        <header><span>一句“现在还能用”从哪儿来</span><h2 id="v16-method-title">网页上的结论，<br />先过三道检查。</h2><p>页面好看不代表信息可靠。一个结论要先找到出处，再确认有没有变化，最后才会写成可以照着做的下一步。</p></header>
         <ol>
           <li><span>01</span><div><strong>先找原始页面</strong><p>价格看定价页，版本看发布页，排名看原榜，不引用来路不明的转述。</p></div><i>来源</i></li>
           <li><span>02</span><div><strong>能自动查的定时查</strong><p>入口、版本、文件指纹、汇率和动态榜单每 6 小时检查一次；异常不会静默通过。</p></div><i>检查</i></li>

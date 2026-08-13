@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 
 const subscriptionPricing = JSON.parse(await readFile(new URL("../data/subscription-pricing.json", import.meta.url), "utf8"));
 const autoSync = JSON.parse(await readFile(new URL("../data/auto-sync.json", import.meta.url), "utf8"));
+const syncStatus = JSON.parse(await readFile(new URL("../data/sync-status.json", import.meta.url), "utf8"));
 const syncedUsdCnyRate = Number(autoSync.exchange?.rates?.CNY);
 const expectedUsdCnyRate = Number.isFinite(syncedUsdCnyRate) && syncedUsdCnyRate > 0 ? syncedUsdCnyRate : subscriptionPricing.usdCnyRate;
 
@@ -36,8 +37,14 @@ test("全部公开页面与详情页都能正常打开", async () => {
 
 test("全站按零基础用户顺序先解释再比较", async () => {
   const home = await (await render("/")).text();
+  const verifiedLinkCount = syncStatus.links.filter((link) => link.state === "ok").length;
+  const protectedLinkCount = syncStatus.links.filter((link) => link.state === "protected").length;
   assert.match(home, /先弄清楚/);
   assert.match(home, /不替你喊“最好用”/);
+  assert.match(home, /服务器检查正常的入口/);
+  assert.match(home, new RegExp(`${verifiedLinkCount}<small> / (?:<!-- -->)?${syncStatus.links.length}`));
+  assert.match(home, new RegExp(`${protectedLinkCount} 个入口受登录或访问保护`));
+  assert.doesNotMatch(home, /可打开的公开入口|入口本轮可打开/);
   for (const text of ["第一次看到“机场”和“节点”", "拿自己的事试一次", "榜单可以参考"]) assert.match(home, new RegExp(text));
   for (const text of ["程序负责盯变化", "每 6 小时", "人工编辑"]) assert.match(home, new RegExp(text));
   for (const removedArtwork of ["network-journey-home-v2", "ai-assistant-home-v2", "model-benchmarks-home-v2"]) assert.doesNotMatch(home, new RegExp(removedArtwork));
@@ -243,9 +250,13 @@ test("AI详情页包含真实场景、高清截图、下载、模型、提示词
   assert.doesNotMatch(midjourney, /Midjourney V8\.1/);
 
   const chatgpt = await (await render("/ai/chatgpt")).text();
-  assert.match(chatgpt, /ChatGPT Instant（动态更新）/);
+  assert.match(chatgpt, /ChatGPT Instant（按套餐分流）/);
   assert.match(chatgpt, /GPT-5\.6 Sol/);
-  assert.doesNotMatch(chatgpt, /GPT-5\.5 Instant|GPT-5\.6 Sol Pro/);
+  assert.match(chatgpt, /符合条件的付费账号由 GPT-5\.6 Sol 提供/);
+  assert.match(chatgpt, /Plus 可用 Medium 与 High/);
+  assert.match(chatgpt, /Free 与 Go 不提供 Sol/);
+  assert.match(chatgpt, /GPT-5\.6 Sol Pro（Pro 档位）/);
+  assert.doesNotMatch(chatgpt, /GPT-5\.5 Instant/);
 
   const claude = await (await render("/ai/claude")).text();
   for (const model of ["Claude Fable 5", "Claude Opus 5", "Claude Sonnet 5", "Claude Haiku 4.5"]) assert.match(claude, new RegExp(model.replace(".", "\\.")));
