@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import "./site.css";
 import StructuredData from "./components/StructuredData";
 import HashScrollRestorer from "./components/HashScrollRestorer";
 
@@ -20,13 +21,13 @@ export const metadata: Metadata = {
     siteName: "数字工具指南",
     title: "数字工具指南｜先查清楚，再决定",
     description: "不替你喊最好用。把网络服务、AI与应用、模型评测的来源、变化、风险和下一步放在一起说清楚。",
-    images: [{ url: `${publicBasePath}/og-evidence-ledger-v17-refined.jpg`, width: 1200, height: 630, alt: "数字工具指南：先查清楚，再决定" }],
+    images: [{ url: `${publicBasePath}/og-live-proof-v19.jpg`, width: 1200, height: 630, alt: "数字工具指南：先弄清楚，再决定" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "数字工具指南",
     description: "网络服务、AI与应用、模型评测：来源、变化、风险和下一步都说明白。",
-    images: [`${publicBasePath}/og-evidence-ledger-v17-refined.jpg`],
+    images: [`${publicBasePath}/og-live-proof-v19.jpg`],
   },
   icons: {
     icon: [

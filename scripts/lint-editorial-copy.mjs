@@ -123,22 +123,26 @@ for (const [sourceRelative, artworkName, oldArtworkName] of evidenceArtwork) {
 }
 
 const layout = await readFile(path.join(root, "app/layout.tsx"), "utf8");
-const ogRelative = "public/og-evidence-ledger-v17-refined.jpg";
-if (!layout.includes(path.basename(ogRelative))) failures.push("社交分享元数据没有使用 V17 精修证据档案图");
+const ogRelative = "public/og-live-proof-v19.jpg";
+if (!layout.includes(path.basename(ogRelative))) failures.push("社交分享元数据没有使用 V19 公开检查分享图");
 const ogPath = path.join(root, ogRelative);
 const og = await stat(ogPath).catch(() => null);
-if (!og || og.size < 100_000 || og.size > 400_000) {
-  failures.push("V17 精修社交分享图缺失或体积不在 100–400KB 门禁内");
+if (!og || og.size < 70_000 || og.size > 300_000) {
+  failures.push("V19 社交分享图缺失或体积不在 70–300KB 门禁内");
 } else {
   const dimensions = readJpegDimensions(await readFile(ogPath));
   if (!dimensions || dimensions.width !== 1200 || dimensions.height !== 630) {
-    failures.push(`V17 精修社交分享图必须为 1200×630，当前为 ${dimensions ? `${dimensions.width}×${dimensions.height}` : "无法读取"}`);
+    failures.push(`V19 社交分享图必须为 1200×630，当前为 ${dimensions ? `${dimensions.width}×${dimensions.height}` : "无法读取"}`);
   }
 }
 
 const css = await readFile(path.join(root, "app/award-system.css"), "utf8");
 if (!css.includes("V17 — evidence ledger") || !css.includes("[class] small")) failures.push("V17 视觉系统或小字号保护规则缺失");
 if (!css.includes("V18 — evidence atlas") || !css.includes("grid-template-columns: repeat(4, minmax(0, 1fr))")) failures.push("V18 统一插图系统或手机端 AI 导航修复缺失");
+if (!css.includes("V19 — live proof") || !home.includes("v19-live-proof") || !home.includes("入口可用不等于套餐价格已经确认")) failures.push("V19 首屏真实检查结果或证据边界缺失");
+if (!layout.includes('import "./site.css"')) failures.push("全站样式没有由根布局统一加载，直接打开内页可能失去版式");
+const siteCss = await readFile(path.join(root, "app/site.css"), "utf8");
+if (!siteCss.includes('@import "./globals.css"') || !siteCss.includes('@import "./award-system.css"')) failures.push("全站样式入口没有按基础样式、设计系统的顺序合并");
 
 if (failures.length) {
   console.error("编辑质量门禁未通过：");

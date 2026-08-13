@@ -1,6 +1,5 @@
 import syncStatus from "../data/sync-status.json";
 import autoSync from "../data/auto-sync.json";
-import "./award-system.css";
 import promotionManifest from "../data/promotion-links.json";
 import Link from "next/link";
 import Image from "next/image";
@@ -456,10 +455,10 @@ export default function Home() {
       <StructuredData data={routeListJsonLd} />
       <section className="v16-hero" aria-labelledby="home-title">
         <div className="v16-hero-copy">
-          <span className="v16-kicker"><i />写给第一次接触这些工具的人</span>
-          <h1 id="home-title"><span>先弄清楚，</span><br /><em>再决定用什么。</em></h1>
-          <p>这里不替你喊“最好用”。价格从哪来、版本是不是最新、哪里需要自己确认，我们尽量放在同一处说清楚，让你少绕几步路。</p>
-          <div className="v16-hero-actions"><Link className="v16-action-primary" href="#projects">从我的问题开始 <span>↓</span></Link><Link className="v16-action-secondary" href="/search" prefetch={false}>直接找一个工具 <span>⌕</span></Link></div>
+          <span className="v16-kicker"><i />复杂工具，先弄清楚再选择</span>
+          <h1 id="home-title"><span>先知道买的</span><span>是什么，</span><br /><em>再决定要不要用。</em></h1>
+          <p>网络服务、AI 订阅和模型榜单总在变。这里不替你喊“最好用”，只把来源、更新时间、能确认的部分和仍需你核对的地方放在一起，不用在十几个页面之间来回猜。</p>
+          <div className="v16-hero-actions"><Link className="v16-action-primary" href="#projects">选择我要解决的事 <span>↓</span></Link><Link className="v16-action-secondary" href="/search" prefetch={false}>搜索具体产品 <span>⌕</span></Link></div>
           <nav className="v16-route-strip" aria-label="三个核心项目">
             <Link href="/nodes" prefetch={false}><b>01</b><span>网络服务<small>选择、下载、排错</small></span><i>↗</i></Link>
             <Link href="/ai" prefetch={false}><b>02</b><span>AI与应用<small>用途、订阅、安装</small></span><i>↗</i></Link>
@@ -467,21 +466,15 @@ export default function Home() {
           </nav>
         </div>
 
-        <aside className="v16-evidence-map" aria-label="本站公开数据同步概览">
-          <header><span>本轮检查结果</span><strong>能自动核对的资料，刚刚查过</strong><small>{syncTime}</small></header>
-          <div className="v16-orbit" aria-hidden="true">
-            <i className="v16-orbit-ring ring-one" /><i className="v16-orbit-ring ring-two" />
-            <span className="v16-map-node source-node"><b>01</b><small>找到来源</small></span>
-            <span className="v16-map-node check-node"><b>02</b><small>检查变化</small></span>
-            <span className="v16-map-node action-node"><b>03</b><small>给出下一步</small></span>
-            <span className="v16-map-core"><i />核对结果</span>
-          </div>
+        <aside className="v19-live-proof" aria-label="本轮公开资料检查结果">
+          <header><span>本轮公开检查</span><time>{syncTime}</time><strong>这次真正查到了什么</strong><p>下面都是当前同步结果，不是写死的宣传数字。</p></header>
+          <div className="v19-proof-total"><span>可打开的公开入口</span><strong>{usableLinks}<small> / {syncStatus.links.length}</small></strong><i>入口可用不等于套餐价格已经确认</i></div>
           <dl>
-            <div><dt>可用入口</dt><dd>{usableLinks}<small> / {syncStatus.links.length}</small></dd></div>
-            <div><dt>客户端版本</dt><dd>{checkedClients}<small> 项已检查</small></dd></div>
-            <div><dt>官方直链</dt><dd>{directFiles}<small> 个文件</small></dd></div>
+            <div><dt><i />客户端版本</dt><dd>{checkedClients}<small> 项已检查</small></dd><p>版本来自官方发布页；读取异常会保留状态，不猜最新版。</p></div>
+            <div><dt><i />官方文件直链</dt><dd>{directFiles}<small> 个文件</small></dd><p>下载按钮直接指向官方发布文件，本站备份另行标注。</p></div>
+            <div><dt><i />公开模型记录</dt><dd>{benchmarkModelCount}<small> 个模型</small></dd><p>{benchmarkSnapshot?.state === "ok" ? "本轮榜单同步正常，并保留原始指标。" : "本轮读取异常，正在显示最近可信快照。"}</p></div>
           </dl>
-          <p><i /> 页面读不到、价格互相冲突或资料过期时，我们会直接写出来，不拿旧数字顶替。</p>
+          <footer><span>我们的原则</span><p>读不到、互相冲突或已经过期，就把限制写在结论旁边，不拿旧数字顶替。</p><Link href="/status">查看完整检查状态 <i>↗</i></Link></footer>
         </aside>
       </section>
 
@@ -501,7 +494,7 @@ export default function Home() {
             <ol><li><b>01</b><span>先分清套餐、订阅链接和客户端</span></li><li><b>02</b><span>再看价格证据是否还在有效期内</span></li><li><b>03</b><span>最后按设备下载正确文件</span></li></ol>
             <footer><span>{checkedClients} 个客户端版本已检查</span><span>{directFiles} 个官方文件可直达</span></footer>
           </Link>
-          <div className="v16-project-copy"><span>网络服务 · 从概念到连接</span><h3>第一次看到“机场”和“节点”，先别急着买。</h3><p>先弄清套餐卖的是什么、客户端负责什么，再按预算和设备缩小范围。遇到连接问题，也可以从症状往回排查。</p><ul><li>五个常见词，用日常说法解释</li><li>过期价格会自动退出当前排序</li><li>官方文件和本站备份分开标明</li></ul><Link href="/nodes" prefetch={false}>从基础概念开始 <i>↗</i></Link></div>
+          <div className="v16-project-copy"><span>网络服务 · 从概念到连接</span><h3>第一次看到“机场”和“节点”，先别急着买。</h3><p>先分清套餐、订阅链接和客户端，再按预算与设备缩小范围。过期价格会退出当前排序，官方文件和本站备份也会分开标明。</p><Link href="/nodes" prefetch={false}>从基础概念开始 <i>↗</i></Link></div>
         </article>
 
         <article className="v16-project-chapter chapter-ai">
@@ -522,7 +515,7 @@ export default function Home() {
             <dl><div><dt>真人偏好</dt><dd>Arena</dd></div><div><dt>能力 / 速度 / 成本</dt><dd>Artificial Analysis</dd></div></dl>
             <footer><span>{benchmarkSnapshot?.state === "ok" ? "本轮同步正常" : "显示最近可信快照"}</span><span>保留原榜顺序</span></footer>
           </Link>
-          <div className="v16-project-copy"><span>模型评测 · 从榜单到判断</span><h3>榜单可以参考，但别把第一名当成唯一答案。</h3><p>Arena 看真人更喜欢哪份回答；Artificial Analysis 分开测能力、速度、等待和 API 成本。我们保留原始名次，再解释这些数字和日常使用有什么关系。</p><ul><li>读取失败时保留最近成功快照</li><li>先看每家公司的代表模型</li><li>原榜前十不合并、不重排</li></ul><Link href="/benchmarks" prefetch={false}>看懂两个榜单 <i>↗</i></Link></div>
+          <div className="v16-project-copy"><span>模型评测 · 从榜单到判断</span><h3>榜单可以参考，但别把第一名当成唯一答案。</h3><p>Arena 看真人更喜欢哪份回答；Artificial Analysis 分开测能力、速度、等待和 API 成本。这里保留原榜顺序，读取失败时只显示最近可信快照。</p><Link href="/benchmarks" prefetch={false}>看懂两个榜单 <i>↗</i></Link></div>
         </article>
       </section>
 

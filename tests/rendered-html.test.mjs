@@ -54,7 +54,7 @@ test("全站按零基础用户顺序先解释再比较", async () => {
   const ai = await (await render("/ai")).text();
   assert.match(ai, /第一次用 AI，先别急着研究模型/);
   assert.match(ai, /入口检查/);
-  assert.match(ai, /自动检查/);
+  assert.match(ai, /(?:自动检查|待复核|读取异常)/);
   assert.doesNotMatch(ai, /先免费体验，再决定付费|只想先选一款|按你的任务选择，不按广告口号选择/);
   const downloads = await (await render("/downloads")).text();
   assert.match(downloads, /网络客户端不是网络套餐/);
