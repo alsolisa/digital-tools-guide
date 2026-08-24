@@ -233,8 +233,8 @@ export const aiProducts: ProductProfile[] = [
     ],
     downloads: [
       { platform: "Web", label: "打开 Claude 网页版", url: "https://claude.ai/", source: "official", status: "verified", verifiedAt: checkedAt },
-      { platform: "Windows", label: "Claude Desktop", url: "https://claude.ai/download", source: "official", status: "verified", verifiedAt: checkedAt },
-      { platform: "macOS", label: "Claude Desktop", url: "https://claude.ai/download", source: "official", status: "verified", verifiedAt: checkedAt },
+      { platform: "Windows", label: "Claude Desktop", url: "https://claude.com/download", source: "official", status: "verified", verifiedAt: checkedAt },
+      { platform: "macOS", label: "Claude Desktop", url: "https://claude.com/download", source: "official", status: "verified", verifiedAt: checkedAt },
       { platform: "Android", label: "Google Play", url: "https://play.google.com/store/apps/details?id=com.anthropic.claude", source: "google-play", status: "verified", verifiedAt: checkedAt },
       { platform: "iOS", label: "Apple App Store", url: "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684", source: "app-store", status: "verified", verifiedAt: checkedAt },
     ],
@@ -244,8 +244,8 @@ export const aiProducts: ProductProfile[] = [
       { src: "/guides/claude/official-3.webp", title: "工具与资料协作", caption: "可以围绕文件、搜索或连接的工具继续工作，适合项目型任务。", alt: "Claude官方App Store截图，展示工具与资料入口", focus: ["只连接任务真正需要的资料", "先说明最终要交付什么", "查看每个工具的授权范围"], sourceLabel: "Apple App Store", sourceUrl: "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684", verifiedAt: checkedAt },
     ],
     officialSources: [
-      { label: "Claude 官方产品与功能介绍", url: "https://www.anthropic.com/claude" },
-      { label: "Claude 支持的使用平台", url: "https://support.anthropic.com/en/articles/8114487-what-interfaces-can-i-use-to-access-claude" },
+      { label: "Claude 官方产品与功能介绍", url: "https://claude.com/product/overview" },
+      { label: "Claude 支持的使用平台", url: "https://support.claude.com/en/articles/8114487-what-interfaces-can-i-use-to-access-claude" },
       { label: "Claude 套餐选择", url: "https://support.claude.com/en/articles/11049762-choose-a-claude-plan" },
       { label: "Claude 当前模型总览", url: "https://platform.claude.com/docs/en/about-claude/models/overview" },
       { label: "Claude 当前套餐与价格", url: "https://claude.com/pricing" },
@@ -488,7 +488,7 @@ const baseSubscriptionOffers: SubscriptionOffer[] = [
     slug: "claude", name: "Claude Pro / Max", productSlug: "claude", mark: "A", useCase: "获得更高的 Claude 使用额度、模型和付费功能。",
     whySelected: "长文档、自然写作和持续对话是它的代表性场景，适合需要阅读与整理大量材料的人。", freeAdvice: "先用免费版测试长文、写作和文件阅读；用量经常不足时再选择Pro，Max不适合只为尝鲜的新手。",
     officialPrice: "Pro US$20 / 月", officialCny: "约 ¥135.49", gamsgoPrice: "暂时无法核验", gamsgoCny: "以购买页实时显示为准", priceNote: "GamsGo 原 Claude 商品页现已转到市场中心；价格、交付方式和售后条件由具体商品与卖家决定，需进入购买页逐项比较。",
-    officialUrl: "https://www.anthropic.com/pricing",
+    officialUrl: "https://claude.com/pricing",
     deliveryType: "多种方式", risk: "high", riskLabel: "", ownership: "市场中心可能包含独享、共享、充值或其他交付方式；必须以具体商品说明为准", privacy: "交付账号不要存放公司机密或个人敏感资料；收到账号后检查恢复方式、二次验证和密码权限", renewal: "确认到期后账号能否继续使用，以及卖家保障期覆盖多久", support: "联系客服处理 · 7×24小时", payment: "Visa、Mastercard、Apple Pay、Google Pay、银联、支付宝等；以GamsGo结算页为准", region: "Claude本身有支持地区限制",
     sourceUrl: "https://www.gamsgo.com/zh/accounts/claude", affiliateUrl: "https://www.gamsgo.com/zh/accounts/claude/partner/BTzCM",
     purchaseChannels: [
@@ -534,8 +534,18 @@ const baseSubscriptionOffers: SubscriptionOffer[] = [
   },
 ];
 
+type SyncedGamsgoOffer = {
+  slug: string;
+  state: string;
+  checkedAt: string;
+  note: string;
+  published?: { currency: string; value: number };
+  cny?: number;
+  lastSuccessfulAt?: string;
+};
+
 function syncedSubscriptionOffer(offer: SubscriptionOffer): SubscriptionOffer {
-  const synced = autoSync.gamsgo.find((item) => item.slug === offer.slug);
+  const synced = autoSync.gamsgo.find((item) => item.slug === offer.slug) as SyncedGamsgoOffer | undefined;
   const pricing = (subscriptionPricing.offers as Record<string, {
     officialUsd?: number;
     verifiedAt: string;
@@ -543,7 +553,7 @@ function syncedSubscriptionOffer(offer: SubscriptionOffer): SubscriptionOffer {
   }>)[offer.slug];
   const referenceTime = new Date(autoSync.checkedAt).getTime();
   const manualVerifiedTime = pricing?.verifiedAt
-    ? new Date(`${pricing.verifiedAt}T23:59:59+08:00`).getTime()
+    ? new Date(`${pricing.verifiedAt}T00:00:00+08:00`).getTime()
     : Number.NaN;
   const manualPricingIsFresh = Number.isFinite(referenceTime)
     && Number.isFinite(manualVerifiedTime)

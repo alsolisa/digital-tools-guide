@@ -45,7 +45,7 @@ test("静态导出包含搜索引擎、PWA与教程图片资源", async () => {
   for (const file of ["tag-shop.png", "youtu-client-proof.png"]) {
     assert.equal(await exists(path.join(root, "guides", "nodes", file)), true, `缺少机场核验证据 ${file}`);
   }
-  for (const file of ["Clash.Verge_2.5.2_x64-setup.exe", "FlClash-0.8.94-android-arm64-v8a.apk", "Hiddify-Windows-Setup-x64-v4.1.1.exe"]) {
+  for (const file of ["Clash.Verge_2.5.2_x64-setup.exe", "FlClash-0.8.96-android-arm64-v8a.apk", "Hiddify-Windows-Setup-x64-v4.1.1.exe"]) {
     assert.equal(await exists(path.join(root, "mirror", file)), true, `缺少本站备用安装包 ${file}`);
   }
 });

@@ -6,6 +6,62 @@ const CURRENCY_MARKS = {
   "£": "GBP",
 };
 
+function parseLocalizedNumber(value) {
+  const compact = String(value ?? "").replace(/\s+/g, "");
+  const normalized = compact.includes(".") && compact.includes(",")
+    ? compact.replace(/,/g, "")
+    : compact.replace(",", ".");
+  const number = Number(normalized);
+  return Number.isFinite(number) && number > 0 ? number : null;
+}
+
+function currencyFromDescriptor(value) {
+  const descriptor = String(value || "").toUpperCase();
+  if (descriptor.includes("USD")) return "USD";
+  if (descriptor.includes("SGD")) return "SGD";
+  if (descriptor.includes("JPY")) return "JPY";
+  if (descriptor.includes("CNY")) return "CNY";
+  if (descriptor.includes("EUR") || descriptor.includes("€")) return "EUR";
+  if (descriptor.includes("GBP") || descriptor.includes("£")) return "GBP";
+  return null;
+}
+
+function parseNuxtGamsgoPrice(html, options = {}) {
+  const payloadMatch = html.match(/<script[^>]*id=["']__NUXT_DATA__["'][^>]*>([\s\S]*?)<\/script>/i);
+  if (!payloadMatch) return null;
+
+  let flattened;
+  try {
+    flattened = JSON.parse(payloadMatch[1]);
+  } catch {
+    return null;
+  }
+  if (!Array.isArray(flattened)) return null;
+
+  const dereference = (reference) => Number.isInteger(reference) && reference >= 0 && reference < flattened.length
+    ? flattened[reference]
+    : undefined;
+  const details = flattened.filter((item) => item && !Array.isArray(item) && typeof item === "object"
+    && "type_name" in item && "detail_route" in item && "min_price" in item && "currency_icon2" in item);
+  const detail = details.find((item) => {
+    if (!options.detailRoute) return true;
+    return String(dereference(item.detail_route) || "").toLowerCase() === options.detailRoute.toLowerCase();
+  });
+  if (!detail) return null;
+
+  const specialValue = parseLocalizedNumber(dereference(detail.min_price));
+  const currency = currencyFromDescriptor(dereference(detail.currency_icon2) || dereference(detail.currency_icon1));
+  if (!specialValue || !currency) return null;
+
+  return {
+    official: options.official || null,
+    special: { currency, value: specialValue },
+    period: "month",
+    offerDurationMonths: 1,
+    sourceMethod: "nuxt-structured-min-price",
+  };
+}
+
 export function normalizePageText(html) {
   return html
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
@@ -143,6 +199,8 @@ export function parseGamsgoPrice(html, options = {}) {
     }
   }
 
+  if (!result) result = parseNuxtGamsgoPrice(html, options);
+
   if (!result) return null;
 
   const observed = [result.special.value, ...(options.conflictPatterns || []).flatMap((pattern) =>
@@ -161,9 +219,18 @@ export function validatePublicPrice(price, expectedDomain) {
     price &&
       Number.isFinite(price.value) &&
       price.value > 0 &&
-      ["USD", "SGD", "EUR", "GBP"].includes(price.currency) &&
+      ["USD", "SGD", "JPY", "CNY", "EUR", "GBP"].includes(price.currency) &&
       expectedDomain === "www.gamsgo.com",
   );
+}
+
+export function normalizePriceToUsd(price, exchange) {
+  if (!price || !Number.isFinite(price.value) || price.value <= 0) return null;
+  if (price.currency === "USD") return { currency: "USD", value: Math.round(price.value * 100) / 100 };
+  if (exchange?.state !== "ok") return null;
+  const sourceRate = Number(exchange?.rates?.[price.currency]);
+  if (!Number.isFinite(sourceRate) || sourceRate <= 0) return null;
+  return { currency: "USD", value: Math.round((price.value / sourceRate) * 100) / 100 };
 }
 
 export function decidePublishedPrice(previous = {}, nextPrice) {
@@ -189,14 +256,14 @@ export function decidePublishedPrice(previous = {}, nextPrice) {
 
 export function cnyValue(price, exchange) {
   if (!price || !exchange?.rates?.CNY) return null;
-  const usdValue = price.currency === "USD" ? price.value : price.currency === "SGD" ? price.value / exchange.rates.SGD : null;
-  return usdValue === null ? null : Math.round(usdValue * exchange.rates.CNY * 100) / 100;
+  const normalized = normalizePriceToUsd(price, exchange);
+  return normalized === null ? null : Math.round(normalized.value * exchange.rates.CNY * 100) / 100;
 }
 
 export function isAllowedOfficialDownload(url) {
   const hostname = new URL(url).hostname.toLowerCase();
   return [
-    "chatgpt.com", "openai.com", "claude.ai", "anthropic.com", "support.claude.com",
+    "chatgpt.com", "openai.com", "claude.ai", "claude.com", "anthropic.com", "support.claude.com",
     "gemini.google.com", "google.com", "support.google.com", "grok.com", "x.ai", "x.com",
     "perplexity.ai", "youtube.com", "www.youtube.com", "tiktok.com", "www.tiktok.com",
     "play.google.com", "apps.apple.com", "apps.microsoft.com", "github.com", "one.google.com",

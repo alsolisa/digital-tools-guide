@@ -77,13 +77,15 @@ test("机场指南按证据新鲜度分开月付价格与非月付方案", async
   for (const name of names) {
     assert.equal((html.match(new RegExp(`<h3>${name}</h3>`, "g")) || []).length, 1, `${name} 应且只应出现一次`);
   }
-  const nonMonthlyHeading = html.indexOf("悠兔与 BoostNet 的最近记录为季付、半年付和年付");
-  assert.ok(nonMonthlyHeading >= 0);
+  const staleMonthlyHeading = html.indexOf("月付价格待重新核验");
+  const nonMonthlyHeading = html.indexOf("这些服务最近一次记录不是月付，但资料已经超过 14 天");
+  assert.ok(staleMonthlyHeading >= 0);
+  assert.ok(nonMonthlyHeading > staleMonthlyHeading);
+  assert.ok(html.indexOf("<h3>悠兔 Youtu</h3>") < staleMonthlyHeading, "悠兔当前公开月付方案应进入已核验月付分组");
   for (const name of ["WestData", "Nexitally", "TAG"]) {
-    assert.ok(html.indexOf(`<h3>${name}</h3>`) < nonMonthlyHeading, `${name} 不应被归入非月付分组`);
+    assert.ok(html.indexOf(`<h3>${name}</h3>`) > staleMonthlyHeading && html.indexOf(`<h3>${name}</h3>`) < nonMonthlyHeading, `${name} 应留在月付待复核分组`);
   }
-  assert.ok(html.indexOf("<h3>悠兔 Youtu</h3>", nonMonthlyHeading) > nonMonthlyHeading, "悠兔应列在非月付分组");
-  assert.ok(html.indexOf("<h3>BoostNet</h3>", nonMonthlyHeading) > html.indexOf("<h3>悠兔 Youtu</h3>", nonMonthlyHeading), "非月付方案应保持稳定顺序");
+  assert.ok(html.indexOf("<h3>BoostNet</h3>") > nonMonthlyHeading, "BoostNet 应留在方案状态待复核分组");
   if (html.includes("人工核验已超过14天")) {
     assert.match(html, /月付价格待重新核验/);
     assert.match(html, /不会被误写成已经停止月付/);
@@ -92,10 +94,13 @@ test("机场指南按证据新鲜度分开月付价格与非月付方案", async
   assert.match(html, /入口已自动核验/);
   assert.match(html, /入口受防护 · 可手动打开/);
   assert.doesNotMatch(html, /人工核验已超过14天/);
-  assert.match(html, /悠兔与 BoostNet 的最近记录为季付、半年付和年付/);
-  assert.match(html, /不能据此断言今天仍然暂停月付/);
+  assert.match(html, /旧记录不能证明今天仍然暂停月付/);
   assert.match(html, /其中“当前”“可购买”等表述只代表当次页面状态/);
-  assert.match(html, /月付暂停/);
+  assert.match(html, /公开首页当前展示 ¥119\/1024G/);
+  assert.match(html, /href="https:\/\/666\.youtu6\.shop\/#downloads"/);
+  assert.match(html, /查看官方客户端下载说明/);
+  assert.match(html, /官方未提供可公开核验的下载直链；购买后请从服务商后台获取/);
+  assert.doesNotMatch(html, /d\.yoututz\.top/);
   assert.doesNotMatch(html, /已登录购买页核验；四款均显示可立即订购/);
   assert.doesNotMatch(html, /当前计划页仅直接展示年付、半年付、季付/);
   assert.doesNotMatch(html, /截图用来证明|\/guides\/nodes\/tag-shop\.png|\/guides\/nodes\/youtu-client-proof\.png/);
@@ -211,7 +216,7 @@ test("下载中心只链接允许的官方域名且没有空链接", async () =>
   const externalLinks = [...html.matchAll(/<a\b[^>]*href=["'](https?:\/\/[^"']+)["']/g)].map((match) => match[1]);
   assert.ok(externalLinks.length >= 15, "应展示多平台官方下载入口");
   const allowed = [
-    "chatgpt.com", "claude.ai", "gemini.google.com", "grok.com", "perplexity.ai",
+    "chatgpt.com", "claude.ai", "claude.com", "gemini.google.com", "grok.com", "perplexity.ai",
     "youtube.com", "x.com", "tiktok.com", "play.google.com", "apps.apple.com",
     "github.com", "nssurge.com", "midjourney.com",
   ];
@@ -334,7 +339,7 @@ test("下载中心提供官方文件直链和带SHA-256的开源备用文件", a
   assert.match(html, /Clash\.Verge_2\.5\.2_x64-setup\.exe/);
   assert.match(html, /v2rayN-windows-64-desktop\.zip/);
   assert.match(html, /https:\/\/github\.com\/2dust\/v2rayN\/releases\/download\/7\.24\.4\/v2rayN-windows-64-desktop\.zip/);
-  assert.match(html, /FlClash-0\.8\.94-android-arm64-v8a\.apk/);
+  assert.match(html, /FlClash-0\.8\.96-android-arm64-v8a\.apk/);
   assert.match(html, /Hiddify-Windows-Setup-x64-v4\.1\.1\.exe/);
   assert.match(html, /SHA-256/);
   assert.match(html, /许可证/);

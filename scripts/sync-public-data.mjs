@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { cnyValue, decidePublishedPrice, describeExecError, isAllowedOfficialDownload, mapWithConcurrency, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl, retainGamsgoSnapshot, retainReleaseSnapshot, validatePublicPrice } from "./sync-utils.mjs";
+import { cnyValue, decidePublishedPrice, describeExecError, isAllowedOfficialDownload, mapWithConcurrency, normalizePriceToUsd, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl, retainGamsgoSnapshot, retainReleaseSnapshot, validatePublicPrice } from "./sync-utils.mjs";
 
 const execFileAsync = promisify(execFile);
 const curl = process.platform === "win32" ? "curl.exe" : "curl";
@@ -15,13 +15,13 @@ const promotionManifest = JSON.parse(await readFile(new URL("../data/promotion-l
 const promotionLinks = promotionManifest.links;
 
 const staticLinks = [
-  { id: "youtu-client", url: "https://d.yoututz.top/ph/youtu", kind: "client" },
+  { id: "youtu-client", url: "https://666.youtu6.shop/#downloads", kind: "client" },
   { id: "wgetcloud", url: "https://wgetcloud.ltd/", kind: "official" },
   { id: "surge", url: "https://nssurge.com/", kind: "client" },
   { id: "arena", url: "https://arena.ai/leaderboard/text", kind: "benchmark" },
   { id: "artificial-analysis", url: "https://artificialanalysis.ai/leaderboards/models", kind: "benchmark" },
   { id: "chatgpt-download", url: "https://chatgpt.com/download/", kind: "download" },
-  { id: "claude-download", url: "https://claude.ai/download", kind: "download" },
+  { id: "claude-download", url: "https://claude.com/download", kind: "download" },
   { id: "gemini-web", url: "https://gemini.google.com/", kind: "download" },
   { id: "grok-web", url: "https://grok.com/", kind: "download" },
   { id: "perplexity-platforms", url: "https://www.perplexity.ai/platforms", kind: "download" },
@@ -33,16 +33,18 @@ const gamsgoOffers = [
     url: "https://www.gamsgo.com/details/chatgpt",
     parseOptions: {
       embeddedProduct: true,
+      detailRoute: "chatgpt",
       official: { currency: "USD", value: 20 },
     },
   },
   { slug: "claude", url: "https://www.gamsgo.com/zh/accounts/claude", parseOptions: { embeddedProduct: true } },
-  { slug: "gemini", url: "https://www.gamsgo.com/details/gemini", parseOptions: { embeddedProduct: true } },
+  { slug: "gemini", url: "https://www.gamsgo.com/details/gemini", parseOptions: { embeddedProduct: true, detailRoute: "gemini" } },
   {
     slug: "grok",
     url: "https://www.gamsgo.com/details/grok",
     parseOptions: {
       embeddedProduct: true,
+      detailRoute: "grok",
       conflictPatterns: [/GamsGo SuperGrok\s*\$\s*([0-9]+(?:[.,][0-9]+)?)\s*\/\s*月/gi, /GamsGo 购买的价格为\s*([0-9]+(?:[.,][0-9]+)?)\s*美元\s*\/\s*月/gi],
     },
   },
@@ -51,11 +53,12 @@ const gamsgoOffers = [
     url: "https://www.gamsgo.com/details/Perplexity_AI",
     parseOptions: {
       embeddedProduct: true,
+      detailRoute: "perplexity_ai",
       specialPattern: /(?:in\s+)?GamsGo(?:\s+only)?\s*(US\$|S\$|\$|€|£)?\s*([0-9]+(?:[.,][0-9]+)?)\s*(?:per month|\/\s*month)/i,
       official: { currency: "USD", value: 16.66 },
     },
   },
-  { slug: "midjourney", url: "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK", parseOptions: { embeddedProduct: true } },
+  { slug: "midjourney", url: "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK", parseOptions: { embeddedProduct: true, detailRoute: "midjourney_official" } },
 ];
 
 const repositories = [
@@ -94,7 +97,7 @@ async function checkLink(item) {
   let lastError;
   for (let attempt = 0; attempt < 3; attempt += 1) {
     try {
-      const result = await curlText(["-L", "--connect-timeout", "8", "--max-time", "30", "-A", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140.0.0.0 Safari/537.36", "-H", "Accept-Language: zh-CN,zh;q=0.9,en;q=0.7", "-o", nullDevice, "-sS", "-w", "%{http_code}\t%{url_effective}", item.url]);
+      const result = await curlText(["--http1.1", "-L", "--connect-timeout", "8", "--max-time", "30", "-A", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140.0.0.0 Safari/537.36", "-H", "Accept-Language: zh-CN,zh;q=0.9,en;q=0.7", "-o", nullDevice, "-sS", "-w", "%{http_code}\t%{url_effective}", item.url]);
       const [statusText, finalUrl] = result.trim().split("\t");
       const status = Number(statusText);
       if ((status === 429 || status >= 500) && attempt < 2) {
@@ -166,13 +169,14 @@ async function checkRelease(config, previous) {
 }
 
 async function readExchange(previousExchange) {
-  const sourceUrl = "https://api.frankfurter.app/latest?from=USD&to=CNY,SGD";
+  const sourceUrl = "https://api.frankfurter.app/latest?from=USD&to=CNY,SGD,JPY,EUR,GBP";
   try {
     const body = await curlText(["-fLsS", "--connect-timeout", "8", "--max-time", "30", sourceUrl]);
     const data = JSON.parse(body);
-    const valid = Number(data.rates?.CNY) > 0 && Number(data.rates?.SGD) > 0;
+    const requiredCurrencies = ["CNY", "SGD", "JPY", "EUR", "GBP"];
+    const valid = requiredCurrencies.every((currency) => Number(data.rates?.[currency]) > 0);
     if (!valid) throw new Error("invalid exchange response");
-    return { state: "ok", date: data.date, base: "USD", rates: { CNY: data.rates.CNY, SGD: data.rates.SGD }, sourceUrl };
+    return { state: "ok", date: data.date, base: "USD", rates: Object.fromEntries(requiredCurrencies.map((currency) => [currency, data.rates[currency]])), sourceUrl };
   } catch {
     return { ...previousExchange, state: "error", error: "暂时无法读取最新汇率；人民币参考价会明确标记为待核验" };
   }
@@ -220,11 +224,17 @@ async function readGamsgoOffer(item, previous, exchange) {
         note: "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核",
       };
     }
-    if (!parsed || !validatePublicPrice(parsed.special, new URL(item.url).hostname)) {
+    const normalizedPrice = parsed && validatePublicPrice(parsed.special, new URL(item.url).hostname)
+      ? normalizePriceToUsd(parsed.special, exchange)
+      : null;
+    if (!parsed || !normalizedPrice) {
       return { ...publicItem, ...decidePublishedPrice(previousPublic, null), checkedAt, note: "公开页未稳定展示可校验的月付价格" };
     }
 
-    const decision = decidePublishedPrice(previousPublic, parsed.special);
+    const decision = decidePublishedPrice(previousPublic, normalizedPrice);
+    const currencyNote = parsed.special.currency === "USD"
+      ? ""
+      : `；商家页面以 ${parsed.special.currency} 显示，已按 ${exchange.date} 的公开汇率换算为美元`;
     return {
       ...publicItem,
       ...decision,
@@ -233,10 +243,12 @@ async function readGamsgoOffer(item, previous, exchange) {
         ? (previousPublic.lastSuccessfulAt || previousPublic.checkedAt)
         : checkedAt,
       officialObserved: parsed.official || undefined,
+      sourceObserved: parsed.special,
+      sourceMethod: parsed.sourceMethod || "page-copy",
       period: parsed.period,
       offerDurationMonths: parsed.offerDurationMonths || 1,
       cny: decision.published ? cnyValue(decision.published, exchange) : null,
-      note: decision.state === "price-change-pending" ? "价格变化超过50%，等待下一次读取一致后发布" : `公开购买页${parsed.offerDurationMonths > 1 ? `${parsed.offerDurationMonths}个月方案折算的` : ""}月付起价；具体交付方式与结算价以下单页为准`,
+      note: decision.state === "price-change-pending" ? "价格变化超过50%，等待下一次读取一致后发布" : `公开购买页${parsed.offerDurationMonths > 1 ? `${parsed.offerDurationMonths}个月方案折算的` : ""}月付起价${currencyNote}；具体交付方式与结算价以下单页为准`,
     };
   } catch (error) {
     return { ...publicItem, ...decidePublishedPrice(previousPublic, null), checkedAt, error: describeExecError(error), note: "页面读取失败，隐藏具体数字并提示以购买页为准" };

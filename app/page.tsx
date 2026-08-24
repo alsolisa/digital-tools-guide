@@ -52,27 +52,29 @@ const services = [
   },
   {
     name: "悠兔 Youtu",
-    sortGroup: 1,
-    sortPrice: 1,
+    sortGroup: 0,
+    sortPrice: 119,
     alias: "自有客户端",
     tag: "小白友好",
-    price: "季付 / 半年付 / 年付",
-    cycle: "",
-    traffic: "月付暂停",
-    status: "非月付方案",
+    price: "¥119",
+    cycle: "/ 月",
+    traffic: "1024G",
+    status: "公开月付已核验",
     statusTone: "verified",
-    verifiedAt: "2026-07-16",
+    verifiedAt: "2026-08-24",
     payment: "待付款页实际核验",
-    monthly: "因运营安排暂时停止月付；当前以季付、半年付和年付为主",
+    monthly: "有月付 · 公开首页当前展示 ¥119/1024G",
     ownClient: "有 · Windows / Android / iOS / macOS",
-    clientHref: "https://d.yoututz.top/ph/youtu",
-    description: "提供 Windows、Android、iOS 与 macOS 自有客户端，也支持 Clash、ClashMeta 一键导入及 v2rayN 手动导入。当前主要提供季付、半年付和年付方案。",
-    caution: "月付是否恢复暂未明确；购买前请打开当前套餐页确认周期、流量和最终价格。",
+    clientHref: "https://666.youtu6.shop/#downloads",
+    clientLinkId: "youtu-client",
+    clientLinkLabel: "查看官方客户端下载说明 ↗",
+    description: "公开首页当前展示 7 种套餐，并列出 Windows、macOS、Android 与 iOS 的客户端下载说明；首页代表方案中包含 ¥119/1024G 月付。",
+    caution: "首页只展示代表方案；全部套餐、付款周期、限制和最终价格仍以注册后的套餐页与结算页为准。",
     bestFor: "希望安装步骤简单",
     linkId: "youtu",
     href: promotionUrls.youtu,
     linkLabel: "打开推广入口",
-    currentCheck: "带邀请码的注册页当前可打开；未登录状态只显示注册入口，无法证明套餐和付款信息。",
+    currentCheck: "带邀请码的注册页可以打开；公开首页已重新展示月付方案和四个平台的下载说明，结算价与付款方式仍需下单前确认。",
   },
   {
     name: "BoostNet",
@@ -89,7 +91,7 @@ const services = [
     payment: "待付款页实际核验",
     monthly: "因运营安排暂时停止月付；当前以季付、半年付和年付为主",
     ownClient: "有 · Windows / macOS / Android 一键客户端",
-    clientHref: "https://d.yoututz.top/ph/bst",
+    clientDownloadNote: "官方未提供可公开核验的下载直链；购买后请从服务商后台获取。",
     description: "当前提供季付、半年付和年付方案，可按预算与所需流量选择；购买前以计划页显示的周期和结算价格为准。",
     caution: "月付是否恢复暂未明确；如果只想短期试用，请先确认自己能接受当前最短购买周期。",
     bestFor: "多平台、重视性价比",
@@ -171,7 +173,7 @@ const priceReferenceTime = new Date(syncStatus.checkedAt).getTime();
 const priceFreshnessWindow = 14 * 24 * 60 * 60 * 1000;
 function hasFreshPriceEvidence(service: (typeof services)[number]) {
   if (!service.verifiedAt) return false;
-  const verifiedTime = new Date(`${service.verifiedAt}T23:59:59+08:00`).getTime();
+  const verifiedTime = new Date(`${service.verifiedAt}T00:00:00+08:00`).getTime();
   return Number.isFinite(priceReferenceTime) && Number.isFinite(verifiedTime) && priceReferenceTime >= verifiedTime && priceReferenceTime - verifiedTime <= priceFreshnessWindow;
 }
 const rankedMonthlyServices = sortedServices.filter((service) => service.sortGroup === 0 && hasFreshPriceEvidence(service));
@@ -211,12 +213,12 @@ const clients = [
     platform: "Android",
     app: "FlClash",
     repository: "chen08209/FlClash",
-    version: releaseVersions["chen08209/FlClash"] || "v0.8.94",
+    version: releaseVersions["chen08209/FlClash"] || "v0.8.96",
     note: "多数新安卓手机选择 arm64-v8a 安装包；不确定时先看手机处理器类型。",
     tone: "green",
     download: "https://github.com/chen08209/FlClash/releases/latest",
-    localFile: "FlClash-0.8.94-android-arm64-v8a.apk",
-    localVersion: "v0.8.94",
+    localFile: "FlClash-0.8.96-android-arm64-v8a.apk",
+    localVersion: "v0.8.96",
     localLabel: "本地下载 · Android ARM64",
     tutorial: "https://github.com/chen08209/FlClash#readme",
   },
@@ -287,6 +289,12 @@ function ServiceCard({ service, index, prefix = "月付" }: { service: (typeof s
   const entryCheck = linkId ? linkChecks[linkId] : null;
   const entryTone = entryCheck?.state === "ok" ? "verified" : entryCheck?.state === "protected" ? "review" : "error";
   const entryLabel = entryCheck?.state === "ok" ? "入口已自动核验" : entryCheck?.state === "protected" ? "入口受防护 · 可手动打开" : "入口检查异常";
+  const clientHref = "clientHref" in service && typeof service.clientHref === "string" ? service.clientHref : null;
+  const clientLinkId = "clientLinkId" in service && typeof service.clientLinkId === "string" ? service.clientLinkId : null;
+  const clientCheck = clientLinkId ? linkChecks[clientLinkId] : null;
+  const clientLinkSafe = Boolean(clientHref && clientCheck && ["ok", "protected"].includes(clientCheck.state));
+  const clientLinkLabel = "clientLinkLabel" in service && typeof service.clientLinkLabel === "string" ? service.clientLinkLabel : "查看官方客户端下载说明 ↗";
+  const clientDownloadNote = "clientDownloadNote" in service && typeof service.clientDownloadNote === "string" ? service.clientDownloadNote : null;
   return <article className="service-card">
     <div className="service-topline"><span className="service-tag">{prefix} {index + 1} · {service.tag}</span><span className={`status-pill ${entryTone}`}><i />{entryLabel}</span></div>
     <div className="service-title"><h3>{service.name}</h3><span>{service.alias}</span></div>
@@ -296,7 +304,7 @@ function ServiceCard({ service, index, prefix = "月付" }: { service: (typeof s
     <div className="service-stats"><div><small>{stalePrice ? (isMonthly ? "最近核验价格" : "最近记录的可选周期") : (isMonthly ? "可比参考价格" : "当前可选周期")}</small><strong>{service.price}</strong><span>{service.cycle}</span></div><div><small>{stalePrice ? (isMonthly ? "最近核验流量" : "最近记录的月付状态") : (isMonthly ? "参考流量" : "月付状态")}</small><strong>{service.traffic}</strong></div></div>
     {"caution" in service && service.caution && <p className="service-caution"><strong>购买前注意</strong>{service.caution}</p>}
     <div className="fact-line"><span>{stalePrice ? "月付记录" : "月付"}</span>{service.monthly}</div>
-    <div className="fact-line"><span>客户端</span>{service.ownClient}{"clientHref" in service && service.clientHref && <a href={service.clientHref} target="_blank" rel="noopener noreferrer">自有客户端下载 ↗</a>}</div>
+    <div className="fact-line"><span>客户端</span>{service.ownClient}{clientHref && (clientLinkSafe ? <a href={clientHref} target="_blank" rel="noopener noreferrer">{clientLinkLabel}</a> : <small className="client-download-unavailable">客户端下载入口当前未通过安全核验，请从服务商后台获取。</small>)}{!clientHref && clientDownloadNote && <small className="client-download-unavailable">{clientDownloadNote}</small>}</div>
     <div className="payment-line"><span>付款</span>{service.payment}</div>
     <div className="best-for"><span>适合</span>{service.bestFor}</div>
     <a href={service.href} target="_blank" rel="sponsored noopener" className="card-action">{service.linkLabel} <span>↗</span></a>
@@ -330,7 +338,7 @@ function ServiceComparison({ sectionIndex = "02 / 机场推荐" }: { sectionInde
         <div className="service-grid candidate-service-grid">{currentNonMonthlyServices.map((service, index) => <ServiceCard service={service} index={index} prefix="非月付" key={service.name} />)}</div>
       </>}
       {staleNonMonthlyServices.length > 0 && <>
-        <div className="candidate-divider"><span>方案状态待重新核验</span><h3>悠兔与 BoostNet 的最近记录为季付、半年付和年付</h3><p>这些记录已经超过 14 天，不能据此断言今天仍然暂停月付。请打开购买页确认当前是否恢复月付，以及可选周期、流量和最终价格。</p></div>
+        <div className="candidate-divider"><span>方案状态待重新核验</span><h3>这些服务最近一次记录不是月付，但资料已经超过 14 天</h3><p>旧记录不能证明今天仍然暂停月付。请打开购买页确认当前可选周期、流量和最终价格。</p></div>
         <div className="service-grid candidate-service-grid">{staleNonMonthlyServices.map((service, index) => <ServiceCard service={service} index={index} prefix="待复核" key={service.name} />)}</div>
       </>}
     </section>

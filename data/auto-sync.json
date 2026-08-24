@@ -1,14 +1,17 @@
 {
-  "checkedAt": "2026-08-14T02:47:07.961Z",
+  "checkedAt": "2026-08-24T15:08:58.773Z",
   "exchange": {
     "state": "ok",
-    "date": "2026-08-13",
+    "date": "2026-08-24",
     "base": "USD",
     "rates": {
-      "CNY": 6.743,
-      "SGD": 1.2801
+      "CNY": 6.7227,
+      "SGD": 1.2705,
+      "JPY": 159.12,
+      "EUR": 0.85734,
+      "GBP": 0.73345
     },
-    "sourceUrl": "https://api.frankfurter.app/latest?from=USD&to=CNY,SGD"
+    "sourceUrl": "https://api.frankfurter.app/latest?from=USD&to=CNY,SGD,JPY,EUR,GBP"
   },
   "gamsgo": [
     {
@@ -18,20 +21,24 @@
         "currency": "USD",
         "value": 5
       },
-      "state": "stale",
+      "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-14T02:46:35.559Z",
-      "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
-      "note": "本轮能打开商家页面，但没有提取出稳定价格；展示 2026-08-11 最近一次成功核验的价格，结算前请打开购买页确认",
-      "cny": 33.72,
+      "checkedAt": "2026-08-24T15:08:37.834Z",
+      "lastSuccessfulAt": "2026-08-24T15:08:37.834Z",
       "officialObserved": {
         "currency": "USD",
         "value": 20
       },
+      "sourceObserved": {
+        "currency": "JPY",
+        "value": 795
+      },
+      "sourceMethod": "nuxt-structured-min-price",
       "period": "month",
-      "offerDurationMonths": 3,
-      "lastSuccessfulAt": "2026-08-11T13:28:03.604Z"
+      "offerDurationMonths": 1,
+      "cny": 33.61,
+      "note": "公开购买页月付起价；商家页面以 JPY 显示，已按 2026-08-24 的公开汇率换算为美元；具体交付方式与结算价以下单页为准"
     },
     {
       "slug": "claude",
@@ -43,31 +50,30 @@
       "state": "unreadable",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-14T02:46:40.986Z",
-      "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
-      "note": "页面读取失败，隐藏具体数字并提示以购买页为准"
+      "checkedAt": "2026-08-24T15:08:41.436Z",
+      "note": "公开页未稳定展示可校验的月付价格"
     },
     {
       "slug": "gemini",
       "url": "https://www.gamsgo.com/details/gemini",
       "published": {
         "currency": "USD",
-        "value": 2.25
+        "value": 2
       },
-      "state": "stale",
+      "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-14T02:46:46.389Z",
-      "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
-      "note": "本轮能打开商家页面，但没有提取出稳定价格；展示 2026-08-11 最近一次成功核验的价格，结算前请打开购买页确认",
-      "cny": 15.17,
-      "officialObserved": {
-        "currency": "USD",
-        "value": 6.67
+      "checkedAt": "2026-08-24T15:08:44.757Z",
+      "lastSuccessfulAt": "2026-08-24T15:08:44.757Z",
+      "sourceObserved": {
+        "currency": "JPY",
+        "value": 318
       },
+      "sourceMethod": "nuxt-structured-min-price",
       "period": "month",
-      "offerDurationMonths": 12,
-      "lastSuccessfulAt": "2026-08-11T13:28:11.329Z"
+      "offerDurationMonths": 1,
+      "cny": 13.45,
+      "note": "公开购买页月付起价；商家页面以 JPY 显示，已按 2026-08-24 的公开汇率换算为美元；具体交付方式与结算价以下单页为准"
     },
     {
       "slug": "grok",
@@ -76,58 +82,60 @@
       "published": null,
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-11T13:28:15.182Z",
+      "checkedAt": "2026-08-24T15:08:47.992Z",
       "observedValues": [
-        15,
+        2385,
         18.99
       ],
-      "note": "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核；本轮没有提取出稳定价格，保留最近一次冲突证据",
-      "lastAttemptedAt": "2026-08-14T02:46:51.788Z",
-      "error": "Error; code=22; curl: (22) The requested URL returned error: 403"
+      "note": "同一公开页面出现多个互相冲突的月付价格，已隐藏数字并转入人工复核"
     },
     {
       "slug": "perplexity",
       "url": "https://www.gamsgo.com/details/Perplexity_AI",
       "published": {
         "currency": "USD",
-        "value": 4.09
+        "value": 4.08
       },
-      "state": "stale",
+      "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-14T02:46:57.188Z",
-      "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
-      "note": "本轮能打开商家页面，但没有提取出稳定价格；展示 2026-08-11 最近一次成功核验的价格，结算前请打开购买页确认",
-      "cny": 27.58,
+      "checkedAt": "2026-08-24T15:08:51.613Z",
+      "lastSuccessfulAt": "2026-08-24T15:08:51.613Z",
       "officialObserved": {
         "currency": "USD",
-        "value": 16.67
+        "value": 16.66
       },
+      "sourceObserved": {
+        "currency": "JPY",
+        "value": 650
+      },
+      "sourceMethod": "nuxt-structured-min-price",
       "period": "month",
-      "offerDurationMonths": 12,
-      "lastSuccessfulAt": "2026-08-11T13:28:18.805Z"
+      "offerDurationMonths": 1,
+      "cny": 27.43,
+      "note": "公开购买页月付起价；商家页面以 JPY 显示，已按 2026-08-24 的公开汇率换算为美元；具体交付方式与结算价以下单页为准"
     },
     {
       "slug": "midjourney",
       "url": "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK",
       "published": {
         "currency": "USD",
-        "value": 24.99
+        "value": 24.97
       },
-      "state": "stale",
+      "state": "ok",
       "candidate": null,
       "candidateSeenCount": 0,
-      "checkedAt": "2026-08-14T02:47:02.570Z",
-      "error": "Error; code=22; curl: (22) The requested URL returned error: 403",
-      "note": "本轮能打开商家页面，但没有提取出稳定价格；展示 2026-08-11 最近一次成功核验的价格，结算前请打开购买页确认",
-      "cny": 168.54,
-      "officialObserved": {
-        "currency": "USD",
-        "value": 59.99
+      "checkedAt": "2026-08-24T15:08:55.151Z",
+      "lastSuccessfulAt": "2026-08-24T15:08:55.151Z",
+      "sourceObserved": {
+        "currency": "JPY",
+        "value": 3974
       },
+      "sourceMethod": "nuxt-structured-min-price",
       "period": "month",
       "offerDurationMonths": 1,
-      "lastSuccessfulAt": "2026-08-11T13:28:22.307Z"
+      "cny": 167.87,
+      "note": "公开购买页月付起价；商家页面以 JPY 显示，已按 2026-08-24 的公开汇率换算为美元；具体交付方式与结算价以下单页为准"
     }
   ],
   "benchmarks": [
@@ -135,21 +143,21 @@
       "source": "Arena",
       "url": "https://arena.ai/leaderboard/text",
       "state": "ok",
-      "checkedAt": "2026-08-14T02:47:07.961Z"
+      "checkedAt": "2026-08-24T15:08:58.773Z"
     },
     {
       "source": "Artificial Analysis",
       "url": "https://artificialanalysis.ai/leaderboards/models",
       "state": "ok",
-      "checkedAt": "2026-08-14T02:47:07.961Z"
+      "checkedAt": "2026-08-24T15:08:58.773Z"
     }
   ],
   "artificialAnalysisLeaderboard": {
     "source": "Artificial Analysis",
     "url": "https://artificialanalysis.ai/leaderboards/models",
     "state": "ok",
-    "checkedAt": "2026-08-14T02:46:25.389Z",
-    "lastSuccessfulAt": "2026-08-14T02:46:25.389Z",
+    "checkedAt": "2026-08-24T15:08:12.381Z",
+    "lastSuccessfulAt": "2026-08-24T15:08:12.381Z",
     "methodologyVersion": "Intelligence Index v4.1",
     "rows": [
       {
@@ -159,9 +167,9 @@
         "contextWindow": "1M",
         "intelligence": 63,
         "priceUsdPerMillion": 2.34,
-        "outputTokensPerSecond": 53,
-        "latencySeconds": 63.92,
-        "totalResponseSeconds": 73.4
+        "outputTokensPerSecond": 59,
+        "latencySeconds": 51.98,
+        "totalResponseSeconds": 60.48
       },
       {
         "rank": 2,
@@ -170,9 +178,9 @@
         "contextWindow": "1M",
         "intelligence": 63,
         "priceUsdPerMillion": 1.8,
-        "outputTokensPerSecond": 53,
-        "latencySeconds": 25.75,
-        "totalResponseSeconds": 35.23
+        "outputTokensPerSecond": 55,
+        "latencySeconds": 35.3,
+        "totalResponseSeconds": 44.32
       },
       {
         "rank": 3,
@@ -181,9 +189,9 @@
         "contextWindow": "1M",
         "intelligence": 62,
         "priceUsdPerMillion": 3.14,
-        "outputTokensPerSecond": 62,
-        "latencySeconds": 113.68,
-        "totalResponseSeconds": 121.68
+        "outputTokensPerSecond": 70,
+        "latencySeconds": 122.01,
+        "totalResponseSeconds": 129.12
       },
       {
         "rank": 4,
@@ -192,9 +200,9 @@
         "contextWindow": "1M",
         "intelligence": 61,
         "priceUsdPerMillion": 1.23,
-        "outputTokensPerSecond": 52,
-        "latencySeconds": 13.43,
-        "totalResponseSeconds": 23.04
+        "outputTokensPerSecond": 57,
+        "latencySeconds": 21,
+        "totalResponseSeconds": 29.82
       },
       {
         "rank": 5,
@@ -203,9 +211,9 @@
         "contextWindow": "1M",
         "intelligence": 61,
         "priceUsdPerMillion": 1.23,
-        "outputTokensPerSecond": 62,
-        "latencySeconds": 180.03,
-        "totalResponseSeconds": 188.07
+        "outputTokensPerSecond": 74,
+        "latencySeconds": 146.36,
+        "totalResponseSeconds": 153.16
       },
       {
         "rank": 6,
@@ -214,163 +222,163 @@
         "contextWindow": "500k",
         "intelligence": 61,
         "priceUsdPerMillion": 0.84,
-        "outputTokensPerSecond": 65,
-        "latencySeconds": 32.3,
-        "totalResponseSeconds": 39.98
+        "outputTokensPerSecond": 63,
+        "latencySeconds": 42.84,
+        "totalResponseSeconds": 50.74
       },
       {
         "rank": 7,
+        "model": "Grok 4.6 (xhigh)",
+        "company": "SpaceXAI",
+        "contextWindow": "500k",
+        "intelligence": 60,
+        "priceUsdPerMillion": 1.04,
+        "outputTokensPerSecond": 63,
+        "latencySeconds": 46.81,
+        "totalResponseSeconds": 54.76
+      },
+      {
+        "rank": 8,
         "model": "Kimi K3 (max)",
         "company": "Kimi",
         "contextWindow": "1.05M",
         "intelligence": 60,
         "priceUsdPerMillion": 0.84,
-        "outputTokensPerSecond": 40,
-        "latencySeconds": 3.59,
-        "totalResponseSeconds": 65.77
+        "outputTokensPerSecond": 34,
+        "latencySeconds": 3.26,
+        "totalResponseSeconds": 77.07
       },
       {
-        "rank": 8,
+        "rank": 9,
         "model": "GPT-5.6 Sol (xhigh)",
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 59,
         "priceUsdPerMillion": 0.81,
-        "outputTokensPerSecond": 60,
-        "latencySeconds": 43.92,
-        "totalResponseSeconds": 52.24
+        "outputTokensPerSecond": 68,
+        "latencySeconds": 41.09,
+        "totalResponseSeconds": 48.49
       },
       {
-        "rank": 9,
+        "rank": 10,
+        "model": "Grok 4.6 (medium)",
+        "company": "SpaceXAI",
+        "contextWindow": "500k",
+        "intelligence": 59,
+        "priceUsdPerMillion": 0.67,
+        "outputTokensPerSecond": 61,
+        "latencySeconds": 29.7,
+        "totalResponseSeconds": 37.87
+      },
+      {
+        "rank": 11,
         "model": "Claude Opus 5 (medium)",
         "company": "Anthropic",
         "contextWindow": "1M",
         "intelligence": 59,
         "priceUsdPerMillion": 0.72,
-        "outputTokensPerSecond": 53,
-        "latencySeconds": 8.13,
-        "totalResponseSeconds": 17.62
+        "outputTokensPerSecond": 54,
+        "latencySeconds": 5.84,
+        "totalResponseSeconds": 15.02
       },
       {
-        "rank": 10,
+        "rank": 12,
         "model": "Qwen3.8 Max",
         "company": "Alibaba",
         "contextWindow": "1M",
         "intelligence": 58,
         "priceUsdPerMillion": 1.13,
-        "outputTokensPerSecond": 47,
-        "latencySeconds": 2.61,
-        "totalResponseSeconds": 55.65
+        "outputTokensPerSecond": 69,
+        "latencySeconds": 2.28,
+        "totalResponseSeconds": 38.55
       },
       {
-        "rank": 11,
+        "rank": 13,
         "model": "Qwen3.8 2.4T A95B",
         "company": "Alibaba",
         "contextWindow": "984k",
         "intelligence": 58,
         "priceUsdPerMillion": 1.09,
-        "outputTokensPerSecond": 50,
-        "latencySeconds": 2.75,
-        "totalResponseSeconds": 52.65
+        "outputTokensPerSecond": 62,
+        "latencySeconds": 2.53,
+        "totalResponseSeconds": 42.95
       },
       {
-        "rank": 12,
+        "rank": 14,
         "model": "GPT-5.6 Sol (high)",
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 57,
         "priceUsdPerMillion": 0.55,
-        "outputTokensPerSecond": 56,
-        "latencySeconds": 14.11,
-        "totalResponseSeconds": 22.99
+        "outputTokensPerSecond": 67,
+        "latencySeconds": 11.35,
+        "totalResponseSeconds": 18.8
       },
       {
-        "rank": 13,
+        "rank": 15,
         "model": "GPT-5.6 Terra (max)",
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 57,
         "priceUsdPerMillion": 0.51,
-        "outputTokensPerSecond": 115,
-        "latencySeconds": 205.29,
-        "totalResponseSeconds": 209.64
+        "outputTokensPerSecond": 123,
+        "latencySeconds": 185.76,
+        "totalResponseSeconds": 189.84
       },
       {
-        "rank": 14,
+        "rank": 16,
         "model": "Gemini 3.7 Flash (high)",
         "company": "Google",
         "contextWindow": "1M",
         "intelligence": 56,
         "priceUsdPerMillion": 0.4,
         "outputTokensPerSecond": 340,
-        "latencySeconds": 9.83,
-        "totalResponseSeconds": 11.3
+        "latencySeconds": 11.81,
+        "totalResponseSeconds": 13.28
       },
       {
-        "rank": 15,
+        "rank": 17,
         "model": "Grok 4.5 (high)",
         "company": "SpaceXAI",
         "contextWindow": "500k",
         "intelligence": 56,
         "priceUsdPerMillion": 0.36,
-        "outputTokensPerSecond": 60,
-        "latencySeconds": 9.32,
-        "totalResponseSeconds": 17.68
+        "outputTokensPerSecond": 64,
+        "latencySeconds": 8.36,
+        "totalResponseSeconds": 16.19
       },
       {
-        "rank": 16,
+        "rank": 18,
         "model": "GPT-5.6 Sol (medium)",
         "company": "OpenAI",
         "contextWindow": "1M",
         "intelligence": 56,
         "priceUsdPerMillion": 0.37,
-        "outputTokensPerSecond": 62,
-        "latencySeconds": 5,
-        "totalResponseSeconds": 13.05
+        "outputTokensPerSecond": 69,
+        "latencySeconds": 4.89,
+        "totalResponseSeconds": 12.17
       },
       {
-        "rank": 17,
+        "rank": 19,
         "model": "Claude Sonnet 5 (max)",
         "company": "Anthropic",
         "contextWindow": "1M",
         "intelligence": 55,
         "priceUsdPerMillion": 1.72,
-        "outputTokensPerSecond": 66,
-        "latencySeconds": 176.94,
-        "totalResponseSeconds": 184.57
+        "outputTokensPerSecond": 79,
+        "latencySeconds": 183.18,
+        "totalResponseSeconds": 189.48
       },
       {
-        "rank": 18,
+        "rank": 20,
         "model": "Gemini 3.7 Flash (medium)",
         "company": "Google",
         "contextWindow": "1M",
         "intelligence": 53,
         "priceUsdPerMillion": 0.26,
-        "outputTokensPerSecond": 274,
-        "latencySeconds": 4.22,
-        "totalResponseSeconds": 6.05
-      },
-      {
-        "rank": 19,
-        "model": "DeepSeek V4 Pro 0813 (max)",
-        "company": "DeepSeek",
-        "contextWindow": "1M",
-        "intelligence": 53,
-        "priceUsdPerMillion": 0.25,
-        "outputTokensPerSecond": 83,
-        "latencySeconds": 1.84,
-        "totalResponseSeconds": 31.89
-      },
-      {
-        "rank": 20,
-        "model": "GPT-5.6 Terra (xhigh)",
-        "company": "OpenAI",
-        "contextWindow": "1M",
-        "intelligence": 53,
-        "priceUsdPerMillion": 0.31,
-        "outputTokensPerSecond": 97,
-        "latencySeconds": 25.77,
-        "totalResponseSeconds": 30.93
+        "outputTokensPerSecond": 348,
+        "latencySeconds": 4.45,
+        "totalResponseSeconds": 5.89
       }
     ]
   },
@@ -586,6 +594,48 @@
         "value": 87.99
       },
       "sourceUrl": "https://www.gamsgo.com/details/claude"
+    },
+    {
+      "changedAt": "2026-08-24T14:54:28.300Z",
+      "type": "gamsgo-price",
+      "slug": "gemini",
+      "before": {
+        "currency": "USD",
+        "value": 2.25
+      },
+      "after": {
+        "currency": "USD",
+        "value": 2
+      },
+      "sourceUrl": "https://www.gamsgo.com/details/gemini"
+    },
+    {
+      "changedAt": "2026-08-24T14:54:28.300Z",
+      "type": "gamsgo-price",
+      "slug": "perplexity",
+      "before": {
+        "currency": "USD",
+        "value": 4.09
+      },
+      "after": {
+        "currency": "USD",
+        "value": 4.08
+      },
+      "sourceUrl": "https://www.gamsgo.com/details/Perplexity_AI"
+    },
+    {
+      "changedAt": "2026-08-24T14:54:28.300Z",
+      "type": "gamsgo-price",
+      "slug": "midjourney",
+      "before": {
+        "currency": "USD",
+        "value": 24.99
+      },
+      "after": {
+        "currency": "USD",
+        "value": 24.97
+      },
+      "sourceUrl": "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK"
     }
   ]
 }

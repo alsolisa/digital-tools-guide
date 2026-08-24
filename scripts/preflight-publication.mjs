@@ -106,6 +106,12 @@ if (trustedPriceCount < 4) failures.push(`仅 ${trustedPriceCount} 项订阅价�
 const linkById = new Map(syncStatus.links.map((item) => [item.id, item]));
 const promotionUrls = new Set(promotionManifest.links.map((item) => item.url));
 
+for (const item of syncStatus.links.filter((link) => link.kind === "client")) {
+  if (!["ok", "protected"].includes(item.state)) {
+    failures.push(`${item.id} 客户端直链未通过安全核验，禁止发布`);
+  }
+}
+
 for (const expected of promotionManifest.links) {
   const actual = linkById.get(expected.id);
   if (!actual) {
@@ -143,6 +149,9 @@ if (!downloadsSource.includes("syncStatus.clients.map") || !downloadsSource.incl
 }
 if (!nodesSource.includes("directAssetUrl") || !nodesSource.includes("/mirror/${client.localFile}")) {
   failures.push("机场指南没有直接提供官方文件和匹配当前版本的本站备用文件");
+}
+if (nodesSource.includes("d.yoututz.top")) {
+  failures.push("机场指南仍包含证书域名不匹配的旧客户端下载地址");
 }
 
 for (const client of syncStatus.clients) {

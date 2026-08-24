@@ -1108,10 +1108,12 @@ a, button, input, summary { touch-action: manipulation; }
 }
 
 @media (max-width: 360px) {
-  .global-header { gap: 6px; }
-  .global-brand { gap: 8px; }
-  .global-brand strong { font-size: 15px; }
-  .mobile-menu-button { white-space: nowrap; }
+  .global-header { gap: 6px; flex-wrap: nowrap; }
+  .global-mark { width: 36px; height: 36px; }
+  .global-brand { min-width: 0; gap: 6px; }
+  .global-brand strong { font-size: 14px; white-space: nowrap; }
+  .mobile-menu-button { padding-right: 10px; padding-left: 10px; white-space: nowrap; }
+  .mobile-menu-button span { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

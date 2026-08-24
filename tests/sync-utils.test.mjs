@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { readFile } from "node:fs/promises";
-import { decidePublishedPrice, describeExecError, hasCompleteReleaseAsset, isAllowedOfficialDownload, mapWithConcurrency, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl, retainGamsgoSnapshot, retainReleaseSnapshot } from "../scripts/sync-utils.mjs";
+import { cnyValue, decidePublishedPrice, describeExecError, hasCompleteReleaseAsset, isAllowedOfficialDownload, mapWithConcurrency, normalizePriceToUsd, parseArtificialAnalysisLeaderboard, parseGamsgoPrice, parseLatestReleaseUrl, retainGamsgoSnapshot, retainReleaseSnapshot } from "../scripts/sync-utils.mjs";
 
 test("订阅美元价格只维护一份数据，人民币换算使用同步汇率并覆盖全部购买链接", async () => {
   const pricing = JSON.parse(await readFile(new URL("../data/subscription-pricing.json", import.meta.url), "utf8"));
@@ -84,6 +84,28 @@ test("嵌入商品数据优先读取月价、官方总价与套餐月数", () =>
   }
 });
 
+test("新版Nuxt结构化数据会读取页面最低月付价并按公开汇率统一为美元", () => {
+  const payload = JSON.stringify([
+    { type_name: 1, detail_route: 2, min_price: 3, original_price: 4, min_price_sku_month: 5, currency_icon1: 6, currency_icon2: 7 },
+    "ChatGPT", "chatgpt", "795", "9542", "477", "￥", "JPY(￥)",
+  ]);
+  const parsed = parseGamsgoPrice(`<script type="application/json" id="__NUXT_DATA__">${payload}</script>`, {
+    embeddedProduct: true,
+    detailRoute: "chatgpt",
+    official: { currency: "USD", value: 20 },
+  });
+  assert.deepEqual(parsed, {
+    official: { currency: "USD", value: 20 },
+    special: { currency: "JPY", value: 795 },
+    period: "month",
+    offerDurationMonths: 1,
+    sourceMethod: "nuxt-structured-min-price",
+  });
+  const exchange = { state: "ok", rates: { CNY: 6.7227, JPY: 159.12 } };
+  assert.deepEqual(normalizePriceToUsd(parsed.special, exchange), { currency: "USD", value: 5 });
+  assert.equal(cnyValue(parsed.special, exchange), 33.61);
+});
+
 test("可用产品专用语句读取公开月付价", () => {
   const parsed = parseGamsgoPrice("Buy ChatGPT Plus subscription for just $17.99 per month", {
     specialPattern: /ChatGPT Plus(?: subscription| plan)?\s*(?:on GamsGo\s*)?(?:for just|costs just|costs)?\s*(US\$|S\$|\$|€|£)?\s*([0-9]+(?:[.,][0-9]+)?)\s*(?:per month|\/\s*month)/i,
@@ -131,6 +153,7 @@ test("页面失效或字段缺失时标记不可读", () => {
 
 test("官方下载白名单阻止第三方安装包", () => {
   assert.equal(isAllowedOfficialDownload("https://play.google.com/store/apps/details?id=com.openai.chatgpt"), true);
+  assert.equal(isAllowedOfficialDownload("https://claude.com/download"), true);
   assert.equal(isAllowedOfficialDownload("https://github.com/clash-verge-rev/clash-verge-rev/releases/latest"), true);
   assert.equal(isAllowedOfficialDownload("https://example-download.invalid/app.apk"), false);
 });
@@ -284,9 +307,16 @@ test("定时发布在构建前执行文案与资料新鲜度门禁", async () =>
   const workflow = await readFile(new URL("../.github/workflows/deploy-github-pages.yml", import.meta.url), "utf8");
   const packageJson = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8"));
   const copyGate = await readFile(new URL("../scripts/lint-editorial-copy.mjs", import.meta.url), "utf8");
+  const preflightGate = await readFile(new URL("../scripts/preflight-publication.mjs", import.meta.url), "utf8");
   assert.match(workflow, /cron: "17 \*\/6 \* \* \*"/);
   assert.ok(workflow.indexOf("npm run lint:copy") < workflow.indexOf("npm run build"));
   assert.match(packageJson.scripts["verify:publish"], /lint:copy/);
   assert.match(copyGate, /发布上限为 45 天/);
   assert.match(copyGate, /推广入口已自动核验/);
+  assert.match(preflightGate, /link\.kind === "client"/);
+  assert.match(preflightGate, /客户端直链未通过安全核验，禁止发布/);
+  assert.match(preflightGate, /证书域名不匹配的旧客户端下载地址/);
+  const syncSource = await readFile(new URL("../scripts/sync-public-data.mjs", import.meta.url), "utf8");
+  assert.match(syncSource, /https:\/\/666\.youtu6\.shop\/#downloads/);
+  assert.doesNotMatch(syncSource, /d\.yoututz\.top/);
 });
