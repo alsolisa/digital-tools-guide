@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-24T15:08:58.773Z",
+  "checkedAt": "2026-08-24T15:17:15.311Z",
   "policy": {
     "publicLinks": "automatic-6h-host-aware-throttling",
     "promotionTracking": "automatic-before-publish",
@@ -54,9 +54,9 @@
       "id": "catalog-official-2",
       "url": "https://chatgpt.com/download/",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://chatgpt.com/zh-Hans-CN/download/"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://chatgpt.com/download/"
     },
     {
       "id": "catalog-official-13",
@@ -86,16 +86,16 @@
       "id": "catalog-official-39",
       "url": "https://www.perplexity.ai/platforms",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://www.perplexity.ai/platforms"
     },
     {
       "id": "catalog-official-1",
       "url": "https://chatgpt.com/",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://chatgpt.com/"
     },
     {
@@ -118,32 +118,32 @@
       "id": "catalog-official-5",
       "url": "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq"
     },
     {
       "id": "catalog-official-6",
       "url": "https://chatgpt.com/pricing/",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://chatgpt.com/zh-Hans-CN/pricing/"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://chatgpt.com/pricing/"
     },
     {
       "id": "catalog-official-7",
       "url": "https://help.openai.com/en/articles/6950777-what-is-chatgpt",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.openai.com/en/articles/6950777-what-is-chatgpt"
     },
     {
       "id": "catalog-official-8",
       "url": "https://help.openai.com/en/articles/20001354-gpt-5-6-in-chatgpt",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.openai.com/en/articles/20001354-gpt-5-6-in-chatgpt"
     },
     {
@@ -166,8 +166,8 @@
       "id": "catalog-official-11",
       "url": "https://help.openai.com/en/articles/7730893-datacontrols-faq",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.openai.com/en/articles/7730893-datacontrols-faq"
     },
     {
@@ -334,16 +334,16 @@
       "id": "catalog-official-35",
       "url": "https://x.ai/grok",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://x.ai/grok"
     },
     {
       "id": "catalog-official-36",
       "url": "https://x.ai/pricing",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://x.ai/pricing"
     },
     {
@@ -358,8 +358,8 @@
       "id": "catalog-official-38",
       "url": "https://www.perplexity.ai/",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://www.perplexity.ai/"
     },
     {
@@ -382,16 +382,16 @@
       "id": "catalog-official-42",
       "url": "https://www.perplexity.ai/help-center/en/articles/10738684-what-is-research-mode",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://www.perplexity.ai/help-center/en/articles/10738684-what-is-research-mode"
     },
     {
       "id": "catalog-official-43",
       "url": "https://www.perplexity.ai/help-center/en/collections/18799298-comet",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://www.perplexity.ai/help-center/en/collections/18799298-comet"
     },
     {
@@ -406,8 +406,8 @@
       "id": "catalog-official-45",
       "url": "https://www.perplexity.ai/help-center/en/articles/10354919-what-advanced-ai-models-are-included-in-my-subscription",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://www.perplexity.ai/help-center/en/articles/10354919-what-advanced-ai-models-are-included-in-my-subscription"
     },
     {
@@ -430,40 +430,40 @@
       "id": "catalog-official-48",
       "url": "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide"
     },
     {
       "id": "catalog-official-49",
       "url": "https://docs.midjourney.com/hc/en-us/articles/32199405667853-Version",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://docs.midjourney.com/hc/en-us/articles/32199405667853-Version"
     },
     {
       "id": "catalog-official-50",
       "url": "https://docs.midjourney.com/hc/en-us/articles/33329460426765-Website-Overview",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://docs.midjourney.com/hc/en-us/articles/33329460426765-Website-Overview"
     },
     {
       "id": "catalog-official-51",
       "url": "https://docs.midjourney.com/hc/en-us/articles/32764383466893-Editor",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://docs.midjourney.com/hc/en-us/articles/32764383466893-Editor"
     },
     {
       "id": "catalog-official-52",
       "url": "https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans"
     },
     {
@@ -558,8 +558,8 @@
       "id": "catalog-official-64",
       "url": "https://help.x.com/en/using-x/download-the-x-app",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.x.com/en/using-x/download-the-x-app"
     },
     {
@@ -582,8 +582,8 @@
       "id": "catalog-official-67",
       "url": "https://help.x.com/en/using-x/spaces",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 403,
       "finalUrl": "https://help.x.com/en/using-x/spaces"
     },
     {
@@ -632,7 +632,7 @@
       "kind": "download-source",
       "state": "ok",
       "status": 200,
-      "finalUrl": "https://support.tiktok.com/en/account-and-privacy/account-privacy-settings/privacy-and-safety-settings-for-users-under-age-18/"
+      "finalUrl": "https://www.tiktok.com/support/faq_detail?id=7611839632052853259"
     },
     {
       "id": "catalog-official-74",
@@ -781,10 +781,10 @@
         "value": "2MGZTK",
         "requireOnFinalUrl": true
       },
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://www.gamsgo.com/zh/details/midjourney_official?promote=2MGZTK",
-      "trackingState": "verified"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://www.gamsgo.com/details/midjourney_official/partner/2MGZTK",
+      "trackingState": "source-only"
     },
     {
       "id": "westdata",
@@ -796,9 +796,9 @@
         "value": "15433",
         "requireOnFinalUrl": false
       },
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://wd-cloud.net/",
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://wd-gold.net/aff.php?aff=15433",
       "trackingState": "verified"
     },
     {
@@ -836,9 +836,9 @@
       "label": "Nexitally 官方入口",
       "url": "https://nxonearth.com/Main.aspx",
       "kind": "official",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://nxonearth.com/signinbyemail.aspx?gourl=%2FMain.aspx"
+      "state": "protected",
+      "status": 403,
+      "finalUrl": "https://nxonearth.com/Main.aspx"
     },
     {
       "id": "tag",
@@ -885,55 +885,47 @@
   "clients": [
     {
       "repository": "clash-verge-rev/clash-verge-rev",
-      "state": "stale",
+      "state": "ok",
       "version": "v2.5.2",
       "releaseUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v2.5.2",
       "assetName": "Clash.Verge_2.5.2_x64-setup.exe",
       "assetSize": 46964366,
       "assetUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.5.2/Clash.Verge_2.5.2_x64-setup.exe",
       "assetSha256": "BA42F00B1082E352352080170FE86AE411BCC854CB13F1B8BEBC9025E8A7CBF4",
-      "assetVerifiedAt": "2026-08-24T14:53:39.054Z",
-      "detectedVersion": "v2.5.2",
-      "error": "Error: official release asset metadata unavailable"
+      "assetVerifiedAt": "2026-08-24T15:16:28.353Z"
     },
     {
       "repository": "2dust/v2rayN",
-      "state": "stale",
+      "state": "ok",
       "version": "7.24.4",
       "releaseUrl": "https://github.com/2dust/v2rayN/releases/tag/7.24.4",
       "assetName": "v2rayN-windows-64-desktop.zip",
       "assetSize": 132445347,
       "assetUrl": "https://github.com/2dust/v2rayN/releases/download/7.24.4/v2rayN-windows-64-desktop.zip",
       "assetSha256": "BA466DCB31F9206B771FC8E96E4FAC91D6AAF41262CE83473BA5B0F4A9981AE0",
-      "assetVerifiedAt": "2026-08-24T14:53:38.961Z",
-      "detectedVersion": "7.24.4",
-      "error": "Error: official release asset metadata unavailable"
+      "assetVerifiedAt": "2026-08-24T15:16:28.344Z"
     },
     {
       "repository": "chen08209/FlClash",
-      "state": "stale",
+      "state": "ok",
       "version": "v0.8.96",
       "releaseUrl": "https://github.com/chen08209/FlClash/releases/tag/v0.8.96",
       "assetName": "FlClash-0.8.96-android-arm64-v8a.apk",
       "assetSize": 54956171,
       "assetUrl": "https://github.com/chen08209/FlClash/releases/download/v0.8.96/FlClash-0.8.96-android-arm64-v8a.apk",
       "assetSha256": "436084EB364F1301E9623B922F088FAFDE3A407EFC0CF3116866EA9DA1800A77",
-      "assetVerifiedAt": "2026-08-24T14:53:38.988Z",
-      "detectedVersion": "v0.8.96",
-      "error": "Error: official release asset metadata unavailable"
+      "assetVerifiedAt": "2026-08-24T15:16:28.347Z"
     },
     {
       "repository": "hiddify/hiddify-app",
-      "state": "stale",
+      "state": "ok",
       "version": "v4.1.1",
       "releaseUrl": "https://github.com/hiddify/hiddify-app/releases/tag/v4.1.1",
       "assetName": "Hiddify-Windows-Setup-x64.exe",
       "assetSize": 36486310,
       "assetUrl": "https://github.com/hiddify/hiddify-app/releases/download/v4.1.1/Hiddify-Windows-Setup-x64.exe",
       "assetSha256": "3F6182B610168C0BB386FFEA1FC7F68318D3DF23C15840C8B13A3BE51B080A96",
-      "assetVerifiedAt": "2026-08-24T14:53:39.035Z",
-      "detectedVersion": "v4.1.1",
-      "error": "Error: official release asset metadata unavailable"
+      "assetVerifiedAt": "2026-08-24T15:16:28.347Z"
     }
   ]
 }
