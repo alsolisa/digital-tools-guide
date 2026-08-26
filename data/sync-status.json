@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-26T01:59:20.730Z",
+  "checkedAt": "2026-08-26T07:09:38.820Z",
   "policy": {
     "publicLinks": "automatic-6h-host-aware-throttling",
     "promotionTracking": "automatic-before-publish",
@@ -190,8 +190,8 @@
       "id": "catalog-official-15",
       "url": "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 429,
       "finalUrl": "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684"
     },
     {
@@ -254,8 +254,8 @@
       "id": "catalog-official-24",
       "url": "https://apps.apple.com/us/app/google-gemini/id6477489729",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 429,
       "finalUrl": "https://apps.apple.com/us/app/google-gemini/id6477489729"
     },
     {
@@ -318,8 +318,8 @@
       "id": "catalog-official-33",
       "url": "https://apps.apple.com/us/app/grok-ai/id6670324846",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 429,
       "finalUrl": "https://apps.apple.com/us/app/grok-ai/id6670324846"
     },
     {
@@ -374,8 +374,8 @@
       "id": "catalog-official-41",
       "url": "https://apps.apple.com/us/app/perplexity-ai-search-chat/id1668000334",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 429,
       "finalUrl": "https://apps.apple.com/us/app/perplexity-ai-search-chat/id1668000334"
     },
     {
@@ -502,8 +502,8 @@
       "id": "catalog-official-57",
       "url": "https://apps.apple.com/us/app/youtube/id544007664",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 429,
       "finalUrl": "https://apps.apple.com/us/app/youtube/id544007664"
     },
     {
@@ -550,8 +550,8 @@
       "id": "catalog-official-63",
       "url": "https://apps.apple.com/us/app/x/id333903271",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 429,
       "finalUrl": "https://apps.apple.com/us/app/x/id333903271"
     },
     {
@@ -614,9 +614,9 @@
       "id": "catalog-official-71",
       "url": "https://apps.apple.com/us/app/tiktok/id835599320",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
-      "finalUrl": "https://apps.apple.com/us/app/tiktok-videos-shop-live/id835599320"
+      "state": "protected",
+      "status": 429,
+      "finalUrl": "https://apps.apple.com/us/app/tiktok/id835599320"
     },
     {
       "id": "catalog-official-72",
@@ -670,24 +670,24 @@
       "id": "catalog-official-78",
       "url": "https://apps.apple.com/us/app/shadowrocket/id932747118",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 429,
       "finalUrl": "https://apps.apple.com/us/app/shadowrocket/id932747118"
     },
     {
       "id": "catalog-official-79",
       "url": "https://apps.apple.com/us/app/quantumult-x/id1443988620",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 429,
       "finalUrl": "https://apps.apple.com/us/app/quantumult-x/id1443988620"
     },
     {
       "id": "catalog-official-80",
       "url": "https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349",
       "kind": "download-source",
-      "state": "ok",
-      "status": 200,
+      "state": "protected",
+      "status": 429,
       "finalUrl": "https://apps.apple.com/us/app/stash-rule-based-proxy/id1596063349"
     },
     {
@@ -892,7 +892,7 @@
       "assetSize": 46964366,
       "assetUrl": "https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.5.2/Clash.Verge_2.5.2_x64-setup.exe",
       "assetSha256": "BA42F00B1082E352352080170FE86AE411BCC854CB13F1B8BEBC9025E8A7CBF4",
-      "assetVerifiedAt": "2026-08-26T01:58:36.269Z"
+      "assetVerifiedAt": "2026-08-26T07:08:53.988Z"
     },
     {
       "repository": "2dust/v2rayN",
@@ -903,7 +903,7 @@
       "assetSize": 132445347,
       "assetUrl": "https://github.com/2dust/v2rayN/releases/download/7.24.4/v2rayN-windows-64-desktop.zip",
       "assetSha256": "BA466DCB31F9206B771FC8E96E4FAC91D6AAF41262CE83473BA5B0F4A9981AE0",
-      "assetVerifiedAt": "2026-08-26T01:58:36.229Z"
+      "assetVerifiedAt": "2026-08-26T07:08:53.922Z"
     },
     {
       "repository": "chen08209/FlClash",
@@ -914,7 +914,7 @@
       "assetSize": 54956171,
       "assetUrl": "https://github.com/chen08209/FlClash/releases/download/v0.8.96/FlClash-0.8.96-android-arm64-v8a.apk",
       "assetSha256": "436084EB364F1301E9623B922F088FAFDE3A407EFC0CF3116866EA9DA1800A77",
-      "assetVerifiedAt": "2026-08-26T01:58:36.269Z"
+      "assetVerifiedAt": "2026-08-26T07:08:53.862Z"
     },
     {
       "repository": "hiddify/hiddify-app",
@@ -925,7 +925,7 @@
       "assetSize": 36486310,
       "assetUrl": "https://github.com/hiddify/hiddify-app/releases/download/v4.1.1/Hiddify-Windows-Setup-x64.exe",
       "assetSha256": "3F6182B610168C0BB386FFEA1FC7F68318D3DF23C15840C8B13A3BE51B080A96",
-      "assetVerifiedAt": "2026-08-26T01:58:36.270Z"
+      "assetVerifiedAt": "2026-08-26T07:08:53.868Z"
     }
   ]
 }
